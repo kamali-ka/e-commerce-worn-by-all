@@ -1,0 +1,163 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    
+}
+body{
+    width: 100%;
+}
+/* Header Styling */
+.header {
+    
+    color: black;
+    padding: 15px 30px;
+}
+
+/* Navigation Container (Align Heading and Icons in a Line) */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Heading */
+.nav h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Header Icons Styling */
+.header-icons {
+    display: flex;
+    gap: 15px;
+
+}
+
+.header-icons img {
+    cursor: pointer;
+    transition: transform 0.2s;
+   
+}
+.home{
+    width: 60px;
+    height: 60px;
+}
+.cart{
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 15px;
+}
+.header-icons img:hover {
+    transform: scale(1.1);
+}
+
+hr{
+    border: 1px solid black;
+    margin: 10px 0;
+}
+
+/* Main Account Container */
+.account-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 20px;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: hotpink;
+}
+
+/* Account Details Section */
+.account-details {
+    flex: 1;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-details h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.form-group span{
+    color: red;
+    font-size: 12px;
+}
+
+button {
+    background-color:#003366 ;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color:#FFD700;
+    color: black;
+}
+.save-button:disabled{
+    background-color: #ccc;
+}
+/* Footer Styling */
+
+.footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #003366;
+    color: white;
+margin-top: 240px;
+height: 3rem;
+}
