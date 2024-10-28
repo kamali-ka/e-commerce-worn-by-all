@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Method</title>
+  <link rel="stylesheet" href="./payment.css">
+  <script defer src="./payment.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Choose Your Payment Method</h1>
+    
+    <form id="payment-form">
+      <!-- Credit/Debit Card Option -->
+      <div class="payment-option">
+        <input type="radio" id="card" name="payment" value="card" checked>
+        <label for="card">Credit/Debit Card</label>
+        <div class="card-details hidden">
+          <input type="text" placeholder="Card Number" required maxlength="16" pattern="\d{16}">
+          <input type="text" placeholder="Cardholder Name" required>
+          <input type="text" placeholder="Expiry Date (MM/YY)" required maxlength="5" pattern="\d{2}/\d{2}">
+          <input type="text" placeholder="CVV" required maxlength="3" pattern="\d{3}">
+        </div>
+      </div>
+
+      <!-- PayPal Option -->
+      <div class="payment-option">
+        <input type="radio" id="paypal" name="payment" value="paypal">
+        <label for="paypal">PayPal</label>
+      </div>
+
+      <!-- Cash on Delivery (COD) Option -->
+      <div class="payment-option">
+        <input type="radio" id="cod" name="payment" value="cod">
+        <label for="cod">Cash on Delivery</label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit">Proceed to Pay</button>
+    </form>
+  </div>
+</body>
+</html>
