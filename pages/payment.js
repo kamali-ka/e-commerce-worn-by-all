@@ -1,29 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const cardRadio = document.getElementById('card');
-    const paypalRadio = document.getElementById('paypal');
-    const codRadio = document.getElementById('cod');
-    const cardDetails = document.querySelector('.card-details');
-    const paymentForm = document.getElementById('payment-form');
-  
-    // Toggle card details visibility based on selected payment method
-    const toggleCardDetails = () => {
-      if (cardRadio.checked) {
-        cardDetails.classList.remove('hidden');
-      } else {
-        cardDetails.classList.add('hidden');
-      }
-    };
-  
-    // Add event listeners to payment options
-    cardRadio.addEventListener('change', toggleCardDetails);
-    paypalRadio.addEventListener('change', toggleCardDetails);
-    codRadio.addEventListener('change', toggleCardDetails);
-  
-    // Form submission handling
-    paymentForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
-      alert(`Payment method selected: ${selectedPayment}`);
+// Select all payment method radio buttons
+const paymentOptions = document.querySelectorAll('input[name="payment_method"]');
+
+// Add event listeners to toggle payment details
+paymentOptions.forEach((option) => {
+  option.addEventListener('change', function () {
+    // Hide all payment details sections
+    document.querySelectorAll('.payment-details').forEach((detail) => {
+      detail.classList.add('hidden');
     });
+
+    // Show the selected payment method's details (if applicable)
+    const selectedDetails = document.getElementById(`${option.id}-details`);
+    if (selectedDetails) {
+      selectedDetails.classList.remove('hidden');
+    }
   });
-  
+});

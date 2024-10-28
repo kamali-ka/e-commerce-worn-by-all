@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men's Clothing - E-Commerce</title>
+  <link rel="stylesheet" href="./hePage.css">
+</head>
+
+<body>
+  <header class="header">
+    <a href="../index.html" class="back-icon">
+      <img src="../assets/images/ic_goBack.png" alt="Go Back">
+    </a>
+    <div class="header-content">
+      <h1>Worn By All</h1>
+      <h2>Men's Section</h2>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <input 
+      type="text" 
+      id="searchBar" 
+      placeholder="Search for clothes..." 
+      onkeyup="searchProducts()">
+  </div>
+
+  <div class="filters">
+    <label for="clothingType">Filter by Type:</label>
+    <select id="clothingType" onchange="filterByType()">
+      <option value="all">All</option>
+      <option value="T-Shirts">T-Shirts</option>
+      <option value="Shirts">Shirts</option>
+      <option value="Jeans">Jeans</option>
+      <option value="Jackets">Jackets</option>
+      <option value="Sweaters">Sweaters</option>
+    </select>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+    <div class="product-card" data-type="T-Shirts">
+      <img src="../assets/images/img_men1.jpg" alt="Graphic T-Shirt">
+      <h2>Graphic T-Shirt</h2>
+      <p class="price">₹499</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-type="Shirts">
+      <img src="../assets/images/img_men2.jpg" alt="Casual Shirt">
+      <h2>Casual Shirt</h2>
+      <p class="price">₹899</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-type="Jeans">
+      <img src="../assets/images/img_men3.jpg" alt="Blue Denim Jeans">
+      <h2>Blue Denim Jeans</h2>
+      <p class="price">₹1,299</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-type="Jackets">
+      <img src="../assets/images/img_men4.jpg" alt="Winter Jacket">
+      <h2>Winter Jacket</h2>
+      <p class="price">₹2,499</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-type="Sweaters">
+      <img src="../assets/images/img_men5.jpg" alt="Woolen Sweater">
+      <h2>Woolen Sweater</h2>
+      <p class="price">₹1,199</p>
+      <button>Add to Cart</button>
+    </div>
+  </div>
+
+  <script src="./hePage.js"></script>
+</body>
+
+</html>
