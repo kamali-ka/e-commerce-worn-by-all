@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details - Worn By All</title>
+    <link rel="stylesheet" href="/pages/css/accountDetails.css">
+</head>
+<body>
+    
+    <header class="header">
+        <div class="nav">
+            <h1>Worn By All</h1>
+            <div class="header-icons">
+                <a href="/index.html"><img src="/assets/images/ic_home.png" alt="Home Icon" class="home"></a>
+                <img src="/assets/images/ic_cart_icon.png" alt="Cart Icon" class="cart">
+            </div>
+        </div>
+    </header>
+    <hr>
+
+    <main class="account-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/accountDetails.html">Personal Information</a></li>
+                <li><a href="#">Order History</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </aside>
+
+        <section class="account-details">
+            <h2>Personal Information</h2>
+
+            <!-- Display Saved Details -->
+            <div id="savedDetails" class="saved-details">
+                <p><strong>Name:</strong> <span id="displayName">Not provided</span></p>
+                <p><strong>Email:</strong> <span id="displayEmail">Not provided</span></p>
+                <p><strong>Phone:</strong> <span id="displayPhone">Not provided</span></p>
+                <p><strong>Password:</strong> <span id="displayPassword">********</span></p>
+                <button type="button" id="editButton">Edit</button>
+            </div>
+
+            <!-- Form for Editing Details -->
+            <form id="accountForm" style="display: none;">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                    <span id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <span id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" placeholder="Enter your phone number">
+                    <span id="phoneError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="********">
+                    <span id="passwordError"></span>
+                </div>
+
+                <button type="submit" class="save-button">Save Changes</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="copyRights">
+        <footer class="footer">
+            <p>&copy; 2024 Worn By All. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="/pages/js/accountDetails.js"></script>
+</body>
+</html>

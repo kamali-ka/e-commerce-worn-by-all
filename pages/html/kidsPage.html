@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Clothing Store</title>
+    <link rel="stylesheet" href="/pages/css/kidsPage.css">
+    <script src="/pages/js/kidsPage.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Kids Clothing Store</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for items...">
+        </div>
+        <div class="category-dropdown">
+            <select id="categorySelect">
+                <option value="all">All Categories</option>
+                <option value="boys">Boys</option>
+                <option value="girls">Girls</option>
+                <option value="infants">Infants</option>
+            </select>
+        </div>
+    </header>
+
+    <section class="clothing-grid" id="clothingGrid">
+        <div class="item" data-category="boys">
+            <img src="https://via.placeholder.com/200/87CEEB?text=Boys+Shirt" alt="Boys Shirt">
+            <p>Boys Shirt</p>
+        </div>
+        <div class="item" data-category="girls">
+            <img src="https://via.placeholder.com/200/ADD8E6?text=Girls+Dress" alt="Girls Dress">
+            <p>Girls Dress</p>
+        </div>
+        <div class="item" data-category="infants">
+            <img src="https://via.placeholder.com/200/87CEEB?text=Infant+Onesie" alt="Infant Onesie">
+            <p>Infant Onesie</p>
+        </div>
+        <div class="item" data-category="boys">
+            <img src="https://via.placeholder.com/200/ADD8E6?text=Boys+Jacket" alt="Boys Jacket">
+            <p>Boys Jacket</p>
+        </div>
+    </section>
+</body>
+</html>
