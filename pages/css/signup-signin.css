@@ -1,0 +1,166 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e0f2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Container Style */
+.container {
+  width: 350px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  transform: scale(0.95);
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  color: #1e88e5;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeInText 1s 0.5s forwards;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #1e88e5;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #1565c0;
+  outline: none;
+  box-shadow: 0 0 8px rgba(21, 101, 192, 0.5);
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  transform: scale(1);
+  animation: fadeInButton 1s 1s forwards;
+}
+
+button:hover {
+  background-color: #1565c0;
+  transform: scale(1.05);
+}
+
+/* Switch Link */
+.switch {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.switch a {
+  color: #1565c0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.switch a:hover {
+  text-decoration: underline;
+  color: #0d47a1;
+}
+
+/* Error & Success Messages */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.success-message {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+  animation: fadeInMessage 0.8s ease-in-out forwards;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInButton {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInMessage {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
