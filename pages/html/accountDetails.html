@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Details - Worn By All</title>
-    <link rel="stylesheet" href="/pages/css/accountDetails.css">
+    <link rel="stylesheet" href="/e-commerce-worn-by-all/pages/css/accountDetails.css">
 </head>
+
 <body>
-    
+
     <header class="header">
         <div class="nav">
-            <h1>Worn By All</h1>
+            <div>
+                <h1>Worn By All</h1>
+            </div>
             <div class="header-icons">
-                <a href="/index.html"><img src="/assets/images/ic_home.png" alt="Home Icon" class="home"></a>
-                <img src="/assets/images/ic_cart_icon.png" alt="Cart Icon" class="cart">
+                
+                <a href="/e-commerce-worn-by-all/index.html"><img id="home" src="/e-commerce-worn-by-all/assets/images/ic_home.png" alt="Home Icon"
+                        ></a>
+                   
+                        <img src="/e-commerce-worn-by-all/assets/images/ic_cart_icon.png" alt="Cart Icon" class="cart">
             </div>
         </div>
     </header>
@@ -22,7 +29,8 @@
     <main class="account-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="/accountDetails.html">Personal Information</a></li>
+                <li><a href="/e-commerce-worn-by-all/pages/html/dashboard.html">Dashboard</a></li>
+                <li><a href="/e-commerce-worn-by-all/pages/html/accountDetails.html">Personal Information</a></li>
                 <li><a href="#">Order History</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
@@ -36,7 +44,6 @@
                 <p><strong>Name:</strong> <span id="displayName">Not provided</span></p>
                 <p><strong>Email:</strong> <span id="displayEmail">Not provided</span></p>
                 <p><strong>Phone:</strong> <span id="displayPhone">Not provided</span></p>
-                <p><strong>Password:</strong> <span id="displayPassword">********</span></p>
                 <button type="button" id="editButton">Edit</button>
             </div>
 
@@ -60,12 +67,6 @@
                     <span id="phoneError"></span>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="********">
-                    <span id="passwordError"></span>
-                </div>
-
                 <button type="submit" class="save-button">Save Changes</button>
             </form>
         </section>
@@ -76,6 +77,7 @@
             <p>&copy; 2024 Worn By All. All rights reserved.</p>
         </footer>
     </div>
-    <script src="/pages/js/accountDetails.js"></script>
+    <script src="/e-commerce-worn-by-all/pages/js/accountDeatils.js"></script>
 </body>
+
 </html>
