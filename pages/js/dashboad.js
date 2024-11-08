@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     displayName.textContent = localStorage.getItem("name") || "Not provided";
     displayEmail.textContent = localStorage.getItem("email") || "Not provided";
     displayPhone.textContent = localStorage.getItem("phone") || "Not provided";
-    displayPassword.textContent = "********";
 
     // Show the form when the "Edit" button is clicked
     editButton.addEventListener("click", () => {
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
         nameInput.value = localStorage.getItem("name") || "";
         emailInput.value = localStorage.getItem("email") || "";
         phoneInput.value = localStorage.getItem("phone") || "";
-        passwordInput.value = localStorage.getItem("password") || "";
     });
 
     // Handle form submission
