@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up & Login</title>
-    <link rel="stylesheet" href="/e-commerce-worn-by-all/pages/css/signup-signin.css">
-    <script src="/e-commerce-worn-by-all/pages/js/signup-signin.js" defer></script>
+    <link rel="stylesheet" href="../css/signup-signin.css">
+    <script src="../js/signup-signin.js" defer></script>
 </head>
 <body>
     <div class="container" id="signup-form">
@@ -18,7 +18,6 @@
         <div class="form-group">
             <label for="signup-email">Email</label>
             <input type="email" id="signup-email" required>
-            
             <div class="error-message" id="email-error"></div>
         </div>
         <div class="form-group">
@@ -31,7 +30,7 @@
             <input type="password" id="signup-confirm-password" required>
             <div class="error-message" id="confirm-password-error"></div>
         </div>
-        <button onclick="signUp()">Sign Up</button>
+        <button type="button" onclick="signUp()">Sign Up</button>
         <div class="switch">
             Already have an account? <a onclick="toggleForms()">Login</a>
         </div>
@@ -48,7 +47,7 @@
             <label for="login-password">Password</label>
             <input type="password" id="login-password" required>
         </div>
-        <button onclick="login()">Login</button>
+        <button type="button" onclick="login()">Login</button>
         <div class="switch">
             Don't have an account? <a onclick="toggleForms()">Sign Up</a>
         </div>
