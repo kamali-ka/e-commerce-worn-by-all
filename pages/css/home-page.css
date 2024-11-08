@@ -1,0 +1,78 @@
+/* Basic reset for margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #003366; /* Dark blue background for contrast */
+    color: #fff; /* Default text color is white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    text-align: center;
+}
+
+/* Centering container for the heading and text */
+.container {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Style for the heading container */
+.cssanimation {
+    display: inline-block;
+    font-size: 48px; /* Larger font size for emphasis */
+    font-weight: bold;
+    color: #FFD700; /* Gold color for the text */
+    text-transform: uppercase; /* Uppercase letters for bold impact */
+}
+
+/* Link styling */
+.heading-link {
+    color: #FFD700; /* Gold color */
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Text magnify effect */
+.heading-link span {
+    display: inline-block;
+    transition: transform 0.3s ease, letter-spacing 0.3s ease;
+}
+
+/* Magnify effect on hover */
+.heading-link:hover span {
+    transform: scale(1.5); /* Magnifies the text to 1.5 times its size */
+    letter-spacing: 6px; /* Adds spacing between letters */
+    color: navy; /* Blue color when magnified */
+}
+
+/* Blue background effect when hovering */
+.heading-link:hover {
+    background-color: white; /* White background when hovered */
+    padding: 10px 150px; /* Adds padding around the text */
+    border-radius: 10px; /* Rounded corners for the background */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow around the heading */
+}
+
+/* Styling for the description text */
+.description h3 {
+    margin-top: 30px; /* Adds space between the heading and the description */
+    font-size: 24px; /* Slightly larger font for the description */
+    color: #fff; /* White color */
+    font-weight: lighter; /* Lighter font weight for the description */
+    line-height: 1.6; /* Increase line height for readability */
+}
+
+/* Hover effect for the description */
+.description h3:hover {
+    color: #FFD700; /* Gold color when hovered */
+    transition: color 0.3s ease;
+}
