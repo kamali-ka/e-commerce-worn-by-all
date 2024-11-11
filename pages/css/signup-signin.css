@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e0f2ff;
+  background-color: #e0f2ff; /* Light blue background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,8 +14,8 @@ body {
 .container {
   width: 350px;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(30, 136, 229, 0.3); /* Blue shadow */
   border-radius: 12px;
   transform: scale(0.95);
   animation: slideIn 0.5s ease-out forwards;
@@ -24,10 +24,9 @@ body {
 /* Heading */
 h2 {
   text-align: center;
-  color: #1e88e5;
+  color: #1e88e5; /* Primary blue color */
   margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeInText 1s 0.5s forwards;
+  font-weight: bold;
 }
 
 /* Form Group */
@@ -39,7 +38,7 @@ h2 {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #0d47a1;
+  color: #0d47a1; /* Darker blue for label */
   font-weight: bold;
 }
 
@@ -49,16 +48,16 @@ input[type="password"],
 input[type="email"] {
   width: 100%;
   padding: 8px;
-  border: 1px solid #1e88e5;
+  border: 1px solid #1e88e5; /* Blue border for input fields */
   border-radius: 4px;
   box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus {
-  border-color: #1565c0;
+  border-color: #1565c0; /* Darker blue on focus */
   outline: none;
   box-shadow: 0 0 8px rgba(21, 101, 192, 0.5);
 }
@@ -67,20 +66,18 @@ input[type="email"]:focus {
 button {
   width: 100%;
   padding: 10px;
-  background-color: #1e88e5;
+  background-color: #1e88e5; /* Primary blue button */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
-  transform: scale(1);
-  animation: fadeInButton 1s 1s forwards;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #1565c0;
-  transform: scale(1.05);
+  background-color: #1565c0; /* Darker blue on hover */
 }
 
 /* Switch Link */
@@ -90,77 +87,64 @@ button:hover {
 }
 
 .switch a {
-  color: #1565c0;
+  color: #1e88e5; /* Primary blue color for link */
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.switch a:hover {
-  text-decoration: underline;
-  color: #0d47a1;
 }
 
 /* Error & Success Messages */
 .error-message {
-  color: red;
+  color: #d32f2f; /* Red color for error messages */
   font-size: 12px;
   margin-top: 5px;
 }
 
 .success-message {
-  color: green;
+  color: #388e3c; /* Green color for success messages */
   text-align: center;
   margin-top: 10px;
-  animation: fadeInMessage 0.8s ease-in-out forwards;
+  font-weight: bold;
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #ffffff;
+  color: #1e88e5; /* Primary blue color */
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #1e88e5; /* Blue border */
+  width: 80%;
+  max-width: 300px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.close {
+  color: #1e88e5; /* Primary blue color */
+  font-size: 24px;
+  font-weight: bold;
+  float: right;
+  cursor: pointer;
 }
 
 /* Keyframe Animations */
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInText {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes slideIn {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInButton {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeInMessage {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }

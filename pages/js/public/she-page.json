@@ -1,0 +1,141 @@
+  {
+    "clothes": [
+      {
+        "id": "1",
+        "name": "Chinkari White Short Top",
+        "description": "Effortless everyday style",
+        "price": 492,
+        "image": "/assets/images/img_women1.jpg",
+        "type": "Short tops"
+      },
+      {
+        "id": "2",
+        "name": "Blue Cotton Short Top",
+        "description": "Tunic, trust, trend",
+        "price": 449,
+        "image": "/assets/images/img_women2.jpg",
+        "type": "Short tops"
+      },
+      {
+        "id": "3",
+        "name": "Elegant Skirt",
+        "description": "Stylish and chic",
+        "price": 399,
+        "image": "/assets/images/img_skirt.jpg",
+        "type": "Skirts"
+      },
+      {
+        "id": "4",
+        "name": "Beautiful Dress",
+        "description": "Stunning and graceful",
+        "price": 799,
+        "image": "/assets/images/img_dress2.jpg",
+        "type": "Dress"
+      },
+      {
+        "id":"5",
+        "name":"Beautiful Short Top",
+        "description":"Effortless everyday style",
+        "price":399,
+        "image":"/assets/images/img_women3.jpg",
+        "type":"Dress"
+      },
+      {
+        "id":"6",
+        "name":"Beautiful Short Top",
+        "description":" Casual chic for everyday wear.",
+        "price":399,
+        "image":"/assets/images/img_women4.jpg",
+        "type":"Short tops"
+      },
+      {
+        "id":"7",
+        "name":"Beautiful Short Top",
+        "description":"Simple, yet stylish.",
+        "price":399,
+        "image":"/assets/images/img_women5.jpg",
+        "type":"Short tops"
+      },
+      {
+        "id":"8",
+        "name":"Beautiful Short Top",
+        "description":"Brighten up your wardrobe.",
+        "price":399,
+        "image":"/assets/images/img_women6.jpg",
+        "type":"Short tops"
+      },
+      {
+        "id":"9",
+        "name":"Beautiful Short Top",
+        "description":"Comfort meets fashion.",
+        "price":399,
+        "image":"/assets/images/img_women7.jpg",
+        "type":"Short tops"
+      },
+      {
+        "id":"10",
+        "name":"Beautiful Chudithar",
+        "description":"Stay cool and trendy.",
+        "price":399,
+        "image":"/assets/images/img_women8.jpg",
+        "type":"Chudithar"
+      },
+      {
+        "id":"11",
+        "name":"Beautiful Top",
+        "description":"A touch of elegance in every stitch.",
+        "price":399,
+        "image":"/assets/images/img_women9.jpg",
+        "type":"Chudithar"
+      },
+      {
+        "id":"12",
+        "name":"Elegant Saree",
+        "description":"Pure Elegance",
+        "price":1999,
+        "image":"/assets/images/img_saree1.jpg",
+        "type":"Saree"
+      },
+      {
+        "id":"13",
+        "name":"Saree of your choice",
+        "description":"Timeless Grace",
+        "price":1499,
+        "image":"/assets/images/img_saree2.jpg",
+        "type":"Saree"
+      },
+      {
+        "id":"14",
+        "name":"The best cotton saree",
+        "description":"Feel the beauty of heritage in every fold.",
+        "price":799,
+        "image":"/assets/images/img_saree3.jpg",
+        "type":"Saree"
+      },
+      {
+        "id":"15",
+        "name":"Effortless Chic skirt",
+        "description":"Twirl-worthy style with every step.",
+        "price":399,
+        "image":"/assets/images/img_skirt2.jpg",
+        "type":"Skirts"
+      },
+      {
+        "id":"16",
+        "name":"Modern Classic skirt",
+        "description":"Chic and comfortable, perfect for day or night.",
+        "price":399,
+        "image":"/assets/images/img_skirt3.jpg",
+        "type":"Skirts"
+      },
+      {
+        "id":"17",
+        "name":"Versatile Style skirt",
+        "description":"A skirt for every moment of the day.",
+        "price":399,
+        "image":"/assets/images/img_skirt4.jpg",
+        "type":"Skirts"
+      }
+
+    ]
+  }

@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Women's Clothing - E-Commerce</title>
-  <link rel="stylesheet" href="../css/shePage.css">
+  <title>Women's Clothing</title>
+  <link rel="stylesheet" href="/pages/css/shePage.css">
 </head>
-
 <body>
+  <!-- Header Section -->
   <header class="header">
-    <a href="/index.html" class="back-icon">
-      <img src="/assets/images/ic_goBack.png" alt="go back icon">
-    </a>
-    <div class="header-content">
-      <h1>Worn By All</h1>
-      <h2>Women's Section</h2>
-    </div>
+    <h1>Worn By All</h1>
+    <h2>Women's Section</h2>
+    <a href="/index.html"><img src="/assets/images/ic_goBack.png" alt="back-icon" class="back-icon"></a>
   </header>
-  
-  <!-- Move search bar outside the header -->
+
+  <!-- Search Bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
+    <input type="text" id="searchInput" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
-  
-  <div class="filters">
-    <label for="clothingType">Filter by Type:</label>
-    <select id="clothingType" onchange="filterByType()">
+
+  <!-- Filters -->
+  <div class="filters-container">
+    <label for="filter">Filter by Type:</label>
+    <select id="filter" onchange="filterProducts()">
       <option value="all">All</option>
       <option value="Dress">Dress</option>
       <option value="Saree">Saree</option>
@@ -39,139 +35,12 @@
       <option value="Blouse">Blouse</option>
       <option value="Gowns">Gowns</option>
       <option value="Palazzos">Palazzos</option>
-    </select>
-  </div>
-  
-  <div class="product-grid" id="productGrid">
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women1.jpg" alt="Chinkari White Short Top">
-      <h2>Chinkari White Short Top</h2>
-      <p>Effortless everyday style</p>
-      <p class="price">₹492</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women2.jpg" alt="Blue Cotton Short Top">
-      <h2>Blue Cotton Short Top</h2>
-      <p>Tunic, trust, trend</p>
-      <p class="price">₹449</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="T-shirts">
-      <img src="/assets/images/img_women3.jpg" alt="Purple Tunic Top">
-      <h2>Purple Tunic Top</h2>
-      <p>Breezy yet stylish</p>
-      <p class="price">₹449</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women4.jpg" alt="Purple Short Top">
-      <h2>Purple Short Top</h2>
-      <p>Flow with grace</p>
-      <p class="price">₹569</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women5.jpg" alt="Purple Short Top">
-      <h2>Purple Short Top</h2>
-      <p>Breathe, flow, shine</p>
-      <p class="price">₹469</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women6.jpg" alt="Purple Short Top">
-      <h2>Purple Short Top</h2>
-      <p>Wardrobe essential unlocked</p>
-      <p class="price">₹579</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women7.jpg" alt="Purple Short Top">
-      <h2>Purple Short Top</h2>
-      <p>Trendy yet timeless</p>
-      <p class="price">₹669</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women8.jpg" alt="Purple Short Top">
-      <h2>Purple Short Top</h2>
-      <p>Casual but cool</p>
-      <p class="price">₹499</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Short tops">
-      <img src="/assets/images/img_women9.jpg" alt="Long Top">
-      <h2>Long Top</h2>
-      <p class="price">₹699</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Skirts">
-      <img src="/assets/images/img_skirt.jpg" alt="Skirt">
-      <h2>Elegant Skirt</h2>
-      <p class="price">₹399</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Skirts">
-      <img src="/assets/images/img_skirt1.jpg" alt="Skirt">
-      <h2>Stylish Skirt</h2>
-      <p class="price">₹399</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Dress">
-      <img src="/assets/images/img_dress1.jpg" alt="Dress">
-      <h2>Beautiful Dress</h2>
-      <p class="price">₹569</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Dress">
-      <img src="/assets/images/img_dress2.jpg" alt="Dress">
-      <h2>Beautiful Dress</h2>
-      <p class="price">₹799</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Dress">
-      <img src="/assets/images/img_dress3.jpg" alt="Dress">
-      <h2>Beautiful Dress</h2>
-      <p class="price">₹569</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Saree">
-      <img src="/assets/images/img_saree1.jpg" alt="Saree">
-      <h2>Elegant Saree</h2>
-      <p class="price">₹1,599</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Saree">
-      <img src="/assets/images/img_saree2.jpg" alt="Saree">
-      <h2>Banarasi Saree</h2>
-      <p class="price">₹999</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Saree">
-      <img src="/assets/images/img_saree3.jpg" alt="Saree">
-      <h2>Cotton Saree</h2>
-      <p class="price">₹789</p>
-      <button>Add to Cart</button>
-    </div>
+    </select>    
   </div>
 
-  <script src="../js/shePage.js"></script>
+  <!-- Product Grid -->
+  <div id="productGrid" class="product-grid"></div>
+
+  <script src="/pages/js/shePage.js"></script>
 </body>
-
 </html>
