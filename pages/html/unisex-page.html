@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unisex Clothing - E-Commerce</title>
+  <link rel="stylesheet" href="../css/unisexpage.css">
+</head>
+
+<body>
+  <header class="header">
+    <a href="/index.html" class="back-icon">
+      <img src="/assets/images/ic_goBack.png" alt="Go Back">
+    </a>
+    <div class="header-content">
+      <h1>Worn By All</h1>
+      <h2>Unisex Section</h2>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <input 
+      type="text" 
+      id="searchBar" 
+      placeholder="Search for clothes..." 
+      onkeyup="searchProducts()">
+  </div>
+
+  <div class="filters">
+    <label for="clothingType">Filter by Type:</label>
+    <select id="clothingType" onchange="filterByType()">
+      <option value="all">All</option>
+      <option value="Hoodies">Hoodies</option>
+      <option value="Jackets">Jackets</option>
+      <option value="T-Shirts">T-Shirts</option>
+      <option value="Sweatshirts">Sweatshirts</option>
+      <option value="Caps">Caps</option>
+    </select>
+  </div>
+
+  <!-- Product Grid Container: Products will be dynamically rendered here -->
+  <div class="product-grid" id="productGrid"></div>
+
+  <script src="/pages/js/unisex-page.js"></script>
+</body>
+</html>

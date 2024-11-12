@@ -1,0 +1,44 @@
+{
+    "unisex": [
+        {
+            "id": "1",
+            "name": "Unisex Hoodie",
+            "description": "Comfortable and stylish hoodie",
+            "price": 999,
+            "image": "/assets/images/img_unisex1.jpg",
+            "type": "Hoodies"
+        },
+        {
+            "id": "2",
+            "name": "Unisex Jacket",
+            "description": "Warm and versatile jacket",
+            "price": 1499,
+            "image": "/assets/images/img_unisex2.jpg",
+            "type": "Jackets"
+        },
+        {
+            "id": "3",
+            "name": "Unisex T-Shirt",
+            "description": "Casual everyday t-shirt",
+            "price": 599,
+            "image": "/assets/images/img_unisex3.jpg",
+            "type": "T-Shirts"
+        },
+        {
+            "id": "4",
+            "name": "Unisex Sweatshirt",
+            "description": "Soft and warm sweatshirt",
+            "price": 799,
+            "image": "/assets/images/img_unisex4.jpg",
+            "type": "Sweatshirts"
+        },
+        {
+            "id": "5",
+            "name": "Unisex Cap",
+            "description": "Stylish and comfortable cap",
+            "price": 299,
+            "image": "/assets/images/img_unisex5.jpg",
+            "type": "Caps"
+        }
+    ]
+}

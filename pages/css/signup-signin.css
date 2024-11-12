@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e0f2ff; /* Light blue background */
+  background-color: #001f33; /*  blue background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@ body {
   width: 350px;
   padding: 20px;
   background-color: #ffffff;
-  box-shadow: 0 0 15px rgba(30, 136, 229, 0.3); /* Blue shadow */
+  box-shadow: 0 0 15px rgba(0, 51, 102, 0.3); /* Deep blue shadow */
   border-radius: 12px;
   transform: scale(0.95);
   animation: slideIn 0.5s ease-out forwards;
@@ -24,9 +24,16 @@ body {
 /* Heading */
 h2 {
   text-align: center;
-  color: #1e88e5; /* Primary blue color */
+  color: #003366; /* Deep blue color */
   margin-bottom: 20px;
   font-weight: bold;
+}
+
+/* Paragraph */
+p {
+  text-align: center;
+  color: #003366; /* Deep blue color */
+  margin-bottom: 20px;
 }
 
 /* Form Group */
@@ -38,35 +45,51 @@ h2 {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #0d47a1; /* Darker blue for label */
+  color: #003366; /* Deep blue for label */
   font-weight: bold;
 }
 
 /* Input Fields */
 input[type="text"],
-input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
   width: 100%;
   padding: 8px;
-  border: 1px solid #1e88e5; /* Blue border for input fields */
+  padding-right: 35px; /* Space for the eye icon */
+  border: 1px solid #003366; /* Deep blue border for input fields */
   border-radius: 4px;
   box-sizing: border-box;
   transition: border-color 0.3s;
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus {
-  border-color: #1565c0; /* Darker blue on focus */
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #FFD700; /* Gold on focus */
   outline: none;
-  box-shadow: 0 0 8px rgba(21, 101, 192, 0.5);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); /* Gold shadow on focus */
+}
+
+/* Password Wrapper */
+.password-wrapper {
+  position: relative;
+}
+
+/* Eye Icon inside input field */
+.eye-icon {
+  position: absolute;
+  right: 10px; /* Position icon on the right inside input field */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #003366; /* Eye icon deep blue color */
 }
 
 /* Button */
 button {
   width: 100%;
   padding: 10px;
-  background-color: #1e88e5; /* Primary blue button */
+  background-color: #003366; /* Deep blue button */
   color: white;
   border: none;
   border-radius: 5px;
@@ -77,7 +100,8 @@ button {
 }
 
 button:hover {
-  background-color: #1565c0; /* Darker blue on hover */
+  background-color: #FFD700; /* Gold on hover */
+  color: #003366;
 }
 
 /* Switch Link */
@@ -86,10 +110,15 @@ button:hover {
   margin-top: 15px;
 }
 
-.switch a {
-  color: #1e88e5; /* Primary blue color for link */
-  text-decoration: none;
+.switch button {
+  background: none;
+  border: none;
+  color: #003366; /* Deep blue color for link */
+  text-decoration: underline;
   cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
 }
 
 /* Error & Success Messages */
@@ -105,6 +134,21 @@ button:hover {
   margin-top: 10px;
   font-weight: bold;
 }
+/* Style for error message above the Sign In button */
+#error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center; /* Optional: Align error message to center */
+}
+
+/* Adjust the general error message style below the password */
+#error-message,
+#error-message-login {
+  color: #d32f2f; /* Red color for error messages */
+  font-size: 12px;
+  margin-top: 5px;
+}
 
 /* Modal Styling */
 .modal {
@@ -116,26 +160,62 @@ button:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
   background-color: #ffffff;
-  color: #1e88e5; /* Primary blue color */
-  margin: 15% auto;
+  color: #003366; /* Deep blue color */
   padding: 20px;
-  border: 1px solid #1e88e5; /* Blue border */
+  border: 1px solid #003366; /* Deep blue border */
   width: 80%;
   max-width: 300px;
   border-radius: 8px;
   text-align: center;
+  position: relative;
 }
 
+/* Close Button */
 .close {
-  color: #1e88e5; /* Primary blue color */
-  font-size: 24px;
-  font-weight: bold;
-  float: right;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px; /* Smaller size */
+  height: 24px;
+  font-size: 16px; /* Adjust font size for icon */
+  color: #003366;
   cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #003366; /* Deep blue border */
+  border-radius: 50%; /* Circular button */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.close:hover {
+  background-color: #FFD700; /* Gold background on hover */
+  color: #003366; /* Deep blue on hover */
+}
+
+/* OK Button in Modal */
+.modal-content button {
+  background-color: #003366; /* Deep blue button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: #FFD700;
 }
 
 /* Keyframe Animations */

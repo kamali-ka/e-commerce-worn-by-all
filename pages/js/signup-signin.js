@@ -13,16 +13,29 @@ function clearErrorMessages() {
     document.getElementById("email-error").innerText = "";
     document.getElementById("password-error").innerText = "";
     document.getElementById("confirm-password-error").innerText = "";
+    document.getElementById("login-general-error").innerText = "";
+    document.getElementById("login-general-error").style.display = "none";
 }
 
 // Validate username
 function validateUsername(username) {
-    const usernameRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
-    if (!usernameRegex.test(username)) {
-        document.getElementById("username-error").innerText = "Username must contain a number or special character.";
+    username = username.replace(/\s+/g, ""); // Remove all spaces
+
+    const hasThreeLetters = (username.match(/[A-Za-z]/g) || []).length >= 3;
+    const isOnlyNumbersOrSpecialChars = /^[0-9!@#$%^&*]+$/.test(username);
+
+    if (username === "") {
+        document.getElementById("username-error").innerText = "Username cannot be empty.";
         return false;
     }
-    return true;
+
+    if (hasThreeLetters && !isOnlyNumbersOrSpecialChars) {
+        return true;
+    } else {
+        document.getElementById("username-error").innerText = 
+            "Username must contain at least 3 letters and cannot be only numbers or special characters.";
+        return false;
+    }
 }
 
 // Validate email format
@@ -37,10 +50,20 @@ function validateEmail(email) {
 
 // Validate password
 function validatePassword(password) {
-    if (password.length < 8) {
-        document.getElementById("password-error").innerText = "Password must be at least 8 characters long.";
+    const hasSpaces = /\s/.test(password);
+
+    if (hasSpaces) {
+        document.getElementById("password-error").innerText = "Password cannot contain spaces.";
         return false;
     }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        document.getElementById("password-error").innerText = 
+            "Password must be at least 8 characters long, with at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+        return false;
+    }
+
     return true;
 }
 
@@ -56,28 +79,36 @@ function validateConfirmPassword(password, confirmPassword) {
 // Show success modal
 function showModal(message) {
     document.getElementById("modal-message").innerText = message;
-    document.getElementById("success-modal").style.display = "block"; // Show success modal
+    document.getElementById("success-modal").style.display = "block";
 }
 
-// Close success modal and redirect to the address page
-function closeModalAndRedirect() {
-    document.getElementById("success-modal").style.display = "none"; // Close the modal
-    redirectToPage(); // Redirect to the address page
+// Close success modal and redirect to index page
+function closeModal() {
+    document.getElementById("success-modal").style.display = "none";
+    redirectToPage();
 }
 
-// Redirect to another page after successful login or signup
+// Redirect to index page after successful login or signup
 function redirectToPage() {
-    window.location.href = "/pages/html/address-page.html"; // Adjust the URL as needed
+    window.location.href = "/index.html"; // Adjust this path if needed
 }
 
-// Handle Sign Up
+// Handle Sign Up with empty field checks
 function signUp() {
     clearErrorMessages();
 
-    const username = document.getElementById("signup-username").value;
+    const username = document.getElementById("signup-username").value.trim();
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
     const confirmPassword = document.getElementById("signup-confirm-password").value;
+
+    if (!username || !email || !password || !confirmPassword) {
+        if (!username) document.getElementById("username-error").innerText = "Username is required.";
+        if (!email) document.getElementById("email-error").innerText = "Email is required.";
+        if (!password) document.getElementById("password-error").innerText = "Password is required.";
+        if (!confirmPassword) document.getElementById("confirm-password-error").innerText = "Please confirm your password.";
+        return;
+    }
 
     const isUsernameValid = validateUsername(username);
     const isEmailValid = validateEmail(email);
@@ -85,20 +116,41 @@ function signUp() {
     const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
 
     if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-        // Simulate a successful signup (you can integrate with backend here)
         showModal("You have successfully signed up! Welcome!");
     }
 }
 
 // Handle Login
 function login() {
+    clearErrorMessages();
+
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
-    if (email && password) {
-        // Simulate a successful login (you can integrate with backend here)
+    const validEmail = "user@example.com";
+    const validPassword = "Password123!";
+
+    if (email !== validEmail || password !== validPassword) {
+        document.getElementById("login-general-error").innerText = "Invalid email or password.";
+        document.getElementById("login-general-error").style.display = "block";
+        return;
+    }
+
+    if (validateEmail(email) && password) {
         showModal("Logged in successfully! Redirecting to your dashboard...");
+    }
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(passwordFieldId, eyeIconId) {
+    const passwordField = document.getElementById(passwordFieldId);
+    const eyeIcon = document.getElementById(eyeIconId);
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.innerHTML = '<i class="fa fa-eye"></i>';
     } else {
-        alert("Please fill in both fields.");
+        passwordField.type = "password";
+        eyeIcon.innerHTML = '<i class="fa fa-eye-slash"></i>';
     }
 }
