@@ -1,156 +1,184 @@
 // Toggle between Sign Up and Login Forms
 function toggleForms() {
-    const signupForm = document.getElementById("signup-form");
-    const loginForm = document.getElementById("login-form");
+  const signupForm = document.getElementById("signup-form");
+  const loginForm = document.getElementById("login-form");
 
-    signupForm.style.display = signupForm.style.display === "none" ? "block" : "none";
-    loginForm.style.display = loginForm.style.display === "none" ? "block" : "none";
+  signupForm.style.display = signupForm.style.display === "none" ? "block" : "none";
+  loginForm.style.display = loginForm.style.display === "none" ? "block" : "none";
+
+  clearErrorMessages(); // Clear errors when switching forms
 }
 
 // Clear all error messages
 function clearErrorMessages() {
-    document.getElementById("username-error").innerText = "";
-    document.getElementById("email-error").innerText = "";
-    document.getElementById("password-error").innerText = "";
-    document.getElementById("confirm-password-error").innerText = "";
-    document.getElementById("login-general-error").innerText = "";
-    document.getElementById("login-general-error").style.display = "none";
+  document.getElementById("username-error").innerText = "";
+  document.getElementById("email-error").innerText = "";
+  document.getElementById("password-error").innerText = "";
+  document.getElementById("confirm-password-error").innerText = "";
+  document.getElementById("login-general-error").innerText = "";
 }
 
 // Validate username
 function validateUsername(username) {
-    username = username.replace(/\s+/g, ""); // Remove all spaces
+  const errorElement = document.getElementById("username-error");
+  username = username.trim(); // Remove extra spaces
 
-    const hasThreeLetters = (username.match(/[A-Za-z]/g) || []).length >= 3;
-    const isOnlyNumbersOrSpecialChars = /^[0-9!@#$%^&*]+$/.test(username);
-
-    if (username === "") {
-        document.getElementById("username-error").innerText = "Username cannot be empty.";
-        return false;
-    }
-
-    if (hasThreeLetters && !isOnlyNumbersOrSpecialChars) {
-        return true;
-    } else {
-        document.getElementById("username-error").innerText = 
-            "Username must contain at least 3 letters and cannot be only numbers or special characters.";
-        return false;
-    }
+  if (username === "") {
+    errorElement.innerText = "Please enter a username.";
+    return false;
+  }
+  if (username.length < 4) {
+    errorElement.innerText = "Username must be more than 3 characters.";
+    return false;
+  }
+  const validUsernameRegex = /^[A-Za-z]+$/;
+  if (!validUsernameRegex.test(username)) {
+    errorElement.innerText = "Username must contain only letters (no special characters or numbers).";
+    return false;
+  }
+  errorElement.innerText = "";
+  return true;
 }
 
 // Validate email format
 function validateEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-        document.getElementById("email-error").innerText = "Invalid email address.";
-        return false;
-    }
-    return true;
+  const errorElement = document.getElementById("email-error");
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (!emailRegex.test(email)) {
+    errorElement.innerText = "Invalid email address.";
+    return false;
+  }
+  errorElement.innerText = "";
+  return true;
 }
 
 // Validate password
 function validatePassword(password) {
-    const hasSpaces = /\s/.test(password);
-
-    if (hasSpaces) {
-        document.getElementById("password-error").innerText = "Password cannot contain spaces.";
-        return false;
-    }
-
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    if (!passwordRegex.test(password)) {
-        document.getElementById("password-error").innerText = 
-            "Password must be at least 8 characters long, with at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
-        return false;
-    }
-
-    return true;
+  const errorElement = document.getElementById("password-error");
+  if (/\s/.test(password)) {
+    errorElement.innerText = "Password cannot contain spaces.";
+    return false;
+  }
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  if (!passwordRegex.test(password)) {
+    errorElement.innerText = "Password must be at least 8 characters long, with at least 1 uppercase, 1 lowercase, 1 number, and 1 special character.";
+    return false;
+  }
+  errorElement.innerText = "";
+  return true;
 }
 
 // Validate confirm password
 function validateConfirmPassword(password, confirmPassword) {
-    if (password !== confirmPassword) {
-        document.getElementById("confirm-password-error").innerText = "Passwords do not match.";
-        return false;
-    }
-    return true;
+  const errorElement = document.getElementById("confirm-password-error");
+  if (password !== confirmPassword) {
+    errorElement.innerText = "Passwords do not match.";
+    return false;
+  }
+  errorElement.innerText = "";
+  return true;
 }
 
-// Show success modal
-function showModal(message) {
-    document.getElementById("modal-message").innerText = message;
-    document.getElementById("success-modal").style.display = "block";
-}
-
-// Close success modal and redirect to index page
-function closeModal() {
-    document.getElementById("success-modal").style.display = "none";
-    redirectToPage();
-}
-
-// Redirect to index page after successful login or signup
-function redirectToPage() {
-    window.location.href = "/index.html"; // Adjust this path if needed
-}
-
-// Handle Sign Up with empty field checks
+// Handle Sign Up
 function signUp() {
-    clearErrorMessages();
+  clearErrorMessages();
 
-    const username = document.getElementById("signup-username").value.trim();
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
-    const confirmPassword = document.getElementById("signup-confirm-password").value;
+  const username = document.getElementById("signup-username").value.trim();
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const confirmPassword = document.getElementById("signup-confirm-password").value;
 
-    if (!username || !email || !password || !confirmPassword) {
-        if (!username) document.getElementById("username-error").innerText = "Username is required.";
-        if (!email) document.getElementById("email-error").innerText = "Email is required.";
-        if (!password) document.getElementById("password-error").innerText = "Password is required.";
-        if (!confirmPassword) document.getElementById("confirm-password-error").innerText = "Please confirm your password.";
-        return;
-    }
+  let isValid = true;
 
-    const isUsernameValid = validateUsername(username);
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-    const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+  if (!username || !email || !password || !confirmPassword) {
+    if (!username) document.getElementById("username-error").innerText = "Username is required.";
+    if (!email) document.getElementById("email-error").innerText = "Email is required.";
+    if (!password) document.getElementById("password-error").innerText = "Password is required.";
+    if (!confirmPassword) document.getElementById("confirm-password-error").innerText = "Please confirm your password.";
+    isValid = false;
+  }
 
-    if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-        showModal("You have successfully signed up! Welcome!");
-    }
+  const isUsernameValid = validateUsername(username);
+  const isEmailValid = validateEmail(email);
+  const isPasswordValid = validatePassword(password);
+  const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+
+  if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid && isValid) {
+    showModal("You have successfully signed up! Welcome!");
+  }
 }
 
 // Handle Login
 function login() {
-    clearErrorMessages();
+  clearErrorMessages();
 
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
 
-    const validEmail = "user@example.com";
-    const validPassword = "Password123!";
+  const validEmail = "user@example.com"; // Demo valid credentials
+  const validPassword = "Password123!";
 
-    if (email !== validEmail || password !== validPassword) {
-        document.getElementById("login-general-error").innerText = "Invalid email or password.";
-        document.getElementById("login-general-error").style.display = "block";
-        return;
-    }
+  if (!validateEmail(email) || email !== validEmail || password !== validPassword) {
+    document.getElementById("login-general-error").innerText = "Invalid email or password.";
+    document.getElementById("login-general-error").style.display = "block";
+    return;
+  }
 
-    if (validateEmail(email) && password) {
-        showModal("Logged in successfully! Redirecting to your dashboard...");
-    }
+  if (email === validEmail && password === validPassword) {
+    showModal("Logged in successfully! Redirecting to your dashboard...");
+  }
+}
+
+// Show success modal
+function showModal(message) {
+  document.getElementById("modal-message").innerText = message;
+  document.getElementById("success-modal").style.display = "flex";
+}
+
+// Close success modal
+function closeModal() {
+  document.getElementById("success-modal").style.display = "none";
+  redirectToPage();
+}
+
+// Redirect to index page
+function redirectToPage() {
+  window.location.href = "/index.html"; // Adjust path as needed
 }
 
 // Toggle password visibility
 function togglePasswordVisibility(passwordFieldId, eyeIconId) {
-    const passwordField = document.getElementById(passwordFieldId);
-    const eyeIcon = document.getElementById(eyeIconId);
+  const passwordField = document.getElementById(passwordFieldId);
+  const eyeIcon = document.getElementById(eyeIconId);
 
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-        eyeIcon.innerHTML = '<i class="fa fa-eye"></i>';
-    } else {
-        passwordField.type = "password";
-        eyeIcon.innerHTML = '<i class="fa fa-eye-slash"></i>';
-    }
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    eyeIcon.innerHTML = '<i class="fa fa-eye"></i>';
+  } else {
+    passwordField.type = "password";
+    eyeIcon.innerHTML = '<i class="fa fa-eye-slash"></i>';
+  }
 }
+
+// Real-time validation for Sign Up form fields
+document.getElementById("signup-username").addEventListener("input", function () {
+  const username = this.value;
+  validateUsername(username); // Call validation function on input
+});
+
+document.getElementById("signup-email").addEventListener("input", function () {
+  const email = this.value;
+  validateEmail(email); // Call validation function on input
+});
+
+document.getElementById("signup-password").addEventListener("input", function () {
+  const password = this.value;
+  validatePassword(password); // Call validation function on input
+});
+
+document.getElementById("signup-confirm-password").addEventListener("input", function () {
+  const password = document.getElementById("signup-password").value;
+  const confirmPassword = this.value;
+  validateConfirmPassword(password, confirmPassword); // Call validation function on input
+});
