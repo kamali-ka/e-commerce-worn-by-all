@@ -162,22 +162,23 @@ function togglePasswordVisibility(passwordFieldId, eyeIconId) {
 }
 
 // Real-time validation for Sign Up form fields
-document.getElementById("signup-username").addEventListener("input", function () {
+document.getElementById("signup-username").addEventListener("blur", function () {
   const username = this.value;
+  console.log(username);
   validateUsername(username); // Call validation function on input
 });
 
-document.getElementById("signup-email").addEventListener("input", function () {
+document.getElementById("signup-email").addEventListener("blur", function () {
   const email = this.value;
   validateEmail(email); // Call validation function on input
 });
 
-document.getElementById("signup-password").addEventListener("input", function () {
+document.getElementById("signup-password").addEventListener("blur", function () {
   const password = this.value;
   validatePassword(password); // Call validation function on input
 });
 
-document.getElementById("signup-confirm-password").addEventListener("input", function () {
+document.getElementById("signup-confirm-password").addEventListener("blur", function () {
   const password = document.getElementById("signup-password").value;
   const confirmPassword = this.value;
   validateConfirmPassword(password, confirmPassword); // Call validation function on input
