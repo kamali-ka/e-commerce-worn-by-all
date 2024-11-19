@@ -1,78 +1,63 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
+/* General Reset */
+body, ul, li {
     margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
+    list-style: none;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
-/* Header Styles */
-.header {
+/* General Styles */
+body {
+    background-color: #f7f7f7;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background-color: #003366;
-    color: #FFD700;
-    padding: 20px;
+    align-items: center;
+    background-color: #003366; /* Navy Blue */
+    padding: 15px 20px;
+    color: #FFD700; /* Golden */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
-/* Back Icon Styles */
-.back-icon {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
 }
 
-.back-icon img {
-    width: 15px;
-    height: 20px;
-    cursor: pointer;
+.nav-links a {
+    color: #FFD700;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
 }
 
-/* Header Content */
-.header-content {
-    flex-grow: 1;
+.nav-links a:hover {
+    color: #ffffff; /* White */
+}
+
+.nav-icon i {
+    color: #FFD700;
+}
+
+/* Hero Section */
+.hero-banner {
     text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(90deg, #003366, #002244);
+    color: #FFD700;
+    border-radius: 10px;
 }
 
-/* Search Bar */
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0;
-}
-
-#searchBar {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Filters Section */
-.filters {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
-    gap: 10px;
-}
-
-.filters label {
-    font-size: 16px;
-}
-
-.filters select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-/* Product Grid Styles */
+/* Product Grid */
 .product-grid {
     display: flex;
     flex-wrap: wrap;
@@ -83,14 +68,13 @@ body {
     margin: auto;
 }
 
-/* Product Card Styles */
+/* Product Card */
 .product-card {
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 8px #003366;
-    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 51, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
     display: flex;
@@ -109,12 +93,14 @@ body {
     width: 100%;
     height: 300px;
     object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .product-card h2 {
     margin: 10px 0;
     font-size: 18px;
-    color: #333;
+    color: #333333;
 }
 
 .product-card .price {
@@ -139,4 +125,52 @@ body {
 
 .product-card button:hover {
     background-color: #002244;
+}
+
+/* Filters Section */
+.filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.filters label {
+    font-size: 16px;
+    color: #333333;
+}
+
+.filters select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+#searchBar {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #003366; /* Navy Blue */
+    color: #FFD700; /* Golden */
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
 }

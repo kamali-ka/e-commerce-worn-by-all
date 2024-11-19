@@ -54,6 +54,15 @@
             saveButton.disabled = !isValid;
         }
 
+        window.onload = function () {
+            const username = localStorage.getItem("username");
+            const email = localStorage.getItem("email");
+          
+            document.getElementById("profile-username").textContent = username || "Not provided";
+            document.getElementById("profile-email").textContent = email || "Not provided";
+          };
+          
+
         // Attach event listeners for real-time validation
         nameInput.addEventListener('input', validateForm);
         emailInput.addEventListener('input', validateForm);

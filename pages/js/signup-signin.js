@@ -1,4 +1,3 @@
-// Toggle between Sign Up and Login Forms
 function toggleForms() {
   const signupForm = document.getElementById("signup-form");
   const loginForm = document.getElementById("login-form");
