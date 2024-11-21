@@ -5,78 +5,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Details - Worn By All</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/accountDetails.css">
 </head>
 
 <body>
-
+    <!-- Header Section -->
     <header class="header">
         <div class="nav">
             <div>
                 <h1>Worn By All</h1>
             </div>
             <div class="header-icons">
-                
-                <a href="/index.html"><img id="home" src="/assets/images/ic_home.png" alt="Home Icon"
-                        ></a>
-                   
-                        <img src="/assets/images/ic_cart_icon.png" alt="Cart Icon" class="cart">
+                <a href="/index.html" aria-label="Home">
+                    <i class="fa-solid fa-house" style="color: white;"></i>
+                </a>
+                <i class="fa-solid fa-cart-shopping" style="color: white;" aria-label="Cart"></i>
             </div>
         </div>
     </header>
     <hr>
 
+    <!-- Main Content -->
     <main class="account-container">
+        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <ul>
                 <li><a href="/pages/html/signup-signin.html">Sign-Up Or Sign-In</a></li>
                 <li><a href="/pages/html/dashboard.html">Dashboard</a></li>
-                <li><a href="/pages/html/accountDetails.html">Personal Information</a></li>
+                <li><a href="/pages/html/accountDetails.html" class="active">Personal Information</a></li>
                 <li><a href="#">Order History</a></li>
             </ul>
         </aside>
 
+        <!-- Account Details Section -->
         <section class="account-details">
             <h2>Personal Information</h2>
 
+            <!-- Profile Picture Upload -->
+            <!-- Profile Picture Upload -->
+<div class="profile-picture">
+    <div class="circle">
+        <label for="profile-upload">
+            <img src="/assets/images/default-profile.png" alt="Profile Image" id="profile-image">
+        </label>
+        <input type="file" id="profile-upload" accept="image/*">
+    </div>
+    <button id="remove-profile" class="remove-button">Remove Profile Picture</button>
+</div>
+
+
             <!-- Display Saved Details -->
-            <div id="savedDetails" class="saved-details">
-                <p><strong>Name:</strong> <span id="displayName">Not provided</span></p>
-                <p><strong>Email:</strong> <span id="displayEmail">Not provided</span></p>
-                <p><strong>Phone:</strong> <span id="displayPhone">Not provided</span></p>
-                <button type="button" id="editButton">Edit</button>
+            <div class="profile-container">
+                <h1>Your Details</h1>
+                <div class="profile-item">
+                    <strong>Username:</strong> <span id="profile-username">Loading...</span>
+                </div>
+                <div class="profile-item">
+                    <strong>Email:</strong> <span id="profile-email">Loading...</span>
+                </div>
+                <div class="profile-item">
+                    <strong>Phone:</strong> <span id="profile-phone">Loading...</span>
+                </div>
+                <div class="profile-item">
+                    <strong>Dress Size:</strong> <span id="profile-dress-size">Loading...</span>
+                </div>
             </div>
 
             <!-- Form for Editing Details -->
-            <form id="accountForm" style="display: none;">
+            <form id="accountForm">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" placeholder="Enter your full name" required>
-                    <span id="nameError"></span>
+                    <small id="nameError" class="error"></small>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" placeholder="Enter your email" required>
-                    <span id="emailError"></span>
+                    <small id="emailError" class="error"></small>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone:</label>
                     <input type="text" id="phone" placeholder="Enter your phone number">
-                    <span id="phoneError"></span>
+                    <small id="phoneError" class="error"></small>
                 </div>
+
+                <div class="form-group">
+                    <label for="dress-size">Dress Size:</label>
+                    <select id="dress-size" required>
+                        <option value="" disabled selected>Select your size</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                    </select>
+                </div>
+<!-- Popup Message -->
+<div id="popupMessage" class="popup-message">Profile removed successfully.</div>
 
                 <button type="submit" class="save-button">Save Changes</button>
             </form>
         </section>
     </main>
 
-    <div class="copyRights">
-        <footer class="footer">
-            <p>&copy; 2024 Worn By All. All rights reserved.</p>
-        </footer>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Worn By All. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
     <script src="../js/accountDeatils.js"></script>
 </body>
 

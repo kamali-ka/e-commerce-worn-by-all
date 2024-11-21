@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #001f33; /*  blue background */
+  background-color: #121212; /* Dark gray background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,8 +14,8 @@ body {
 .container {
   width: 350px;
   padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 51, 102, 0.3); /* Deep blue shadow */
+  background-color: #ffffff; /* White container */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Black shadow */
   border-radius: 12px;
   transform: scale(0.95);
   animation: slideIn 0.5s ease-out forwards;
@@ -24,7 +24,7 @@ body {
 /* Heading */
 h2 {
   text-align: center;
-  color: #003366; /* Deep blue color */
+  color: #333333; /* Dark gray color */
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -32,7 +32,7 @@ h2 {
 /* Paragraph */
 p {
   text-align: center;
-  color: #003366; /* Deep blue color */
+  color: #666666; /* Mid gray color */
   margin-bottom: 20px;
 }
 
@@ -45,7 +45,7 @@ p {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #003366; /* Deep blue for label */
+  color: #333333; /* Dark gray for label */
   font-weight: bold;
 }
 
@@ -56,7 +56,7 @@ input[type="password"] {
   width: 100%;
   padding: 8px;
   padding-right: 35px; /* Space for the eye icon */
-  border: 1px solid #003366; /* Deep blue border for input fields */
+  border: 1px solid #333333; /* Dark gray border for input fields */
   border-radius: 4px;
   box-sizing: border-box;
   transition: border-color 0.3s;
@@ -65,9 +65,9 @@ input[type="password"] {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
-  border-color: #FFD700; /* Gold on focus */
+  border-color: #888888; /* Mid gray on focus */
   outline: none;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); /* Gold shadow on focus */
+  box-shadow: 0 0 8px rgba(136, 136, 136, 0.5); /* Mid gray shadow on focus */
 }
 
 /* Password Wrapper */
@@ -82,14 +82,14 @@ input[type="password"]:focus {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #003366; /* Eye icon deep blue color */
+  color: #333333; /* Dark gray color */
 }
 
 /* Button */
 button {
   width: 100%;
   padding: 10px;
-  background-color: #003366; /* Deep blue button */
+  background-color: #333333; /* Dark gray button */
   color: white;
   border: none;
   border-radius: 5px;
@@ -100,8 +100,8 @@ button {
 }
 
 button:hover {
-  background-color: #FFD700; /* Gold on hover */
-  color: #003366;
+  background-color: #555555; /* Darker gray on hover */
+  color: white;
 }
 
 /* Switch Link */
@@ -113,7 +113,7 @@ button:hover {
 .switch button {
   background: none;
   border: none;
-  color: #003366; /* Deep blue color for link */
+  color: #333333; /* Dark gray color for link */
   text-decoration: underline;
   cursor: pointer;
   font-size: 14px;
@@ -134,6 +134,7 @@ button:hover {
   margin-top: 10px;
   font-weight: bold;
 }
+
 /* Style for error message above the Sign In button */
 #error-message {
   color: red;
@@ -165,10 +166,10 @@ button:hover {
 }
 
 .modal-content {
-  background-color: #ffffff;
-  color: #003366; /* Deep blue color */
+  background-color: #ffffff; /* White modal */
+  color: #333333; /* Dark gray text */
   padding: 20px;
-  border: 1px solid #003366; /* Deep blue border */
+  border: 1px solid #333333; /* Dark gray border */
   width: 80%;
   max-width: 300px;
   border-radius: 8px;
@@ -184,10 +185,10 @@ button:hover {
   width: 24px; /* Smaller size */
   height: 24px;
   font-size: 16px; /* Adjust font size for icon */
-  color: #003366;
+  color: #333333;
   cursor: pointer;
   background-color: #ffffff;
-  border: 1px solid #003366; /* Deep blue border */
+  border: 1px solid #333333; /* Dark gray border */
   border-radius: 50%; /* Circular button */
   display: flex;
   align-items: center;
@@ -197,13 +198,13 @@ button:hover {
 }
 
 .close:hover {
-  background-color: #FFD700; /* Gold background on hover */
-  color: #003366; /* Deep blue on hover */
+  background-color: #555555; /* Darker gray background on hover */
+  color: white;
 }
 
 /* OK Button in Modal */
 .modal-content button {
-  background-color: #003366; /* Deep blue button */
+  background-color: #333333; /* Dark gray button */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -215,7 +216,7 @@ button:hover {
 }
 
 .modal-content button:hover {
-  background-color: #FFD700;
+  background-color: #555555;
 }
 
 /* Keyframe Animations */

@@ -8,53 +8,77 @@ body, ul, li {
 
 /* General Styles */
 body {
-    background-color: #f7f7f7;
-    color: #333333;
+    background-color: #f7f7f7; /* Light Gray Background */
+    color: #333333; /* Dark Gray for Text */
     line-height: 1.6;
 }
 
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #003366; /* Navy Blue */
-    padding: 15px 20px;
-    color: #FFD700; /* Golden */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Header Section */
+header {
+    background-color: #333333; /* Dark Gray */
+    color: #ffffff; /* White */
+    padding: 20px;
+    text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FFD700;
+header h1, header h2 {
+    margin: 0;
 }
 
-.nav-links a {
-    color: #FFD700;
+header a {
+    position: absolute;
+    top: 20px;
+    left: 20px;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.nav-links a:hover {
+    font-size: 24px;
     color: #ffffff; /* White */
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.nav-icon i {
-    color: #FFD700;
+header a:hover {
+    transform: scale(1.2); /* Hover Effect */
+    color: #cccccc; /* Mid Gray */
 }
 
-/* Hero Section */
-.hero-banner {
-    text-align: center;
-    padding: 50px 20px;
-    background: linear-gradient(90deg, #003366, #002244);
-    color: #FFD700;
-    border-radius: 10px;
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+#searchInput {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #cccccc; /* Mid Gray */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Filters Section */
+.filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.filters-container label {
+    font-size: 16px;
+    color: #333333; /* Dark Gray */
+}
+
+.filters-container select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #cccccc; /* Mid Gray */
 }
 
 /* Product Grid */
@@ -70,11 +94,11 @@ body {
 
 /* Product Card */
 .product-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background-color: #ffffff; /* White */
+    border: 1px solid #cccccc; /* Mid Gray */
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 51, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle Shadow */
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
     display: flex;
@@ -100,19 +124,19 @@ body {
 .product-card h2 {
     margin: 10px 0;
     font-size: 18px;
-    color: #333333;
+    color: #333333; /* Dark Gray */
 }
 
 .product-card .price {
-    color: #003366;
+    color: #000000; /* Black */
     font-size: 20px;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
 .product-card button {
-    background-color: #003366;
-    color: #FFD700;
+    background-color: #333333; /* Dark Gray */
+    color: #ffffff; /* White */
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -124,48 +148,13 @@ body {
 }
 
 .product-card button:hover {
-    background-color: #002244;
-}
-
-/* Filters Section */
-.filters {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
-    gap: 10px;
-}
-
-.filters label {
-    font-size: 16px;
-    color: #333333;
-}
-
-.filters select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-/* Search Bar */
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0;
-}
-
-#searchBar {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: #000000; /* Black */
 }
 
 /* Footer */
 footer {
-    background-color: #003366; /* Navy Blue */
-    color: #FFD700; /* Golden */
+    background-color: #333333; /* Dark Gray */
+    color: #ffffff; /* White */
     text-align: center;
     padding: 20px 10px;
     font-size: 0.9rem;

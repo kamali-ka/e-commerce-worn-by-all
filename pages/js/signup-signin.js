@@ -104,8 +104,11 @@ function signUp() {
   const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
 
   if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid && isValid) {
+    localStorage.setItem("username", username); // Save username
+    localStorage.setItem("email", email); // Save email
     showModal("You have successfully signed up! Welcome!");
-  }
+}
+
 }
 
 // Handle Login

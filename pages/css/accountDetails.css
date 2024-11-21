@@ -1,204 +1,294 @@
-    /* General Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f6f9;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh; /* Ensure the body takes the full height */
-    }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light grey */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes the full height */
+}
 
-    /* Header Styles */
-    .header {
-        background-color: #2C3E50; /* Dark blue */
-        color: #FFD700; /* Gold */
-        padding: 20px;
-        
-    }
-.nav{
+/* Header Styles */
+.header {
+    background-color: #333333; /* Dark grey */
+    color: #ffffff; /* White */
+    padding: 20px;
+}
+
+.nav {
     display: flex;
     justify-content: space-between;
 }
-    .header h1 {
-        font-size: 1.8rem;
-        margin: 0;
-    }
 
-    .header-icons img {
-        width: 30px;
-        height: 30px;
-        margin-left: 15px;
-        cursor: pointer;
-    }
-#home{
-height: 50px;
-width: 50px;
-position: fixed;
-top: 7px;
-right: 50px;
+.header h1 {
+    font-size: 1.8rem;
+    margin: 0;
 }
-.cart{
-    position:fixed;
+
+.header-icons img {
+    width: 40px; /* Increase size */
+    height: 40px; /* Increase size */
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.header-icons img:hover {
+    opacity: 0.7; /* Maintain hover effect */
+}
+
+
+#home {
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    top: 7px;
+    right: 50px;
+}
+
+.cart {
+    position: fixed;
     top: 17px;
     right: 20px;
 }
-    .header-icons img:hover {
-        opacity: 0.7;
-    }
 
-    /* Main Account Container */
-    .account-container {
-        display: flex;
-        padding: 20px;
-        flex-grow: 1; /* Make sure the container takes up the remaining space */
-    }
 
-    /* Sidebar Styles */
-    .sidebar {
-        width: 250px;
-        background-color: #2C3E50; /* Dark blue */
-        color: white;
-        padding: 20px;
-        height: auto;
-        border-radius: 8px;
-        margin-right: 20px;
-    }
+/* Main Account Container */
+.account-container {
+    display: flex;
+    padding: 20px;
+    flex-grow: 1; /* Make sure the container takes up the remaining space */
+}
 
-    .sidebar ul {
-        list-style-type: none;
-        padding: 0;
-    }
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #444444; /* Mid grey */
+    color: white;
+    padding: 20px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px;
+}
 
-    .sidebar ul li {
-        margin: 15px 0;
-    }
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    .sidebar ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 1.1rem;
-        transition: color 0.3s ease;
-    }
+.sidebar ul li {
+    margin: 15px 0;
+}
 
-    .sidebar ul li a:hover {
-        color: #FFD700; /* Gold hover effect */
-    }
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
 
-    /* Account Details Section */
-    .account-details {
-        flex-grow: 1;
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.sidebar ul li a:hover {
+    color: #bbbbbb; /* Light grey hover effect */
+}
 
-    .account-details h2 {
-        font-size: 1.8rem;
-        color: #2C3E50; /* Dark blue */
-        margin-bottom: 20px;
-    }
+/* Account Details Section */
+.account-details {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff; /* White */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .saved-details p {
-        font-size: 1.1rem;
-        color: #34495e; /* Dark blue text */
-        margin-bottom: 15px;
-    }
+.account-details h2 {
+    font-size: 1.8rem;
+    color: #333333; /* Dark grey */
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-    button {
-        padding: 10px 20px;
-        background-color: #FFD700; /* Gold */
-        color: rgb(0, 0, 0);
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-    }
+.saved-details p {
+    font-size: 1.1rem;
+    color: #555555; /* Mid grey */
+    margin-bottom: 15px;
+}
 
-    button:hover {
-        background-color: #2C3E50;
-        color: white; 
-    }
+/* Profile Picture */
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-    /* Edit Form */
-    form {
-        display: flex;
-        flex-direction: column;
-    }
+.profile-picture .circle {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #333333; /* Dark grey */
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4; /* Light grey */
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 
-    .form-group {
-        margin-bottom: 15px;
-    }
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    label {
-        color: #2C3E50; /* Dark blue */
-        font-size: 1.1rem;
-    }
+.profile-picture input {
+    display: none; /* Hide the file input */
+}
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        padding: 10px;
-        border: 1px solid #2C3E50;
-        border-radius: 5px;
-        margin-top: 5px;
-        font-size: 1rem;
-    }
+.profile-picture label {
+    cursor: pointer;
+}
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus {
-        outline-color: #FFD700; /* Gold focus effect */
-    }
+/* Profile Container */
+.profile-container {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 600px;
+}
+.profile-container h1 {
+    margin-bottom: 20px; /* Add space between the heading and the first profile item */
+    font-size: 1.5rem; /* Optional: Adjust font size for the heading */
+    color: #333333; /* Dark grey for better visibility */
+}
+.remove-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #ff4d4d; /* Red for delete action */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    .save-button {
-        padding: 10px;
-        background-color: #2C3E50; /* Dark blue */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease;
-        margin-top: 20px;
-    }
+.remove-button:hover {
+    background-color: #ff1a1a; /* Darker red */
+}
 
-    .save-button:hover {
-        background-color: #FFD700; /* Gold on hover */
-    }
 
-    /* Footer Styles */
-    .footer {
-        background-color: #2C3E50; /* Dark blue */
-        color: white;
-        text-align: center;
-        padding: 20px;
-        margin-top: auto; /* Pushes footer to the bottom */
-        font-size: 1rem;
-    }
+.profile-item {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-        .account-container {
-            flex-direction: column;
-        }
+.profile-item strong {
+    color: #333333; /* Dark grey */
+}
 
-        .sidebar {
-            width: 100%;
-            margin-bottom: 20px;
-        }
+/* Popup Message Style */
+.popup-message {
+    position: absolute;
+    background-color: #28a745; /* Default green for success */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-        .account-details {
-            padding: 15px;
-        }
+.popup-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-        .header h1 {
-            font-size: 1.5rem;
-        }
-    }
+.popup-message.error {
+    background-color: #dc3545; /* Red for error */
+}
+
+
+/* Show Popup */
+.popup-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    color: #333333; /* Dark grey */
+    font-size: 1.1rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444444; /* Mid grey border */
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+    outline-color: #333333; /* Dark grey focus effect */
+}
+
+/* Button Styles */
+button {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: #333333; /* Dark grey */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555555; /* Lighter grey */
+}
+
+/* Error message styles */
+.error {
+    color: red;
+    font-size: 0.9rem;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
