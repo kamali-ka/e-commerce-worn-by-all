@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Men's Clothing - E-Commerce</title>
   <link rel="stylesheet" href="../css/hePage.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-
 <body>
   <header class="header">
-    <a href="/index.html" class="back-icon">
-      <img src="/assets/images/ic_goBack.png" alt="Go Back">
-    </a>
     <div class="header-content">
+      <a href="/index.html"><i class="fa-solid fa-arrow-left"></i></a>
       <h1>Worn By All</h1>
       <h2>Men's Section</h2>
     </div>
   </header>
-
+  
   <div class="search-container">
     <input 
       type="text" 
@@ -26,7 +23,6 @@
       placeholder="Search for clothes..." 
       onkeyup="searchProducts()">
   </div>
-
   <div class="filters">
     <label for="clothingType">Filter by Type:</label>
     <select id="clothingType" onchange="filterByType()">
@@ -36,10 +32,8 @@
       <option value="Jeans">Jeans</option>
       <option value="Jackets">Jackets</option>
       <option value="Sweaters">Sweaters</option>
-      <option value="Pant">Pant</option>
     </select>
   </div>
-
   <div class="product-grid" id="productGrid">
     <div class="product-card" data-type="T-Shirts">
       <img src="/assets/images/img_men1.jpg" alt="Graphic T-Shirt">
@@ -47,65 +41,31 @@
       <p class="price">₹499</p>
       <button>Add to Cart</button>
     </div>
-
     <div class="product-card" data-type="Shirts">
       <img src="/assets/images/img_men2.jpg" alt="Casual Shirt">
       <h2>Casual Shirt</h2>
       <p class="price">₹899</p>
       <button>Add to Cart</button>
     </div>
-
-    <div class="product-card" data-type="Pant">
-      <img src="/assets/images/img_men3.jpg" alt="Casual Pant">
-      <h2>Casual Pant</h2>
-      <p class="price">₹1,199</p>
-      <button>Add to Cart</button>
-    </div>
-
     <div class="product-card" data-type="Jeans">
-      <img src="/assets/images/img_men4.jpg" alt="Blue Denim Jeans">
+      <img src="/assets/images/img_men3.jpg" alt="Blue Denim Jeans">
       <h2>Blue Denim Jeans</h2>
       <p class="price">₹1,299</p>
       <button>Add to Cart</button>
     </div>
-
     <div class="product-card" data-type="Jackets">
-      <img src="/assets/images/img_men5.jpg" alt="Winter Jacket">
+      <img src="/assets/images/img_men4.jpg" alt="Winter Jacket">
       <h2>Winter Jacket</h2>
       <p class="price">₹2,499</p>
       <button>Add to Cart</button>
     </div>
-
     <div class="product-card" data-type="Sweaters">
-      <img src="/assets/images/img_men6.jpg" alt="Woolen Sweater">
+      <img src="/assets/images/img_men5.jpg" alt="Woolen Sweater">
       <h2>Woolen Sweater</h2>
       <p class="price">₹1,199</p>
       <button>Add to Cart</button>
     </div>
-
-    <div class="product-card" data-type="Shirts">
-      <img src="/assets/images/img_men7.jpg" alt="Casual Shirt">
-      <h2>Casual Shirt</h2>
-      <p class="price">₹899</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Shirts">
-      <img src="/assets/images/img_men8.jpg" alt="Casual Shirt">
-      <h2>Casual Shirt</h2>
-      <p class="price">₹899</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product-card" data-type="Shirts">
-      <img src="/assets/images/img_men9.jpg" alt="Casual Shirt">
-      <h2>Casual Shirt</h2>
-      <p class="price">₹899</p>
-      <button>Add to Cart</button>
-    </div>
   </div>
-
-  <script src="../pages/js/hePage.js"></script>
+  <script src="../js/hePage.js"></script>
 </body>
-
 </html>

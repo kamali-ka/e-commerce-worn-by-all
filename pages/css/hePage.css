@@ -3,8 +3,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5; /* Light Gray */
-  color: #333333; /* Dark Gray */
+  background-color: #f4f4f4; /* Soft grey base */
+  color: #333; /* Neutral text color */
 }
 
 /* Header Styles */
@@ -12,31 +12,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(90deg, #d4d4d4, #e6e6e6); /* Medium Gray to Light Gray */
-  color: #333333; /* Dark Gray */
+  background-color: rgb(202, 202, 202); /* Dark grey */
+  color: black; /* Gold text */
   padding: 20px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 /* Back Icon Styles */
-.back-icon {
+.header-content a {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
+  font-size: 20px; /* Adjust icon size */
+  color: black; /* Match the header text color */
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.back-icon img {
-  width: 15px;
-  height: 20px;
-  cursor: pointer;
+.header-content a:hover {
+  color: gray; /* Subtle hover effect */
 }
 
 /* Header Content */
 .header-content {
   flex-grow: 1;
   text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 /* Search Bar */
@@ -49,10 +53,10 @@ body {
 #searchBar {
   width: 300px;
   padding: 10px;
-  border: 1px solid #ccc; /* Medium Gray */
+  border: 1px solid #888; /* Mid grey border */
   border-radius: 5px;
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text */
 }
 
 /* Filters Section */
@@ -66,16 +70,16 @@ body {
 
 .filters label {
   font-size: 16px;
-  color: #333333; /* Dark Gray */
+  color: #333; /* Neutral text */
 }
 
 .filters select {
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
-  border: 1px solid #ddd; /* Light Gray */
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
+  border: 1px solid #888; /* Mid grey border */
+  background-color: #eee; /* Light grey background */
+  color: #222; /* Dark grey text */
 }
 
 /* Product Grid Styles */
@@ -91,11 +95,11 @@ body {
 
 /* Product Card Styles */
 .product-card {
-  background-color: #ffffff; /* White */
-  border: 1px solid #ddd; /* Light Gray */
+  background-color: #fff; /* White card */
+  border: 1px solid #ddd; /* Light grey border */
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
@@ -108,31 +112,32 @@ body {
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Darker shadow */
 }
 
 .product-card img {
   width: 100%;
   height: 300px;
   object-fit: cover;
+  background-color: #f0f0f0; /* Light grey placeholder */
 }
 
 .product-card h2 {
   margin: 10px 0;
   font-size: 18px;
-  color: #000000; /* Black */
+  color: #333; /* Neutral text */
 }
 
 .product-card .price {
-  color: #333333; /* Dark Gray */
+  color: black; /* Navy blue */
   font-size: 20px;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
 .product-card button {
-  background-color: #333333; /* Dark Gray */
-  color: #ffffff; /* White */
+  background-color: #333333; /* Gold button */
+  color: white; /* Dark grey text */
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -144,5 +149,16 @@ body {
 }
 
 .product-card button:hover {
-  background-color: #4d4d4d; /* Medium Gray */
+  background-color: darkgray; /* Brighter gold */
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #222; /* Dark grey */
+  color: #fff; /* White text */
+  text-align: center;
+  padding: 10px 20px;
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
 }
