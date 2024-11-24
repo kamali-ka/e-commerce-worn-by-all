@@ -1,4 +1,3 @@
-// Search Functionality
 function searchProducts() {
   const searchBar = document.getElementById('searchBar').value.toLowerCase();
   const products = document.querySelectorAll('.product-card');
@@ -12,6 +11,7 @@ function searchProducts() {
     }
   });
 }
+
 
 // Filter Functionality
 function filterByType() {
@@ -34,13 +34,16 @@ document.getElementById("toggleSidebar").addEventListener("click", function () {
 // Function to fetch and display products
 async function loadProducts() {
   try {
-    const response = await fetch('/pages/js/public/he-page.json'); // Adjust path to your `products.json` file
+    const response = await fetch('/pages/js/public/he-page.json'); // Adjust the path to your JSON file
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status}`);
     }
 
     const products = await response.json();
     const productGrid = document.getElementById('productGrid');
+
+    // Clear grid before populating
+    productGrid.innerHTML = '';
 
     products.forEach(product => {
       // Create product card
@@ -51,11 +54,11 @@ async function loadProducts() {
       // Add image
       const productImage = document.createElement('img');
       productImage.src = product.image;
-      productImage.alt = product.title;
+      productImage.alt = product.alt;
 
       // Add title
       const productTitle = document.createElement('h2');
-      productTitle.textContent = product.title;
+      productTitle.textContent = product.name;
 
       // Add price
       const productPrice = document.createElement('p');
@@ -64,8 +67,8 @@ async function loadProducts() {
 
       // Add button
       const addButton = document.createElement('button');
-      addButton.textContent = "Add to Cart";
-      addButton.onclick = () => addToCart(product.title);
+      addButton.textContent = product.button;
+      addButton.onclick = () => addToCart(product.name);
 
       // Append elements to product card
       productCard.appendChild(productImage);
