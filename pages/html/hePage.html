@@ -8,34 +8,29 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-            <div id="sidebar" class="sidebar hidden">
-              <nav>
-                <ul>
-                  <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
-                  <i class="fa-solid fa-person"></i> <li><a href="./hePage.html">Men</a></li>
-                  <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
-                  <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
-                  ⚤<li><a href="./unisex-page.html">Unisex</a></li>
-                  <i class="fa-solid fa-cart-shopping"></i><li><a href="#">Cart</a></li>
-                </ul>
-              </nav>
-            </div>
-            <button id="toggleSidebar" class="toggle-sidebar-btn">
-              ☰
-            </button>
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./hePage.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="#">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+    ☰
+  </button>
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
       <h2>Men's Section</h2>
     </div>
   </header>
-  
   <div class="search-container">
-    <input 
-      type="text" 
-      id="searchBar" 
-      placeholder="Search for clothes..." 
-      onkeyup="searchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
   <div class="filters">
     <label for="clothingType">Filter by Type:</label>
@@ -48,38 +43,7 @@
       <option value="Sweaters">Sweaters</option>
     </select>
   </div>
-  <div class="product-grid" id="productGrid">
-    <div class="product-card" data-type="T-Shirts">
-      <img src="/assets/images/img_men1.jpg" alt="Graphic T-Shirt">
-      <h2>Graphic T-Shirt</h2>
-      <p class="price">₹499</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="product-card" data-type="Shirts">
-      <img src="/assets/images/img_men2.jpg" alt="Casual Shirt">
-      <h2>Casual Shirt</h2>
-      <p class="price">₹899</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="product-card" data-type="Jeans">
-      <img src="/assets/images/img_men3.jpg" alt="Blue Denim Jeans">
-      <h2>Blue Denim Jeans</h2>
-      <p class="price">₹1,299</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="product-card" data-type="Jackets">
-      <img src="/assets/images/img_men4.jpg" alt="Winter Jacket">
-      <h2>Winter Jacket</h2>
-      <p class="price">₹2,499</p>
-      <button>Add to Cart</button>
-    </div>
-    <div class="product-card" data-type="Sweaters">
-      <img src="/assets/images/img_men5.jpg" alt="Woolen Sweater">
-      <h2>Woolen Sweater</h2>
-      <p class="price">₹1,199</p>
-      <button>Add to Cart</button>
-    </div>
-  </div>
+  <div class="product-grid" id="productGrid"></div>
   <script src="../js/hePage.js"></script>
 </body>
 </html>

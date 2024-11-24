@@ -1,0 +1,43 @@
+[
+    {
+      "type": "T-Shirts",
+      "image": "/assets/images/img_men1.jpg",
+      "alt": "Graphic T-Shirt",
+      "name": "Graphic T-Shirt",
+      "price": "₹499",
+      "button": "Add to Cart"
+    },
+    {
+      "type": "Shirts",
+      "image": "/assets/images/img_men2.jpg",
+      "alt": "Casual Shirt",
+      "name": "Casual Shirt",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "type": "Jeans",
+      "image": "/assets/images/img_men3.jpg",
+      "alt": "Blue Denim Jeans",
+      "name": "Blue Denim Jeans",
+      "price": "₹1,299",
+      "button": "Add to Cart"
+    },
+    {
+      "type": "Jackets",
+      "image": "/assets/images/img_men4.jpg",
+      "alt": "Winter Jacket",
+      "name": "Winter Jacket",
+      "price": "₹2,499",
+      "button": "Add to Cart"
+    },
+    {
+      "type": "Sweaters",
+      "image": "/assets/images/img_men5.jpg",
+      "alt": "Woolen Sweater",
+      "name": "Woolen Sweater",
+      "price": "₹1,199",
+      "button": "Add to Cart"
+    }
+  ]
+  
