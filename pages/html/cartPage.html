@@ -4,15 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart</title>
+  <title>Shopping Cart</title>
   <link rel="stylesheet" href="../css/cartPage.css">
 </head>
 
 <body>
+  <!-- Header Section -->
   <header>
     <h1>Your Shopping Cart</h1>
   </header>
-  <div id="cartItems" class="product-grid"></div>
+
+  <!-- Cart Items Container -->
+  <div id="cartItems" class="product-grid">
+    <!-- Cart items will be dynamically loaded here by JavaScript -->
+  </div>
+
+  <!-- Buy Now Button -->
+  <div id="buyNowContainer">
+    <button id="buyNowButton" class="buy-now-btn">Buy Now</button>
+  </div>
+
+  <!-- JavaScript -->
   <script src="../js/cartPage.js"></script>
 </body>
 
