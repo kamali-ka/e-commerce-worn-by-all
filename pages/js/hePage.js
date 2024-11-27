@@ -32,51 +32,42 @@ document.getElementById("toggleSidebar").addEventListener("click", function () {
   sidebar.classList.toggle("visible");
 });
 // Function to fetch and display products
+// Function to fetch and display products
 async function loadProducts() {
   try {
-    const response = await fetch('/pages/js/public/he-page.json'); // Adjust the path to your JSON file
+    const response = await fetch('/pages/js/public/he-page.json'); // Adjust path to your JSON file
     if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.status}`);
+      throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
     }
 
     const products = await response.json();
     const productGrid = document.getElementById('productGrid');
 
-    // Clear grid before populating
-    productGrid.innerHTML = '';
-
     products.forEach(product => {
-      // Create product card
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.setAttribute('data-type', product.type);
 
-      // Add image
       const productImage = document.createElement('img');
       productImage.src = product.image;
       productImage.alt = product.alt;
 
-      // Add title
-      const productTitle = document.createElement('h2');
-      productTitle.textContent = product.name;
+      const productName = document.createElement('h2');
+      productName.textContent = product.name;
 
-      // Add price
       const productPrice = document.createElement('p');
       productPrice.classList.add('price');
       productPrice.textContent = product.price;
 
-      // Add button
       const addButton = document.createElement('button');
-      addButton.textContent = product.button;
-      addButton.onclick = () => addToCart(product.name);
+      addButton.textContent = "Add to Cart";
+      addButton.onclick = () => addToCart(product);
 
-      // Append elements to product card
       productCard.appendChild(productImage);
-      productCard.appendChild(productTitle);
+      productCard.appendChild(productName);
       productCard.appendChild(productPrice);
       productCard.appendChild(addButton);
 
-      // Append product card to the grid
       productGrid.appendChild(productCard);
     });
   } catch (error) {
@@ -84,10 +75,18 @@ async function loadProducts() {
   }
 }
 
-// Example addToCart function
-function addToCart(item) {
-  alert(`${item} added to cart!`);
+document.addEventListener('DOMContentLoaded', loadProducts);
+
+const addButton = document.createElement('button');
+addButton.textContent = "Add to Cart";
+addButton.onclick = () => addToCart(product); // Pass the entire product object
+
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(product); // Store the entire product object
+  localStorage.setItem('cart', JSON.stringify(cart));
+  console.log(cart);
 }
 
-// Load products on page load
-document.addEventListener('DOMContentLoaded', loadProducts);
+
+
