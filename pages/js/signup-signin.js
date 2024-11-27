@@ -124,6 +124,14 @@ function login() {
   showModal("Welcome back ! Login successful!");
 }
 
+function closeModal() {
+  const modal = document.getElementById("success-modal");
+  modal.style.display = "none";
+
+  // Redirect to the index page
+  window.location.href = "/index.html";
+}
+
 
 
 // Show modal
