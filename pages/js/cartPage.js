@@ -1,4 +1,5 @@
 // Function to load cart items
+// Function to load cart items
 function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -8,6 +9,7 @@ function loadCartItems() {
 
   if (cart.length === 0) {
     cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
+    updateBillSummary(); // Update bill summary even when empty
     return;
   }
 
@@ -68,6 +70,8 @@ function loadCartItems() {
 
     cartItemsContainer.appendChild(productCard);
   });
+
+  updateBillSummary(); // Update the bill summary whenever items are loaded
 }
 
 // Function to update quantity
@@ -86,6 +90,53 @@ function updateQuantity(index, change) {
   loadCartItems(); // Reload the cart dynamically
 }
 
+// Function to update the bill summary
+function updateBillSummary() {
+  const billSummaryContainer = document.getElementById("billSummary");
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let totalPrice = 0;
+
+  cart.forEach((item) => {
+    const numericPrice = parseFloat(item.price.replace(/₹|,/g, ""));
+    totalPrice += (item.quantity || 1) * numericPrice;
+  });
+
+  const tax = totalPrice * 0.02; // 2% tax
+  const deliveryFee = 30; // Fixed delivery fee
+  const totalBill = totalPrice + tax + deliveryFee;
+
+  billSummaryContainer.innerHTML = `
+    <h3>Bill Summary</h3>
+    <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
+    <p>Tax (2%): ₹${tax.toFixed(2)}</p>
+    <p>Delivery Fee: ₹${deliveryFee.toFixed(2)}</p>
+    <hr>
+    <h4>Total: ₹${totalBill.toFixed(2)}</h4>
+  `;
+}
+
+// Event listener to load cart items on page load
+document.addEventListener("DOMContentLoaded", () => {
+  loadCartItems();
+
+  // Add a bill summary container dynamically
+  const buyNowContainer = document.getElementById("buyNowContainer");
+  const billSummaryContainer = document.createElement("div");
+  billSummaryContainer.id = "billSummary";
+  billSummaryContainer.classList.add("bill-summary");
+  buyNowContainer.insertAdjacentElement("beforebegin", billSummaryContainer);
+
+  setupButtonHoverEffects();
+});
+
+// Event listener for the Buy Now button
+document.addEventListener("DOMContentLoaded", () => {
+  const buyNowButton = document.getElementById("buyNowButton");
+  if (buyNowButton) {
+    buyNowButton.addEventListener("click", handleBuyNow);
+  }
+});
+
 // Function to remove item from cart
 function removeFromCart(index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -103,7 +154,7 @@ function handleBuyNow() {
   }
 
   // Redirect to payment page
-  window.location.href = "../html/payment.html";
+  window.location.href = "../html/address-page.html";
 }
 
 // Add hover effects via JS

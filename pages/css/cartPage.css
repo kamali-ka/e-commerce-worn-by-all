@@ -483,6 +483,28 @@ body {
 .remove-btn:hover {
   background-color: red;
 }
+.bill-summary h3 {
+  margin-bottom: 8px;
+}
+
+.bill-summary p,
+.bill-summary h4 {
+  margin: 4px 0;
+}
+.bill-summary {
+  background-color: #f8f9fa; 
+  color: #333; 
+  border: 1px solid #ccc; 
+  padding: 15px; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  margin-top: 20px; 
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
