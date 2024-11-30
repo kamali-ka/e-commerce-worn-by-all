@@ -4,23 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Women's Clothing</title>
-  <link rel="stylesheet" href="../css/shePage.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/shePage.css">  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Header Section -->
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./hePage.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+    ☰
+  </button>
+
   <header class="header">
-    <h1>Worn By All</h1>
-    <h2>Women's Section</h2>
-    <a href="/index.html"><i class="fa-solid fa-arrow-left" style="color: black;"></i></a>
+    <div class="header-content">
+      <h1>Worn By All</h1>
+      <h2>Women's Section</h2>
+    </div>
   </header>
 
-  <!-- Search Bar -->
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
 
-  <!-- Filters -->
   <div class="filters-container">
     <label for="filter">Filter by Type:</label>
     <select id="filter" onchange="filterProducts()">
@@ -36,12 +50,13 @@
       <option value="Blouse">Blouse</option>
       <option value="Gowns">Gowns</option>
       <option value="Palazzos">Palazzos</option>
-    </select>    
+    </select>
   </div>
 
-  <!-- Product Grid -->
   <div id="productGrid" class="product-grid"></div>
 
-  <script src="/pages/js/shePage.js"></script>
+  <div id="cartItems"></div>
+
+  <script src="../js/shePage.js"></script>
 </body>
 </html>

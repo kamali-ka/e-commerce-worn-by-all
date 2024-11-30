@@ -135,7 +135,38 @@
         "price":399,
         "image":"/assets/images/img_skirt4.jpg",
         "type":"Skirts"
+      },
+      {
+        "id":"18",
+        "name":"Versatile Style skirt",
+        "description":"A skirt for every moment of the day.",
+        "price":399,
+        "image":"/assets/images/img_womenTshirt1.jpg",
+        "type":"Skirts"
+      },
+      {
+        "id":"19",
+        "name":"Versatile Style skirt",
+        "description":"A skirt for every moment of the day.",
+        "price":399,
+        "image":"/assets/images/img_womenTshirt2.jpg",
+        "type":"Skirts"
+      },
+      {
+        "id":"20",
+        "name":"Versatile Style skirt",
+        "description":"A skirt for every moment of the day.",
+        "price":399,
+        "image":"/assets/images/img_womenTshirt3.jpg",
+        "type":"Skirts"
+      },
+      {
+        "id":"21",
+        "name":"Versatile Style skirt",
+        "description":"A skirt for every moment of the day.",
+        "price":399,
+        "image":"/assets/images/img_womenTshirt4.jpg",
+        "type":"Skirts"
       }
-
     ]
   }

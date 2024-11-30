@@ -1,5 +1,3 @@
-// Function to load cart items
-// Function to load cart items
 function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -26,8 +24,11 @@ function loadCartItems() {
     productName.textContent = item.name;
     productName.classList.add("product-name");
 
-    // Extract numeric value from price
-    const numericPrice = parseFloat(item.price.replace(/₹|,/g, ""));
+    // Handle numeric and string price
+    const numericPrice =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/₹|,/g, ""))
+        : item.price;
 
     const productPrice = document.createElement("p");
     productPrice.classList.add("price");
@@ -73,31 +74,36 @@ function loadCartItems() {
 
   updateBillSummary(); // Update the bill summary whenever items are loaded
 }
-
-// Function to update quantity
+// Function to update quantity of an item in the cart
 function updateQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const item = cart[index];
+  
+  if (cart[index]) {
+    // Update the quantity
+    cart[index].quantity = (cart[index].quantity || 1) + change;
 
-  item.quantity = (item.quantity || 1) + change;
-  if (item.quantity <= 0) {
-    cart.splice(index, 1);
-  } else {
-    cart[index] = item;
+    // Ensure quantity does not go below 1
+    if (cart[index].quantity < 1) {
+      cart[index].quantity = 1;
+    }
+
+    // Save updated cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Reload the cart display
+    loadCartItems();
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
-  loadCartItems(); // Reload the cart dynamically
 }
-
-// Function to update the bill summary
 function updateBillSummary() {
   const billSummaryContainer = document.getElementById("billSummary");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let totalPrice = 0;
 
   cart.forEach((item) => {
-    const numericPrice = parseFloat(item.price.replace(/₹|,/g, ""));
+    const numericPrice =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/₹|,/g, ""))
+        : item.price;
     totalPrice += (item.quantity || 1) * numericPrice;
   });
 

@@ -1,0 +1,99 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+header p {
+  margin: 10px 0 0;
+  font-size: 1.2rem;
+}
+
+/* Container Styling */
+.categories-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.category-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 280px;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.category-card img {
+  width: 100%;
+  aspect-ratio: 1/ 1; /* Example ratio: width/height */
+  object-fit: cover; /* Ensures the image covers the defined aspect ratio without distortion */
+  border-radius: 10px 10px 0 0;
+}
+
+
+.category-card h2 {
+  font-size: 1.6rem;
+  margin: 15px 0;
+  color: #333;
+}
+
+.category-card p {
+  font-size: 1rem;
+  margin: 10px 0 20px;
+  color: #555;
+}
+
+.category-card button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.category-card button:hover {
+  background-color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .categories-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-card {
+    width: 90%;
+  }
+}

@@ -504,8 +504,6 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
-
-
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .product-grid {
