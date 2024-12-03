@@ -1,46 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kids Clothing Store</title>
-    <link rel="stylesheet" href="../css/kidsPage.css">
-    <script src="../js/kidsPage.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids' Clothing - E-Commerce</title>
+  <link rel="stylesheet" href="../css/kidsPage.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Kids Clothing Store</h1>
-        <!-- <p>presented by Worn By All</p> -->
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search for items...">
-        </div>
-        <div class="category-dropdown">
-            <select id="categorySelect">
-                <option value="all">All Categories</option>
-                <option value="boys">Boys</option>
-                <option value="girls">Girls</option>
-                <option value="infants">Infants</option>
-            </select>
-        </div>
-    </header>
-
-    <section class="clothing-grid" id="clothingGrid">
-        <div class="item" data-category="boys">
-            <img src="https://via.placeholder.com/200/87CEEB?text=Boys+Shirt" alt="Boys Shirt">
-            <p>Boys Shirt</p>
-        </div>
-        <div class="item" data-category="girls">
-            <img src="https://via.placeholder.com/200/ADD8E6?text=Girls+Dress" alt="Girls Dress">
-            <p>Girls Dress</p>
-        </div>
-        <div class="item" data-category="infants">
-            <img src="https://via.placeholder.com/200/87CEEB?text=Infant+Onesie" alt="Infant Onesie">
-            <p>Infant Onesie</p>
-        </div>
-        <div class="item" data-category="boys">
-            <img src="https://via.placeholder.com/200/ADD8E6?text=Boys+Jacket" alt="Boys Jacket">
-            <p>Boys Jacket</p>
-        </div>
-    </section>
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <li><i class="fa-solid fa-house"></i> <a href="/index.html">Home</a></li>
+        <li><i class="fa-solid fa-person"></i> <a href="./hePage.html">Men</a></li>
+        <li><i class="fa-solid fa-person-dress"></i> <a href="./shePage.html">Women</a></li>
+        <li><i class="fa-solid fa-child"></i> <a href="./kidsPage.html">Kids</a></li>
+        <li>⚤ <a href="./unisex-page.html">Unisex</a></li>
+        <li><i class="fa-solid fa-cart-shopping"></i> <a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Toggle Sidebar Button -->
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+    ☰
+  </button>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1>Worn By All</h1>
+      <h2>Kids' Section</h2>
+    </div>
+  </header>
+  
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchBar" placeholder="Search for kids' clothes..." onkeyup="searchProducts()">
+  </div>
+  
+  <!-- Filters -->
+  <div class="filters">
+    <label for="clothingType">Filter by Category:</label>
+    <select id="clothingType" onchange="filterByType()">
+      <option value="all">All</option>
+      <option value="Boys">Boys</option>
+      <option value="Girls">Girls</option>
+      <option value="Infants">Infants</option>
+    </select>
+  </div>
+  
+  <!-- Product Grid -->
+  <div class="product-grid" id="productGrid">
+    <!-- Dynamic content populated via JavaScript -->
+  </div>
+  
+  <script src="../js/kidsPage.js"></script>
 </body>
 </html>

@@ -3,79 +3,216 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #333333; /* Dark Grey Background */
-    color: white; /* Text color in white for contrast */
-}
-
-header {
+    background-color: #f4f4f4; /* Light Grey Background */
+    color: #333; /* Neutral Text Color */
+  }
+  
+  /* Sidebar Styles */
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333333; /* Dark Grey Sidebar */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hidden by default */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #000000; /* Black header background */
-    color: white;
-    padding: 15px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: 26px;
-    letter-spacing: 1px;
-}
-
-.search-box input {
-    padding: 10px;
-    border-radius: 25px;
-    border: none;
-    width: 220px;
-    background-color: #4f4f4f; /* Mid Grey input background */
+    text-align: center;
+  }
+  
+  .sidebar nav ul li {
+    margin: 20px 0;
+  }
+  
+  .sidebar nav ul li a {
+    text-decoration: none;
+    color: white; /* White Text */
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .sidebar nav ul li a:hover {
+    color: #cccccc; /* Light Grey on Hover */
+  }
+  
+  /* Show Sidebar */
+  .sidebar.visible {
+    left: 0;
+  }
+  
+  /* Toggle Sidebar Button */
+  .toggle-sidebar-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333333; /* Dark Grey Button */
     color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.category-dropdown select {
-    padding: 10px;
-    border-radius: 25px;
     border: none;
-    background-color: #4f4f4f; /* Mid Grey dropdown */
-    color: white;
+    padding: 10px 15px;
+    font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.clothing-grid {
+    border-radius: 5px;
+    z-index: 1100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .toggle-sidebar-btn:hover {
+    background-color: #444444; /* Slightly lighter Grey */
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f0f0f0; /* Light Grey Background */
+    color: #333; /* Neutral Text */
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .header-content {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333; /* Neutral Text */
+  }
+  
+  /* Search Bar */
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+  }
+  
+  #searchBar {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #888; /* Mid Grey Border */
+    border-radius: 25px;
+    background-color: #eee; /* Light Grey Input Background */
+    color: #333; /* Neutral Text */
+  }
+  
+  /* Filters Section */
+  .filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+  }
+  
+  .filters label {
+    font-size: 16px;
+    color: #333; /* Neutral Text */
+  }
+  
+  .filters select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #888; /* Mid Grey Border */
+    background-color: #eee; /* Light Grey Dropdown */
+    color: #222; /* Dark Grey Text */
+  }
+  
+  /* Product Grid */
+  .product-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    margin: 0 auto;
-    max-width: 1000px;
     padding: 20px;
-}
-
-.item {
-    background-color: #1a1a1a; /* Dark Grey item background */
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  /* Product Card */
+  .product-card {
+    background-color: #fff; /* White Card */
+    border: 1px solid #ddd; /* Light Grey Border */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px;
     text-align: center;
-    padding: 15px;
-    transition: transform 0.3s, background-color 0.3s;
-}
-
-.item img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft Shadow */
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    width: calc(25% - 20px); /* 4 items per row with gap */
+    min-width: 200px;
+    max-width: 300px;
+  }
+  
+  .product-card:hover {
     transform: scale(1.05);
-    background-color: #333333; /* Dark Grey background on hover */
-}
-
-.item p {
-    margin: 0;
+    background-color: #f4f4f4; /* Light Grey Background on Hover */
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+    background-color: #f0f0f0; /* Light Grey Placeholder */
+  }
+  
+  .product-card h2 {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333; /* Neutral Text */
+  }
+  
+  .product-card .price {
+    color: #000; /* Black Text */
+    font-size: 20px;
+    margin-bottom: 10px;
     font-weight: bold;
-    color: white; /* White text for contrast */
-}
+  }
+  
+  .product-card button {
+    background-color: #333333; /* Dark Grey Button */
+    color: white; /* White Text */
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .product-card button:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    background-color: darkgray; /* Brighter Grey */
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #f0f0f0; /* Light Grey Footer Background */
+    color: #333; /* Neutral Text */
+    text-align: center;
+    padding: 10px 20px;
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+  }
+  
