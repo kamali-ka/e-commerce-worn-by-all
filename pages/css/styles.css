@@ -169,11 +169,11 @@ body {
 }
 
 .card img {
-    width: 100%; /* Full width of the card */
-    aspect-ratio: 1/ 1; /* Set the desired aspect ratio (e.g., 4:3) */
-    object-fit: cover; /* Ensures the image fills the area without distortion */
-    border-radius: 8px; /* Smooth corners */
-    margin-bottom: 15px; /* Space below the image */
+    width: 100%; 
+    aspect-ratio: 1/ 1; 
+    object-fit: cover; 
+    border-radius: 8px; 
+    margin-bottom: 15px;
 }
 
 .card h3 {

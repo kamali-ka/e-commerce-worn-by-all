@@ -1,5 +1,6 @@
 [
     {
+      "id":"1",
       "type": "T-Shirts",
       "image": "/assets/images/img_men1.jpg",
       "alt": "Graphic T-Shirt",
@@ -8,6 +9,7 @@
       "button": "Add to Cart"
     },
     {
+      "id":"2",
       "type": "Shirts",
       "image": "/assets/images/img_men2.jpg",
       "alt": "Casual Shirt",
@@ -16,6 +18,7 @@
       "button": "Add to Cart"
     },
     {
+      "id":"3",
       "type": "Jeans",
       "image": "/assets/images/img_men3.jpg",
       "alt": "Blue Denim Jeans",
@@ -24,6 +27,7 @@
       "button": "Add to Cart"
     },
     {
+      "id":"4",
       "type": "Jackets",
       "image": "/assets/images/img_men4.jpg",
       "alt": "Winter Jacket",
@@ -32,6 +36,7 @@
       "button": "Add to Cart"
     },
     {
+      "id":"5",
       "type": "Sweaters",
       "image": "/assets/images/img_men5.jpg",
       "alt": "Woolen Sweater",

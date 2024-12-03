@@ -19,6 +19,11 @@ body {
   top: 0;
   z-index: 1000;
   gap: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-align: center;
+  padding: 20px 10px;
+  border-bottom: 2px solid #ccc;
 }
 
 /* Back Arrow Styles */

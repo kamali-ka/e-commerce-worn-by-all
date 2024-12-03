@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return response.json();
     })
     .then((data) => {
+      console.log("Fetched data:", data); // Log fetched data to debug
       if (data && data.clothes) {
-        console.log("Product data fetched:", data.clothes); // Log data to verify content
         displayProducts(data.clothes); // Display the products
       } else {
         console.error('Data format error: "clothes" key not found');
@@ -65,9 +65,10 @@ function displayProducts(clothes) {
       <h2>${product.name}</h2>
       <p>${product.description}</p>
       <p class="price">₹${product.price}</p>
-      <button onclick="addToCart(${JSON.stringify(product)})">Add to Cart</button>
+      <button class="add-to-cart-button">Add to Cart</button>
     `;
 
+    productCard.querySelector(".add-to-cart-button").addEventListener("click", () => addToCart(product));
     productGrid.appendChild(productCard);
   });
 
@@ -98,7 +99,14 @@ function filterProducts() {
 
 // Function to add a product to the cart
 function addToCart(product) {
+  console.log("Adding product to cart:", product); // Log product being added
+
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!product.id) {
+    console.error("Product is missing an ID:", product);
+    return;
+  }
 
   const existingItem = cart.find((item) => item.id === product.id);
   if (existingItem) {
@@ -108,9 +116,14 @@ function addToCart(product) {
     cart.push(product);
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  try {
+    localStorage.setItem("cart", JSON.stringify(cart)); // Safely save cart
+  } catch (error) {
+    console.error("Error saving to localStorage:", error);
+  }
+
   alert(`${product.name} has been added to your cart.`);
-  loadCartItems(); // Update the cart display
+  loadCartItems();
 }
 
 // Function to load cart items
@@ -121,17 +134,21 @@ function loadCartItems() {
     return;
   }
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = [];
+  try {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+  } catch (error) {
+    console.error("Error parsing cart data:", error);
+    localStorage.removeItem("cart"); // Reset invalid data
+    cart = [];
+  }
 
-  cartItemsContainer.innerHTML = "";
+  cartItemsContainer.innerHTML = ""; // Clear previous content
   if (cart.length === 0) {
-    // Instead of displaying the message, you can display a different message or leave it empty
-    // cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`; // Optional message
-    // To completely hide the cart section:
-    cartItemsContainer.style.display = "none";
+    cartItemsContainer.style.display = "none"; // Hide empty cart
   } else {
     cart.forEach((item, index) => {
-      const productCard = `
+      cartItemsContainer.innerHTML += `
         <div class="product-card">
           <img src="${item.image}" alt="${item.name}">
           <h2>${item.name}</h2>
@@ -144,7 +161,6 @@ function loadCartItems() {
           <button onclick="removeFromCart(${index})">Remove</button>
         </div>
       `;
-      cartItemsContainer.innerHTML += productCard;
     });
 
     updateBillSummary();
