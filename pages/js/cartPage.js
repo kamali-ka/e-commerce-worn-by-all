@@ -155,12 +155,32 @@ function removeFromCart(index) {
 function handleBuyNow() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   if (cart.length === 0) {
-    alert("Your cart is empty. Add items before proceeding to buy.");
+    showPopupMessage();
     return;
   }
 
-  // Redirect to payment page
+  // Redirect to payment page if the cart is not empty
   window.location.href = "../html/address-page.html";
+}
+
+function showPopupMessage() {
+  const popupModal = document.getElementById("popupModal");
+  const closePopupButton = document.getElementById("closePopupButton");
+
+  // Show the modal
+  popupModal.style.display = "flex";
+
+  // Close the popup when the button is clicked
+  closePopupButton.onclick = () => {
+    popupModal.style.display = "none";
+  };
+
+  // Close the popup when clicking outside the content
+  popupModal.onclick = (e) => {
+    if (e.target === popupModal) {
+      popupModal.style.display = "none";
+    }
+  };
 }
 
 // Add hover effects via JS
