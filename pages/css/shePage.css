@@ -258,18 +258,25 @@ header a:hover {
   margin-left: 0; /* Remove margin when sidebar is open */
 }
 
-/* Footer Styles */
-footer {
-  background-color: #333333; /* Dark Gray */
-  color: #ffffff; /* White */
-  text-align: center;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 20px;
+/* Style for the popup message */
+/* Popup container (optional, for static HTML) */
+#popupContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none; /* Hide by default */
 }
 
-.footer-top {
-  display: flex;
+/* Style for the popup message */
+.popup-message {
+  background-color:green;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
 }
+

@@ -138,35 +138,35 @@
       },
       {
         "id":"18",
-        "name":"Versatile Style skirt",
-        "description":"A skirt for every moment of the day.",
-        "price":399,
+        "name":" You Need This T shirt",
+        "description":"Trend Alert: You Need This Tee!",
+        "price":699,
         "image":"/assets/images/img_womenTshirt1.jpg",
-        "type":"Skirts"
+        "type":"T-shirts"
       },
       {
         "id":"19",
-        "name":"Versatile Style skirt",
-        "description":"A skirt for every moment of the day.",
-        "price":399,
+        "name":"Wear Your Mood T shirt",
+        "description":"Wear Your Favourite Tee",
+        "price":569,
         "image":"/assets/images/img_womenTshirt2.jpg",
-        "type":"Skirts"
+        "type":"T-shirts"
       },
       {
         "id":"20",
-        "name":"Versatile Style skirt",
-        "description":"A skirt for every moment of the day.",
-        "price":399,
+        "name":"Your Everyday T shirt",
+        "description":"Wear It. Love It. Repeat Tee",
+        "price":524,
         "image":"/assets/images/img_womenTshirt3.jpg",
-        "type":"Skirts"
+        "type":"T-shirts"
       },
       {
         "id":"21",
-        "name":"Versatile Style skirt",
-        "description":"A skirt for every moment of the day.",
-        "price":399,
+        "name":"Comfort T shirt.",
+        "description":"Comfort That Feels Right",
+        "price":396,
         "image":"/assets/images/img_womenTshirt4.jpg",
-        "type":"Skirts"
+        "type":"T-shirts"
       }
     ]
   }

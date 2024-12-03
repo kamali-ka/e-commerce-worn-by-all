@@ -5,37 +5,43 @@ document.addEventListener("DOMContentLoaded", function () {
     hamburgerMenu.addEventListener("click", toggleSidebar);
   }
 
-  // Fetch products data from the server
-  fetch("/pages/js/public/she-page.json")
-    .then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Fetched data:", data); // Log fetched data to debug
-      if (data && data.clothes) {
-        displayProducts(data.clothes); // Display the products
-      } else {
-        console.error('Data format error: "clothes" key not found');
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching products:", error); // Log fetch errors
-    });
+  // Determine current page by checking a data attribute or ID in the body tag
+  const currentPage = document.body.getAttribute("data-page");
 
-  // Event listeners for search and filter
-  const searchInput = document.getElementById("searchInput");
-  const filter = document.getElementById("filter");
+  if (currentPage === "shePage") {
+    // Fetch products and initialize she page
+    fetch("/pages/js/public/she-page.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched data:", data); // Log fetched data to debug
+        if (data && data.clothes) {
+          displayProducts(data.clothes); // Display the products
+        } else {
+          console.error('Data format error: "clothes" key not found');
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error); // Log fetch errors
+      });
 
-  if (searchInput) {
-    searchInput.addEventListener("keyup", searchProducts);
+    // Initialize search and filter functionality
+    const searchInput = document.getElementById("searchInput");
+    const filter = document.getElementById("filter");
+
+    if (searchInput) {
+      searchInput.addEventListener("keyup", searchProducts);
+    }
+
+    if (filter) {
+      filter.addEventListener("change", filterProducts);
+    }
+  } else if (currentPage === "cartPage") {
+    // Initialize cart page
+    loadCartItems();
   }
-
-  if (filter) {
-    filter.addEventListener("change", filterProducts);
-  }
-
-  loadCartItems(); // Load cart items on page load
 });
 
 // Function to toggle the sidebar
@@ -98,8 +104,9 @@ function filterProducts() {
 }
 
 // Function to add a product to the cart
+// Function to add a product to the cart
 function addToCart(product) {
-  console.log("Adding product to cart:", product); // Log product being added
+  console.log("Adding product to cart:", product);
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -117,13 +124,26 @@ function addToCart(product) {
   }
 
   try {
-    localStorage.setItem("cart", JSON.stringify(cart)); // Safely save cart
+    localStorage.setItem("cart", JSON.stringify(cart));
   } catch (error) {
     console.error("Error saving to localStorage:", error);
   }
 
-  alert(`${product.name} has been added to your cart.`);
-  loadCartItems();
+  showPopup(); // Show the simple popup
+}
+
+// Function to show a simple popup
+function showPopup() {
+  const popupContainer = document.getElementById("popupContainer");
+
+  if (popupContainer) {
+    popupContainer.innerText = "Successfully added to cart!";
+    popupContainer.style.display = "block";
+
+    setTimeout(() => {
+      popupContainer.style.display = "none";
+    }, 2000); // Hide after 2 seconds
+  }
 }
 
 // Function to load cart items
@@ -139,13 +159,13 @@ function loadCartItems() {
     cart = JSON.parse(localStorage.getItem("cart")) || [];
   } catch (error) {
     console.error("Error parsing cart data:", error);
-    localStorage.removeItem("cart"); // Reset invalid data
+    localStorage.removeItem("cart");
     cart = [];
   }
 
-  cartItemsContainer.innerHTML = ""; // Clear previous content
+  cartItemsContainer.innerHTML = "";
   if (cart.length === 0) {
-    cartItemsContainer.style.display = "none"; // Hide empty cart
+    cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
   } else {
     cart.forEach((item, index) => {
       cartItemsContainer.innerHTML += `
@@ -167,27 +187,27 @@ function loadCartItems() {
   }
 }
 
-// Function to update item quantity in the cart
+// Function to update item quantity
 function updateQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   if (!cart[index]) return;
 
   cart[index].quantity += change;
   if (cart[index].quantity <= 0) {
-    cart.splice(index, 1); // Remove item if quantity is 0
+    cart.splice(index, 1);
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems(); // Refresh cart display
+  loadCartItems();
 }
 
-// Function to remove an item from the cart
+// Function to remove item from cart
 function removeFromCart(index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart.splice(index, 1);
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems(); // Refresh cart display
+  loadCartItems();
 }
 
 // Function to update bill summary
@@ -200,8 +220,6 @@ function updateBillSummary() {
 
   const billSummaryElement = document.getElementById("cartSummary");
   if (billSummaryElement) {
-    billSummaryElement.innerHTML = `
-      <h3>Total Bill: ₹${totalPrice.toFixed(2)}</h3>
-    `;
+    billSummaryElement.innerHTML = `<h3>Total Bill: ₹${totalPrice.toFixed(2)}</h3>`;
   }
 }
