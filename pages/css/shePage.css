@@ -259,24 +259,52 @@ header a:hover {
 }
 
 /* Style for the popup message */
-/* Popup container (optional, for static HTML) */
+
+/* Popup container */
 #popupContainer {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  display: none; /* Hide by default */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-/* Style for the popup message */
+/* Popup message */
 .popup-message {
-  background-color:green;
-  color: white;
-  padding: 10px 20px;
+  background-color: #333333; /* Dark Grey background */
+  color: white; /* White text */
+  padding: 15px 30px;
   border-radius: 5px;
   font-size: 16px;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
 }
 
+/* Show Popup */
+#popupContainer.show {
+  display: flex;
+}
+
+/* Optional: Add button to close the popup */
+.popup-message button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.popup-message button:hover {
+  color: #cccccc;
+}

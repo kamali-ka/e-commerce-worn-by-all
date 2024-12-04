@@ -122,27 +122,114 @@ function updateBillSummary() {
 }
 
 // Event listener to load cart items on page load
+// Event listener to load cart items and set up hover effects on page load
 document.addEventListener("DOMContentLoaded", () => {
-  loadCartItems();
-
-  // Add a bill summary container dynamically
-  const buyNowContainer = document.getElementById("buyNowContainer");
-  const billSummaryContainer = document.createElement("div");
-  billSummaryContainer.id = "billSummary";
-  billSummaryContainer.classList.add("bill-summary");
-  buyNowContainer.insertAdjacentElement("beforebegin", billSummaryContainer);
-
-  setupButtonHoverEffects();
+  loadCartItems(); // Load cart items and populate the page
+  setupButtonHoverEffects(); // Apply hover effects to buttons
 });
 
-// Event listener for the Buy Now button
-document.addEventListener("DOMContentLoaded", () => {
-  const buyNowButton = document.getElementById("buyNowButton");
-  if (buyNowButton) {
-    buyNowButton.addEventListener("click", handleBuyNow);
+// Function to load cart items and display them dynamically
+function loadCartItems() {
+  const cartItemsContainer = document.getElementById("cartItems");
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Clear existing items in container
+  cartItemsContainer.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
+    updateBillSummary(); // Update bill summary even when empty
+    return;
   }
-});
 
+  cart.forEach((item, index) => {
+    const productCard = document.createElement("div");
+    productCard.classList.add("product-card");
+
+    const productImage = document.createElement("img");
+    productImage.src = item.image;
+    productImage.alt = item.alt;
+    productImage.classList.add("product-image");
+
+    const productName = document.createElement("h2");
+    productName.textContent = item.name;
+    productName.classList.add("product-name");
+
+    // Handle numeric and string price
+    const numericPrice =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/₹|,/g, ""))
+        : item.price;
+
+    const productPrice = document.createElement("p");
+    productPrice.classList.add("price");
+    productPrice.textContent = `Price: ₹${(
+      (item.quantity || 1) * numericPrice
+    ).toFixed(2)}`;
+
+    // Quantity Container
+    const quantityContainer = document.createElement("div");
+    quantityContainer.classList.add("quantity-container");
+
+    const decreaseButton = document.createElement("button");
+    decreaseButton.textContent = "-";
+    decreaseButton.classList.add("quantity-button");
+    decreaseButton.onclick = () => updateQuantity(index, -1);
+
+    const quantityDisplay = document.createElement("span");
+    quantityDisplay.textContent = `Quantity: ${item.quantity || 1}`;
+    quantityDisplay.classList.add("quantity-display");
+
+    const increaseButton = document.createElement("button");
+    increaseButton.textContent = "+";
+    increaseButton.classList.add("quantity-button");
+    increaseButton.onclick = () => updateQuantity(index, 1);
+
+    quantityContainer.appendChild(decreaseButton);
+    quantityContainer.appendChild(quantityDisplay);
+    quantityContainer.appendChild(increaseButton);
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.classList.add("remove-button");
+    removeButton.onclick = () => removeFromCart(index);
+
+    productCard.appendChild(productImage);
+    productCard.appendChild(productName);
+    productCard.appendChild(productPrice);
+    productCard.appendChild(quantityContainer);
+    productCard.appendChild(removeButton);
+
+    cartItemsContainer.appendChild(productCard);
+  });
+
+  updateBillSummary(); // Update the bill summary whenever items are loaded
+}
+
+// Function to set up hover effects for buttons using event delegation
+function setupButtonHoverEffects() {
+  const cartItemsContainer = document.getElementById("cartItems");
+
+  // Apply hover effect on remove button using event delegation
+  cartItemsContainer.addEventListener("mouseover", (event) => {
+    if (event.target.classList.contains("remove-button")) {
+      event.target.style.backgroundColor = "red";
+      event.target.style.color = "white";
+    } else if (event.target.classList.contains("quantity-button")) {
+      event.target.style.backgroundColor = "#e0e0e0";
+    }
+  });
+
+  // Remove hover effect on mouse out
+  cartItemsContainer.addEventListener("mouseout", (event) => {
+    if (event.target.classList.contains("remove-button")) {
+      event.target.style.backgroundColor = "";
+      event.target.style.color = "";
+    } else if (event.target.classList.contains("quantity-button")) {
+      event.target.style.backgroundColor = "";
+    }
+  });
+}
 // Function to remove item from cart
 function removeFromCart(index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
