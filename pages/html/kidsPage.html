@@ -8,24 +8,19 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Sidebar -->
   <div id="sidebar" class="sidebar hidden">
     <nav>
       <ul>
-        <li><i class="fa-solid fa-house"></i> <a href="/index.html">Home</a></li>
-        <li><i class="fa-solid fa-person"></i> <a href="./hePage.html">Men</a></li>
-        <li><i class="fa-solid fa-person-dress"></i> <a href="./shePage.html">Women</a></li>
-        <li><i class="fa-solid fa-child"></i> <a href="./kidsPage.html">Kids</a></li>
-        <li>⚤ <a href="./unisex-page.html">Unisex</a></li>
-        <li><i class="fa-solid fa-cart-shopping"></i> <a href="./cartPage.html">Cart</a></li>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./hePage.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
       </ul>
     </nav>
   </div>
-  <!-- Toggle Sidebar Button -->
-  <button id="toggleSidebar" class="toggle-sidebar-btn">
-    ☰
-  </button>
-  
+  <button id="toggleSidebar" class="toggle-sidebar-btn">☰</button> 
   <!-- Header -->
   <header class="header">
     <div class="header-content">
@@ -36,17 +31,18 @@
   
   <!-- Search Bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for kids' clothes..." onkeyup="searchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for kids' clothes..." onkeyup="filterAndSearchProducts()">
   </div>
   
   <!-- Filters -->
   <div class="filters">
     <label for="clothingType">Filter by Category:</label>
-    <select id="clothingType" onchange="filterByType()">
+    <select id="clothingType" onchange="filterAndSearchProducts()">
       <option value="all">All</option>
-      <option value="Boys">Boys</option>
-      <option value="Girls">Girls</option>
-      <option value="Infants">Infants</option>
+      <option value="shirts">Shirts</option>
+      <option value="co-ords">Co-ords</option>
+      <option value="kurta">Kurta</option>
+      <option value="frock">Frock</option>
     </select>
   </div>
   

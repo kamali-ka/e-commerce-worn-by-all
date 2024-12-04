@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "type": "kurta",
+    "image": "/assets/images/img_boy1.jpg",
+    "alt": "Boys Kurta",
+    "name": "Kurta",
+    "price": "₹499",
+    "button": "Add to Cart"
+  },
+  {
+    "id": "2",
+    "type": "shirts",
+    "image": "/assets/images/img_boy2.jpg",
+    "alt": "Boys Shirt",
+    "name": "White Shirt",
+    "price": "₹499",
+    "button": "Add to Cart"
+  },
+  {
+    "id": "3",
+    "type": "co-ords",
+    "image": "/assets/images/img_boy3.jpg",
+    "alt": "Casual Co-ords",
+    "name": "Casual Co-ords",
+    "price": "₹899",
+    "button": "Add to Cart"
+  },
+  {
+    "id": "4",
+    "type": "frock",
+    "image": "/assets/images/img_girl1.jpg",
+    "alt": "Pink Frock",
+    "name": "Pink Frock",
+    "price": "₹899",
+    "button": "Add to Cart"
+  },
+  {
+    "id": "5",
+    "type": "frock",
+    "image": "/assets/images/img_girls2.jpg",
+    "alt": "Checked Frock",
+    "name": "Checked Frock",
+    "price": "₹899",
+    "button": "Add to Cart"
+  },
+  {
+    "id": "6",
+    "type": "frock",
+    "image": "/assets/images/img_girl3.jpg",
+    "alt": "Frock",
+    "name": "Frock",
+    "price": "₹899",
+    "button": "Add to Cart"
+  }
+]

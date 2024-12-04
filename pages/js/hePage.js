@@ -35,7 +35,7 @@ document.getElementById("toggleSidebar").addEventListener("click", function () {
 // Function to fetch and display products
 async function loadProducts() {
   try {
-    const response = await fetch('/pages/js/public/he-page.json'); // Adjust path to your JSON file
+    const response = await fetch('/pages/js/public/he-page.json');
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
     }
@@ -61,6 +61,7 @@ async function loadProducts() {
 
       const addButton = document.createElement('button');
       addButton.textContent = "Add to Cart";
+      // Correctly pass the product object
       addButton.onclick = () => addToCart(product);
 
       productCard.appendChild(productImage);
@@ -85,8 +86,19 @@ function addToCart(product) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.push(product); // Store the entire product object
   localStorage.setItem('cart', JSON.stringify(cart));
-  console.log(cart);
+
+  // Show the modal with a success message
+  const cartModal = document.getElementById('cartModal');
+  const modalMessage = document.getElementById('modalMessage');
+  
+  // Set the message dynamically (optional)
+  modalMessage.textContent = `${product.name} has been successfully added to the cart!`;
+  
+  // Display the modal
+  cartModal.style.display = 'flex';
+
+  // Hide the modal after 2 seconds
+  setTimeout(() => {
+    cartModal.style.display = 'none';
+  }, 2000); // 2 seconds
 }
-
-
-

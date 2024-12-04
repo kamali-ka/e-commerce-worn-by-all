@@ -226,13 +226,26 @@ body {
   background-color: darkgray; /* Brighter gold */
 }
 
-/* Footer Styles */
-.footer {
-  background-color: #222; /* Dark grey */
-  color: #fff; /* White text */
+.cart-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
   text-align: center;
-  padding: 10px 20px;
-  position: sticky;
-  bottom: 0;
-  z-index: 100;
+  font-size: 16px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
