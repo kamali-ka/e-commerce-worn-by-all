@@ -172,27 +172,26 @@ function login() {
   const password = document.getElementById("login-password").value.trim();
   const errorElement = document.getElementById("login-general-error");
 
-  let isFormValid = true;
-
-  // Validate email
-  if (!validateEmail(email)) {
-    isFormValid = false;
-  }
-
-  // Validate password
-  if (!password) {
-    const passwordError = document.getElementById("password-error");
-    passwordError.innerText = "Please enter a password.";
-    passwordError.style.display = "block";
-    isFormValid = false;
-  }
-
-  if (!isFormValid) {
-    return; // Stop if form is invalid
-  }
+  console.log("Entered Email:", email);
+  console.log("Entered Password:", password);
 
   const storedEmail = localStorage.getItem("email");
   const storedPassword = localStorage.getItem("password");
+
+  console.log("Stored Email:", storedEmail);
+  console.log("Stored Password:", storedPassword);
+
+  if (!validateEmail(email)) {
+    errorElement.innerText = "Invalid credentials";
+    errorElement.style.display = "block";
+    return;
+  }
+
+  if (!password) {
+    errorElement.innerText = "Please enter your password.";
+    errorElement.style.display = "block";
+    return;
+  }
 
   if (email !== storedEmail || password !== storedPassword) {
     errorElement.innerText = "Invalid credentials. Please check your email or password.";
