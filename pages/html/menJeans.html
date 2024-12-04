@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeans - Men's Clothing</title>
+  <link rel="stylesheet" href="../css/menJeans.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./men-category.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+    ☰
+  </button>
+  <header class="header">
+    <div class="header-content">
+      <h1>Worn By All</h1>
+      <h2>Men's Jeans</h2>
+    </div>
+  </header>
+  
+  <div class="search-container">
+    <input type="text" id="searchBar" placeholder="Search for jeans..." onkeyup="searchProducts()">
+  </div>
+  
+  <div id="cartModal" class="cart-modal">
+    <div class="modal-content">
+      <p id="modalMessage">Successfully added to cart!</p>
+    </div>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+
+  <script src="../js/menJeans.js"></script>
+</body>
+</html>
