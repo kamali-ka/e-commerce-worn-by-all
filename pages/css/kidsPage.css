@@ -10,18 +10,19 @@ body {
   /* Sidebar Styles */
   .sidebar {
     width: 250px;
-    height: 100vh;
-    background-color: #333333; /* Dark grey */
-    color: #ffffff; /* White text */
-    position: fixed;
-    top: 0;
-    left: -250px; /* Hidden by default */
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    transition: left 0.3s ease-in-out;
     z-index: 1000;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    overflow-x: hidden;
+    transition: transform 0.3s ease;
   }
   
   .sidebar nav ul {
@@ -214,19 +215,7 @@ body {
     bottom: 0;
     z-index: 100;
   }
-  
-  .sidebar {
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #333;
-    color: #fff;
-    overflow-x: hidden;
-    transition: transform 0.3s ease;
-  }
-  
+
   .sidebar.hidden {
     transform: translateX(-250px); /* Move sidebar offscreen */
   }
@@ -246,4 +235,3 @@ body {
   .toggle-sidebar-btn:hover {
     background-color: #444;
   }
-  
