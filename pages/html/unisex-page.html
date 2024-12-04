@@ -5,44 +5,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unisex Clothing - E-Commerce</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/unisexpage.css">
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./hePage.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i> <li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Toggle Sidebar Button -->
+  <button id="toggleSidebar" class="toggle-sidebar-btn">☰</button>
+
+  <!-- Header -->
   <header class="header">
-    <a href="/index.html">
-      <i class="fa-solid fa-arrow-left-long"></i>
-    </a>
     <div class="header-content">
       <h1>Worn By All</h1>
       <h2>Unisex Section</h2>
     </div>
   </header>
 
+  <!-- Search Bar -->
   <div class="search-container">
     <input 
       type="text" 
       id="searchBar" 
       placeholder="Search for clothes..." 
-      onkeyup="searchProducts()">
+      onkeyup="filterAndSearchProducts()">
   </div>
 
+  <!-- Filters -->
   <div class="filters">
-    <label for="clothingType">Filter by Type:</label>
-    <select id="clothingType" onchange="filterByType()">
+    <label for="clothingType">Filter by Category:</label>
+    <select id="clothingType" onchange="filterAndSearchProducts()">
       <option value="all">All</option>
-      <option value="Hoodies">Hoodies</option>
-      <option value="Jackets">Jackets</option>
-      <option value="T-Shirts">T-Shirts</option>
-      <option value="Sweatshirts">Sweatshirts</option>
-      <option value="Caps">Caps</option>
+      <option value="hoodies">Hoodies</option>
+      <option value="jackets">Jackets</option>
+      <option value="t-shirts">T-Shirts</option>
+      <option value="sweatshirts">Sweatshirts</option>
+      <option value="caps">Caps</option>
     </select>
   </div>
 
-  <!-- Product Grid Container: Products will be dynamically rendered here -->
-  <div class="product-grid" id="productGrid"></div>
+  <!-- Product Grid -->
+  <div class="product-grid" id="productGrid">
+    <!-- Dynamic content populated via JavaScript -->
+  </div>
 
-  <script src="/pages/js/unisex-page.js"></script>
+  <script src="../js/unisex-page.js"></script>
 </body>
+
 </html>

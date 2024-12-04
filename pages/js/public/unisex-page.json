@@ -1,5 +1,4 @@
-{
-    "unisex": [
+[
         {
             "id": "1",
             "name": "Unisex Hoodie",
@@ -41,4 +40,3 @@
             "type": "Caps"
         }
     ]
-}
