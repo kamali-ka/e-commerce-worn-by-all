@@ -43,6 +43,213 @@
       "name": "Woolen Sweater",
       "price": "₹1,199",
       "button": "Add to Cart"
+    },
+    {
+      "id":"6",
+      "type": "Shirts",
+      "image": "/assets/images/img_men6.jpg",
+      "alt": "White Shirt",
+      "name": "White linen shirt",
+      "price": "₹799",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"7",
+      "type": "Pants",
+      "image": "/assets/images/img_men7.jpg",
+      "alt": "Pants",
+      "name": "Beige pant",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"8",
+      "type": "Shirts",
+      "image": "/assets/images/img_men8.jpg",
+      "alt": "Cotton shirt",
+      "name": "Cotton gray shirt",
+      "price": "₹799",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"9",
+      "type": "Shirts",
+      "image": "/assets/images/img_men9.jpg",
+      "alt": "Checked Shirt",
+      "name": "Checked gray Shirt",
+      "price": "₹699",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"10",
+      "type": "Co-ords",
+      "image": "/assets/images/img_men10.jpg",
+      "alt": "Shirt and pant",
+      "name": "Cotton shirt and linen pant",
+      "price": "₹1,499",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"11",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt1.jpg",
+      "alt": "Shirt",
+      "name": "Satin Baby blue shirt",
+      "price": "₹699",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"12",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt2.jpg",
+      "alt": "Shirt",
+      "name": "Striped shirt",
+      "price": "₹799",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"13",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt3.jpg",
+      "alt": "Shirt",
+      "name": "Pink shirt",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"14",
+      "type": "Co-ords",
+      "image": "/assets/images/img_menShirt4.jpg",
+      "alt": "Shirt",
+      "name": "Blue shirt and grey pants",
+      "price": "₹1,699",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"15",
+      "type": "Co-ords",
+      "image": "/assets/images/img_menShirt5.jpg",
+      "alt": "Shirt",
+      "name": "Blue shirt and Off-white pant",
+      "price": "₹1,599",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"16",
+      "type": "Co-ords",
+      "image": "/assets/images/img_menShirt6.jpg",
+      "alt": "Shirt",
+      "name": "Black Shirt and beige pant",
+      "price": "₹1,549",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"17",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt7.jpg",
+      "alt": "Shirt",
+      "name": "Linen Green shirt",
+      "price": "₹799",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"18",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt8.jpg",
+      "alt": "Brown shirt",
+      "name": "Brown shirt",
+      "price": "₹699",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"19",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt9.jpg",
+      "alt": "White shirt",
+      "name": "White shirt",
+      "price": "₹799",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"20",
+      "type": "Shirts",
+      "image": "/assets/images/img_menShirt10.jpg",
+      "alt": "Shirt",
+      "name": "Blue Denim Shirt",
+      "price": "₹599",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"21",
+      "type": "Jeans",
+      "image": "/assets/images/img_menJeans1.jpg",
+      "alt": "Jeans",
+      "name": "Blue Jeans",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"22",
+      "type": "Jeans",
+      "image": "/assets/images/img_menJeans2.jpg",
+      "alt": "Jeans",
+      "name": "Blue Jeans",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"23",
+      "type": "Jeans",
+      "image": "/assets/images/img_menJeans4.jpg",
+      "alt": "Jeans",
+      "name": "Blue Jeans",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"24",
+      "type": "Jeans",
+      "image": "/assets/images/img_menJeans5.jpg",
+      "alt": "Jeans",
+      "name": "Blue Jeans",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"25",
+      "type": "Sweaters",
+      "image": "/assets/images/img_menSweater1.jpg",
+      "alt": "Beige Sweater",
+      "name": "Beige Sweater",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"21",
+      "type": "Sweaters",
+      "image": "/assets/images/img_menSweater2.jpg",
+      "alt": "Gray Sweater",
+      "name": "Gray Sweater",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"21",
+      "type": "Sweaters",
+      "image": "/assets/images/img_menSweater3.jpg",
+      "alt": "Green Sweater",
+      "name": "Green Sweater",
+      "price": "₹899",
+      "button": "Add to Cart"
+    },
+    {
+      "id":"21",
+      "type": "Sweaters",
+      "image": "/assets/images/img_menSweater4.jpg",
+      "alt": "Blue Sweater",
+      "name": "Blue Sweater",
+      "price": "₹899",
+      "button": "Add to Cart"
     }
   ]
   

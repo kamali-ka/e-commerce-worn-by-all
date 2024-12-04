@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Men's Clothing - E-Commerce</title>
-  <link rel="stylesheet" href="../css/hePage.css">
+  <title>Shirts - Men's Clothing</title>
+  <link rel="stylesheet" href="../css/heShirt.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,31 +26,22 @@
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
-      <h2>Men's Section</h2>
+      <h2>Men's Shirts</h2>
     </div>
   </header>
+  
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for shirts..." onkeyup="searchProducts()">
   </div>
-  <div class="filters">
-    <label for="clothingType">Filter by Type:</label>
-    <select id="clothingType" onchange="filterByType()">
-      <option value="all">All</option>
-      <option value="T-Shirts">T-Shirts</option>
-      <option value="Shirts">Shirts</option>
-      <option value="Jeans">Jeans</option>
-      <option value="Jackets">Jackets</option>
-      <option value="Sweaters">Sweaters</option>
-      <option value="Co-ords">Co-ords</option>
-    </select>
-  </div>
+  
   <div id="cartModal" class="cart-modal">
     <div class="modal-content">
       <p id="modalMessage">Successfully added to cart!</p>
     </div>
   </div>
-  
+
   <div class="product-grid" id="productGrid"></div>
-  <script src="../js/hePage.js"></script>
+
+  <script src="../js/heShirt.js"></script>
 </body>
 </html>
