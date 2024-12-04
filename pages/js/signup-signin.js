@@ -194,7 +194,7 @@ function login() {
   }
 
   if (email !== storedEmail || password !== storedPassword) {
-    errorElement.innerText = "Invalid credentials. Please check your email or password.";
+    errorElement.innerText = "Invalid credentials";
     errorElement.style.display = "block";
     return;
   }
