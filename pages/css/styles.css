@@ -25,6 +25,22 @@ body {
     top: 0;
     z-index: 1000;
 }
+.cart-count {
+    position: absolute;
+    top: -10px; /* Adjust to position the count above the icon */
+    right: -10px; /* Center it horizontally relative to the icon */
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 2px solid white; /* Optional: Add a border for better visibility */
+}
 
 .logo {
     font-size: 24px;

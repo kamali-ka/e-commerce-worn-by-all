@@ -129,83 +129,99 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to load cart items and display them dynamically
+// Load cart items
 function loadCartItems() {
-  const cartItemsContainer = document.getElementById("cartItems");
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartItemsContainer = document.getElementById('cartItems');
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  // Clear existing items in container
-  cartItemsContainer.innerHTML = "";
+  cartItemsContainer.innerHTML = '';
 
   if (cart.length === 0) {
-    cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
-    updateBillSummary(); // Update bill summary even when empty
-    return;
+      cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+      updateCartCount(); // Sync cart count if empty
+      updateBillSummary();
+      return;
   }
 
   cart.forEach((item, index) => {
-    const productCard = document.createElement("div");
-    productCard.classList.add("product-card");
+      const productCard = document.createElement('div');
+      productCard.classList.add('product-card');
 
-    const productImage = document.createElement("img");
-    productImage.src = item.image;
-    productImage.alt = item.alt;
-    productImage.classList.add("product-image");
+      const productImage = document.createElement('img');
+      productImage.src = item.image;
+      productImage.alt = item.alt;
+      productImage.classList.add('product-image');
 
-    const productName = document.createElement("h2");
-    productName.textContent = item.name;
-    productName.classList.add("product-name");
+      const productName = document.createElement('h2');
+      productName.textContent = item.name;
+      productName.classList.add('product-name');
 
-    // Handle numeric and string price
-    const numericPrice =
-      typeof item.price === "string"
-        ? parseFloat(item.price.replace(/₹|,/g, ""))
-        : item.price;
+      const numericPrice = typeof item.price === 'string'
+          ? parseFloat(item.price.replace(/₹|,/g, ''))
+          : item.price;
 
-    const productPrice = document.createElement("p");
-    productPrice.classList.add("price");
-    productPrice.textContent = `Price: ₹${(
-      (item.quantity || 1) * numericPrice
-    ).toFixed(2)}`;
+      const productPrice = document.createElement('p');
+      productPrice.classList.add('price');
+      productPrice.textContent = `Price: ₹${((item.quantity || 1) * numericPrice).toFixed(2)}`;
 
-    // Quantity Container
-    const quantityContainer = document.createElement("div");
-    quantityContainer.classList.add("quantity-container");
+      const quantityContainer = document.createElement('div');
+      quantityContainer.classList.add('quantity-container');
 
-    const decreaseButton = document.createElement("button");
-    decreaseButton.textContent = "-";
-    decreaseButton.classList.add("quantity-button");
-    decreaseButton.onclick = () => updateQuantity(index, -1);
+      const decreaseButton = document.createElement('button');
+      decreaseButton.textContent = '-';
+      decreaseButton.classList.add('quantity-button');
+      decreaseButton.onclick = () => updateQuantity(index, -1);
 
-    const quantityDisplay = document.createElement("span");
-    quantityDisplay.textContent = `Quantity: ${item.quantity || 1}`;
-    quantityDisplay.classList.add("quantity-display");
+      const quantityDisplay = document.createElement('span');
+      quantityDisplay.textContent = `Quantity: ${item.quantity || 1}`;
+      quantityDisplay.classList.add('quantity-display');
 
-    const increaseButton = document.createElement("button");
-    increaseButton.textContent = "+";
-    increaseButton.classList.add("quantity-button");
-    increaseButton.onclick = () => updateQuantity(index, 1);
+      const increaseButton = document.createElement('button');
+      increaseButton.textContent = '+';
+      increaseButton.classList.add('quantity-button');
+      increaseButton.onclick = () => updateQuantity(index, 1);
 
-    quantityContainer.appendChild(decreaseButton);
-    quantityContainer.appendChild(quantityDisplay);
-    quantityContainer.appendChild(increaseButton);
+      quantityContainer.appendChild(decreaseButton);
+      quantityContainer.appendChild(quantityDisplay);
+      quantityContainer.appendChild(increaseButton);
 
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Remove";
-    removeButton.classList.add("remove-button");
-    removeButton.onclick = () => removeFromCart(index);
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.classList.add('remove-button');
+      removeButton.onclick = () => removeFromCart(index);
 
-    productCard.appendChild(productImage);
-    productCard.appendChild(productName);
-    productCard.appendChild(productPrice);
-    productCard.appendChild(quantityContainer);
-    productCard.appendChild(removeButton);
+      productCard.appendChild(productImage);
+      productCard.appendChild(productName);
+      productCard.appendChild(productPrice);
+      productCard.appendChild(quantityContainer);
+      productCard.appendChild(removeButton);
 
-    cartItemsContainer.appendChild(productCard);
+      cartItemsContainer.appendChild(productCard);
   });
 
-  updateBillSummary(); // Update the bill summary whenever items are loaded
+  updateCartCount(); // Sync the cart count on page load
+  updateBillSummary();
 }
 
+// Function to update the cart count
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+  // Update cart count display
+  const cartCountElement = document.getElementById('cartCount');
+  if (cartCountElement) {
+      cartCountElement.textContent = totalItems;
+  }
+
+  // Save cart count to localStorage for synchronization
+  localStorage.setItem('cartCount', totalItems);
+}
+
+// Ensure the cart page loads correctly
+document.addEventListener('DOMContentLoaded', () => {
+  loadCartItems();
+});
 // Function to set up hover effects for buttons using event delegation
 function setupButtonHoverEffects() {
   const cartItemsContainer = document.getElementById("cartItems");

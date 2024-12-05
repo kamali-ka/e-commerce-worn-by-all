@@ -14,7 +14,6 @@
     --color-hover-grey: #555555;
     --font-family: 'Arial', sans-serif;
   }
-  
   /* Body Styling */
   body {
     font-family: var(--font-family);
@@ -229,20 +228,30 @@ h1 {
 /* Product Grid for Cart */
 .product-grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap; /* Ensures items are on a single row */
+  justify-content: flex-start; /* Align items to the left */
+  gap: 20px; /* Adds space between the items */
+  overflow-x: auto; /* Enables horizontal scrolling if items overflow */
   padding: 20px;
+  width: 100%; /* Ensures grid spans the full width of the container */
+  box-sizing: border-box; /* Includes padding in width calculation */
 }
 
-.product-card {
-  background-color: white;
-  border-radius: 8px;
-  margin: 10px;
-  padding: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  text-align: center;
+/* Horizontal scrolling styles for better UX */
+.product-grid::-webkit-scrollbar {
+  height: 8px; /* Adjust scrollbar height */
 }
+
+.product-grid::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar color */
+  border-radius: 4px;
+}
+
+.product-grid::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 
 .product-card img {
   max-width: 100%;
@@ -378,7 +387,7 @@ body {
 #cartItems {
   padding: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
 }
 
