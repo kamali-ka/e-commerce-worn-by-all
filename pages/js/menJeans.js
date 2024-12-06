@@ -113,3 +113,58 @@ function addToCart(product) {
       cartModal.style.display = 'none';
     }, 2000); // 2 seconds
 }
+// Function to show a cart modal
+function showCartModal(message) {
+  const cartModal = document.getElementById('cartModal');
+  const modalMessage = document.getElementById('modalMessage');
+  modalMessage.textContent = message;
+  cartModal.style.display = 'flex';
+
+  setTimeout(() => {
+    cartModal.style.display = 'none';
+  }, 2000);
+}
+
+// Function to update the cart count
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+  const cartCountElement = document.getElementById('cartCount');
+  if (cartCountElement) {
+    cartCountElement.textContent = totalItems;
+  }
+}
+
+// Function to navigate to the cart page
+function navigateToCart() {
+  window.location.href = './cartPage.html';
+}
+// Toggle sidebar visibility
+document.getElementById('toggleSidebar').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('visible');
+});
+
+// Load cart count on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadShirts();
+  updateCartCount();
+});
+
+// Maintain cart count state
+let cartCount = 0;
+
+// Save the cart count to localStorage
+function saveCartCount() {
+  localStorage.setItem('cartCount', cartCount);
+}
+
+// Load the cart count from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+  const savedCartCount = localStorage.getItem('cartCount');
+  if (savedCartCount) {
+    cartCount = parseInt(savedCartCount, 10);
+    updateCartCount();
+  }
+});
