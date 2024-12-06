@@ -87,11 +87,10 @@ async function loadShirts() {
       }
     });
   }
-  // Toggle Sidebar Visibility
-document.getElementById('toggleSidebar').addEventListener('click', () => {
+  document.getElementById('toggleSidebar').addEventListener('click', () => {
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('visible');
-});
+  });
 // Function to add product to cart
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -146,11 +145,20 @@ document.getElementById('toggleSidebar').addEventListener('click', () => {
   sidebar.classList.toggle('visible');
 });
 
-// Load cart count on page load
 document.addEventListener('DOMContentLoaded', () => {
-  loadShirts();
-  updateCartCount();
+  const toggleSidebarButton = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+
+  // Check if elements exist to prevent errors
+  if (toggleSidebarButton && sidebar) {
+      toggleSidebarButton.addEventListener('click', () => {
+          sidebar.classList.toggle('visible');
+      });
+  } else {
+      console.error('Sidebar or toggle button not found in the DOM.');
+  }
 });
+
 
 // Maintain cart count state
 let cartCount = 0;
