@@ -8,40 +8,50 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <div id="sidebar" class="sidebar hidden">
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
     <nav>
       <ul>
-        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
-        <i class="fa-solid fa-person"></i> <li><a href="./men-category.html">Men</a></li>
-        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
-        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
-        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
-        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
+        <li><a href="/index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="./men-category.html"><i class="fa-solid fa-person"></i> Men</a></li>
+        <li><a href="./shePage.html"><i class="fa-solid fa-person-dress"></i> Women</a></li>
+        <li><a href="./kidsPage.html"><i class="fa-solid fa-child"></i> Kids</a></li>
+        <li><a href="./unisex-page.html">⚤ Unisex</a></li>
+        <li><a href="./cartPage.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
       </ul>
+      <div class="nav-icon">
+        <a href="./pages/html/accountDetails.html"><i class="fa-solid fa-user"></i></a>
+        <a href="./pages/html/cartPage.html">
+            <i class="fa-solid fa-cart-shopping" style="position: absolute;"></i>
+            <span id="cartCount" class="cart-count">0</span>
+        </a>
+    </div>   
     </nav>
   </div>
-  <button id="toggleSidebar" class="toggle-sidebar-btn">
-    ☰
-  </button>
+  <button id="toggleSidebar" class="toggle-sidebar-btn" aria-label="Toggle Sidebar">☰</button>
+  <!-- Header Section -->
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
       <h2>Men's Shirts</h2>
     </div>
   </header>
-  
+
+  <!-- Search Bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for shirts..." onkeyup="searchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for shirts..." onkeyup="searchProducts()" aria-label="Search for shirts">
   </div>
-  
+
+  <!-- Cart Modal -->
   <div id="cartModal" class="cart-modal">
     <div class="modal-content">
       <p id="modalMessage">Successfully added to cart!</p>
     </div>
   </div>
 
+  <!-- Product Grid -->
   <div class="product-grid" id="productGrid"></div>
 
-  <script src="../js/heShirt.js"></script>
+  <script type="module" src="../js/heShirt.js"></script>
 </body>
 </html>

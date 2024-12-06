@@ -3,49 +3,39 @@ function toggleMenu() {
     menu.classList.toggle('open');
 }
 
+// Initialize cart count
+let cartCount = 0;
+
 // Function to add items to the cart
 function addToCart() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Add a default product (for example purposes)
-    const newItem = {
-        name: 'Sample Product',
-        price: 100, // Replace with dynamic price
-        quantity: 1,
-        image: 'path/to/image.jpg', // Replace with actual image path
-        alt: 'Sample Product',
-    };
-
-    // Check if item already exists in cart
-    const existingItemIndex = cart.findIndex((item) => item.name === newItem.name);
-    if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += 1;
-    } else {
-        cart.push(newItem);
-    }
-
-    // Save updated cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Update cart count
+    cartCount++;
+    console.log("Add to Cart clicked. Current cart count:", cartCount); // Debugging log
     updateCartCount();
+    saveCartCount();
 }
 
-// Function to update cart count
+// Function to update the cart count
 function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
     const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) {
-        cartCountElement.textContent = totalItems; // Update the displayed count
+        cartCountElement.textContent = cartCount; // Update the displayed count
+        console.log("Cart count updated in DOM:", cartCount);
+    } else {
+        console.error("Cart count element not found.");
     }
-
-    // Save cart count to localStorage for synchronization
-    localStorage.setItem('cartCount', totalItems);
 }
 
-// Load cart count on page load
+// Save the cart count to localStorage
+function saveCartCount() {
+    localStorage.setItem('cartCount', cartCount);
+    console.log("Cart count saved to localStorage:", cartCount);
+}
+
+// Load the cart count from localStorage on page load
 document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
+    const savedCartCount = localStorage.getItem('cartCount');
+    if (savedCartCount) {
+        cartCount = parseInt(savedCartCount, 10);
+        updateCartCount();
+    }
 });
