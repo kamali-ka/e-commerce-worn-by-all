@@ -41,8 +41,8 @@ async function loadShirts() {
       productPrice.textContent = isNaN(price) ? 'Price not available' : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement('button');
-      addButton.textContent = 'Add to Cart';
-      addButton.onclick = () => addToCart(product);
+      addButton.textContent = isInCart(product) ? 'Visit Cart' : 'Add to Cart';
+      addButton.onclick = () => handleCartButtonClick(product, addButton);
 
       productCard.append(productImage, productName, productPrice, addButton);
       productGrid.appendChild(productCard);
@@ -56,22 +56,36 @@ async function loadShirts() {
   }
 }
 
+// Function to handle the button click for adding/visiting the cart
+function handleCartButtonClick(product, button) {
+  if (isInCart(product)) {
+    // Redirect to cart
+    window.location.href = '../html/cartPage.html'; // Adjust path to your cart page
+  } else {
+    addToCart(product);
+    button.textContent = 'Visit Cart';
+  }
+}
+
+// Function to check if a product is already in the cart
+function isInCart(product) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  return cart.some(item => item.name === product.name);
+}
+
 // Function to add a product to the cart
 function addToCart(product) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
   const existingItemIndex = cart.findIndex(item => item.name === product.name);
-  if (existingItemIndex > -1) {
-    cart[existingItemIndex].quantity += 1; // Increment quantity
-  } else {
+  if (existingItemIndex === -1) {
     product.quantity = 1; // Add quantity property
     cart.push(product);
   }
 
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
-
-  showPopup(`Successfully added to the cart!`);
+  showCartPopup('Successfully added to the cart!');
 }
 
 // Function to update the cart count
@@ -86,7 +100,7 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-function showPopup(message) {
+function showCartPopup(message) {
   const popupContainer = document.getElementById('popupContainer');
   const popupMessage = document.getElementById('popupMessage');
 

@@ -41,8 +41,8 @@ async function loadShirts() {
       productPrice.textContent = isNaN(price) ? 'Price not available' : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement('button');
-      addButton.textContent = 'Add to Cart';
-      addButton.onclick = () => addToCart(product);
+      addButton.textContent = isInCart(product) ? 'Visit Cart' : 'Add to Cart';
+      addButton.onclick = () => handleCartButtonClick(product, addButton);
 
       productCard.append(productImage, productName, productPrice, addButton);
       productGrid.appendChild(productCard);
@@ -56,27 +56,36 @@ async function loadShirts() {
   }
 }
 
+// Function to handle the button click for adding/visiting the cart
+function handleCartButtonClick(product, button) {
+  if (isInCart(product)) {
+    // Redirect to cart
+    window.location.href = '../html/cartPage.html'; // Adjust path to your cart page
+  } else {
+    addToCart(product);
+    button.textContent = 'Visit Cart';
+  }
+}
+
+// Function to check if a product is already in the cart
+function isInCart(product) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  return cart.some(item => item.name === product.name);
+}
+
 // Function to add a product to the cart
 function addToCart(product) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  // Check if the product already exists in the cart
   const existingItemIndex = cart.findIndex(item => item.name === product.name);
-  if (existingItemIndex > -1) {
-    cart[existingItemIndex].quantity += 1; // Increment quantity
-  } else {
-    product.quantity = 1; // Add quantity property for new item
+  if (existingItemIndex === -1) {
+    product.quantity = 1; // Add quantity property
     cart.push(product);
   }
 
-  // Save updated cart to localStorage
   localStorage.setItem('cart', JSON.stringify(cart));
-
-  // Update cart count
   updateCartCount();
-
-  // Show success popup
-  showCartPopup(`Successfully added "${product.name}" to the cart!`);
+  showCartPopup('Successfully added to the cart!');
 }
 
 // Function to update the cart count
@@ -87,26 +96,24 @@ function updateCartCount() {
   const cartCountElement = document.getElementById('cartCount');
   if (cartCountElement) {
     cartCountElement.textContent = totalItems;
-  } else {
-    console.error("Cart count element not found.");
   }
 }
 
-// Function to show a popup message
+// Function to display the popup message
 function showCartPopup(message) {
   const popupContainer = document.getElementById('popupContainer');
   const popupMessage = document.getElementById('popupMessage');
 
-  if (popupContainer && popupMessage) {
-    popupMessage.textContent = message;
-    popupContainer.style.display = 'flex';
+  // Set the message content
+  popupMessage.textContent = message;
 
-    setTimeout(() => {
-      popupContainer.style.display = 'none';
-    }, 2000);
-  } else {
-    console.error("Popup container or message element not found.");
-  }
+  // Display the popup
+  popupContainer.classList.add('show');
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popupContainer.classList.remove('show');
+  }, 3000);
 }
 
 // Function to search for products
@@ -128,7 +135,6 @@ document.getElementById('toggleSidebar').addEventListener('click', () => {
 
 // Load cart count on page load and fetch products
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Page loaded. Initializing cart count.');
   loadShirts().then(() => {
     updateCartCount();
   });
