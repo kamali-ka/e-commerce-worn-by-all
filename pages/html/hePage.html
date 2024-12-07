@@ -20,6 +20,12 @@
       </ul>
     </nav>
   </div>
+  <div class="nav-icon">
+    <a href="../html/cartPage.html">
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
+    </a>
+  </div>
   <button id="toggleSidebar" class="toggle-sidebar-btn">
     ☰
   </button>
@@ -49,7 +55,11 @@
       <p id="modalMessage">Successfully added to cart!</p>
     </div>
   </div>
+  <div id="popupContainer" class="popup-container">
+    <div id="popupMessage" class="popup-message">Item added to cart successfully!</div>
+  </div>
   
+
   <div class="product-grid" id="productGrid"></div>
   <script src="../js/hePage.js"></script>
 </body>

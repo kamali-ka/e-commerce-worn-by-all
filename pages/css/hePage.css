@@ -249,3 +249,77 @@ body {
   margin: auto;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+.nav-icon {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  z-index: 1100;
+}
+
+.nav-icon a {
+  text-decoration: none;
+  color: #000;
+}
+
+.nav-icon #cartCount {
+  border-radius: 50%; /* Circular shape */
+  padding: 2px 6px; /* Adjust padding for size */
+  margin-left: 5px; /* Space between the icon and count */
+  position: absolute;
+  top: -10px; /* Adjust to position the count above the icon */
+  right: -10px; /* Center it horizontally relative to the icon */
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 10px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  border: 2px solid white;
+}/* Popup Container */
+#popupContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Popup Message Styles */
+.popup-message {
+  background-color: green; /* Success message background */
+  color: white; /* Text color */
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
+}
+
+/* Show Popup Animation */
+#popupContainer.show {
+  display: flex;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+/* Fade-in/out Animation */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}

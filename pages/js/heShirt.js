@@ -71,7 +71,7 @@ function addToCart(product) {
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
 
-  showCartPopup(`Successfully added to the cart!`);
+  showPopup(`Successfully added to the cart!`);
 }
 
 // Function to update the cart count
@@ -85,21 +85,21 @@ function updateCartCount() {
   }
 }
 
-// Function to show a popup message
-function showCartPopup(message) {
+// Function to display the popup message
+function showPopup(message) {
   const popupContainer = document.getElementById('popupContainer');
   const popupMessage = document.getElementById('popupMessage');
 
-  if (popupContainer && popupMessage) {
-    popupMessage.textContent = message;
-    popupContainer.style.display = 'flex';
+  // Set the message content
+  popupMessage.textContent = message;
 
-    setTimeout(() => {
-      popupContainer.style.display = 'none';
-    }, 2000);
-  } else {
-    console.error("Popup container or message element not found.");
-  }
+  // Display the popup
+  popupContainer.classList.add('show');
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popupContainer.classList.remove('show');
+  }, 3000);
 }
 
 // Function to search for products
