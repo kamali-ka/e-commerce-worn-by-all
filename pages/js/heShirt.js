@@ -71,7 +71,7 @@ function addToCart(product) {
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
 
-  showCartPopup(`${product.name} has been successfully added to the cart!`);
+  showCartPopup(`Successfully added to the cart!`);
 }
 
 // Function to update the cart count
