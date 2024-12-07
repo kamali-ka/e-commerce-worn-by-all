@@ -1,21 +1,32 @@
 // Function to load and display only shirts
 async function loadShirts() {
   try {
-    const response = await fetch('/pages/js/public/he-page.json');
+    // Fetch the product data from the JSON file
+    const response = await fetch('../js/public/he-page.json'); // Adjusted path for local file
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
     }
 
     const products = await response.json();
     const productGrid = document.getElementById('productGrid');
+
+    if (!productGrid) {
+      console.error("Element with ID 'productGrid' not found.");
+      return;
+    }
+
     productGrid.innerHTML = ''; // Clear existing products
 
     // Filter and display shirts
     const shirtProducts = products.filter(product => product.type === 'Shirts');
+    if (shirtProducts.length === 0) {
+      productGrid.innerHTML = '<p>No shirts available at the moment.</p>';
+      return;
+    }
+
     shirtProducts.forEach(product => {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
-      productCard.setAttribute('data-type', product.type);
 
       const productImage = document.createElement('img');
       productImage.src = product.image || ''; // Fallback if the image is missing
@@ -26,30 +37,22 @@ async function loadShirts() {
 
       const productPrice = document.createElement('p');
       productPrice.classList.add('price');
-
-      // Handle invalid or missing price values
-     const price = parseFloat(product.price.replace(/[₹,]/g, '')); // Remove ₹ and commas
-if (isNaN(price)) {
-  productPrice.textContent = 'Price not available';
-} else {
-  productPrice.textContent = `₹${price.toFixed(2)}`;
-}
-
+      const price = parseFloat(product.price.replace(/[₹,]/g, '')); // Remove ₹ and commas
+      productPrice.textContent = isNaN(price) ? 'Price not available' : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement('button');
       addButton.textContent = 'Add to Cart';
       addButton.onclick = () => addToCart(product);
 
-      productCard.appendChild(productImage);
-      productCard.appendChild(productName);
-      productCard.appendChild(productPrice);
-      productCard.appendChild(addButton);
-
+      productCard.append(productImage, productName, productPrice, addButton);
       productGrid.appendChild(productCard);
-      
     });
   } catch (error) {
     console.error('Error loading shirts:', error.message);
+    const productGrid = document.getElementById('productGrid');
+    if (productGrid) {
+      productGrid.innerHTML = '<p>Failed to load products. Please try again later.</p>';
+    }
   }
 }
 
@@ -68,19 +71,7 @@ function addToCart(product) {
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
 
-  showCartModal(`${product.name} has been successfully added to the cart!`);
-}
-
-// Function to show a cart modal
-function showCartModal(message) {
-  const cartModal = document.getElementById('cartModal');
-  const modalMessage = document.getElementById('modalMessage');
-  modalMessage.textContent = message;
-  cartModal.style.display = 'flex';
-
-  setTimeout(() => {
-    cartModal.style.display = 'none';
-  }, 2000);
+  showCartPopup(`${product.name} has been successfully added to the cart!`);
 }
 
 // Function to update the cart count
@@ -94,9 +85,21 @@ function updateCartCount() {
   }
 }
 
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = './cartPage.html';
+// Function to show a popup message
+function showCartPopup(message) {
+  const popupContainer = document.getElementById('popupContainer');
+  const popupMessage = document.getElementById('popupMessage');
+
+  if (popupContainer && popupMessage) {
+    popupMessage.textContent = message;
+    popupContainer.style.display = 'flex';
+
+    setTimeout(() => {
+      popupContainer.style.display = 'none';
+    }, 2000);
+  } else {
+    console.error("Popup container or message element not found.");
+  }
 }
 
 // Function to search for products
@@ -116,25 +119,17 @@ document.getElementById('toggleSidebar').addEventListener('click', () => {
   sidebar.classList.toggle('visible');
 });
 
-// Load cart count on page load
+// Load cart count on page load and fetch products
 document.addEventListener('DOMContentLoaded', () => {
-  loadShirts();
-  updateCartCount();
-});
-
-// Maintain cart count state
-let cartCount = 0;
-
-// Save the cart count to localStorage
-function saveCartCount() {
-  localStorage.setItem('cartCount', cartCount);
-}
-
-// Load the cart count from localStorage
-document.addEventListener('DOMContentLoaded', () => {
-  const savedCartCount = localStorage.getItem('cartCount');
-  if (savedCartCount) {
-    cartCount = parseInt(savedCartCount, 10);
+  loadShirts().then(() => {
     updateCartCount();
+  });
+
+  // Attach event listener for search bar
+  const searchBar = document.getElementById('searchBar');
+  if (searchBar) {
+    searchBar.addEventListener('input', searchProducts);
+  } else {
+    console.error("Search bar element not found.");
   }
 });

@@ -21,13 +21,18 @@
       </ul>
     </nav>
   </div>
-  <div class="nav-icon" style=" text-decoration: none;">
+
+  <!-- Navbar with cart icon -->
+  <div class="nav-icon">
     <a href="./pages/html/cartPage.html">
-        <i class="fa-solid fa-cart-shopping" style="position: relative; color: #000; "></i>
-        <span id="cartCount" class="cart-count" style="color: white">0</span>
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
     </a>
-</div>   
+  </div>
+
+  <!-- Sidebar toggle button -->
   <button id="toggleSidebar" class="toggle-sidebar-btn" aria-label="Toggle Sidebar">☰</button>
+
   <!-- Header Section -->
   <header class="header">
     <div class="header-content">
@@ -38,7 +43,17 @@
 
   <!-- Search Bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for shirts..." onkeyup="searchProducts()" aria-label="Search for shirts">
+    <input 
+      type="text" 
+      id="searchBar" 
+      placeholder="Search for shirts..." 
+      aria-label="Search for shirts" 
+      onkeyup="searchProducts()">
+  </div>
+
+  <!-- Product Grid -->
+  <div id="productGrid" class="product-grid">
+    <!-- Dynamic content will be loaded here -->
   </div>
 
   <!-- Cart Modal -->
@@ -48,11 +63,16 @@
     </div>
   </div>
 
-  <!-- Product Grid -->
-  <div class="product-grid" id="productGrid"></div>
-  <div id="popupContainer" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
-    <p id="popupMessage">Successfully added to cart!</p>
+  <!-- Popup for cart notifications -->
+  <div 
+    id="popupContainer" 
+    style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; justify-content: center; align-items: center; width: 100%; background-color: green;">
+    <div class="popup-message">
+      <p id="popupMessage">Successfully added to cart!</p>
+    </div>
   </div>
+
+  <!-- JavaScript -->
   <script type="module" src="../js/heShirt.js"></script>
 </body>
 </html>

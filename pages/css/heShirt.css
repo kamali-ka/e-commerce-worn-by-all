@@ -411,4 +411,35 @@ body {
 .popup-message button:hover {
   color: #cccccc;
 }
+/* Popup Container */
+#popupContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.popup-message {
+  background-color: green;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+}
+
+
+/* Add class for visible state */
+#popupContainer.show {
+    display: flex; /* Make it visible */
+    pointer-events: auto; /* Enable interaction */
+    animation: fadeInOut 3s ease-in-out; /* Smooth fade effect */
+}
 
