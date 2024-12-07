@@ -8,6 +8,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <!-- Sidebar -->
   <div id="sidebar" class="sidebar hidden">
     <nav>
       <ul>
@@ -20,13 +21,18 @@
       </ul>
     </nav>
   </div>
-  <div class="nav-icon" style=" text-decoration: none;">
-    <a href="./pages/html/cartPage.html">
-        <i class="fa-solid fa-cart-shopping" style="position: relative; color: #000; "></i>
-        <span id="cartCount" class="cart-count" style="color: white">0</span>
+  <!-- Navbar with cart icon -->
+  <div class="nav-icon">
+    <a href="./cartPage.html">
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
     </a>
-</div>   
-<button id="toggleSidebar" class="toggle-sidebar-btn" aria-label="Toggle Sidebar">☰</button>
+  </div>
+
+  <!-- Sidebar toggle button -->
+  <button id="toggleSidebar" class="toggle-sidebar-btn" aria-label="Toggle Sidebar">☰</button>
+
+  <!-- Header -->
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
@@ -34,18 +40,37 @@
     </div>
   </header>
   
+  <!-- Search bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for jeans..." onkeyup="searchProducts()">
+    <input 
+      type="text" 
+      id="searchBar" 
+      placeholder="Search for jeans..." 
+      aria-label="Search for jeans"
+      onkeyup="searchProducts()">
+  </div>
+
+  <!-- Product Grid -->
+  <div id="productGrid" class="product-grid">
+    <!-- Products will be dynamically loaded here -->
   </div>
   
-  <div id="cartModal" class="cart-modal">
+  <!-- Popup container -->
+  <div 
+    id="popupContainer" 
+    style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; justify-content: center; align-items: center; width: 100%; background-color: green;">
+    <div class="popup-message">
+      <p id="popupMessage">Successfully added to cart!</p>
+    </div>
+  </div>
+  
+  <!-- Modal for cart -->
+  <div id="cartModal" class="cart-modal" style="display: none;">
     <div class="modal-content">
       <p id="modalMessage">Successfully added to cart!</p>
     </div>
   </div>
 
-  <div class="product-grid" id="productGrid"></div>
-
-  <script src="../js/menJeans.js"></script>
+  <script src="../js/menJeans.js" defer></script>
 </body>
 </html>

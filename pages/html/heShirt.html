@@ -9,15 +9,15 @@
 </head>
 <body>
   <!-- Sidebar -->
-  <div id="sidebar" class="sidebar">
+  <div id="sidebar" class="sidebar hidden">
     <nav>
       <ul>
-        <li><a href="/index.html"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="./men-category.html"><i class="fa-solid fa-person"></i> Men</a></li>
-        <li><a href="./shePage.html"><i class="fa-solid fa-person-dress"></i> Women</a></li>
-        <li><a href="./kidsPage.html"><i class="fa-solid fa-child"></i> Kids</a></li>
-        <li><a href="./unisex-page.html">⚤ Unisex</a></li>
-        <li><a href="./cartPage.html"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+        <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i> <li><a href="./men-category.html">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
       </ul>
     </nav>
   </div>
@@ -50,7 +50,9 @@
 
   <!-- Product Grid -->
   <div class="product-grid" id="productGrid"></div>
-
+  <div id="popupContainer" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+    <p id="popupMessage">Successfully added to cart!</p>
+  </div>
   <script type="module" src="../js/heShirt.js"></script>
 </body>
 </html>
