@@ -18,7 +18,7 @@ async function loadShirts() {
       productGrid.innerHTML = ''; // Clear existing products
   
       // Filter and display shirts
-      const shirtProducts = products.filter(product => product.type === 'Shirts');
+      const shirtProducts = products.filter(product => product.type === 'Jeans');
       if (shirtProducts.length === 0) {
         productGrid.innerHTML = '<p>No shirts available at the moment.</p>';
         return;

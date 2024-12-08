@@ -562,3 +562,30 @@ body {
     max-width: 400px;
   }
 }
+.size-selector-container {
+  position: absolute;
+  background-color: black;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none; /* Initially hidden */
+  z-index: 10;
+}
+
+.size-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.size-option {
+  margin: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.size-option:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
