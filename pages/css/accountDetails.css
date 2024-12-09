@@ -41,27 +41,12 @@ body {
     opacity: 0.7; /* Maintain hover effect */
 }
 
-
-#home {
-    height: 50px;
-    width: 50px;
-    position: fixed;
-    top: 7px;
-    right: 50px;
-}
-
-.cart {
-    position: fixed;
-    top: 17px;
-    right: 20px;
-}
-
-
 /* Main Account Container */
 .account-container {
     display: flex;
     padding: 20px;
     flex-grow: 1; /* Make sure the container takes up the remaining space */
+    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
 }
 
 /* Sidebar Styles */
@@ -162,11 +147,13 @@ body {
     width: 100%;
     max-width: 600px;
 }
+
 .profile-container h1 {
     margin-bottom: 20px; /* Add space between the heading and the first profile item */
     font-size: 1.5rem; /* Optional: Adjust font size for the heading */
     color: #333333; /* Dark grey for better visibility */
 }
+
 .remove-button {
     margin-top: 10px;
     padding: 5px 10px;
@@ -182,7 +169,6 @@ body {
 .remove-button:hover {
     background-color: #ff1a1a; /* Darker red */
 }
-
 
 .profile-item {
     margin-bottom: 15px;
@@ -217,13 +203,6 @@ body {
 
 .popup-message.error {
     background-color: #dc3545; /* Red for error */
-}
-
-
-/* Show Popup */
-.popup-message.show {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Form Styles */
@@ -291,4 +270,114 @@ button:hover {
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Adjust header */
+    .header h1 {
+        font-size: 1.4rem;
+    }
+
+    .header-icons img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Account Container */
+    .account-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Account Details Section */
+    .account-details {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Profile Picture */
+    .profile-picture {
+        width: 100%;
+    }
+
+    .profile-picture .circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Form */
+    .form-group {
+        width: 100%;
+    }
+
+    /* Remove Button */
+    .remove-button {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+
+    /* Button Styles */
+    button {
+        padding: 8px 15px;
+        font-size: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for smaller screens */
+    .header h1 {
+        font-size: 1.2rem;
+    }
+
+    .header-icons img {
+        width: 25px;
+        height: 25px;
+    }
+
+    /* Account Container */
+    .account-container {
+        padding: 5px;
+    }
+
+    /* Form inputs */
+    input[type="text"],
+    input[type="email"],
+    select {
+        font-size: 0.9rem;
+    }
+
+    /* Profile Picture */
+    .profile-picture .circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .remove-button {
+        font-size: 0.7rem;
+        padding: 5px 7px;
+    }
+
+    /* Button Styles */
+    button {
+        padding: 7px 12px;
+        font-size: 1rem;
+    }
 }
