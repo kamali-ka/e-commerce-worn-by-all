@@ -1,115 +1,105 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Retrieve the selected product from localStorage
-    const product = JSON.parse(localStorage.getItem('selectedProduct'));
-  
-    // Check if product data is available
-    if (!product) {
-      document.body.innerHTML = '<p>Product details not found. Please go back to the product list.</p>';
-      return;
-    }
-  
-    // Grab DOM elements to display product details
-    const productImage = document.getElementById('productImage');
-    const productName = document.getElementById('productName');
-    const productDescription = document.getElementById('productDescription');
-    const productPrice = document.getElementById('productPrice');
-    const productSizes = document.getElementById('sizesContainer');
-    const productRatings = document.getElementById('productRatings');
-    const addToCartButton = document.getElementById('addToCart');
-    const buyNowButton = document.getElementById('buyNow');
-  
-    // Set product details to the page, including handling missing fields
-    productImage.src = product.image || 'placeholder.jpg';
-    productImage.alt = product.name || 'Product Image';
-  
-    productName.textContent = product.name || 'Unnamed Product';
-    productDescription.textContent = product.description ? product.description : 'No description available.';
-    productPrice.textContent = product.price ? `₹${parseFloat(product.price.replace(/[₹,]/g, '')).toFixed(2)}` : 'Price not available';
-    productRatings.textContent = product.rating ? `${product.rating} Stars` : 'No ratings available';
-  
-    // Display available sizes
-    if (product.size && Array.isArray(product.size) && product.size.length > 0) {
-      productSizes.innerHTML = ''; // Clear any existing content
-      product.size.forEach(size => {
-        const sizeElement = document.createElement('span');
-        sizeElement.textContent = size;
-        sizeElement.classList.add('size-option');
-        sizeElement.addEventListener('click', () => selectSize(sizeElement, size));
-        productSizes.appendChild(sizeElement);
-      });
-    } else {
-      productSizes.textContent = 'No sizes available';
-    }
-  
-    // Add to Cart functionality
-    addToCartButton.addEventListener('click', () => {
-      addToCart(product);
+  // Fetch the JSON file containing product data
+  fetch('../js/public/he-page.json') // Update this path if needed
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(products => {
+      const selectedProductId = localStorage.getItem('selectedProductId') || getQueryParam('id');
+      if (!selectedProductId) {
+        document.getElementById('productDetails').innerHTML = '<p>Product details not found. Please go back to the product list.</p>';
+        return;
+      }
+
+      const product = products.find(item => item.id === selectedProductId);
+      if (!product) {
+        document.getElementById('productDetails').innerHTML = '<p>Product details not found. Please go back to the product list.</p>';
+        return;
+      }
+
+      displayProductDetails(product);
+    })
+    .catch(error => {
+      console.error('Error fetching product data:', error);
+      document.getElementById('productDetails').innerHTML = `<p>Failed to load product details. Error: ${error.message}</p>`;
     });
-  
-    // Buy Now functionality
+
+  // Function to display product details
+  function displayProductDetails(product) {
+    document.getElementById('productImage').src = product.image || 'placeholder.jpg';
+    document.getElementById('productName').textContent = product.name || 'Unnamed Product';
+    document.getElementById('productPrice').textContent = product.price ? `${product.price}` : 'Price not available';
+    document.getElementById('productRatings').textContent = product.rating ? `${product.rating} Stars` : 'No ratings available';
+    document.getElementById('productDescription').textContent = product.name || 'No description available.';
+
+    const addToCartButton = document.getElementById('addToCartButton');
+    const buyNowButton = document.getElementById('byNowButton');
+
+    addToCartButton.addEventListener('click', () => addToCart(product, addToCartButton));
     buyNowButton.addEventListener('click', () => {
       alert('Redirecting to checkout!');
-      window.location.href = '../html/checkoutPage.html'; // Replace with actual checkout page URL
+      window.location.href = '../html/checkoutPage.html';
     });
-  
-    // Initialize cart count display
-    updateCartCount();
-  
-    // Function to handle size selection
-    let selectedSize = null;
-  
-    function selectSize(sizeElement, size) {
-      // Deselect any previously selected size
-      const selectedElement = document.querySelector('.selected-size');
-      if (selectedElement) {
-        selectedElement.classList.remove('selected-size');
-      }
-  
-      // Mark the clicked size as selected
-      sizeElement.classList.add('selected-size');
-      selectedSize = size;
-      console.log('Selected Size:', selectedSize); // Log for debugging
-    }
-  });
-  
-  // Add product to the cart
-  function addToCart(product) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItem = cart.find(item => item.name === product.name && item.size === selectedSize);
-  
-    // Check if the product is already in the cart
-    if (existingItem) {
-      alert('This item is already in your cart!');
-      return;
-    }
-  
-    // If no size is selected, alert the user
-    if (!selectedSize) {
-      alert('Please select a size!');
-      return;
-    }
-  
-    // Attach the selected size to the product and set a default quantity
-    product.size = selectedSize;
-    product.quantity = 1;
-  
-    // Add the product to the cart
-    cart.push(product);
-  
-    // Save the updated cart back to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    alert('Product added to cart successfully!');
   }
-  
-  // Update cart count display
+
+  // Function to add a product to the cart
+  function addToCart(product, addButton) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const existingItemIndex = cart.findIndex(item => item.name === product.name);
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1; // Increment quantity
+    } else {
+      product.quantity = 1; // Add quantity property
+      cart.push(product);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    updateCartCount();
+    addButton.textContent = 'Visit Cart';
+    addButton.onclick = () => window.location.href = '../html/cartPage.html';
+
+    showPopup(`Successfully added to your cart!`);
+  }
+
+  // Function to show the popup message
+  function showPopup(message) {
+    const popupContainer = document.getElementById('popupContainer');
+    const popupMessage = popupContainer.querySelector('.popup-message');
+    
+    // Set the message
+    popupMessage.textContent = message;
+    
+    // Show the popup
+    popupContainer.classList.add('show');
+    
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popupContainer.classList.remove('show');
+    }, 3000);
+  }
+
+  // Function to update cart count
   function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity ||1),0);
+
     const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) {
       cartCountElement.textContent = totalItems;
     }
   }
-  
+
+  // Utility function to get query parameters
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  // Initialize cart count on page load
+  updateCartCount();
+});

@@ -1,4 +1,3 @@
-// Function to load and display only shirts
 async function loadShirts() {
   try {
     const response = await fetch('/pages/js/public/he-page.json');
@@ -16,6 +15,11 @@ async function loadShirts() {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.setAttribute('data-type', product.type);
+
+      // Create a link for the product card that will redirect to the product details page
+      const productLink = document.createElement('a');
+      productLink.href = `../html/productDetails.html?id=${product.id}`;  // Link to the product details page
+      productLink.style.textDecoration = 'none';  // Remove the default link underline
 
       const productImage = document.createElement('img');
       productImage.src = product.image || ''; // Fallback if the image is missing
@@ -49,9 +53,13 @@ async function loadShirts() {
         addButton.onclick = () => addToCart(product, addButton); // Add to cart
       }
 
-      productCard.appendChild(productImage);
-      productCard.appendChild(productName);
-      productCard.appendChild(productPrice);
+      // Append product details to the link
+      productLink.appendChild(productImage);
+      productLink.appendChild(productName);
+      productLink.appendChild(productPrice);
+
+      // Append the link and add button to the product card
+      productCard.appendChild(productLink);
       productCard.appendChild(addButton);
 
       productGrid.appendChild(productCard);
@@ -60,6 +68,7 @@ async function loadShirts() {
     console.error('Error loading shirts:', error.message);
   }
 }
+
 
 // Function to add a product to the cart
 function addToCart(product, addButton) {
@@ -84,7 +93,7 @@ function addToCart(product, addButton) {
   addButton.onclick = () => navigateToCart();
 
   // Show the popup message when an item is added to the cart
-  showPopup(`${product.name} has been added to your cart!`);
+  showPopup(`Successfully added to your cart!`);
 }
 
 // Function to show the popup message
@@ -104,21 +113,19 @@ function showPopup(message) {
   }, 3000);
 }
 
-// Function to update the cart count
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
+  
   const cartCountElement = document.getElementById('cartCount');
   if (cartCountElement) {
     cartCountElement.textContent = totalItems;
   }
+  
+  // Save cart count explicitly to localStorage
+  localStorage.setItem('cartCount', totalItems);
 }
 
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = './cartPage.html';
-}
 
 // Function to search for products
 function searchProducts() {
@@ -155,9 +162,47 @@ function saveCartCount() {
 
 // Load the cart count from localStorage
 document.addEventListener('DOMContentLoaded', () => {
+  loadShirts();
+  updateCartCount();
+  const popupContainer = document.getElementById('popupContainer');
+  popupContainer.classList.remove('show');  // Ensure the popup is hidden on page load
+  
   const savedCartCount = localStorage.getItem('cartCount');
   if (savedCartCount) {
     cartCount = parseInt(savedCartCount, 10);
     updateCartCount();
   }
 });
+
+// Function to get the URL parameter
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+function loadProductDetails() {
+  const productId = getQueryParam("id");
+  if (!productId) {
+    document.getElementById("productDetails").textContent = "Product ID not found!";
+    return;
+  }
+
+  fetch('/pages/js/public/he-page.json')  // Ensure this path is correct
+    .then(response => response.json())
+    .then(data => {
+      const product = data.find(p => p.id === productId);
+      if (product) {
+        document.getElementById("productImage").src = product.image || 'default-image.jpg';
+        document.getElementById("productName").textContent = product.name || 'Unnamed Product';
+        document.getElementById("productPrice").textContent = product.price || 'Price not available';
+        document.getElementById("productRatings").textContent = `Rating: ${product.rating || 'N/A'}`;
+        document.getElementById("productDescription").textContent = product.description || 'No description available.';
+      } else {
+        document.getElementById("productDetails").textContent = "Product not found!";
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching product details:", error);
+      document.getElementById("productDetails").textContent = "Failed to load product details.";
+    });
+}

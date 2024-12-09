@@ -3,44 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Details</title>
+  <title>Product Detail</title>
   <link rel="stylesheet" href="../css/productDetails.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <div id="product-detail-container">
-    <!-- Product Image Section -->
-    <div id="product-images">
-      <img id="productImage" src="placeholder.jpg" alt="Product Image">
+  <div class="nav-icon">
+    <a href="../html/cartPage.html">
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
+    </a>
+  </div>
+  <!-- Product Detail Section -->
+  <div class="product-detail">
+    <!-- Product Image -->
+    <div class="product-image">
+      <img id="productImage" src="" alt="Product Image">
     </div>
 
-    <!-- Product Info Section -->
-    <div id="product-info">
-      <h1 id="productName">Product Name</h1>
-      <p id="productDescription">Product Description</p>
-      <p id="productPrice">Price</p>
-      
-      <!-- Sizes Section -->
-      <div id="productSizes">
-        <strong>Available Sizes:</strong>
-        <span>No sizes available</span>
-      </div>
-
-      <!-- Ratings Section -->
-      <p id="productRatings">Ratings: No ratings available</p>
-
-      <!-- Action Buttons -->
-      <div class="product-actions">
-        <button id="buyNow">Buy Now</button>
-        <button id="addToCart">Add to Cart</button>
-      </div>
+    <!-- Product Details -->
+    <div class="product-info">
+      <h1 id="productName"></h1>
+      <p id="productPrice"></p>
+      <p id="productRatings"></p>
+      <p id="productDescription"></p>
+      <button id="addToCartButton">Add to Cart</button>
+      <button id="byNowButton">Buy Now</button>
     </div>
   </div>
-  <!-- Sizes Section -->
-<div id="productSizes">
-    <strong>Available Sizes:</strong>
-    <div id="sizesContainer"></div>
+<!-- Popup container -->
+<div id="popupContainer">
+  <div class="popup-message">Item added to cart successfully!</div>
+</div>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal">
+  <div class="modal-content">
+    <p id="modalMessage">Successfully added to cart!</p>
   </div>
-  
+</div>
   <script src="../js/productDetails.js"></script>
 </body>
 </html>
