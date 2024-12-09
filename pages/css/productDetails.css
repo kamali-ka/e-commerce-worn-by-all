@@ -261,5 +261,10 @@ button {
       opacity: 1;
     }
   }
+  #productRatings i {
+    color: gold; /* Golden color for the stars */
+    margin-right: 5px; /* Space between stars */
+    font-size: 1.2rem; /* Adjust size of stars */
+  }
   
     
