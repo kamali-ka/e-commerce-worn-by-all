@@ -3,51 +3,128 @@ body {
   font-family: 'Segoe UI', Tahoma, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
+  background-color: #ffffff;
+  color: #333333;
 }
 
-/* Header Styles */
-.header {
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #333;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: -250px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  transition: left 0.3s ease;
+  z-index: 1001;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin: 15px 0;
+  padding-left: 10px;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  display: flex;
   align-items: center;
-  background-color: #f0f0f0; /* Light gray */
-  color: #333333; /* Dark Gray */
+}
+
+.sidebar nav ul li a:hover {
+  color: #ccc;
+}
+
+.sidebar nav ul i {
+  margin-right: 10px;
+}
+
+.sidebar.visible {
+  left: 0;
+}
+
+/* Toggle Sidebar Button */
+.toggle-sidebar-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1100;
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: #444;
+}
+
+/* Navbar with Cart Icon */
+.nav-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  z-index: 1100;
+}
+
+.nav-icon a {
+  text-decoration: none;
+  color: #000;
+}
+
+.nav-icon #cartCount {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Header Section */
+.header {
+  text-align: center;
+  background-color: #f0f0f0;
   padding: 20px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  gap: 5px;
-  text-align: center;
   border-bottom: 2px solid #ccc;
 }
 
-header a {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  text-decoration: none;
-  font-size: 24px;
-  color: black;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-header a:hover {
-  transform: scale(1.2);
-}
-
-/* Header Content */
-.header-content {
-  text-align: center;
+.header h1, .header h2 {
+  margin: 5px;
 }
 
 /* Search Bar */
 .search-container {
   display: flex;
   justify-content: center;
-  margin: 15px 0;
+  margin: 20px 0;
 }
 
 #searchBar {
@@ -55,27 +132,8 @@ header a:hover {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
-}
-
-/* Filters Section */
-.filters {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 15px 0;
-  gap: 10px;
-}
-
-.filters label,
-.filters select {
-  font-size: 16px;
-  color: #333333;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #ffffff; /* White */
+  background-color: #fff;
+  color: #333;
 }
 
 /* Product Grid */
@@ -90,17 +148,16 @@ header a:hover {
 }
 
 .product-card {
-  background-color: #ffffff; /* White */
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  width: calc(25% - 20px); /* 4 items per row */
+  width: calc(25% - 20px);
   min-width: 200px;
   max-width: 300px;
 }
@@ -145,68 +202,6 @@ header a:hover {
   background-color: #4d4d4d;
 }
 
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  background-color: #333;
-  color: #fff;
-  position: fixed;
-  top: 0;
-  left: -250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: left 0.3s ease;
-  z-index: 1001;
-}
-
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-
-.sidebar nav ul li {
-  margin: 20px 0;
-}
-
-.sidebar nav ul li a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-.sidebar nav ul li a:hover {
-  color: #ccc;
-}
-
-.sidebar.visible {
-  left: 0;
-}
-
-/* Toggle Sidebar Button */
-.toggle-sidebar-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 5px;
-  z-index: 1100;
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: #444;
-}
-
 /* Cart Modal */
 .cart-modal {
   position: fixed;
@@ -226,166 +221,22 @@ header a:hover {
   text-align: center;
 }
 
-/* Popup */
+/* Popup Container */
 #popupContainer {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  display: none;
+  display: none; /* Initially hidden */
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
 .popup-message {
-  background-color: green;
+  background-color: green !important;
   color: white;
-  padding: 15px 30px;
-  border-radius: 5px;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 400px;
-  margin: auto;
-  margin-bottom: 5px;
-}
-
-#popupContainer.show {
-  display: flex;
-}
-
-/* Popup Animation */
-@keyframes fadeInOut {
-  0% {
-      opacity: 0;
-  }
-  10%, 90% {
-      opacity: 1;
-  }
-  100% {
-      opacity: 0;
-  }
-}
-.nav-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  z-index: 1100;
-}
-
-.nav-icon a {
-  text-decoration: none;
-  color: #000;
-}
-
-.nav-icon #cartCount {
-  border-radius: 50%; /* Circular shape */
-  padding: 2px 6px; /* Adjust padding for size */
-  margin-left: 5px; /* Space between the icon and count */
-  position: absolute;
-  top: -10px; /* Adjust to position the count above the icon */
-  right: -10px; /* Center it horizontally relative to the icon */
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  width: 10px;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-weight: bold;
-  border: 2px solid white;
-}
-.nav-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  z-index: 1100;
-}
-
-.nav-icon a {
-  text-decoration: none;
-  color: #000;
-}
-
-.nav-icon #cartCount {
-  border-radius: 50%; /* Circular shape */
-  padding: 2px 6px; /* Adjust padding for size */
-  margin-left: 5px; /* Space between the icon and count */
-  position: absolute;
-  top: -10px; /* Adjust to position the count above the icon */
-  right: -10px; /* Center it horizontally relative to the icon */
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  width: 10px;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-weight: bold;
-  border: 2px solid white;
-}/* Popup Container */
-.nav-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  z-index: 1100;
-}
-
-.nav-icon a {
-  text-decoration: none;
-  color: #000;
-}
-
-.nav-icon #cartCount {
-  border-radius: 50%; /* Circular shape */
-  padding: 2px 6px; /* Adjust padding for size */
-  margin-left: 5px; /* Space between the icon and count */
-  position: absolute;
-  top: -10px; /* Adjust to position the count above the icon */
-  right: -10px; /* Center it horizontally relative to the icon */
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  width: 10px;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-weight: bold;
-  border: 2px solid white;
-}/* Popup Container */
-#popupContainer {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-/* Popup Message Styles */
-.popup-message {
-  background-color: green; /* Success message background */
-  color: white; /* Text color */
   padding: 15px 30px;
   border-radius: 5px;
   font-size: 16px;
@@ -395,13 +246,26 @@ header a:hover {
   margin: auto;
 }
 
-/* Show Popup Animation */
 #popupContainer.show {
   display: flex;
   animation: fadeInOut 3s ease-in-out;
 }
+#popupContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none; /* Hidden initially */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
-/* Fade-in/out Animation */
+#popupContainer.show {
+  display: flex; /* Only show when 'show' class is added */
+}
+
 @keyframes fadeInOut {
   0%, 100% {
     opacity: 0;

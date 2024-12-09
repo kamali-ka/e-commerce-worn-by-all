@@ -82,20 +82,26 @@ function addToCart(product, addButton) {
   // Change the button text to "Visit Cart" and link it to the cart page
   addButton.textContent = 'Visit Cart';
   addButton.onclick = () => navigateToCart();
-  
-  showCartModal(`${product.name} has been successfully added to the cart!`);
+
+  // Show the popup message when an item is added to the cart
+  showPopup(`${product.name} has been added to your cart!`);
 }
 
-// Function to show a cart modal
-function showCartModal(message) {
-  const cartModal = document.getElementById('cartModal');
-  const modalMessage = document.getElementById('modalMessage');
-  modalMessage.textContent = message;
-  cartModal.style.display = 'flex';
-
+// Function to show the popup message
+function showPopup(message) {
+  const popupContainer = document.getElementById('popupContainer');
+  const popupMessage = popupContainer.querySelector('.popup-message');
+  
+  // Set the message
+  popupMessage.textContent = message;
+  
+  // Show the popup
+  popupContainer.classList.add('show');
+  
+  // Hide the popup after 3 seconds
   setTimeout(() => {
-    cartModal.style.display = 'none';
-  }, 2000);
+    popupContainer.classList.remove('show');
+  }, 3000);
 }
 
 // Function to update the cart count
@@ -135,6 +141,8 @@ document.getElementById('toggleSidebar').addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
   loadShirts();
   updateCartCount();
+  const popupContainer = document.getElementById('popupContainer');
+  popupContainer.classList.remove('show'); // Ensure the popup is hidden on page load
 });
 
 // Maintain cart count state
