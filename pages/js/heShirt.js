@@ -121,7 +121,6 @@ function updateCartCount() {
   if (cartCountElement) {
     cartCountElement.textContent = totalItems;
   }
-  
   // Save cart count explicitly to localStorage
   localStorage.setItem('cartCount', totalItems);
 }
