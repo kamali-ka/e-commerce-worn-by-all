@@ -8,40 +8,53 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <!-- Cart Icon -->
   <div class="nav-icon">
     <a href="../html/cartPage.html">
       <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
       <span id="cartCount" class="cart-count" style="color: white;">0</span>
     </a>
   </div>
+
   <!-- Product Detail Section -->
   <div class="product-detail">
     <!-- Product Image -->
     <div class="product-image">
-      <img id="productImage" src="" alt="Product Image">
+      <img id="productImage" src="" alt="Product Image" />
     </div>
 
     <!-- Product Details -->
     <div class="product-info">
-      <h1 id="productName"></h1>
-      <p id="productPrice"></p>
-      <p id="productRatings"></p>
-      <p id="productDescription"></p>
+      <h1 id="productName">Product Name</h1>
+      <p id="productPrice">$0.00</p>
+      <p id="productRatings">★★★★★</p>
+      <p id="productDescription">Product description will go here.</p>
+      
+      <!-- Size Selection -->
+      <div id="sizeSelection" class="size-selection">
+        <h3>Choose a Size:</h3>
+        <!-- Sizes will be dynamically populated here -->
+      </div>
+      <div id="productSizes" class="product-sizes"></div>
+      <!-- Action Buttons -->
       <button id="addToCartButton">Add to Cart</button>
       <button id="byNowButton">Buy Now</button>
     </div>
   </div>
-<!-- Popup container -->
-<div id="popupContainer">
-  <div class="popup-message">Item added to cart successfully!</div>
-</div>
 
-<!-- Cart Modal -->
-<div id="cartModal" class="cart-modal">
-  <div class="modal-content">
-    <p id="modalMessage">Successfully added to cart!</p>
+  <!-- Popup Container -->
+  <div id="popupContainer">
+    <div class="popup-message">Item added to cart successfully!</div>
   </div>
-</div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="cart-modal">
+    <div class="modal-content">
+      <p id="modalMessage">Successfully added to cart!</p>
+    </div>
+  </div>
+
+  <!-- External JavaScript -->
   <script src="../js/productDetails.js"></script>
 </body>
 </html>

@@ -37,7 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const rating = product.rating || 0; // Default to 0 if no rating
     displayRating(rating);
 
-    document.getElementById('productDescription').textContent = product.name|| 'No description available.';
+    // Display product description
+    document.getElementById('productDescription').textContent = product.description || 'No description available.';
+
+    // Display available sizes
+    displayProductSizes(product.sizes);
 
     const addToCartButton = document.getElementById('addToCartButton');
     const buyNowButton = document.getElementById('byNowButton');
@@ -52,12 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to add a product to the cart
   function addToCart(product, addButton) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const selectedSize = localStorage.getItem('selectedSize') || 'M'; // Default to 'M' if no size is selected
 
-    const existingItemIndex = cart.findIndex(item => item.name === product.name);
+    const existingItemIndex = cart.findIndex(item => item.name === product.name && item.size === selectedSize);
     if (existingItemIndex > -1) {
       cart[existingItemIndex].quantity += 1; // Increment quantity
     } else {
       product.quantity = 1; // Add quantity property
+      product.size = selectedSize; // Add size property
       cart.push(product);
     }
 
@@ -68,6 +74,51 @@ document.addEventListener('DOMContentLoaded', () => {
     addButton.onclick = () => window.location.href = '../html/cartPage.html';
 
     showPopup(`Successfully added to your cart!`);
+  }
+
+  // Function to display available sizes as selectable options
+  function displayProductSizes(sizes) {
+  const sizeContainer = document.getElementById('productSizes');
+
+  if (sizes && sizes.length > 0) {
+    console.log("Available sizes:", sizes); // Debugging
+    let sizesHtml = '';
+    const savedSize = localStorage.getItem('selectedSize'); // Retrieve the saved size from localStorage
+
+    sizes.forEach(size => {
+      const isSelected = size === savedSize ? 'selected' : '';
+      sizesHtml += `
+        <button class="size-option ${isSelected}" data-size="${size}">${size}</button>
+      `;
+    });
+    sizeContainer.innerHTML = sizesHtml;
+
+    // Add event listeners for size selection
+    const sizeButtons = sizeContainer.querySelectorAll('.size-option');
+    sizeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        selectSize(button);
+      });
+    });
+  } else {
+    sizeContainer.innerHTML = '<p>No sizes available.</p>';
+  }
+}
+
+
+  // Function to highlight the selected size
+  function selectSize(button) {
+    // Remove the highlight from all size buttons
+    const sizeButtons = document.querySelectorAll('.size-option');
+    sizeButtons.forEach(btn => {
+      btn.classList.remove('selected');
+    });
+
+    // Add the highlight to the selected size
+    button.classList.add('selected');
+
+    // Store the selected size in localStorage
+    localStorage.setItem('selectedSize', button.dataset.size);
   }
 
   // Function to show the popup message
@@ -96,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartCountElement) {
       cartCountElement.textContent = totalItems;
     }
+    localStorage.setItem('cartCount',totalItems);
   }
 
   // Utility function to get query parameters

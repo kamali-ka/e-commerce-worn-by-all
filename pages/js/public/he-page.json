@@ -9,7 +9,7 @@
       "rating": 4.2,
       "stock": 15,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "2",
@@ -17,11 +17,12 @@
       "image": "/assets/images/img_men2.jpg",
       "alt": "Casual Shirt",
       "name": "Casual Shirt",
+      "description":"Description: Embrace effortless style with our Casual Lush Green Shirt, designed for a laid-back yet polished look. Crafted from a soft, breathable fabric, this shirt offers ultimate comfort while keeping you cool and relaxed throughout the day. The rich lush green color adds a vibrant touch to your wardrobe, making it perfect for both casual outings and weekend get-togethers.With a classic button-down front and a relaxed fit, this shirt provides a flattering silhouette without compromising on comfort. Its versatile design allows it to be easily paired with jeans, chinos, or even shorts, making it the go-to piece for a variety of occasions. Whether you're enjoying a casual day out or meeting friends for a coffee, this lush green shirt is sure to become your favorite wardrobe staple.Style Tip: Pair it with dark jeans for a balanced look, or go for a laid-back vibe with chinos or shorts. For an even more casual style, roll up the sleeves and leave the top button undone.",
       "price": "₹899",
       "rating": 4.5,
       "stock": 8,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "3",
@@ -33,7 +34,7 @@
       "rating": 4.0,
       "stock": 12,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "4",
@@ -45,7 +46,7 @@
       "rating": 4.8,
       "stock": 6,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "5",
@@ -57,7 +58,7 @@
       "rating": 3.9,
       "stock": 10,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "6",
@@ -65,11 +66,12 @@
       "image": "/assets/images/img_men6.jpg",
       "alt": "White Shirt",
       "name": "White Linen Shirt",
+      "description":"Description: Our Classic White Linen Shirt is the perfect addition to your wardrobe for any season. Made from 100% natural linen, this shirt is designed to provide both comfort and style. The breathable and lightweight fabric ensures you stay cool during warmer days, while the crisp white color gives it a clean, sophisticated look suitable for both casual and semi-formal occasions.The timeless design features a button-down front, a tailored fit, and a single chest pocket for added functionality. Whether you're heading to a summer barbecue, a beach vacation, or a smart-casual dinner, this versatile linen shirt will keep you looking effortlessly sharp.",
       "price": "₹799",
       "rating": 4.1,
       "stock": 20,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "7",
@@ -81,7 +83,7 @@
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "8",
@@ -89,11 +91,12 @@
       "image": "/assets/images/img_men8.jpg",
       "alt": "Cotton Shirt",
       "name": "Cotton Gray Shirt",
+      "description":"Description: Our Cotton Gray Shirt is the epitome of understated elegance and versatility. Made from soft, high-quality cotton fabric, this shirt offers both comfort and durability, ensuring you look and feel great all day long. The neutral gray color adds a sophisticated, modern touch to your wardrobe, making it perfect for both casual and semi-formal occasions.The breathable cotton material keeps you cool and comfortable, while the classic button-down design gives it a timeless appeal. With a tailored fit and sleek finish, this shirt is ideal for layering or wearing on its own. Pair it with jeans, chinos, or even dress pants for a refined look that never goes out of style. Style Tip: For a polished look, pair this shirt with dark trousers or chinos. For a more casual style, roll up the sleeves and team it with your favorite jeans or shorts. This shirt also works great under a blazer or cardigan for a stylish layering option.",
       "price": "₹799",
       "rating": 4.0,
       "stock": 9,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "9",
@@ -101,11 +104,12 @@
       "image": "/assets/images/img_men9.jpg",
       "alt": "Checked Shirt",
       "name": "Checked Gray Shirt",
+      "description":"Description: Add a touch of classic style to your wardrobe with our Checked Gray Shirt. Crafted from soft, high-quality cotton, this shirt features a timeless checkered pattern in shades of gray, offering a sophisticated yet casual look. Perfect for both workdays and weekends, it can easily be dressed up or down to suit any occasion.The lightweight fabric ensures comfort throughout the day, while the structured fit provides a sharp, clean silhouette. Whether you're pairing it with jeans for a laid-back look or dressing it up with chinos for a more polished outfit, this shirt effortlessly adds style to your collection.",
       "price": "₹699",
       "rating": 3.8,
       "stock": 25,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "10",
@@ -117,7 +121,7 @@
       "rating": 4.4,
       "stock": 7,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "11",
@@ -125,11 +129,12 @@
       "image": "/assets/images/img_menShirt1.jpg",
       "alt": "Shirt",
       "name": "Satin Baby Blue Shirt",
+      "description":"Description: Elevate your wardrobe with the luxurious Satin Baby Blue Shirt, designed to add a touch of elegance and sophistication to any outfit. Made from smooth, high-quality satin fabric, this shirt boasts a soft sheen and a rich, refreshing baby blue color that is both calming and stylish. Perfect for a variety of occasions, this shirt combines comfort with a refined, polished look.The lightweight satin material drapes beautifully over your body, providing a flattering fit that works well with both formal and casual styles. Whether worn on its own or layered under a jacket or sweater, this shirt is versatile enough to take you from day to night with ease. Style Tip: Pair with tailored trousers or dark jeans for a sleek, modern ensemble. For a more refined look, tuck it into a suit or wear it with a skirt for a feminine touch. Add minimalistic jewelry to complement the smooth texture of the satin.",
       "price": "₹699",
       "rating": 4.0,
       "stock": 12,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "12",
@@ -137,11 +142,12 @@
       "image": "/assets/images/img_menShirt2.jpg",
       "alt": "Shirt",
       "name": "Striped Shirt",
+      "description":"Description: Classic yet contemporary, the Striped Blue and White Shirt is a wardrobe essential that brings a fresh and stylish flair to your everyday look. Featuring alternating stripes in a crisp blue and white pattern, this shirt offers a timeless appeal while maintaining a modern edge. Whether you're dressing up for a day at the office or going for a laid-back weekend look, this shirt is perfect for any occasion.Crafted from a soft cotton blend, the shirt ensures all-day comfort, while its breathable fabric keeps you feeling fresh and confident throughout the day. The combination of the sharp stripes and tailored fit offers a flattering silhouette for all body types. Style Tip: Pair with dark denim or chinos for a balanced, sharp look. For a more casual vibe, roll up the sleeves and pair with sneakers or loafers. Add a leather belt for extra style points.",
       "price": "₹799",
       "rating": 4.3,
       "stock": 9,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "13",
@@ -149,11 +155,12 @@
       "image": "/assets/images/img_menShirt3.jpg",
       "alt": "Shirt",
       "name": "Pink Shirt",
+      "description":"Description: Elevate your wardrobe with this versatile Pink Shirt, designed to bring a burst of color to your collection. The soft pink hue gives off a refreshing and stylish vibe, making it perfect for both casual and semi-formal occasions. Its minimalist design and classic fit ensure it pairs effortlessly with a variety of outfits, from tailored trousers to your favorite jeans.Crafted from high-quality, breathable fabric, this shirt offers exceptional comfort while maintaining a sharp, polished look. The smooth texture feels gentle against the skin, making it ideal for all-day wear. Whether you're dressing up for work or enjoying a weekend outing, this pink shirt will add a touch of elegance to your ensemble. Style Tip: Pair with beige or gray trousers for a soft, sophisticated outfit. For a more casual look, go for denim or chinos and a pair of loafers or sneakers.",
       "price": "₹899",
       "rating": 3.7,
       "stock": 6,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "14",
@@ -165,7 +172,7 @@
       "rating": 4.6,
       "stock": 8,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "15",
@@ -177,7 +184,7 @@
       "rating": 4.5,
       "stock": 10,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "16",
@@ -189,7 +196,7 @@
       "rating": 4.2,
       "stock": 12,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "17",
@@ -197,11 +204,12 @@
       "image": "/assets/images/img_menShirt7.jpg",
       "alt": "Shirt",
       "name": "Linen Green Shirt",
+      "description":"Description: Refresh your wardrobe with this Linen Green Shirt, the perfect combination of comfort, style, and breathability. Crafted from 100% natural linen, this shirt offers a relaxed yet sophisticated look that’s ideal for warm weather or casual outings. The soft green hue brings a touch of nature and tranquility to your outfit, making it a versatile piece that pairs well with both neutral and vibrant colors.The lightweight and breathable linen fabric keeps you cool throughout the day, while the shirt's timeless design ensures it remains a staple in your wardrobe for seasons to come. Whether you're heading to a beachside brunch or an afternoon stroll, this green linen shirt offers both style and comfort.Style Tip: Pair with white or beige trousers for a chic, understated look. Add loafers or boat shoes to complete the relaxed, yet polished appearance.",
       "price": "₹799",
       "rating": 4.0,
       "stock": 15,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "18",
@@ -209,11 +217,12 @@
       "image": "/assets/images/img_menShirt8.jpg",
       "alt": "Brown Shirt",
       "name": "Brown Shirt",
+      "description":"Description: Step into timeless elegance with this Brown Shirt, a versatile and stylish wardrobe staple perfect for any occasion. Crafted from high-quality fabric, this shirt offers a smooth and comfortable fit while maintaining a rich and sophisticated appearance. The warm brown tone adds depth and character, making it a great choice for both formal and casual wear.Whether you're dressing up for a business meeting or dressing down for a weekend outing, this brown shirt is a dependable choice. The classic design and subtle color make it easy to pair with jeans, chinos, or tailored trousers, providing an effortless yet polished look.Style Tip: Pair with dark jeans for a smart-casual look, or tuck it into a pair of tailored trousers for a more polished outfit. Brown leather accessories or shoes will elevate your look effortlessly.",
       "price": "₹699",
       "rating": 3.6,
       "stock": 10,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "19",
@@ -221,11 +230,12 @@
       "image": "/assets/images/img_menShirt9.jpg",
       "alt": "White Shirt",
       "name": "White Shirt",
+      "description":"Description: A wardrobe essential, the White Shirt offers timeless sophistication and versatility for any occasion. This classic piece combines clean, crisp lines with a breathable and comfortable fit, making it an ideal choice for both professional and casual wear. Its pristine white color enhances its elegance, while the high-quality fabric ensures durability and long-lasting wear.Perfect for layering under jackets, pairing with chinos or jeans, or wearing solo for a fresh and polished look, the White Shirt is a go-to piece that never goes out of style. Whether you're dressing up for a formal event or down for a casual outing, this shirt will always have you looking sharp and confident. Style Tip: For a sharp business look, tuck it into tailored trousers and pair with leather shoes. For a more casual look, leave it untucked over jeans or shorts with sneakers.",
       "price": "₹799",
       "rating": 4.1,
       "stock": 13,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "20",
@@ -233,11 +243,12 @@
       "image": "/assets/images/img_menShirt10.jpg",
       "alt": "Shirt",
       "name": "Blue Denim Shirt",
+      "description":"Description: The Blue Denim Shirt is a versatile and stylish staple that adds a touch of rugged charm to any wardrobe. Made from high-quality denim, this shirt offers a comfortable fit and a classic, timeless design. The rich blue color and durable fabric make it perfect for both casual and semi-formal occasions, providing an effortlessly cool look that never goes out of style.Whether you’re layering it over a t-shirt, pairing it with chinos or jeans, or wearing it open for a laid-back vibe, this shirt is sure to elevate any outfit. With its sturdy construction and modern yet classic appeal, the Blue Denim Shirt is an essential piece for those who appreciate both style and functionality.Style Tip: For a relaxed, rugged look, wear it untucked over a t-shirt with your favorite jeans. Alternatively, button it up and layer it under a leather jacket for a stylish contrast.",
       "price": "₹599",
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "size": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
     },
     {
       "id": "21",
@@ -249,7 +260,7 @@
       "rating": 4.4,
       "stock": 20,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "22",
@@ -261,7 +272,7 @@
       "rating": 4.2,
       "stock": 10,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "23",
@@ -273,7 +284,7 @@
       "rating": 4.1,
       "stock": 15,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "24",
@@ -285,7 +296,7 @@
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     },
     {
       "id": "25",
@@ -297,7 +308,7 @@
       "rating": 4.0,
       "stock": 10,
       "button": "Add to Cart",
-      "size": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
     }
   ]
   
