@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress Base64 String</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+</head>
+<body>
+
+<input type="file" id="imageInput" />
+<p>Compressed Base64 string:</p>
+<textarea id="compressedBase64Output" rows="10" cols="50"></textarea>
+
+<script>
+    document.getElementById("imageInput").addEventListener("change", function(event) {
+        // Get the selected file
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            
+            // Event listener to handle the file once it's read
+            reader.onloadend = function() {
+                // Get the Base64 string (excluding the "data:image" part)
+                const base64String = reader.result.split(',')[1];
+                
+                // Step 1: Decode the Base64 string to binary data
+                const binaryString = atob(base64String);
+                const binaryData = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    binaryData[i] = binaryString.charCodeAt(i);
+                }
+
+                // Step 2: Compress the binary data using pako (zlib compression)
+                const compressedData = pako.deflate(binaryData);
+                
+                // Step 3: Convert the compressed binary data back to Base64
+                const compressedBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(compressedData)));
+                
+                // Display the compressed Base64 string
+                document.getElementById("compressedBase64Output").value = compressedBase64;
+            };
+
+            // Read the file as a data URL (Base64)
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>

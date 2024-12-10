@@ -1,8 +1,44 @@
-// Function to load and display only shirts
-async function loadShirts() {
+document.addEventListener('DOMContentLoaded', () => {
+  // Load all products initially and update cart count
+  loadProducts().then(() => {
+    updateCartCount();
+  });
+
+  // Attach event listener for search bar
+  const searchBar = document.getElementById('searchBar');
+  if (searchBar) {
+    searchBar.addEventListener('input', searchProducts);
+  } else {
+    console.error("Search bar element not found.");
+  }
+
+  // Attach event listener for filter dropdown
+  const clothingTypeFilter = document.getElementById('clothingType');
+  if (clothingTypeFilter) {
+    clothingTypeFilter.addEventListener('change', filterByType);
+  } else {
+    console.error("Clothing type filter element not found.");
+  }
+
+  // Toggle sidebar visibility
+  const toggleSidebar = document.getElementById('toggleSidebar');
+  if (toggleSidebar) {
+    toggleSidebar.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar) {
+        sidebar.classList.toggle('visible');
+      } else {
+        console.error("Sidebar element not found.");
+      }
+    });
+  }
+});
+
+// Function to load and display all products
+async function loadProducts() {
   try {
     // Fetch the product data from the JSON file
-    const response = await fetch('../js/public/he-page.json'); // Adjusted path for local file
+    const response = await fetch('../js/public/he-page.json'); // Adjust the path as needed
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
     }
@@ -17,16 +53,16 @@ async function loadShirts() {
 
     productGrid.innerHTML = ''; // Clear existing products
 
-    // Filter and display shirts
-    const shirtProducts = products.filter(product => product.type === 'Shirts');
-    if (shirtProducts.length === 0) {
-      productGrid.innerHTML = '<p>No shirts available at the moment.</p>';
+    if (products.length === 0) {
+      productGrid.innerHTML = '<p>No products available at the moment.</p>';
       return;
     }
 
-    shirtProducts.forEach(product => {
+    // Display each product
+    products.forEach(product => {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
+      productCard.setAttribute('data-type', product.type || 'unknown'); // Add data-type for filtering
 
       const productImage = document.createElement('img');
       productImage.src = product.image || ''; // Fallback if the image is missing
@@ -48,12 +84,38 @@ async function loadShirts() {
       productGrid.appendChild(productCard);
     });
   } catch (error) {
-    console.error('Error loading shirts:', error.message);
+    console.error('Error loading products:', error.message);
     const productGrid = document.getElementById('productGrid');
     if (productGrid) {
       productGrid.innerHTML = '<p>Failed to load products. Please try again later.</p>';
     }
   }
+}
+
+// Function to filter products by type
+function filterByType() {
+  const selectedType = document.getElementById('clothingType').value.toLowerCase();
+  const products = document.querySelectorAll('.product-card');
+
+  products.forEach(product => {
+    const productType = product.getAttribute('data-type')?.toLowerCase();
+    if (selectedType === 'all' || productType === selectedType) {
+      product.style.display = 'block';
+    } else {
+      product.style.display = 'none';
+    }
+  });
+}
+
+// Function to search for products
+function searchProducts() {
+  const searchBarValue = document.getElementById('searchBar').value.toLowerCase();
+  const products = document.querySelectorAll('.product-card');
+
+  products.forEach(product => {
+    const productName = product.querySelector('h2').textContent.toLowerCase();
+    product.style.display = productName.includes(searchBarValue) ? 'block' : 'none';
+  });
 }
 
 // Function to handle the button click for adding/visiting the cart
@@ -115,35 +177,3 @@ function showCartPopup(message) {
     popupContainer.classList.remove('show');
   }, 3000);
 }
-
-// Function to search for products
-function searchProducts() {
-  const searchBarValue = document.getElementById('searchBar').value.toLowerCase();
-  const products = document.querySelectorAll('.product-card');
-
-  products.forEach(product => {
-    const productName = product.querySelector('h2').textContent.toLowerCase();
-    product.style.display = productName.includes(searchBarValue) ? 'block' : 'none';
-  });
-}
-
-// Toggle sidebar visibility
-document.getElementById('toggleSidebar').addEventListener('click', () => {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('visible');
-});
-
-// Load cart count on page load and fetch products
-document.addEventListener('DOMContentLoaded', () => {
-  loadShirts().then(() => {
-    updateCartCount();
-  });
-
-  // Attach event listener for search bar
-  const searchBar = document.getElementById('searchBar');
-  if (searchBar) {
-    searchBar.addEventListener('input', searchProducts);
-  } else {
-    console.error("Search bar element not found.");
-  }
-});

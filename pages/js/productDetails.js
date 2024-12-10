@@ -58,31 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Function to add a product to the cart
- function addToCart(product, addButton) {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-  // Use the unique 'id' to check for existing items
-  const existingItemIndex = cart.findIndex(item => item.id === product.id);
-  if (existingItemIndex > -1) {
-    cart[existingItemIndex].quantity += 1; // Increment quantity
-  } else {
-    product.quantity = 1; // Add quantity property
-    cart.push(product);
+  function addToCart(product, addButton) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Get the selected size
+    const selectedSize = localStorage.getItem('selectedSize');
+    if (!selectedSize) {
+      alert('Please select a size before adding to the cart.');
+      return;
+    }
+
+    // Use the unique 'id' and size to check for existing items
+    const existingItemIndex = cart.findIndex(
+      item => item.id === product.id && item.selectedSize === selectedSize
+    );
+
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1; // Increment quantity
+    } else {
+      product.quantity = 1; // Add quantity property
+      product.selectedSize = selectedSize; // Include the selected size
+      cart.push(product);
+    }
+
+    // Save the updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Update cart count
+    updateCartCount();
+
+    // Change the button text to "Visit Cart" and link it to the cart page
+    addButton.textContent = 'Visit Cart';
+    addButton.onclick = () => navigateToCart();
+
+    // Show the popup message when an item is added to the cart
+    showPopup(`Successfully added to your cart!`);
   }
-  
-  // Save the updated cart to localStorage
-  localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // Update cart count
-  updateCartCount();
-  
-  // Change the button text to "Visit Cart" and link it to the cart page
-  addButton.textContent = 'Visit Cart';
-  addButton.onclick = () => navigateToCart();
-  
-  // Show the popup message when an item is added to the cart
-  showPopup(`Successfully added to your cart!`);
-}
 
   // Function to display available sizes
   function displayProductSizes(sizes) {
@@ -138,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    
+
     const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) {
       cartCountElement.textContent = totalItems;
@@ -146,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save cart count explicitly to localStorage
     localStorage.setItem('cartCount', totalItems);
   }
-  
 
   // Utility function to get query parameters
   function getQueryParam(param) {
