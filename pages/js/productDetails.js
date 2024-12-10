@@ -36,16 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function displayProductDetails(product) {
     document.getElementById('productImage').src = product.image || 'placeholder.jpg';
     document.getElementById('productName').textContent = product.name || 'Unnamed Product';
-    document.getElementById('productPrice').textContent = product.price ? `${product.price}` : 'Price not available';
+    document.getElementById('productPrice').textContent = product.price ? `₹${product.price}` : 'Price not available';
 
     // Display rating as stars
     displayRating(product.rating || 0);
 
     // Display product description
     document.getElementById('productDescription').textContent = product.description || 'No description available.';
-
-    // Display available sizes
-    displayProductSizes(product.sizes);
 
     const addToCartButton = document.getElementById('addToCartButton');
     const buyNowButton = document.getElementById('buyNowButton');
@@ -61,74 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
   function addToCart(product, addButton) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Get the selected size
-    const selectedSize = localStorage.getItem('selectedSize');
-    if (!selectedSize) {
-      alert('Please select a size before adding to the cart.');
-      return;
-    }
-
-    // Use the unique 'id' and size to check for existing items
+    // Check if the product is already in the cart
     const existingItemIndex = cart.findIndex(
-      item => item.id === product.id && item.selectedSize === selectedSize
+      item => item.id === product.id
     );
 
     if (existingItemIndex > -1) {
-      cart[existingItemIndex].quantity += 1; // Increment quantity
+      // Increment quantity if the item already exists in the cart
+      cart[existingItemIndex].quantity += 1;
     } else {
-      product.quantity = 1; // Add quantity property
-      product.selectedSize = selectedSize; // Include the selected size
+      // Add new item to the cart
+      product.quantity = 1;
       cart.push(product);
     }
 
-    // Save the updated cart to localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount(); // Update the cart count
 
-    // Update cart count
-    updateCartCount();
-
-    // Change the button text to "Visit Cart" and link it to the cart page
+    // Update the button to visit cart and set the click event
     addButton.textContent = 'Visit Cart';
-    addButton.onclick = () => navigateToCart();
+    addButton.onclick = () => {
+      window.location.href = '../html/cartPage.html'; // Redirect to the cart page
+    };
 
-    // Show the popup message when an item is added to the cart
-    showPopup(`Successfully added to your cart!`);
-  }
-
-  // Function to display available sizes
-  function displayProductSizes(sizes) {
-    const sizeContainer = document.getElementById('productSizes');
-    const savedSize = localStorage.getItem('selectedSize'); // Retrieve saved size
-
-    if (sizes && sizes.length > 0) {
-      let sizesHtml = '';
-      sizes.forEach(size => {
-        const isSelected = size === savedSize ? 'selected' : '';
-        sizesHtml += `<button class="size-option ${isSelected}" data-size="${size}">${size}</button>`;
-      });
-      sizeContainer.innerHTML = sizesHtml;
-
-      // Add event listeners for size selection
-      const sizeButtons = sizeContainer.querySelectorAll('.size-option');
-      sizeButtons.forEach(button => {
-        button.addEventListener('click', () => selectSize(button));
-      });
-    } else {
-      sizeContainer.innerHTML = '<p>No sizes available.</p>';
-    }
-  }
-
-  // Function to highlight the selected size
-  function selectSize(button) {
-    // Remove the highlight from all size buttons
-    const sizeButtons = document.querySelectorAll('.size-option');
-    sizeButtons.forEach(btn => btn.classList.remove('selected'));
-
-    // Add the highlight to the selected size
-    button.classList.add('selected');
-
-    // Store the selected size in localStorage
-    localStorage.setItem('selectedSize', button.dataset.size);
+    showPopup('Successfully added to your cart!');
   }
 
   // Function to show the popup message
