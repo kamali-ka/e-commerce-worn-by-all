@@ -58,30 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Function to add a product to the cart
-  function addToCart(product, addButton) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+ function addToCart(product, addButton) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
   
-    const existingItemIndex = cart.findIndex(item => item.name === product.name);
-    if (existingItemIndex > -1) {
-      cart[existingItemIndex].quantity += 1; // Increment quantity
-    } else {
-      product.quantity = 1; // Add quantity property
-      cart.push(product);
-    }
-  
-    // Save the updated cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-  
-    // Update cart count
-    updateCartCount();
-  
-    // Change the button text to "Visit Cart" and link it to the cart page
-    addButton.textContent = 'Visit Cart';
-    addButton.onclick = () => navigateToCart();
-  
-    // Show the popup message when an item is added to the cart
-    showPopup(`Successfully added to your cart!`);
+  // Use the unique 'id' to check for existing items
+  const existingItemIndex = cart.findIndex(item => item.id === product.id);
+  if (existingItemIndex > -1) {
+    cart[existingItemIndex].quantity += 1; // Increment quantity
+  } else {
+    product.quantity = 1; // Add quantity property
+    cart.push(product);
   }
+  
+  // Save the updated cart to localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  // Update cart count
+  updateCartCount();
+  
+  // Change the button text to "Visit Cart" and link it to the cart page
+  addButton.textContent = 'Visit Cart';
+  addButton.onclick = () => navigateToCart();
+  
+  // Show the popup message when an item is added to the cart
+  showPopup(`Successfully added to your cart!`);
+}
 
   // Function to display available sizes
   function displayProductSizes(sizes) {
