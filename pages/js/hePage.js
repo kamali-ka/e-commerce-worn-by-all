@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to load and display all products
+// Function to load and display all products
 async function loadProducts() {
   try {
     // Fetch the product data from the JSON file
@@ -79,6 +80,12 @@ async function loadProducts() {
       const addButton = document.createElement('button');
       addButton.textContent = isInCart(product) ? 'Visit Cart' : 'Add to Cart';
       addButton.onclick = () => handleCartButtonClick(product, addButton);
+
+      // Add click event to the product card to open the details page
+      productCard.onclick = () => {
+        localStorage.setItem('selectedProductId', product.id);  // Store the selected product's ID
+        window.location.href = '../html/productDetails.html'; // Redirect to the product details page
+      };
 
       productCard.append(productImage, productName, productPrice, addButton);
       productGrid.appendChild(productCard);
