@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const emailError = document.getElementById('emailError');
     const phoneError = document.getElementById('phoneError');
     const removeProfileButton = document.getElementById('remove-profile'); // Get the remove button
-    const defaultProfileImage = "/assets/images/default-profile.png"; // Default profile image path
+    const defaultProfileImage = "/assets/images/default.png"; // Default profile image path
 
     const popupMessage = document.getElementById('popupMessage'); // Popup message container
 
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("profile-phone").textContent = phoneInput.value;
             document.getElementById("profile-dress-size").textContent = dressSizeInput.value;
 
-            showPopup('Form submitted successfully!', 'success'); // Show success message
+            showPopup('Profile details saved successfully!', 'success'); // Show success message
         }
     });
 

@@ -119,7 +119,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isValid) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        showModal("Sign-up successful! Redirecting to home page...", "../../index.html");
+        // Save username and email to localStorage after successful sign-up
+        localStorage.setItem("username", username);
+        localStorage.setItem("email", email);
+
+        // Redirect to the account details page after successful sign-up
+        showModal("Sign-up successful! Redirecting to account details page...", "../../pages/html/accountDetails.html");
       } catch (error) {
         console.error("Error during sign-up:", error);
         showModal(`Error during sign-up: ${error.message}`);
@@ -154,7 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isValid) {
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        showModal("Login successful! Redirecting to home page...", "/index.html");
+        // Store user data in localStorage after successful login
+        localStorage.setItem("email", email);
+        
+        // Redirect to the account details page after successful login
+        showModal("Login successful! Redirecting to account details page...", "../../pages/html/accountDetails.html");
       } catch (error) {
         console.error("Error during login:", error);
         showModal("Invalid email or password.");
