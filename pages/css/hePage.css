@@ -313,6 +313,43 @@ body {
   display: flex;
   animation: fadeInOut 3s ease-in-out;
 }
+/* Cart Icon Styles */
+.nav-icon {
+  position: fixed; /* Keep it fixed on the page */
+  top: 10px; /* 10px from the top of the viewport */
+  right: 20px; /* 20px from the right of the viewport */
+  z-index: 1100; /* Ensure it's above other elements */
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+/* Cart Icon link */
+.nav-icon a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* Cart Count Styling */
+.nav-icon #cartCount {
+  border-radius: 50%; /* Circular shape */
+  padding: 2px 6px; /* Adjust padding for size */
+  margin-left: 5px; /* Space between the icon and count */
+  position: absolute;
+  top: -10px; /* Adjust to position the count above the icon */
+  right: -10px; /* Center it horizontally relative to the icon */
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 10px; /* Slightly larger circle to fit content */
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
 
 /* Fade-in/out Animation */
 @keyframes fadeInOut {

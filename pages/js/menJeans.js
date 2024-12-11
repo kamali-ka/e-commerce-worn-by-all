@@ -1,5 +1,4 @@
-// Function to load and display only shirts
-// Function to load and display only jeans (or all products)
+// Function to load and display only shirts (or all products)
 async function loadProducts() {
   try {
       // Fetch the product data from the JSON file
@@ -59,6 +58,105 @@ async function loadProducts() {
       }
   }
 }
+
+// Function to redirect to the product detail page
+function redirectToProductDetail(productId) {
+  // Redirect to the product detail page with the product ID as a query parameter
+  window.location.href = `../html/productDetails.html?id=${productId}`;
+}
+
+// Function to handle the button click for adding/visiting the cart
+function handleCartButtonClick(product, button) {
+  if (isInCart(product)) {
+      // Redirect to cart
+      window.location.href = '../html/cartPage.html'; // Adjust path to your cart page
+  } else {
+      addToCart(product);
+      button.textContent = 'Visit Cart';
+  }
+}
+
+// Function to check if a product is already in the cart
+function isInCart(product) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  return cart.some(item => item.name === product.name);
+}
+
+// Function to add a product to the cart
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  const existingItemIndex = cart.findIndex(item => item.name === product.name);
+  if (existingItemIndex === -1) {
+      product.quantity = 1; // Add quantity property
+      cart.push(product);
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  showCartPopup('Successfully added to the cart!');
+}
+
+// Function to update the cart count
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+  const cartCountElement = document.getElementById('cartCount');
+  if (cartCountElement) {
+      cartCountElement.textContent = totalItems;
+  }
+}
+
+// Function to display the popup message
+function showCartPopup(message) {
+  const popupContainer = document.getElementById('popupContainer');
+  const popupMessage = document.getElementById('popupMessage');
+
+  // Set the message content
+  popupMessage.textContent = message;
+
+  // Display the popup
+  popupContainer.classList.add('show');
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+      popupContainer.classList.remove('show');
+  }, 3000);
+}
+
+// Function to search for products
+function searchProducts() {
+  const searchBarValue = document.getElementById('searchBar').value.toLowerCase();
+  const products = document.querySelectorAll('.product-card');
+
+  products.forEach(product => {
+      const productName = product.querySelector('h2').textContent.toLowerCase();
+      product.style.display = productName.includes(searchBarValue) ? 'block' : 'none';
+  });
+}
+
+// Toggle sidebar visibility
+document.getElementById('toggleSidebar').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('visible');
+});
+
+// Load cart count on page load and fetch products
+document.addEventListener('DOMContentLoaded', () => {
+  loadProducts().then(() => {
+      updateCartCount();
+  });
+
+  // Attach event listener for search bar
+  const searchBar = document.getElementById('searchBar');
+  if (searchBar) {
+      searchBar.addEventListener('input', searchProducts);
+  } else {
+      console.error("Search bar element not found.");
+  }
+});
+
 
 // Function to redirect to the product detail page
 function redirectToProductDetail(productId) {
