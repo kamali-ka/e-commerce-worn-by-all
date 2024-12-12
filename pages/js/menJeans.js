@@ -304,19 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // Function to add a product to the cart
-  function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  function addToCart(item) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
   
-    const existingItemIndex = cart.findIndex(item => item.name === product.name);
-    if (existingItemIndex === -1) {
-      product.quantity = 1; // Add quantity property
-      cart.push(product);
+    // Check if the item already exists in the cart
+    const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+    if (existingItemIndex > -1) {
+      // Update quantity if item exists
+      cart[existingItemIndex].quantity += 1;
+    } else {
+      // Add new item to the cart
+      cart.push({ ...item, quantity: 1 });
     }
   
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-    showCartPopup('Successfully added to the cart!');
+    localStorage.setItem("cart", JSON.stringify(cart));
+  
+    // Show popup message
+    showPopup("Item added to cart successfully!");
   }
+  
   
   // Function to update the cart count
   function updateCartCount() {
@@ -330,21 +336,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // Function to display the popup message
-  function showCartPopup(message) {
-    const popupContainer = document.getElementById('popupContainer');
-    const popupMessage = document.getElementById('popupMessage');
+// Function to show the popup message
+function showPopup(message) {
+  const popupContainer = document.getElementById('popupContainer');
+  const popupMessage = popupContainer.querySelector('.popup-message');
   
-    // Set the message content
-    popupMessage.textContent = message;
+  // Set the message
+  popupMessage.textContent = message;
   
-    // Display the popup
-    popupContainer.classList.add('show');
-  
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popupContainer.classList.remove('show');
-    }, 3000);
-  }
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
+
+  // Show the popup
+  popupContainer.classList.add('show');
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popupContainer.classList.remove('show');
+  }, 3000);
+}
+
   
   // Function to search for products
   function searchProducts() {

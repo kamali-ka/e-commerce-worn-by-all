@@ -79,6 +79,7 @@ function navigateToCart() {
 }
 
 // Function to handle adding an item to the cart
+// Function to add a product to the cart
 function addToCart(item) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -93,7 +94,9 @@ function addToCart(item) {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Item added to cart!");
+
+  // Show popup message
+  showPopup("Item added to cart successfully!");
 }
 
 // Add click event listener to the "Add to Cart" button
@@ -117,6 +120,7 @@ if (addButton) {
 
 
 // Function to show the popup message
+// Function to show the popup message
 function showPopup(message) {
   const popupContainer = document.getElementById('popupContainer');
   const popupMessage = popupContainer.querySelector('.popup-message');
@@ -124,9 +128,13 @@ function showPopup(message) {
   // Set the message
   popupMessage.textContent = message;
   
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
+
   // Show the popup
   popupContainer.classList.add('show');
-  
+
   // Hide the popup after 3 seconds
   setTimeout(() => {
     popupContainer.classList.remove('show');

@@ -165,7 +165,9 @@ function addToCart(item) {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Item added to cart!");
+
+  // Show popup message
+  showPopup("Item added to cart successfully!");
 }
 
 // Add click event listener to the "Add to Cart" button
@@ -200,14 +202,19 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-function showCartPopup(message) {
+// Function to show the popup message
+function showPopup(message) {
   const popupContainer = document.getElementById('popupContainer');
-  const popupMessage = document.getElementById('popupMessage');
-
-  // Set the message content
+  const popupMessage = popupContainer.querySelector('.popup-message');
+  
+  // Set the message
   popupMessage.textContent = message;
+  
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
 
-  // Display the popup
+  // Show the popup
   popupContainer.classList.add('show');
 
   // Hide the popup after 3 seconds
