@@ -14,28 +14,32 @@
     <h1>Your Shopping Cart</h1>
   </header>
 
-  <!-- Cart Items Container -->
-  <div id="cartItems" class="product-grid">
-    <!-- Cart items will be dynamically loaded here by JavaScript -->
+  <!-- Main Content Container -->
+  <div class="main-container">
+    <!-- Scrollable Cart and Bill Summary -->
+    <div class="scrollable-content">
+      <div id="cartItems" class="product-grid">
+        <!-- Cart items will be dynamically loaded here by JavaScript -->
+      </div>
+
+      <div id="billSummary" class="bill-summary">
+        <!-- Bill summary details will be dynamically populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Fixed Buy Now Button -->
+    <div id="buyNowContainer" class="fixed-footer">
+      <button id="buyNowButton" class="buy-now-btn">Buy Now</button>
+    </div>
   </div>
 
-  <!-- Bill Summary Container -->
-  <div id="billSummary" class="bill-summary">
-    <!-- Bill summary details will be dynamically populated by JavaScript -->
+  <!-- Modal Popup -->
+  <div id="popupModal" class="popup-modal">
+    <div class="popup-content">
+      <p id="popupMessage">Please add items to proceed to payment.</p>
+      <button id="closePopupButton">Close</button>
+    </div>
   </div>
-
-  <!-- Buy Now Button -->
-  <div id="buyNowContainer">
-    <button id="buyNowButton" class="buy-now-btn">Buy Now</button>
-  </div>
-<!-- Modal Popup -->
-<!-- Modal Popup -->
-<div id="popupModal" class="popup-modal">
-  <div class="popup-content">
-    <p id="popupMessage">Please add items to proceed to payment.</p>
-    <button id="closePopupButton">Close</button>
-  </div>
-</div>
 
   <!-- JavaScript -->
   <script src="../js/cartPage.js"></script>

@@ -143,19 +143,50 @@ function isInCart(product) {
 }
 
 // Function to add a product to the cart
-function addToCart(product) {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+// Corrected heShirt.js
 
-  const existingItemIndex = cart.findIndex(item => item.name === product.name);
-  if (existingItemIndex === -1) {
-    product.quantity = 1; // Add quantity property
-    cart.push(product);
+// Function to navigate to the cart page
+function navigateToCart() {
+  window.location.href = "../html/cartPage.html"; // Ensure this path is correct
+}
+
+// Function to handle adding an item to the cart
+function addToCart(item) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Check if the item already exists in the cart
+  const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+  if (existingItemIndex > -1) {
+    // Update quantity if item exists
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    // Add new item to the cart
+    cart.push({ ...item, quantity: 1 });
   }
 
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-  showCartPopup('Successfully added to the cart!');
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Item added to cart!");
 }
+
+// Add click event listener to the "Add to Cart" button
+const addButton = document.getElementById("addToCartButton");
+if (addButton) {
+  addButton.onclick = () => {
+    // Example item data - Replace this with dynamic data as needed
+    const item = {
+      id: "12345",
+      name: "T-Shirt",
+      price: 499,
+      image: "../images/tshirt.jpg",
+    };
+
+    addToCart(item); // Add item to the cart
+    navigateToCart(); // Navigate to the cart page
+  };
+} else {
+  console.error("Add to Cart button not found!");
+}
+
 
 // Function to update the cart count
 function updateCartCount() {

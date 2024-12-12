@@ -71,30 +71,50 @@ async function loadShirts() {
 
 
 // Function to add a product to the cart
-function addToCart(product, addButton) {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+// Corrected heShirt.js
 
-  const existingItemIndex = cart.findIndex(item => item.name === product.name);
+// Function to navigate to the cart page
+function navigateToCart() {
+  window.location.href = "../html/cartPage.html"; // Ensure this path is correct
+}
+
+// Function to handle adding an item to the cart
+function addToCart(item) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Check if the item already exists in the cart
+  const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
   if (existingItemIndex > -1) {
-    cart[existingItemIndex].quantity += 1; // Increment quantity
+    // Update quantity if item exists
+    cart[existingItemIndex].quantity += 1;
   } else {
-    product.quantity = 1; // Add quantity property
-    cart.push(product);
+    // Add new item to the cart
+    cart.push({ ...item, quantity: 1 });
   }
 
-  // Save the updated cart to localStorage
-  localStorage.setItem('cart', JSON.stringify(cart));
-
-  // Update cart count
-  updateCartCount();
-
-  // Change the button text to "Visit Cart" and link it to the cart page
-  addButton.textContent = 'Visit Cart';
-  addButton.onclick = () => navigateToCart();
-
-  // Show the popup message when an item is added to the cart
-  showPopup(`Successfully added to your cart!`);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Item added to cart!");
 }
+
+// Add click event listener to the "Add to Cart" button
+const addButton = document.getElementById("addToCartButton");
+if (addButton) {
+  addButton.onclick = () => {
+    // Example item data - Replace this with dynamic data as needed
+    const item = {
+      id: "12345",
+      name: "T-Shirt",
+      price: 499,
+      image: "../images/tshirt.jpg",
+    };
+
+    addToCart(item); // Add item to the cart
+    navigateToCart(); // Navigate to the cart page
+  };
+} else {
+  console.error("Add to Cart button not found!");
+}
+
 
 // Function to show the popup message
 function showPopup(message) {
