@@ -1,56 +1,80 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
+  authDomain: "wornbyall-926f5.firebaseapp.com",
+  projectId: "wornbyall-926f5",
+  storageBucket: "wornbyall-926f5.appspot.com",
+  messagingSenderId: "770771226995",
+  appId: "1:770771226995:web:15636d6b9e17d27611b506",
+  measurementId: "G-B6PER21YN1",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Function to load shirts from JSON file
 async function loadShirts() {
   try {
-    const response = await fetch('/pages/js/public/he-page.json');
+    const response = await fetch("/pages/js/public/he-page.json");
     if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch products: ${response.status} ${response.statusText}`
+      );
     }
 
     const products = await response.json();
-    const productGrid = document.getElementById('productGrid');
-    productGrid.innerHTML = ''; // Clear existing products
+    const productGrid = document.getElementById("productGrid");
+    productGrid.innerHTML = ""; // Clear existing products
 
     // Filter and display shirts
-    const shirtProducts = products.filter(product => product.type === 'Shirts');
-    shirtProducts.forEach(product => {
-      const productCard = document.createElement('div');
-      productCard.classList.add('product-card');
-      productCard.setAttribute('data-type', product.type);
+    const shirtProducts = products.filter(
+      (product) => product.type === "Shirts"
+    );
+    shirtProducts.forEach((product) => {
+      const productCard = document.createElement("div");
+      productCard.classList.add("product-card");
+      productCard.setAttribute("data-type", product.type);
 
-      // Create a link for the product card that will redirect to the product details page
-      const productLink = document.createElement('a');
-      productLink.href = `../html/productDetails.html?id=${product.id}`;  // Link to the product details page
-      productLink.style.textDecoration = 'none';  // Remove the default link underline
+      // Create a link for the product card
+      const productLink = document.createElement("a");
+      productLink.href = `../html/productDetails.html?id=${product.id}`;
+      productLink.style.textDecoration = "none"; // Remove the default link underline
 
-      const productImage = document.createElement('img');
-      productImage.src = product.image || ''; // Fallback if the image is missing
-      productImage.alt = product.alt || product.name || 'Product Image';
+      const productImage = document.createElement("img");
+      productImage.src = product.image || "";
+      productImage.alt = product.alt || product.name || "Product Image";
 
-      const productName = document.createElement('h2');
-      productName.textContent = product.name || 'Unnamed Product';
+      const productName = document.createElement("h2");
+      productName.textContent = product.name || "Unnamed Product";
 
-      const productPrice = document.createElement('p');
-      productPrice.classList.add('price');
-
-      // Handle invalid or missing price values
-      const price = parseFloat(product.price.replace(/[₹,]/g, '')); // Remove ₹ and commas
+      const productPrice = document.createElement("p");
+      productPrice.classList.add("price");
+      const price = parseFloat(product.price.replace(/[₹,]/g, ""));
       if (isNaN(price)) {
-        productPrice.textContent = 'Price not available';
+        productPrice.textContent = "Price not available";
       } else {
         productPrice.textContent = `₹${price.toFixed(2)}`;
       }
 
-      const addButton = document.createElement('button');
-      addButton.textContent = 'Add to Cart';
+      const addButton = document.createElement("button");
+      addButton.textContent = "Add to Cart";
 
       // Check if the product is already in the cart
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingItem = cart.find(item => item.name === product.name);
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingItem = cart.find((item) => item.name === product.name);
 
       if (existingItem) {
-        addButton.textContent = 'Visit Cart';  // Change to 'Visit Cart' if the item is in the cart
+        addButton.textContent = "Visit Cart"; // Change to 'Visit Cart' if the item is in the cart
         addButton.onclick = () => navigateToCart(); // Navigate to the cart
       } else {
-        addButton.onclick = () => addToCart(product, addButton); // Add to cart
+        addButton.onclick = () => addToCart(product); // Add to cart
       }
 
       // Append product details to the link
@@ -65,171 +89,141 @@ async function loadShirts() {
       productGrid.appendChild(productCard);
     });
   } catch (error) {
-    console.error('Error loading shirts:', error.message);
+    console.error("Error loading shirts:", error.message);
   }
 }
 
-
-// Function to add a product to the cart
-// Corrected heShirt.js
-
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = "../html/cartPage.html"; // Ensure this path is correct
+// Navigate to the cart page
+function searchProducts() {
+  const searchBarValue = document.getElementById("searchBar").value.toLowerCase();
+  const products = document.querySelectorAll(".product-card");
+  products.forEach((product) => {
+    const productName = product.querySelector("h2").textContent.toLowerCase();
+    product.style.display = productName.includes(searchBarValue) ? "block" : "none";
+  });
 }
 
-// Function to handle adding an item to the cart
-// Function to add a product to the cart
+
+// Add event listener to the search bar to trigger search when typing
+document.getElementById("searchBar").addEventListener("input", searchProducts);
+
+// Add product to the cart
 function addToCart(item) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User is signed in:", user);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // Check if the item already exists in the cart
-  const existingItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
-  if (existingItemIndex > -1) {
-    // Update quantity if item exists
-    cart[existingItemIndex].quantity += 1;
-  } else {
-    // Add new item to the cart
-    cart.push({ ...item, quantity: 1 });
-  }
+      // Check if the item already exists in the cart
+      const existingItemIndex = cart.findIndex(
+        (cartItem) => cartItem.id === item.id
+      );
+      if (existingItemIndex > -1) {
+        // Update quantity if item exists
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item to the cart
+        cart.push({ ...item, quantity: 1 });
+      }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(cart));
 
-  // Show popup message
-  showPopup("Item added to cart successfully!");
+      // Show popup message
+      showPopup("Item added to cart successfully!");
+      updateCartCount();
+    } else {
+      window.location.href = "/pages/html/signup-signin.html";
+    }
+  });
 }
 
-// Add click event listener to the "Add to Cart" button
-const addButton = document.getElementById("addToCartButton");
-if (addButton) {
-  addButton.onclick = () => {
-    // Example item data - Replace this with dynamic data as needed
-    const item = {
-      id: "12345",
-      name: "T-Shirt",
-      price: 499,
-      image: "../images/tshirt.jpg",
-    };
-
-    addToCart(item); // Add item to the cart
-    navigateToCart(); // Navigate to the cart page
-  };
-} else {
-  console.error("Add to Cart button not found!");
-}
-
-
-// Function to show the popup message
 // Function to show the popup message
 function showPopup(message) {
-  const popupContainer = document.getElementById('popupContainer');
-  const popupMessage = popupContainer.querySelector('.popup-message');
-  
+  const popupContainer = document.getElementById("popupContainer");
+  const popupMessage = popupContainer.querySelector(".popup-message");
+
   // Set the message
   popupMessage.textContent = message;
-  
+
   // Ensure the popup is styled for success
   popupMessage.style.backgroundColor = "green"; // Set to green for success
   popupMessage.style.color = "white";
 
   // Show the popup
-  popupContainer.classList.add('show');
+  popupContainer.classList.add("show");
 
   // Hide the popup after 3 seconds
   setTimeout(() => {
-    popupContainer.classList.remove('show');
+    popupContainer.classList.remove("show");
   }, 3000);
 }
 
+// Update cart count
 function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  
-  const cartCountElement = document.getElementById('cartCount');
+
+  const cartCountElement = document.getElementById("cartCount");
   if (cartCountElement) {
     cartCountElement.textContent = totalItems;
   }
-  // Save cart count explicitly to localStorage
-  localStorage.setItem('cartCount', totalItems);
+
+  // Save cart count to localStorage
+  localStorage.setItem("cartCount", totalItems);
 }
-
-
-// Function to search for products
-function searchProducts() {
-  const searchBarValue = document.getElementById('searchBar').value.toLowerCase();
-  const products = document.querySelectorAll('.product-card');
-
-  products.forEach(product => {
-    const productName = product.querySelector('h2').textContent.toLowerCase();
-    product.style.display = productName.includes(searchBarValue) ? 'block' : 'none';
-  });
-}
-
-// Toggle sidebar visibility
-document.getElementById('toggleSidebar').addEventListener('click', () => {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('visible');
-});
 
 // Load cart count on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   loadShirts();
   updateCartCount();
-  const popupContainer = document.getElementById('popupContainer');
-  popupContainer.classList.remove('show'); // Ensure the popup is hidden on page load
+  const popupContainer = document.getElementById("popupContainer");
+  popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
 });
 
-// Maintain cart count state
-let cartCount = 0;
-
-// Save the cart count to localStorage
-function saveCartCount() {
-  localStorage.setItem('cartCount', cartCount);
-}
-
-// Load the cart count from localStorage
-document.addEventListener('DOMContentLoaded', () => {
-  loadShirts();
-  updateCartCount();
-  const popupContainer = document.getElementById('popupContainer');
-  popupContainer.classList.remove('show');  // Ensure the popup is hidden on page load
-  
-  const savedCartCount = localStorage.getItem('cartCount');
-  if (savedCartCount) {
-    cartCount = parseInt(savedCartCount, 10);
-    updateCartCount();
-  }
-});
-
-// Function to get the URL parameter
+// Function to get URL parameters
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
+// Load product details from URL parameter
 function loadProductDetails() {
   const productId = getQueryParam("id");
   if (!productId) {
-    document.getElementById("productDetails").textContent = "Product ID not found!";
+    document.getElementById("productDetails").textContent =
+      "Product ID not found!";
     return;
   }
 
-  fetch('/pages/js/public/he-page.json')  // Ensure this path is correct
-    .then(response => response.json())
-    .then(data => {
-      const product = data.find(p => p.id === productId);
+  fetch("/pages/js/public/he-page.json")
+    .then((response) => response.json())
+    .then((data) => {
+      const product = data.find((p) => p.id === productId);
       if (product) {
-        document.getElementById("productImage").src = product.image || 'default-image.jpg';
-        document.getElementById("productName").textContent = product.name || 'Unnamed Product';
-        document.getElementById("productPrice").textContent = product.price || 'Price not available';
-        document.getElementById("productRatings").textContent = `Rating: ${product.rating || 'N/A'}`;
-        document.getElementById("productDescription").textContent = product.description || 'No description available.';
+        document.getElementById("productImage").src =
+          product.image || "default-image.jpg";
+        document.getElementById("productName").textContent =
+          product.name || "Unnamed Product";
+        document.getElementById("productPrice").textContent =
+          product.price || "Price not available";
+        document.getElementById("productRatings").textContent = `Rating: ${
+          product.rating || "N/A"
+        }`;
+        document.getElementById("productDescription").textContent =
+          product.description || "No description available.";
       } else {
-        document.getElementById("productDetails").textContent = "Product not found!";
+        document.getElementById("productDetails").textContent =
+          "Product not found!";
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error fetching product details:", error);
-      document.getElementById("productDetails").textContent = "Failed to load product details.";
+      document.getElementById("productDetails").textContent =
+        "Failed to load product details.";
     });
 }
+// Toggle sidebar visibility
+document.getElementById("toggleSidebar").addEventListener("click", () => {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("visible"); // Toggle 'visible' class to show/hide sidebar
+});

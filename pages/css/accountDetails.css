@@ -1,396 +1,396 @@
 /* General Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Light grey */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes the full height */
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Light grey */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body takes the full height */
 }
 
 /* Header Styles */
 .header {
-    background-color: #333333; /* Dark grey */
-    color: #ffffff; /* White */
-    padding: 20px;
+  background-color: #333333; /* Dark grey */
+  color: #ffffff; /* White */
+  padding: 20px;
 }
 
 .nav {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .header h1 {
-    font-size: 1.8rem;
-    margin: 0;
+  font-size: 1.8rem;
+  margin: 0;
 }
 
 .header-icons img {
-    width: 40px; /* Increase size */
-    height: 40px; /* Increase size */
-    margin-left: 15px;
-    cursor: pointer;
+  width: 40px; /* Increase size */
+  height: 40px; /* Increase size */
+  margin-left: 15px;
+  cursor: pointer;
 }
 
 .header-icons img:hover {
-    opacity: 0.7; /* Maintain hover effect */
+  opacity: 0.7; /* Maintain hover effect */
 }
 
 /* Main Account Container */
 .account-container {
-    display: flex;
-    padding: 20px;
-    flex-grow: 1; /* Make sure the container takes up the remaining space */
-    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
+  display: flex;
+  padding: 20px;
+  flex-grow: 1; /* Make sure the container takes up the remaining space */
+  flex-wrap: wrap; /* Ensure items wrap on smaller screens */
 }
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px;
-    background-color: #444444; /* Mid grey */
-    color: white;
-    padding: 20px;
-    height: auto;
-    border-radius: 8px;
-    margin-right: 20px;
+  width: 250px;
+  background-color: #444444; /* Mid grey */
+  color: white;
+  padding: 20px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
 }
 
 .sidebar ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .sidebar ul li {
-    margin: 15px 0;
+  margin: 15px 0;
 }
 
 .sidebar ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-    color: #bbbbbb; /* Light grey hover effect */
+  color: #bbbbbb; /* Light grey hover effect */
 }
 
 /* Account Details Section */
 .account-details {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #ffffff; /* White */
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #ffffff; /* White */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .account-details h2 {
-    font-size: 1.8rem;
-    color: #333333; /* Dark grey */
-    margin-bottom: 20px;
-    text-align: center;
+  font-size: 1.8rem;
+  color: #333333; /* Dark grey */
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .saved-details p {
-    font-size: 1.1rem;
-    color: #555555; /* Mid grey */
-    margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #555555; /* Mid grey */
+  margin-bottom: 15px;
 }
 
 /* Profile Picture */
 .profile-picture {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .profile-picture .circle {
-    width: 120px;
-    height: 120px;
-    border: 2px solid #333333; /* Dark grey */
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4; /* Light grey */
-    margin-bottom: 10px;
-    cursor: pointer;
+  width: 120px;
+  height: 120px;
+  border: 2px solid #333333; /* Dark grey */
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4; /* Light grey */
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .profile-picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profile-picture input {
-    display: none; /* Hide the file input */
+  display: none; /* Hide the file input */
 }
 
 .profile-picture label {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* Profile Container */
 .profile-container {
-    font-family: Arial, sans-serif;
-    width: 100%;
-    max-width: 600px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 600px;
 }
 
 .profile-container h1 {
-    margin-bottom: 20px; /* Add space between the heading and the first profile item */
-    font-size: 1.5rem; /* Optional: Adjust font size for the heading */
-    color: #333333; /* Dark grey for better visibility */
+  margin-bottom: 20px; /* Add space between the heading and the first profile item */
+  font-size: 1.5rem; /* Optional: Adjust font size for the heading */
+  color: #333333; /* Dark grey for better visibility */
 }
 
 .remove-button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #ff4d4d; /* Red for delete action */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff4d4d; /* Red for delete action */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .remove-button:hover {
-    background-color: #ff1a1a; /* Darker red */
+  background-color: #ff1a1a; /* Darker red */
 }
 
 .profile-item {
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .profile-item strong {
-    color: #333333; /* Dark grey */
+  color: #333333; /* Dark grey */
 }
 
 /* Popup Message Style */
 .popup-message {
-    position: absolute;
-    background-color: #28a745; /* Default green for success */
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  background-color: #28a745; /* Default green for success */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .popup-message.show {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .popup-message.error {
-    background-color: #dc3545; /* Red for error */
+  background-color: #dc3545; /* Red for error */
 }
 
 /* Form Styles */
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
 }
 
 .form-group {
-    margin-bottom: 15px;
-    width: 100%;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 label {
-    color: #333333; /* Dark grey */
-    font-size: 1.1rem;
+  color: #333333; /* Dark grey */
+  font-size: 1.1rem;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #444444; /* Mid grey border */
-    border-radius: 5px;
-    margin-top: 5px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444444; /* Mid grey border */
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 1rem;
 }
 
 input:focus,
 select:focus {
-    outline-color: #333333; /* Dark grey focus effect */
+  outline-color: #333333; /* Dark grey focus effect */
 }
 
 /* Button Styles */
 button {
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    background-color: #333333; /* Dark grey */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  background-color: #333333; /* Dark grey */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #555555; /* Lighter grey */
+  background-color: #555555; /* Lighter grey */
 }
 
 /* Error message styles */
 .error {
-    color: red;
-    font-size: 0.9rem;
+  color: red;
+  font-size: 0.9rem;
 }
 
 /* Footer Styles */
 .footer {
-    background-color: #333333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 20px;
+  background-color: #333333;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 20px;
 }
 .profile-placeholder {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #ccc;
-    color: #fff;
-    font-size: 36px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: #fff;
+  font-size: 36px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
 }
 
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 768px) {
-    /* Adjust header */
-    .header h1 {
-        font-size: 1.4rem;
-    }
+  /* Adjust header */
+  .header h1 {
+    font-size: 1.4rem;
+  }
 
-    .header-icons img {
-        width: 30px;
-        height: 30px;
-    }
+  .header-icons img {
+    width: 30px;
+    height: 30px;
+  }
 
-    /* Account Container */
-    .account-container {
-        flex-direction: column;
-        padding: 10px;
-    }
+  /* Account Container */
+  .account-container {
+    flex-direction: column;
+    padding: 10px;
+  }
 
-    /* Sidebar */
-    .sidebar {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
+  /* Sidebar */
+  .sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 
-    /* Account Details Section */
-    .account-details {
-        width: 100%;
-        padding: 10px;
-    }
+  /* Account Details Section */
+  .account-details {
+    width: 100%;
+    padding: 10px;
+  }
 
-    /* Profile Picture */
-    .profile-picture {
-        width: 100%;
-    }
+  /* Profile Picture */
+  .profile-picture {
+    width: 100%;
+  }
 
-    .profile-picture .circle {
-        width: 80px;
-        height: 80px;
-    }
+  .profile-picture .circle {
+    width: 80px;
+    height: 80px;
+  }
 
-    .profile-picture img {
-        width: 100%;
-        height: 100%;
-    }
+  .profile-picture img {
+    width: 100%;
+    height: 100%;
+  }
 
-    /* Form */
-    .form-group {
-        width: 100%;
-    }
+  /* Form */
+  .form-group {
+    width: 100%;
+  }
 
-    /* Remove Button */
-    .remove-button {
-        font-size: 0.8rem;
-        padding: 5px 8px;
-    }
+  /* Remove Button */
+  .remove-button {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
 
-    /* Button Styles */
-    button {
-        padding: 8px 15px;
-        font-size: 1rem;
-    }
+  /* Button Styles */
+  button {
+    padding: 8px 15px;
+    font-size: 1rem;
+  }
 
-    /* Footer */
-    .footer {
-        padding: 5px 0;
-    }
+  /* Footer */
+  .footer {
+    padding: 5px 0;
+  }
 }
 
 @media (max-width: 480px) {
-    /* Further adjustments for smaller screens */
-    .header h1 {
-        font-size: 1.2rem;
-    }
+  /* Further adjustments for smaller screens */
+  .header h1 {
+    font-size: 1.2rem;
+  }
 
-    .header-icons img {
-        width: 25px;
-        height: 25px;
-    }
+  .header-icons img {
+    width: 25px;
+    height: 25px;
+  }
 
-    /* Account Container */
-    .account-container {
-        padding: 5px;
-    }
+  /* Account Container */
+  .account-container {
+    padding: 5px;
+  }
 
-    /* Form inputs */
-    input[type="text"],
-    input[type="email"],
-    select {
-        font-size: 0.9rem;
-    }
+  /* Form inputs */
+  input[type="text"],
+  input[type="email"],
+  select {
+    font-size: 0.9rem;
+  }
 
-    /* Profile Picture */
-    .profile-picture .circle {
-        width: 70px;
-        height: 70px;
-    }
+  /* Profile Picture */
+  .profile-picture .circle {
+    width: 70px;
+    height: 70px;
+  }
 
-    .remove-button {
-        font-size: 0.7rem;
-        padding: 5px 7px;
-    }
+  .remove-button {
+    font-size: 0.7rem;
+    padding: 5px 7px;
+  }
 
-    /* Button Styles */
-    button {
-        padding: 7px 12px;
-        font-size: 1rem;
-    }
+  /* Button Styles */
+  button {
+    padding: 7px 12px;
+    font-size: 1rem;
+  }
 }

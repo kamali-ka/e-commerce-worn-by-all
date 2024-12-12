@@ -18,7 +18,7 @@ function loadCartItems() {
 
     // Create product image
     const productImage = document.createElement("img");
-    productImage.src = item.image || 'placeholder.jpg';
+    productImage.src = item.image || "placeholder.jpg";
     productImage.alt = item.name;
     productImage.classList.add("product-image");
 
@@ -28,22 +28,29 @@ function loadCartItems() {
     productName.classList.add("product-name");
 
     // Create price display
-    const numericPrice = typeof item.price === "string"
-                          ? parseFloat(item.price.replace(/₹|,/g, ""))
-                          : item.price;
+    const numericPrice =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/₹|,/g, ""))
+        : item.price;
     const productPrice = document.createElement("p");
     productPrice.classList.add("price");
-    productPrice.textContent = `Price: ₹${((item.quantity || 1) * numericPrice).toFixed(2)}`;
+    productPrice.textContent = `Price: ₹${(
+      (item.quantity || 1) * numericPrice
+    ).toFixed(2)}`;
 
     // Create quantity container and buttons
     const quantityContainer = document.createElement("div");
     quantityContainer.classList.add("quantity-container");
 
-    const decreaseButton = createQuantityButton("-", () => updateQuantity(index, -1));
+    const decreaseButton = createQuantityButton("-", () =>
+      updateQuantity(index, -1)
+    );
     const quantityDisplay = document.createElement("span");
     quantityDisplay.textContent = `Quantity: ${item.quantity || 1}`;
     quantityDisplay.classList.add("quantity-display");
-    const increaseButton = createQuantityButton("+", () => updateQuantity(index, 1));
+    const increaseButton = createQuantityButton("+", () =>
+      updateQuantity(index, 1)
+    );
 
     quantityContainer.appendChild(decreaseButton);
     quantityContainer.appendChild(quantityDisplay);
@@ -58,7 +65,9 @@ function loadCartItems() {
     // Create size display
     const sizeDisplay = document.createElement("p");
     sizeDisplay.classList.add("size-display");
-    sizeDisplay.textContent = `Selected Sizes: ${item.selectedSizes ? item.selectedSizes.join(", ") : "Not selected"}`;
+    sizeDisplay.textContent = `Selected Sizes: ${
+      item.selectedSizes ? item.selectedSizes.join(", ") : "Not selected"
+    }`;
 
     // Create size selector container
     const sizeSelectorContainer = document.createElement("div");
@@ -66,8 +75,22 @@ function loadCartItems() {
     sizeSelectorContainer.style.display = "none"; // Initially hidden
 
     // Create and append size rows
-    appendSizeRow(sizeSelectorContainer, item, index, 1, ["XS", "S", "M", "L", "XL", "XXL", "XXXL"]);
-    appendSizeRow(sizeSelectorContainer, item, index, 2, [24, 26, 28, 30, 32, 34, 36, 38, 40]);
+    appendSizeRow(sizeSelectorContainer, item, index, 1, [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL",
+      "XXXL",
+    ]);
+    appendSizeRow(
+      sizeSelectorContainer,
+      item,
+      index,
+      2,
+      [24, 26, 28, 30, 32, 34, 36, 38, 40]
+    );
 
     // Append all elements to product card
     productCard.appendChild(productImage);
@@ -132,7 +155,9 @@ function selectSize(index, size, row) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   if (cart[index]) {
     if (cart[index].selectedRow && cart[index].selectedRow !== row) {
-      alert("You can only select sizes from one row. Please choose a size from the current row.");
+      alert(
+        "You can only select sizes from one row. Please choose a size from the current row."
+      );
       return;
     }
 
@@ -154,7 +179,7 @@ function selectSize(index, size, row) {
 // Function to update quantity of an item in the cart
 function updateQuantity(index, change) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  
+
   // Check if the item exists at the given index
   if (cart[index]) {
     // Ensure `selectedSizes` is initialized
@@ -178,7 +203,6 @@ function updateQuantity(index, change) {
   }
 }
 
-
 // Function to update the bill summary
 function updateBillSummary() {
   const billSummaryContainer = document.getElementById("billSummary");
@@ -186,9 +210,10 @@ function updateBillSummary() {
   let totalPrice = 0;
 
   cart.forEach((item) => {
-    const numericPrice = typeof item.price === "string"
-      ? parseFloat(item.price.replace(/₹|,/g, ""))
-      : item.price;
+    const numericPrice =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/₹|,/g, ""))
+        : item.price;
     totalPrice += (item.quantity || 1) * numericPrice;
   });
 

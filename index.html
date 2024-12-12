@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <script src="./pages/js/script.js"></script>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar">
@@ -21,13 +23,20 @@
             <li><a href="./pages/html/unisex-page.html">Unisex</a></li>
         </ul>
         <div class="nav-icon">
-            <a href="./pages/html/accountDetails.html"><i class="fa-solid fa-user"></i></a>
+            <!-- Login/Signup Button -->
+            <!-- Login/Signup Button -->
+            <button id="loginSignupButton" style="display: none;" onclick="redirectToSignIn()">Log In / Sign Up</button>
+            <!-- User Icon (Initially Hidden) -->
+            <a id="userIcon" href="./pages/html/accountDetails.html" style="display: none;">
+                <i class="fa-solid fa-user"></i>
+            </a>
             <a href="./pages/html/cartPage.html" style="position: relative;">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span id="cartCount" class="cart-count">0</span>
             </a>
-        </div>        
+        </div>
     </nav>
+
     <!-- Hero Section -->
     <section class="hero-banner">
         <h1>Welcome to Worn By All</h1>
@@ -109,6 +118,7 @@
             <p>© 2024 Worn By All. All rights reserved. | Designed with ♥</p>
         </div>
     </footer>
-    
+
 </body>
+
 </html>

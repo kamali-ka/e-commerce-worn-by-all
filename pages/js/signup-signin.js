@@ -1,9 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
+  signOut,
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 // Firebase Configuration
@@ -14,21 +15,27 @@ const firebaseConfig = {
   storageBucket: "wornbyall-926f5.appspot.com",
   messagingSenderId: "770771226995",
   appId: "1:770771226995:web:15636d6b9e17d27611b506",
-  measurementId: "G-B6PER21YN1"
+  measurementId: "G-B6PER21YN1",
 };
 
-// Initialize Firebase App
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// // Wait for DOM to Load
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("modal-overlay");
 
-  // Modal function with redirection
+  // Helper Function: Show Modal
   function showModal(message, redirect = null) {
     const modal = document.getElementById("popup-modal");
     const modalMessage = document.getElementById("popup-message");
     const okButton = document.getElementById("popup-ok-button");
+
+    if (!modal || !overlay) {
+      console.error("Modal elements not found in the DOM.");
+      return;
+    }
 
     modalMessage.textContent = message;
     modal.style.display = "block";
@@ -43,138 +50,159 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  // Hide modal when overlay is clicked
-  overlay.onclick = function () {
-    const modal = document.getElementById("popup-modal");
-    modal.style.display = "none";
-    overlay.style.display = "none";
-  };
+  // // Hide Modal on Overlay Click
+  if (overlay) {
+    overlay.onclick = function () {
+      const modal = document.getElementById("popup-modal");
+      if (modal) {
+        modal.style.display = "none";
+        overlay.style.display = "none";
+      }
+    };
+  }
 
-  // Password visibility toggle
+  // Password Visibility Toggle
   window.togglePasswordVisibility = function (inputId, eyeId) {
     const passwordField = document.getElementById(inputId);
     const eyeIcon = document.getElementById(eyeId);
 
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      eyeIcon.innerHTML = "<i class='fa fa-eye'></i>";
+    if (passwordField && eyeIcon) {
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.innerHTML = "<i class='fa fa-eye'></i>";
+      } else {
+        passwordField.type = "password";
+        eyeIcon.innerHTML = "<i class='fa fa-eye-slash'></i>";
+      }
     } else {
-      passwordField.type = "password";
-      eyeIcon.innerHTML = "<i class='fa fa-eye-slash'></i>";
+      console.error("Password field or eye icon not found.");
     }
   };
 
-  // Toggle between Sign-Up and Login forms
+  // Form Toggle Between Sign-Up and Login
   window.toggleForms = function () {
     const signupForm = document.getElementById("signup-form");
     const loginForm = document.getElementById("login-form");
 
-    if (signupForm.style.display === "none") {
-      signupForm.style.display = "block";
-      loginForm.style.display = "none";
+    if (signupForm && loginForm) {
+      if (signupForm.style.display === "none") {
+        signupForm.style.display = "block";
+        loginForm.style.display = "none";
+      } else {
+        signupForm.style.display = "none";
+        loginForm.style.display = "block";
+      }
     } else {
-      signupForm.style.display = "none";
-      loginForm.style.display = "block";
+      console.error("Sign-up or Login form not found.");
     }
   };
 
   // Handle Sign-Up
   window.handleSignup = async function () {
-    // Clear error messages
-    document.getElementById("username-error").textContent = "";
-    document.getElementById("email-error").textContent = "";
-    document.getElementById("password-error").textContent = "";
-    document.getElementById("confirm-password-error").textContent = "";
+    try {
+      const username = document.getElementById("signup-username").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById(
+        "signup-confirm-password"
+      ).value;
 
-    // Get values
-    const username = document.getElementById("signup-username").value.trim();
-    const email = document.getElementById("signup-email").value.trim();
-    const password = document.getElementById("signup-password").value;
-    const confirmPassword = document.getElementById("signup-confirm-password").value;
+      // Basic Validation
+      if (!username) throw new Error("Username is required.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        throw new Error("Invalid email format.");
+      if (password.length < 6)
+        throw new Error("Password must be at least 6 characters.");
+      if (password !== confirmPassword)
+        throw new Error("Passwords do not match.");
 
-    // Validation
-    let isValid = true;
-
-    if (username === "") {
-      document.getElementById("username-error").textContent = "Username is required.";
-      isValid = false;
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      document.getElementById("email-error").textContent = "Invalid email format.";
-      isValid = false;
-    }
-
-    if (password.length < 6) {
-      document.getElementById("password-error").textContent = "Password must be at least 6 characters.";
-      isValid = false;
-    }
-
-    if (password !== confirmPassword) {
-      document.getElementById("confirm-password-error").textContent = "Passwords do not match.";
-      isValid = false;
-    }
-
-    if (isValid) {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // Save username and email to localStorage after successful sign-up
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email);
-
-        // Redirect to the account details page after successful sign-up
-        showModal("Sign-up successful! Redirecting to account details page...", "../../pages/html/accountDetails.html");
-      } catch (error) {
-        console.error("Error during sign-up:", error);
-        showModal(`Error during sign-up: ${error.message}`);
-      }
+      // Create User
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      showModal(
+        "Sign-up successful! Redirecting to account details page...",
+        "../../pages/html/accountDetails.html"
+      );
+    } catch (error) {
+      console.error("Sign-up error:", error.message);
+      showModal(`Error during sign-up: ${error.message}`);
     }
   };
 
   // Handle Login
   window.handleLogin = async function () {
-    // Clear error messages
-    document.getElementById("login-email-error").textContent = "";
-    document.getElementById("login-general-error").textContent = "";
+    try {
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
 
-    // Get values
-    const email = document.getElementById("login-email").value.trim();
-    const password = document.getElementById("login-password").value;
+      // Basic Validation
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        throw new Error("Invalid email format.");
+      if (!password) throw new Error("Password is required.");
 
-    // Validation
-    let isValid = true;
+      // Sign In User
+      await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem("email", email);
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      document.getElementById("login-email-error").textContent = "Invalid email format.";
-      isValid = false;
-    }
-
-    if (password === "") {
-      document.getElementById("login-general-error").textContent = "Password is required.";
-      isValid = false;
-    }
-
-    if (isValid) {
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        // Store user data in localStorage after successful login
-        localStorage.setItem("email", email);
-        
-        // Redirect to the account details page after successful login
-        showModal("Login successful! Redirecting to account details page...", "../../pages/html/accountDetails.html");
-      } catch (error) {
-        console.error("Error during login:", error);
-        showModal("Invalid email or password.");
+      // Fetch or set username
+      let userName = localStorage.getItem("username");
+      if (!userName) {
+        userName = email.split("@")[0]; // Default to email prefix if username not set
+        localStorage.setItem("username", userName);
       }
+
+      // Redirect to account details page after successful login
+      showModal(
+        "Login successful! Redirecting to account details page...",
+        "../../pages/html/accountDetails.html"
+      );
+    } catch (error) {
+      console.error("Login error:", error.message);
+      showModal("Invalid email or password.");
     }
   };
+
+  // Handle Logout
+  const logoutButton = document.getElementById("logout-button");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", function () {
+      signOut(auth)
+        .then(() => {
+          // Clear localStorage and logout user
+          localStorage.clear();
+          showModal(
+            "Logged out successfully! Redirecting to login page...",
+            "../../pages/html/signup-signin.html"
+          );
+        })
+        .catch((error) => {
+          console.error("Logout error:", error.message);
+        });
+    });
+  } else {
+    console.warn("Logout button not found.");
+  }
 
   // Check Auth State
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("User is signed in:", user);
+      // Fetch user details and update the UI accordingly
+      const username =
+        localStorage.getItem("username") || user.email.split("@")[0];
+      const email = user.email;
+      const phone = localStorage.getItem("phone");
+      window.location.href = "../../index.html";
+      // Assuming you have elements with the following ids in your account details page:
+      document.getElementById("profile-username").textContent = username;
+      document.getElementById("profile-email").textContent = email;
+      document.getElementById("profile-phone").textContent =
+        phone || "Not provided";
     } else {
       console.log("No user is signed in.");
     }
