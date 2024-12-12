@@ -10,12 +10,9 @@
 </head>
 
 <body>
-    <!-- Header Section -->
     <header class="header">
         <div class="nav">
-            <div>
-                <h1>Worn By All</h1>
-            </div>
+            <h1>Worn By All</h1>
             <div class="header-icons">
                 <a href="/index.html" aria-label="Home">
                     <i class="fa-solid fa-house" style="color: white;"></i>
@@ -26,9 +23,7 @@
     </header>
     <hr>
 
-    <!-- Main Content -->
     <main class="account-container">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <ul>
                 <li><a href="/pages/html/signup-signin.html">Sign-Up Or Sign-In</a></li>
@@ -38,22 +33,12 @@
             </ul>
         </aside>
 
-        <!-- Account Details Section -->
         <section class="account-details">
             <h2>Personal Information</h2>
+            <div class="profile-picture">
+                <div id="profile-placeholder" class="profile-placeholder" style="display: flex;"></div>
+            </div>
 
-            <!-- Profile Picture Upload -->
-            <!-- Profile Picture Upload -->
-<div class="profile-picture">
-    <div class="circle">
-        <label for="profile-upload">
-            <img src="/assets/images/default.png" alt="Profile Img" id="profile-image">
-        </label>
-        <input type="file" id="profile-upload" accept="image/*">
-    </div>
-    <button id="remove-profile" class="remove-button">Remove Profile Picture</button>
-</div>
-            <!-- Display Saved Details -->
             <div class="profile-container">
                 <h1>Your Details</h1>
                 <div class="profile-item">
@@ -67,39 +52,29 @@
                 </div>
             </div>
 
-            <!-- Form for Editing Details -->
             <form id="accountForm">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" placeholder="Enter your full name" required>
-                    <small id="nameError" class="error"></small>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" placeholder="Enter your email" required>
-                    <small id="emailError" class="error"></small>
                 </div>
-
                 <div class="form-group">
                     <label for="phone">Phone:</label>
                     <input type="text" id="phone" placeholder="Enter your phone number">
-                    <small id="phoneError" class="error"></small>
                 </div>
-<!-- Popup Message -->
-<div id="popupMessage" class="popup-message">Profile removed successfully.</div>
-
+                <div id="popupMessage" class="popup-message">Profile removed successfully.</div>
                 <button type="submit" class="save-button">Save Changes</button>
             </form>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 Worn By All. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
     <script src="../js/accountDeatils.js"></script>
 </body>
 
