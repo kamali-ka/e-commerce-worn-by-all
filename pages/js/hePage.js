@@ -32,17 +32,32 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Add click event listener to the "Add to Cart" button
+  const addButton = document.getElementById("addToCartButton");
+  if (addButton) {
+    addButton.onclick = () => {
+      const item = {
+        id: "12345", // Example item data
+        name: "T-Shirt",
+        price: 499,
+        image: "../images/tshirt.jpg"
+      };
+      addToCart(item);
+      navigateToCart();
+    };
+  } else {
+    console.error("Add to Cart button not found!");
+  }
 });
 
 // Function to load and display all products
-// Function to load and display all products
 async function loadProducts() {
   try {
-    // Fetch the product data from the JSON file
-    const response = await fetch("../js/public/he-page.json"); // Adjust the path as needed
+    const response = await fetch("../js/public/he-page.json");
     if (!response.ok) {
       throw new Error(
-        Failed to fetch products: ${response.status} ${response.statusText}
+        `Failed to fetch products: ${response.status} ${response.statusText}`
       );
     }
 
@@ -61,14 +76,13 @@ async function loadProducts() {
       return;
     }
 
-    // Display each product
     products.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
-      productCard.setAttribute("data-type", product.type || "unknown"); // Add data-type for filtering
+      productCard.setAttribute("data-type", product.type || "unknown");
 
       const productImage = document.createElement("img");
-      productImage.src = product.image || ""; // Fallback if the image is missing
+      productImage.src = product.image || "";
       productImage.alt = product.alt || product.name || "Product Image";
 
       const productName = document.createElement("h2");
@@ -76,19 +90,18 @@ async function loadProducts() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      const price = parseFloat(product.price.replace(/[₹,]/g, "")); // Remove ₹ and commas
+      const price = parseFloat(product.price.replace(/[₹,]/g, ""));
       productPrice.textContent = isNaN(price)
         ? "Price not available"
-        : ₹${price.toFixed(2)};
+        : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement("button");
       addButton.textContent = isInCart(product) ? "Visit Cart" : "Add to Cart";
       addButton.onclick = () => handleCartButtonClick(product, addButton);
 
-      // Add click event to the product card to open the details page
       productCard.onclick = () => {
-        localStorage.setItem("selectedProductId", product.id); // Store the selected product's ID
-        window.location.href = "../html/productDetails.html"; // Redirect to the product details page
+        localStorage.setItem("selectedProductId", product.id);
+        window.location.href = "../html/productDetails.html";
       };
 
       productCard.append(productImage, productName, productPrice, addButton);
@@ -98,8 +111,7 @@ async function loadProducts() {
     console.error("Error loading products:", error.message);
     const productGrid = document.getElementById("productGrid");
     if (productGrid) {
-      productGrid.innerHTML =
-        "<p>Failed to load products. Please try again later.</p>";
+      productGrid.innerHTML = "<p>Failed to load products. Please try again later.</p>";
     }
   }
 }
@@ -140,7 +152,7 @@ function searchProducts() {
 function handleCartButtonClick(product, button) {
   if (isInCart(product)) {
     // Redirect to cart
-    window.location.href = "../html/cartPage.html"; // Adjust path to your cart page
+    window.location.href = "../html/cartPage.html";
   } else {
     addToCart(product);
     button.textContent = "Visit Cart";
@@ -154,14 +166,6 @@ function isInCart(product) {
 }
 
 // Function to add a product to the cart
-// Corrected heShirt.js
-
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = "../html/cartPage.html"; // Ensure this path is correct
-}
-
-// Function to handle adding an item to the cart
 function addToCart(item) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -183,23 +187,9 @@ function addToCart(item) {
   showPopup("Item added to cart successfully!");
 }
 
-// Add click event listener to the "Add to Cart" button
-const addButton = document.getElementById("addToCartButton");
-if (addButton) {
-  addButton.onclick = () => {
-    // Example item data - Replace this with dynamic data as needed
-    const item = {
-      id: "12345",
-      name: "T-Shirt",
-      price: 499,
-      image: "../images/tshirt.jpg",
-    };
-
-    addToCart(item); // Add item to the cart
-    navigateToCart(); // Navigate to the cart page
-  };
-} else {
-  console.error("Add to Cart button not found!");
+// Function to navigate to the cart page
+function navigateToCart() {
+  window.location.href = "../html/cartPage.html";
 }
 
 // Function to update the cart count
@@ -214,7 +204,6 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-// Function to show the popup message
 function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
   const popupMessage = popupContainer.querySelector(".popup-message");
