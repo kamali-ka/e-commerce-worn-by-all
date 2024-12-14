@@ -1,220 +1,152 @@
 // Function to load cart items and display them dynamically
 function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const isLoggedIn = localStorage.getItem("email"); // Example: checking for email in localStorage
 
-  // Clear existing items in container
-  cartItemsContainer.innerHTML = "";
-
-  if (cart.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    updateBillSummary(); // Update bill summary even when empty
+  if (!isLoggedIn) {
+    // If user is not logged in, show a message and clear cart
+    cartItemsContainer.innerHTML = "<p>Please log in to view your cart.</p>";
+    updateBillSummary();
+    updateCartCount();
+    toggleCartVisibility(false); // Hide cart icon and count
+    toggleLoginSignupVisibility(true); // Show login/signup buttons
     return;
   }
 
-  cart.forEach((item, index) => {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cartItemsContainer.innerHTML = ""; // Clear existing items
+
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    updateBillSummary();
+    updateCartCount();
+    toggleCartVisibility(true); // Show cart icon and count
+    toggleLoginSignupVisibility(false); // Hide login/signup buttons
+    return;
+  }
+
+  cart.forEach((item) => {
     const productCard = document.createElement("div");
     productCard.classList.add("product-card");
 
-    // Create product image
+    // Product image
     const productImage = document.createElement("img");
     productImage.src = item.image || "placeholder.jpg";
     productImage.alt = item.name;
-    productImage.classList.add("product-image");
 
-    // Create product name
+    // Product name
     const productName = document.createElement("h2");
     productName.textContent = item.name;
-    productName.classList.add("product-name");
 
-    // Create price display
-    const numericPrice =
-      typeof item.price === "string"
-        ? parseFloat(item.price.replace(/₹|,/g, ""))
-        : item.price;
+    // Price
     const productPrice = document.createElement("p");
-    productPrice.classList.add("price");
-    productPrice.textContent = `Price: ₹${(
-      (item.quantity || 1) * numericPrice
-    ).toFixed(2)}`;
+    productPrice.textContent = `Price: ₹${item.price}`;
 
-    // Create quantity container and buttons
+    // Size container
+    const sizeContainer = document.createElement("div");
+    sizeContainer.classList.add("size-container");
+    sizeContainer.style.display = "none"; // Initially hidden
+
+    // Add hover event to fetch sizes
+    productCard.addEventListener("mouseover", () => fetchSizesOnHover(item.id, sizeContainer));
+    productCard.addEventListener("mouseleave", () => {
+      sizeContainer.style.display = "none"; // Hide sizes on mouse leave
+    });
+
+    // Quantity container
     const quantityContainer = document.createElement("div");
     quantityContainer.classList.add("quantity-container");
 
-    const decreaseButton = createQuantityButton("-", () =>
-      updateQuantity(index, -1)
-    );
+    const decreaseButton = createQuantityButton("-", () => updateQuantity(item.id, -1));
     const quantityDisplay = document.createElement("span");
     quantityDisplay.textContent = `Quantity: ${item.quantity || 1}`;
     quantityDisplay.classList.add("quantity-display");
-    const increaseButton = createQuantityButton("+", () =>
-      updateQuantity(index, 1)
-    );
+    const increaseButton = createQuantityButton("+", () => updateQuantity(item.id, 1));
 
     quantityContainer.appendChild(decreaseButton);
     quantityContainer.appendChild(quantityDisplay);
     quantityContainer.appendChild(increaseButton);
 
-    // Create remove button
+    // Remove button
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
     removeButton.classList.add("remove-button");
-    removeButton.onclick = () => removeFromCart(index);
+    removeButton.onclick = () => removeFromCart(item.id);
 
-    // Create size display
-    const sizeDisplay = document.createElement("p");
-    sizeDisplay.classList.add("size-display");
-    sizeDisplay.textContent = `Selected Sizes: ${
-      item.selectedSizes ? item.selectedSizes.join(", ") : "Not selected"
-    }`;
-
-    // Create size selector container
-    const sizeSelectorContainer = document.createElement("div");
-    sizeSelectorContainer.classList.add("size-selector-container");
-    sizeSelectorContainer.style.display = "none"; // Initially hidden
-
-    // Create and append size rows
-    appendSizeRow(sizeSelectorContainer, item, index, 1, [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL",
-      "XXXL",
-    ]);
-    appendSizeRow(
-      sizeSelectorContainer,
-      item,
-      index,
-      2,
-      [24, 26, 28, 30, 32, 34, 36, 38, 40]
-    );
-
-    // Append all elements to product card
+    // Append elements to the product card
     productCard.appendChild(productImage);
     productCard.appendChild(productName);
     productCard.appendChild(productPrice);
+    productCard.appendChild(sizeContainer);
     productCard.appendChild(quantityContainer);
     productCard.appendChild(removeButton);
-    productCard.appendChild(sizeDisplay);
-    productCard.appendChild(sizeSelectorContainer);
-
-    // Show/hide size selector on hover
-    productCard.addEventListener("mouseover", () => {
-      sizeSelectorContainer.style.display = "block";
-    });
-
-    productCard.addEventListener("mouseout", () => {
-      sizeSelectorContainer.style.display = "none";
-    });
 
     cartItemsContainer.appendChild(productCard);
   });
 
   updateBillSummary(); // Update the bill summary whenever items are loaded
+  updateCartCount(); // Update the cart count whenever items are loaded
 }
 
-// Helper function to create a quantity button
-function createQuantityButton(text, onClick) {
+// Function to create quantity buttons
+function createQuantityButton(label, onClick) {
   const button = document.createElement("button");
-  button.textContent = text;
+  button.textContent = label;
   button.classList.add("quantity-button");
-  button.onclick = onClick;
+  button.addEventListener("click", onClick);
   return button;
 }
 
-// Helper function to append size options to a size row
-function appendSizeRow(container, item, index, row, sizes) {
-  const sizeRow = document.createElement("div");
-  sizeRow.classList.add("size-row");
-
-  sizes.forEach((size) => {
-    const sizeOption = document.createElement("span");
-    sizeOption.textContent = size;
-    sizeOption.classList.add("size-option");
-
-    if (item.selectedSizes && item.selectedSizes.includes(size)) {
-      sizeOption.classList.add("selected-size");
-    }
-
-    sizeOption.addEventListener("click", () => {
-      selectSize(index, size, row);
-      loadCartItems(); // Reload the items with updated size
-    });
-
-    sizeRow.appendChild(sizeOption);
-  });
-
-  container.appendChild(sizeRow);
-}
-
-// Function to select size with row restrictions
-function selectSize(index, size, row) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart[index]) {
-    if (cart[index].selectedRow && cart[index].selectedRow !== row) {
-      alert(
-        "You can only select sizes from one row. Please choose a size from the current row."
-      );
-      return;
-    }
-
-    cart[index].selectedRow = row; // Store the row where the size was selected
-    cart[index].selectedSizes = cart[index].selectedSizes || [];
-
-    // Update the selected size for the quantity
-    for (let i = 0; i < cart[index].quantity; i++) {
-      if (!cart[index].selectedSizes[i]) {
-        cart[index].selectedSizes[i] = size;
-        break;
-      }
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart)); // Save the updated cart
-  }
-}
-
 // Function to update quantity of an item in the cart
-function updateQuantity(index, change) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function updateQuantity(productId, change) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const product = cart.find((item) => item.id === productId);
 
-  // Check if the item exists at the given index
-  if (cart[index]) {
-    // Ensure `selectedSizes` is initialized
-    if (!cart[index].selectedSizes) {
-      cart[index].selectedSizes = []; // Initialize if undefined
-    }
-
-    console.log("Before Update:", cart[index].quantity);
-    cart[index].quantity = Math.max(1, (cart[index].quantity || 1) + change);
-
-    // Fill `selectedSizes` array if needed
-    while (cart[index].selectedSizes.length < cart[index].quantity) {
-      cart[index].selectedSizes.push(null);
-    }
-
-    console.log("After Update:", cart[index].quantity);
+  if (product) {
+    product.quantity = Math.max(1, (product.quantity || 1) + change);
     localStorage.setItem("cart", JSON.stringify(cart));
     loadCartItems(); // Reload cart items to reflect the updated quantity
-  } else {
-    console.error("Item not found in cart at index:", index);
   }
+}
+
+// Function to fetch sizes dynamically on hover
+function fetchSizesOnHover(productId, sizeContainer) {
+  fetch("../path-to-your-json.json")
+    .then((response) => response.json())
+    .then((data) => {
+      const product = data.find((item) => item.id === productId);
+      if (product && product.sizes) {
+        sizeContainer.innerHTML = product.sizes
+          .map((size) => `<span class='size'>${size}</span>`)
+          .join(" ");
+        sizeContainer.style.display = "block";
+      } else {
+        sizeContainer.innerHTML = "<p>No sizes available</p>";
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching sizes:", error);
+      sizeContainer.innerHTML = "<p>Error loading sizes</p>";
+    });
+}
+
+// Function to remove item from cart
+function removeFromCart(productId) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart = cart.filter((item) => item.id !== productId);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCartItems();
+  updateCartCount();
 }
 
 // Function to update the bill summary
 function updateBillSummary() {
   const billSummaryContainer = document.getElementById("billSummary");
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
   let totalPrice = 0;
 
   cart.forEach((item) => {
-    const numericPrice =
-      typeof item.price === "string"
-        ? parseFloat(item.price.replace(/₹|,/g, ""))
-        : item.price;
-    totalPrice += (item.quantity || 1) * numericPrice;
+    totalPrice += item.price * (item.quantity || 1);
   });
 
   const tax = totalPrice * 0.02; // 2% tax
@@ -231,53 +163,51 @@ function updateBillSummary() {
   `;
 }
 
-// Function to remove item from cart
-function removeFromCart(index) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.splice(index, 1); // Remove the item at the specified index
-  localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
-  loadCartItems(); // Reload the cart dynamically
-}
-
-// Function to handle Buy Now
-function handleBuyNow() {
+// Function to update the cart count
+function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart.length === 0) {
-    showPopupMessage();
-    return;
+  const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+  const cartCountElement = document.getElementById("cart-count");
+
+  if (cartCountElement) {
+    cartCountElement.textContent = cartCount || 0;
   }
-
-  // Redirect to payment page if the cart is not empty
-  window.location.href = "../html/address-page.html";
 }
 
-// Function to show a popup message if the cart is empty
-function showPopupMessage() {
-  const popupModal = document.getElementById("popupModal");
-  const closePopupButton = document.getElementById("closePopupButton");
+// Function to toggle cart visibility based on login status
+function toggleCartVisibility(isVisible) {
+  const cartIcon = document.getElementById("cartIcon");
+  const cartCount = document.getElementById("cart-count");
 
-  // Show the modal
-  popupModal.style.display = "flex";
-
-  // Close the popup when the button is clicked
-  closePopupButton.onclick = () => {
-    popupModal.style.display = "none";
-  };
-
-  // Close the popup when clicking outside the content
-  popupModal.onclick = (e) => {
-    if (e.target === popupModal) {
-      popupModal.style.display = "none";
-    }
-  };
+  if (cartIcon) cartIcon.style.display = isVisible ? "block" : "none";
+  if (cartCount) cartCount.style.display = isVisible ? "block" : "none";
 }
 
-// Event listener to load cart items on page load
+// Function to toggle login/signup visibility
+function toggleLoginSignupVisibility(isVisible) {
+  const loginSignupButtons = document.getElementById("loginSignupButtons");
+  if (loginSignupButtons) {
+    loginSignupButtons.style.display = isVisible ? "block" : "none";
+  }
+}
+
+// Initialize cart items on page load
 document.addEventListener("DOMContentLoaded", () => {
+  const isLoggedIn = !!localStorage.getItem("email");
+  toggleCartVisibility(isLoggedIn); // Show or hide cart icon and count based on login status
+  toggleLoginSignupVisibility(!isLoggedIn); // Show or hide login/signup buttons based on login status
   loadCartItems();
+  updateCartCount();
 
-  const buyNowButton = document.getElementById("buyNowButton");
-  if (buyNowButton) {
-    buyNowButton.addEventListener("click", handleBuyNow);
+  // Add event listener for logout button
+  const logoutButton = document.getElementById("logoutButton");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("email"); // Clear login data
+      localStorage.removeItem("cart"); // Optionally clear cart data
+      toggleCartVisibility(false); // Hide cart icon and count
+      toggleLoginSignupVisibility(true); // Show login/signup buttons
+      window.location.href = "../../index.html"; // Redirect to login page
+    });
   }
 });

@@ -132,7 +132,7 @@ function addToCart(item) {
       showPopup("Item added to cart successfully!");
       updateCartCount();
     } else {
-      window.location.href = "/pages/html/signup-signin.html";
+      window.location.href = "../html/signup-signin.html";
     }
   });
 }

@@ -22,7 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// // Wait for DOM to Load
+// Wait for DOM to load
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("modal-overlay");
 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  // // Hide Modal on Overlay Click
+  // Hide Modal on Overlay Click
   if (overlay) {
     overlay.onclick = function () {
       const modal = document.getElementById("popup-modal");
@@ -103,30 +103,44 @@ document.addEventListener("DOMContentLoaded", function () {
       const username = document.getElementById("signup-username").value.trim();
       const email = document.getElementById("signup-email").value.trim();
       const password = document.getElementById("signup-password").value;
-      const confirmPassword = document.getElementById(
-        "signup-confirm-password"
-      ).value;
+      const confirmPassword = document.getElementById("signup-confirm-password").value;
 
       // Basic Validation
-      if (!username) throw new Error("Username is required.");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        throw new Error("Invalid email format.");
-      if (password.length < 6)
-        throw new Error("Password must be at least 6 characters.");
-      if (password !== confirmPassword)
-        throw new Error("Passwords do not match.");
+      if (!username) {
+        document.getElementById("username-error").textContent = "Username is required.";
+        return;
+      } else {
+        document.getElementById("username-error").textContent = "";
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById("email-error").textContent = "Invalid email format.";
+        return;
+      } else {
+        document.getElementById("email-error").textContent = "";
+      }
+
+      if (password.length < 6) {
+        document.getElementById("password-error").textContent = "Password must be at least 6 characters.";
+        return;
+      } else {
+        document.getElementById("password-error").textContent = "";
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById("confirm-password-error").textContent = "Passwords do not match.";
+        return;
+      } else {
+        document.getElementById("confirm-password-error").textContent = "";
+      }
 
       // Create User
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       localStorage.setItem("username", username);
       localStorage.setItem("email", email);
       showModal(
         "Sign-up successful! Redirecting to account details page...",
-        "../../pages/html/accountDetails.html"
+        "../html/accountDetails.html"
       );
     } catch (error) {
       console.error("Sign-up error:", error.message);
@@ -141,9 +155,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const password = document.getElementById("login-password").value;
 
       // Basic Validation
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        throw new Error("Invalid email format.");
-      if (!password) throw new Error("Password is required.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById("login-email-error").textContent = "Invalid email format.";
+        return;
+      } else {
+        document.getElementById("login-email-error").textContent = "";
+      }
+
+      if (!password) {
+        document.getElementById("login-general-error").textContent = "Password is required.";
+        return;
+      } else {
+        document.getElementById("login-general-error").textContent = "";
+      }
 
       // Sign In User
       await signInWithEmailAndPassword(auth, email, password);
@@ -159,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Redirect to account details page after successful login
       showModal(
         "Login successful! Redirecting to account details page...",
-        "../../pages/html/accountDetails.html"
+        "../html/accountDetails.html"
       );
     } catch (error) {
       console.error("Login error:", error.message);
@@ -177,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
           localStorage.clear();
           showModal(
             "Logged out successfully! Redirecting to login page...",
-            "../../pages/html/signup-signin.html"
+            "../../index.html"
           );
         })
         .catch((error) => {
@@ -193,8 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (user) {
       console.log("User is signed in:", user);
       // Fetch user details and update the UI accordingly
-      const username =
-        localStorage.getItem("username") || user.email.split("@")[0];
+      const username = localStorage.getItem("username") || user.email.split("@")[0];
       const email = user.email;
       const phone = localStorage.getItem("phone");
       window.location.href = "../../index.html";
