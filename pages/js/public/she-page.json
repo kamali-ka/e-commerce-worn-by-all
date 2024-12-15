@@ -1,5 +1,5 @@
-  {
-    "clothes": [
+  
+     [
       {
         "id": "1",
         "name": "Chinkari White Short Top",
@@ -169,4 +169,3 @@
         "type":"T-shirts"
       }
     ]
-  }

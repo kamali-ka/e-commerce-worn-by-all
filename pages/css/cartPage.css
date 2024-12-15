@@ -587,3 +587,137 @@ body {
   background-color: #f0f0f0;
   color: black;
 }
+/* Sticky Total Price */
+#totalPrice {
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0; /* Stick to the bottom of the viewport */
+  width: 300px;
+  margin-top: 20px; /* Space between cart items and total price */
+  z-index: 10;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+#totalPrice span {
+  font-size: 16px;
+}
+#product-sizes-container {
+  
+  display: flex;
+  gap: 10px;
+}
+
+.size-option {
+  
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+
+.size-option:hover {
+  color: #000;
+  opacity: 1;
+  background-color: #f0f0f0;
+}
+
+.size-option.selected {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.selected-size {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+#product-sizes-container {
+  display: flex;
+  gap: 10px;
+}
+
+.size-option {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  color: black; /* Default color for the size text */
+  opacity: 1; /* Ensures the size is fully visible */
+  transition: background-color 0.3s;
+}
+
+.size-option:hover {
+  background-color: #f0f0f0; /* Highlight background on hover */
+}
+
+.size-option.selected {
+  background-color: #007bff;
+  color: white; /* White text for the selected size */
+  font-weight: bold;
+}
+
+.selected-size {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+.size-container {
+  display: flex;
+  gap: 10px;
+}
+
+.size-option {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  color: black; /* Default color for size text */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.size-option:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+.size-option.selected {
+  background-color: #007bff; /* Blue background for selected size */
+  color: white; /* White text for selected size */
+  font-weight: bold;
+}
+/* Basic styles for the sizes */
+.sizes-container {
+  display: none; /* Hidden by default */
+  margin-top: 10px;
+}
+
+.product-card:hover .sizes-container {
+  display: flex; /* Show on hover */
+}
+
+.sizes-container span {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: 1px solid black;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sizes-container span:hover {
+  background-color: black;
+  color: white;
+}
+
+.selected-size-display {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}

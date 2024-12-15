@@ -1,225 +1,231 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Sidebar toggle
-  const hamburgerMenu = document.querySelector("#toggleSidebar");
-  if (hamburgerMenu) {
-    hamburgerMenu.addEventListener("click", toggleSidebar);
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+document.addEventListener("DOMContentLoaded", () => {
+  // Load all products initially and update cart count
+  loadProducts().then(() => {
+    updateCartCount();
+  });
+
+  // Attach event listener for search bar
+  const searchBar = document.getElementById("searchBar");
+  if (searchBar) {
+    searchBar.addEventListener("input", searchProducts);
+  } else {
+    console.error("Search bar element not found.");
   }
 
-  // Determine current page by checking a data attribute or ID in the body tag
-  const currentPage = document.body.getAttribute("data-page");
-
-  if (currentPage === "shePage") {
-    // Fetch products and initialize she page
-    fetch("/pages/js/public/she-page.json")
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Fetched data:", data); // Log fetched data to debug
-        if (data && data.clothes) {
-          displayProducts(data.clothes); // Display the products
-        } else {
-          console.error('Data format error: "clothes" key not found');
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching products:", error); // Log fetch errors
-      });
-
-    // Initialize search and filter functionality
-    const searchInput = document.getElementById("searchInput");
-    const filter = document.getElementById("filter");
-
-    if (searchInput) {
-      searchInput.addEventListener("keyup", searchProducts);
-    }
-
-    if (filter) {
-      filter.addEventListener("change", filterProducts);
-    }
-  } else if (currentPage === "cartPage") {
-    // Initialize cart page
-    loadCartItems();
+  // Attach event listener for filter dropdown
+  const clothingTypeFilter = document.getElementById("clothingType");
+  if (clothingTypeFilter) {
+    clothingTypeFilter.addEventListener("change", filterByType);
+  } else {
+    console.error("Clothing type filter element not found.");
   }
+
+  // Toggle sidebar visibility
+  const toggleSidebar = document.getElementById("toggleSidebar");
+  if (toggleSidebar) {
+    toggleSidebar.addEventListener("click", () => {
+      const sidebar = document.getElementById("sidebar");
+      if (sidebar) {
+        sidebar.classList.toggle("visible");
+      } else {
+        console.error("Sidebar element not found.");
+      }
+    });
+  }
+  // Add click event listener to dynamically created "Add to Cart" buttons
+  document.addEventListener("click", (e) => {
+    if (e.target && e.target.classList.contains("add-to-cart-btn")) {
+      const productId = e.target.dataset.id;
+      const productName = e.target.dataset.name;
+      const productPrice = parseFloat(e.target.dataset.price);
+      const productImage = e.target.dataset.image;
+
+      const product = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image: productImage,
+      };
+
+      handleCartButtonClick(product, e.target);
+    }
+  });
 });
 
-// Function to toggle the sidebar
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  if (sidebar) {
-    sidebar.classList.toggle("visible");
-  }
-}
-
-// Function to display products
-function displayProducts(clothes) {
-  const productGrid = document.getElementById("productGrid");
-  if (!productGrid) {
-    console.error("Error: productGrid element not found");
-    return;
-  }
-
-  productGrid.innerHTML = ""; // Clear existing content
-  clothes.forEach((product) => {
-    const productCard = document.createElement("div");
-    productCard.className = "product-card";
-    productCard.setAttribute("data-type", product.type);
-
-    productCard.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h2>${product.name}</h2>
-      <p>${product.description}</p>
-      <p class="price">₹${product.price}</p>
-      <button class="add-to-cart-button">Add to Cart</button>
-    `;
-
-    productCard.querySelector(".add-to-cart-button").addEventListener("click", () => addToCart(product));
-    productGrid.appendChild(productCard);
-  });
-
-  console.log("Products displayed successfully");
-}
-
-// Function to search products
-function searchProducts() {
-  const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
-  const products = document.querySelectorAll(".product-card");
-
-  products.forEach((product) => {
-    const productName = product.querySelector("h2").innerText.toLowerCase();
-    product.style.display = productName.includes(searchTerm) ? "flex" : "none";
-  });
-}
-
-// Function to filter products
-function filterProducts() {
-  const selectedType = document.getElementById("filter").value;
-  const products = document.querySelectorAll(".product-card");
-
-  products.forEach((product) => {
-    const productType = product.getAttribute("data-type");
-    product.style.display = selectedType === "all" || productType === selectedType ? "flex" : "none";
-  });
-}
-
-// Function to add a product to the cart
-// Function to add a product to the cart
-function addToCart(product) {
-  console.log("Adding product to cart:", product);
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  if (!product.id) {
-    console.error("Product is missing an ID:", product);
-    return;
-  }
-
-  const existingItem = cart.find((item) => item.id === product.id);
-  if (existingItem) {
-    existingItem.quantity = (existingItem.quantity || 1) + 1;
-  } else {
-    product.quantity = 1;
-    cart.push(product);
-  }
-
+// Function to load and display all products
+async function loadProducts() {
   try {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  } catch (error) {
-    console.error("Error saving to localStorage:", error);
-  }
+    const response = await fetch("../js/public/she-page.json");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch products: ${response.status}`);
+    }
 
-  showPopup(); // Show the simple popup
-}
+    const products = await response.json();
+    const productGrid = document.getElementById("productGrid");
 
-// Function to show a simple popup
-function showPopup() {
-  const popupContainer = document.getElementById("popupContainer");
+    if (!productGrid) {
+      console.error("Element with ID 'productGrid' not found.");
+      return;
+    }
 
-  if (popupContainer) {
-    popupContainer.innerText = "Successfully added to cart!";
-    popupContainer.style.display = "block";
+    productGrid.innerHTML = ""; // Clear existing products
 
-    setTimeout(() => {
-      popupContainer.style.display = "none";
-    }, 2000); // Hide after 2 seconds
-  }
-}
+    if (products.length === 0) {
+      productGrid.innerHTML = "<p>No products available at the moment.</p>";
+      return;
+    }
 
-// Function to load cart items
-function loadCartItems() {
-  const cartItemsContainer = document.getElementById("cartItems");
-  if (!cartItemsContainer) {
-    console.error("Error: cartItems element not found");
-    return;
-  }
+    products.forEach((product) => {
+      const productCard = document.createElement("div");
+      productCard.classList.add("product-card");
+      productCard.setAttribute("data-type", product.type || "unknown");
 
-  let cart = [];
-  try {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
-  } catch (error) {
-    console.error("Error parsing cart data:", error);
-    localStorage.removeItem("cart");
-    cart = [];
-  }
+      const productImage = document.createElement("img");
+      productImage.src = product.image || "";
+      productImage.alt = product.alt || product.name || "Product Image";
 
-  cartItemsContainer.innerHTML = "";
-  if (cart.length === 0) {
-    cartItemsContainer.innerHTML = `<p>Your cart is empty.</p>`;
-  } else {
-    cart.forEach((item, index) => {
-      cartItemsContainer.innerHTML += `
-        <div class="product-card">
-          <img src="${item.image}" alt="${item.name}">
-          <h2>${item.name}</h2>
-          <p class="price">₹${(item.quantity * item.price).toFixed(2)}</p>
-          <div class="quantity-container">
-            <button onclick="updateQuantity(${index}, -1)">-</button>
-            <span>Quantity: ${item.quantity}</span>
-            <button onclick="updateQuantity(${index}, 1)">+</button>
-          </div>
-          <button onclick="removeFromCart(${index})">Remove</button>
-        </div>
-      `;
+      const productName = document.createElement("h2");
+      productName.textContent = product.name || "Unnamed Product";
+
+      const productPrice = document.createElement("p");
+      productPrice.classList.add("price");
+      productPrice.textContent = product.price
+        ? `₹${parseFloat(product.price).toFixed(2)}`
+        : "Price not available";
+
+      const addButton = document.createElement("button");
+      addButton.classList.add("add-to-cart-btn");
+      addButton.dataset.id = product.id;
+      addButton.dataset.name = product.name;
+      addButton.dataset.price = product.price;
+      addButton.dataset.image = product.image;
+      addButton.textContent = isInCart(product) ? "Visit Cart" : "Add to Cart";
+
+      productCard.append(productImage, productName, productPrice, addButton);
+      productGrid.appendChild(productCard);
     });
-
-    updateBillSummary();
+  } catch (error) {
+    console.error("Error loading products:", error.message);
+    const productGrid = document.getElementById("productGrid");
+    if (productGrid) {
+      productGrid.innerHTML = "<p>Failed to load products. Please try again later.</p>";
+    }
   }
 }
 
-// Function to update item quantity
-function updateQuantity(index, change) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (!cart[index]) return;
+// Function to filter products by type
+function filterByType() {
+  const selectedType = document.getElementById("clothingType").value.toLowerCase();
+  const products = document.querySelectorAll(".product-card");
 
-  cart[index].quantity += change;
-  if (cart[index].quantity <= 0) {
-    cart.splice(index, 1);
+  products.forEach((product) => {
+    const productType = product.getAttribute("data-type")?.toLowerCase();
+    if (selectedType === "all" || productType === selectedType) {
+      product.style.display = "block";
+    } else {
+      product.style.display = "none";
+    }
+  });
+}
+
+// Function to search for products
+function searchProducts() {
+  const searchBarValue = document.getElementById("searchBar").value.toLowerCase();
+  const products = document.querySelectorAll(".product-card");
+
+  products.forEach((product) => {
+    const productName = product.querySelector("h2").textContent.toLowerCase();
+    product.style.display = productName.includes(searchBarValue) ? "block" : "none";
+  });
+}
+
+// Function to handle the button click for adding/visiting the cart
+function handleCartButtonClick(product, button) {
+  if (isInCart(product)) {
+    window.location.href = "../html/cartPage.html"; // Redirect to cart
+  } else {
+    addToCart(product);
+    button.textContent = "Visit Cart";
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems();
 }
 
-// Function to remove item from cart
-function removeFromCart(index) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.splice(index, 1);
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems();
-}
-
-// Function to update bill summary
-function updateBillSummary() {
+// Function to check if a product is already in the cart
+function isInCart(product) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  return cart.some((item) => item.id === product.id);
+}
 
-  const billSummaryElement = document.getElementById("cartSummary");
-  if (billSummaryElement) {
-    billSummaryElement.innerHTML = `<h3>Total Bill: ₹${totalPrice.toFixed(2)}</h3>`;
+function addToCart(item) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User is signed in:", user);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Check if the item already exists in the cart
+      const existingItemIndex = cart.findIndex(
+        (cartItem) => cartItem.id === item.id
+      );
+      if (existingItemIndex > -1) {
+        // Update quantity if item exists
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item to the cart
+        cart.push({ ...item, quantity: 1 });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      // Show popup message
+      showPopup("Item added to cart successfully!");
+      updateCartCount();
+    } else {
+      // If user is not signed in, redirect to the sign-in page
+      window.location.href = "../html/signup-signin.html";
+    }
+  });
+}
+
+
+// Function to update the cart count
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+  const cartCountElement = document.getElementById("cartCount");
+  if (cartCountElement) {
+    cartCountElement.textContent = totalItems;
   }
+}
+
+// Function to display the popup message
+function showPopup(message) {
+  const popupContainer = document.getElementById("popupContainer");
+  const popupMessage = popupContainer.querySelector(".popup-message");
+
+  if (!popupContainer || !popupMessage) {
+    console.error("Popup container or message not found!");
+    return;
+  }
+
+  popupMessage.textContent = message;
+  popupContainer.classList.add("show");
+
+  setTimeout(() => {
+    popupContainer.classList.remove("show");
+  }, 3000);
 }

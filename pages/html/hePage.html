@@ -8,6 +8,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <!-- Sidebar -->
   <div id="sidebar" class="sidebar hidden">
     <nav>
       <ul>
@@ -20,24 +21,34 @@
       </ul>
     </nav>
   </div>
+
+  <!-- Cart Icon and Count -->
   <div class="nav-icon">
     <a href="../html/cartPage.html">
       <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
       <span id="cartCount" class="cart-count" style="color: white;">0</span>
     </a>
   </div>
+
+  <!-- Sidebar Toggle Button -->
   <button id="toggleSidebar" class="toggle-sidebar-btn">
     ☰
   </button>
+
+  <!-- Header Section -->
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
       <h2>Men's Section</h2>
     </div>
   </header>
+
+  <!-- Search Bar -->
   <div class="search-container">
     <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
+
+  <!-- Filters -->
   <div class="filters">
     <label for="clothingType">Filter by Type:</label>
     <select id="clothingType" onchange="filterByType()">
@@ -50,17 +61,32 @@
       <option value="Co-ords">Co-ords</option>
     </select>
   </div>
-  <div id="cartModal" class="cart-modal">
-    <div class="modal-content">
-      <p id="modalMessage">Successfully added to cart!</p>
-    </div>
-  </div>
+
+  <!-- Popup for Cart Addition -->
   <div id="popupContainer" class="popup-container">
     <div id="popupMessage" class="popup-message">Item added to cart successfully!</div>
   </div>
-  
 
+  <!-- Product Grid -->
   <div class="product-grid" id="productGrid"></div>
-  <script src="../js/hePage.js"></script>
+
+  <!-- Product Details Section (for productDetails.js) -->
+  <div id="productDetails"></div>
+  <div id="productImage"></div>
+  <div id="productName"></div>
+  <div id="productPrice"></div>
+  <div id="productRatings"></div>
+  <div id="productDescription"></div>
+
+  <!-- Sidebar Toggle -->
+  <!-- <script>
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("visible");
+    });
+  </script> -->
+
+  <!-- Load JS File -->
+  <script type="module" src="../js/hePage.js" defer></script>
 </body>
 </html>

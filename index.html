@@ -7,7 +7,7 @@
     <title>Clothing Store</title>
     <link rel="stylesheet" href="./pages/css/styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script src="./pages/js/script.js"></script>
+    <script defer src="./pages/js/script.js"></script>
 </head>
 
 <body>
@@ -18,14 +18,15 @@
         <ul class="nav-links" id="navMenu">
             <li><a href="./index.html">Home</a></li>
             <li><a href="./pages/html/men-category.html">Men</a></li>
-            <li><a href="./pages/html/shePage.html">Women</a></li>
+            <li><a href="./pages/html/women-category.html">Women</a></li>
             <li><a href="./pages/html/kidsPage.html">Kids</a></li>
             <li><a href="./pages/html/unisex-page.html">Unisex</a></li>
         </ul>
         <div class="nav-icon">
             <!-- Login/Signup Button -->
-            <!-- Login/Signup Button -->
-            <button id="loginSignupButton" style="display: none;" onclick="redirectToSignIn()">Log In / Sign Up</button>
+            <form id="loginForm" onsubmit="event.preventDefault(); redirectToSignIn();">
+                <button id="loginSignupButton" type="submit">Log In / Sign Up</button>
+            </form>
             <!-- User Icon (Initially Hidden) -->
             <a id="userIcon" href="./pages/html/accountDetails.html" style="display: none;">
                 <i class="fa-solid fa-user"></i>
@@ -58,7 +59,7 @@
                 <img src="./assets/images/img_women9.jpg" alt="Women">
                 <h3>Women</h3>
                 <p>Elegant and trendy collections.</p>
-                <a href="./pages/html/shePage.html" class="cta-button">Shop Women</a>
+                <a href="./pages/html/women-category.html" class="cta-button">Shop Women</a>
             </div>
             <div class="card">
                 <img src="./assets/images/img_kids3.jpg" alt="Kids">
@@ -96,6 +97,7 @@
             </div>
         </div>
     </section>
+    
     <!-- Footer -->
     <footer>
         <!-- Top Section -->
@@ -106,7 +108,7 @@
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://twitter.com" target="_blank">
-                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-twitter"></i>  
                 </a>
                 <a href="mailto:contact@mybrand.com">
                     <i class="fas fa-envelope"></i>
@@ -118,7 +120,6 @@
             <p>© 2024 Worn By All. All rights reserved. | Designed with ♥</p>
         </div>
     </footer>
-
 </body>
 
 </html>

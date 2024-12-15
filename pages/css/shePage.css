@@ -1,178 +1,14 @@
 /* General Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
+  background-color: #f4f4f4; /* Soft grey base */
+  color: #333; /* Neutral text color */
 }
 
 /* Header Styles */
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgb(202, 202, 202);
-  color: #333333; /* Dark Gray */
-  padding: 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  gap: 5px;
-  background-color: #f0f0f0;
-  color: #333;
-  text-align: center;
-  padding: 20px 10px;
-  border-bottom: 2px solid #ccc;
-}
-
-/* Back Arrow Styles */
-header a {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  text-decoration: none;
-  font-size: 24px;
-  color: black;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-header a:hover {
-  transform: scale(1.2);
-}
-
-/* Header Content */
-.header-content {
-  flex-grow: 1;
-  text-align: center;
-}
-
-/* Search Bar */
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0;
-}
-
-#searchInput {
-  width: 300px;
-  padding: 10px;
-  border: 1px solid #ccc; /* Medium Gray */
-  border-radius: 5px;
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
-}
-
-/* Filters Section */
-.filters-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 15px 0;
-  gap: 10px;
-}
-
-.filters-container label {
-  font-size: 16px;
-  color: #333333; /* Dark Gray */
-}
-
-.filters-container select {
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ddd; /* Light Gray */
-  background-color: #ffffff; /* White */
-  color: #333333; /* Dark Gray */
-}
-
-/* Product Grid Styles */
-.product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-/* Hover effect for grid */
-.product-grid:hover > :not(:hover) {
-  opacity: 0.5;
-}
-
-/* Product Card Styles */
-.product-card {
-  background-color: #ffffff; /* White */
-  border: 1px solid #ddd; /* Light Gray */
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  width: calc(25% - 20px); /* 4 items per row with gap */
-  min-width: 200px;
-  max-width: 300px;
-}
-
-.product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.product-card img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  object-position: center;
-}
-
-.product-card h2 {
-  margin: 10px 0;
-  font-size: 18px;
-  color: #000000; /* Black */
-}
-
-.product-card .price {
-  color: #333333; /* Dark Gray */
-  font-size: 20px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.product-card button {
-  background-color: #333333; /* Dark Gray */
-  color: #ffffff; /* White */
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  border-radius: 0 0 10px 10px;
-  margin-top: auto; /* Ensures the button stays at the bottom */
-}
-
-.product-card button:hover {
-  background-color: #4d4d4d; /* Medium Gray */
-}
-
-/* Hamburger Menu */
-.hamburger-menu {
-  font-size: 30px;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-  z-index: 1000; /* Ensure it stays above content */
-}
-
-/* Sidebar Style */
+/* Sidebar Styles */
 .sidebar {
   width: 250px;
   height: 100vh;
@@ -186,7 +22,7 @@ header a:hover {
   justify-content: center;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transition: left 0.3s ease-in-out;
-  z-index: 1001;
+  z-index: 1000;
 }
 
 .sidebar nav ul {
@@ -212,16 +48,6 @@ header a:hover {
   color: #cccccc; /* Light grey on hover */
 }
 
-
-.sidebar nav ul li a i {
-  font-size: 20px; /* Adjust icon size as needed */
-  margin-right: 15px; /* Adjust icon spacing */
-  margin-top: 25px;
-}
-
-.sidebar nav ul li a:hover {
-  color: #cccccc;
-}
 /* Show sidebar */
 .sidebar.visible {
   left: 0;
@@ -247,64 +73,290 @@ header a:hover {
   background-color: #444444; /* Slightly lighter grey */
 }
 
-/* Main Content Style */
-.main-content {
-  margin-left: 250px; /* Adjust for sidebar width */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(202, 202, 202); /* Dark grey */
+  color: black; /* Gold text */
   padding: 20px;
-  transition: margin-left 0.3s;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+  color: #333;
+  text-align: center;
+  padding: 20px 10px;
+  border-bottom: 2px solid #ccc;
+
+}
+/* Back Icon Styles */
+.header-content a {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px; /* Adjust icon size */
+  color: black; /* Match the header text color */
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.sidebar.visible + .main-content {
-  margin-left: 0; /* Remove margin when sidebar is open */
+.header-content a:hover {
+  color: gray; /* Subtle hover effect */
 }
 
-/* Style for the popup message */
+/* Header Content */
+.header-content {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
 
-/* Popup container */
+/* Search Bar */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+#searchBar {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #888; /* Mid grey border */
+  border-radius: 5px;
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text */
+}
+
+/* Filters Section */
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+  gap: 10px;
+}
+
+.filters label {
+  font-size: 16px;
+  color: #333; /* Neutral text */
+}
+
+.filters select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #888; /* Mid grey border */
+  background-color: #eee; /* Light grey background */
+  color: #222; /* Dark grey text */
+}
+
+/* Product Grid Styles */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Product Card Styles */
+.product-card {
+  background-color: #fff; /* White card */
+  border: 1px solid #ddd; /* Light grey border */
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: calc(25% - 20px); /* 4 items per row with gap */
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Darker shadow */
+}
+
+.product-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+  background-color: #f0f0f0; /* Light grey placeholder */
+}
+
+.product-card h2 {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #333; /* Neutral text */
+}
+
+.product-card .price {
+  color: black; /* Navy blue */
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.product-card button {
+  background-color: #333333; /* Gold button */
+  color: white; /* Dark grey text */
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  border-radius: 0 0 10px 10px;
+  margin-top: auto;
+}
+
+.product-card button:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: darkgray; /* Brighter gold */
+}
+
+.cart-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.nav-icon {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  z-index: 1100;
+}
+
+.nav-icon a {
+  text-decoration: none;
+  color: #000;
+}
+
+.nav-icon #cartCount {
+  border-radius: 50%; /* Circular shape */
+  padding: 2px 6px; /* Adjust padding for size */
+  margin-left: 5px; /* Space between the icon and count */
+  position: absolute;
+  top: -10px; /* Adjust to position the count above the icon */
+  right: -10px; /* Center it horizontally relative to the icon */
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 10px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: bold;
+  border: 2px solid white;
+}/* Popup Container */
 #popupContainer {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  display: none; /* Hidden by default */
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-/* Popup message */
+/* Popup Message Styles */
 .popup-message {
-  background-color: #333333; /* Dark Grey background */
-  color: white; /* White text */
+  background-color: green; /* Success message background */
+  color: white; /* Text color */
   padding: 15px 30px;
   border-radius: 5px;
   font-size: 16px;
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
   max-width: 400px;
   margin: auto;
 }
 
-/* Show Popup */
+/* Show Popup Animation */
 #popupContainer.show {
   display: flex;
+  animation: fadeInOut 3s ease-in-out;
+}
+/* Cart Icon Styles */
+.nav-icon {
+  position: fixed; /* Keep it fixed on the page */
+  top: 10px; /* 10px from the top of the viewport */
+  right: 20px; /* 20px from the right of the viewport */
+  z-index: 1100; /* Ensure it's above other elements */
+  display: flex;
+  align-items: center;
+  font-size: 24px;
 }
 
-/* Optional: Add button to close the popup */
-.popup-message button {
-  background-color: transparent;
+/* Cart Icon link */
+.nav-icon a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* Cart Count Styling */
+.nav-icon #cartCount {
+  border-radius: 50%; /* Circular shape */
+  padding: 2px 6px; /* Adjust padding for size */
+  margin-left: 5px; /* Space between the icon and count */
+  position: absolute;
+  top: -10px; /* Adjust to position the count above the icon */
+  right: -10px; /* Center it horizontally relative to the icon */
+  background-color: red;
   color: white;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  margin-top: 10px;
+  font-size: 12px;
+  width: 10px; /* Slightly larger circle to fit content */
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
-  transition: color 0.3s ease;
+  border: 2px solid white;
 }
 
-.popup-message button:hover {
-  color: #cccccc;
+
+/* Fade-in/out Animation */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
 }

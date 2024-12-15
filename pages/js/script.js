@@ -5,7 +5,6 @@ function toggleMenu() {
 }
 
 // Function to update cart visibility and user-related buttons/icons
-// Function to update cart visibility and user-related buttons/icons
 function updateCartVisibility() {
   const isLoggedIn = localStorage.getItem("email"); // Check if user is logged in
   const cartIcon = document.getElementById("cartIcon");
@@ -13,41 +12,67 @@ function updateCartVisibility() {
   const userIcon = document.getElementById("userIcon");
 
   if (isLoggedIn) {
-      // Show cart icon and user icon, hide login/signup button
-      cartIcon.style.display = "block";
-      userIcon.style.display = "block";
-      loginSignupButton.style.display = "none";
+    // Show cart icon and user icon, hide login/signup button
+    cartIcon.style.display = "block";
+    userIcon.style.display = "block";
+    loginSignupButton.style.display = "none";
   } else {
-      // Hide cart icon and user icon, show login/signup button
-      cartIcon.style.display = "none";
-      userIcon.style.display = "none";
-      loginSignupButton.style.display = "block";
+    // Hide cart icon and user icon, show login/signup button
+    cartIcon.style.display = "none";
+    userIcon.style.display = "none";
+    loginSignupButton.style.display = "block";
   }
-}
-
-
-// Function to initialize all necessary updates on page load
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartVisibility(); // Manage visibility of cart and user-related elements
-  updateCartCount(); // Initialize cart count with current items
-});
-
-
-// Function to redirect to the Sign In/Sign Up page
-function redirectToSignIn() {
-  window.location.href = "./pages/html/signup-signin.html";
 }
 
 // Function to update the cart count dynamically
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+  const totalItems = cart.reduce(
+    (total, item) => total + (item.quantity || 1),
+    0
+  );
   const cartCountElement = document.getElementById("cartCount");
 
   if (cartCountElement) {
-      cartCountElement.textContent = totalItems;
+    cartCountElement.textContent = totalItems;
   }
 }
 
+// Function to initialize all necessary updates on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const isLoggedIn = localStorage.getItem("email");
 
+  // Call functions to update cart visibility and count
+  updateCartVisibility();
+  updateCartCount();
+});
 
+// Function to redirect to the Sign In/Sign Up page
+function redirectToSignIn() {
+  console.log("Redirecting to sign-in page");
+  window.location.href = "/pages/html/signup-signin.html"; // Adjust path as needed
+}
+
+// Event listener for form submission (Login/Signup button)
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevents the default form submit action
+    redirectToSignIn(); // Redirects to the sign-in page
+  });
+
+// Function to sign out user
+function signOutUser() {
+  // Assuming you have Firebase or another authentication system
+  signOut(auth)
+    .then(() => {
+      localStorage.clear(); // Clear session data
+      window.location.href = "../../index.html"; // Redirect to homepage after logout
+    })
+    .catch((error) => {
+      console.error("Logout error:", error.message);
+    });
+}
+
+// Assuming you have a sign-out button somewhere that triggers the sign-out action
+// document.getElementById("signOutButton").addEventListener("click", signOutUser);

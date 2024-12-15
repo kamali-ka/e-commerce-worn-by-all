@@ -7,6 +7,8 @@
   <meta name="description" content="Your shopping cart, where you can view and manage items before checkout.">
   <title>Shopping Cart</title>
   <link rel="stylesheet" href="../css/cartPage.css">
+  <link rel="icon" href="/assets/images/ic_cart_icon.png" type="image/x-icon">
+
 </head>
 
 <body data-page="cartPage">
@@ -30,7 +32,7 @@
 
     <!-- Fixed Buy Now Button -->
     <div id="buyNowContainer" class="fixed-footer">
-      <button id="buyNowButton" class="buy-now-btn">Buy Now</button>
+      <a href="../html/address-page.html"><button id="buyNowButton" class="buy-now-btn">Buy Now</button></a>
     </div>
   </div>
 
@@ -55,7 +57,21 @@
   <div id="cart-count" style="display: none;">
     0
   </div>
+  <div id="totalPrice">
+    <span>Total: ₹<span id="totalPriceAmount">0.00</span></span>
+  </div>
+  <div id="product-sizes-container" class="size-container" style="color: black;">
+    <!-- Sizes will be dynamically populated here -->
+  </div>
+  <!-- Container for sizes -->
+  <div class="sizes-container">
+    <!-- Sizes will be populated dynamically via JavaScript -->
+  </div>
 
+  <!-- Display the selected size -->
+  <div class="selected-size-display">
+    Selected Size: <span class="selected-size" style="color: black;">None</span>
+  </div>
   <!-- JavaScript -->
   <script src="../js/cartPage.js"></script>
 </body>

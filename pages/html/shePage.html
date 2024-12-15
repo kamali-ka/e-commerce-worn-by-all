@@ -3,47 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Women's Clothing</title>
-  <link rel="stylesheet" href="../css/shePage.css">  
+  <title>Women's Clothing - E-Commerce</title>
+  <link rel="stylesheet" href="../css/shePage.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-<body data-page="shePage">
+<body>
   <div id="sidebar" class="sidebar hidden">
     <nav>
       <ul>
         <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
         <i class="fa-solid fa-person"></i> <li><a href="./men-category.html">Men</a></li>
-        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./women-category.html">Women</a></li>
         <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
         ⚤<li><a href="./unisex-page.html">Unisex</a></li>
         <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
       </ul>
     </nav>
   </div>
-
+  <div class="nav-icon">
+    <a href="../html/cartPage.html">
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
+    </a>
+  </div>
   <button id="toggleSidebar" class="toggle-sidebar-btn">
     ☰
   </button>
-
   <header class="header">
     <div class="header-content">
       <h1>Worn By All</h1>
       <h2>Women's Section</h2>
     </div>
   </header>
-
   <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search for clothes..." onkeyup="searchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
-
-  <div class="filters-container">
-    <label for="filter">Filter by Type:</label>
-    <select id="filter" onchange="filterProducts()">
+  <div class="filters">
+    <label for="clothingType">Filter by Type:</label>
+    <select id="clothingType" onchange="filterByType()">
       <option value="all">All</option>
+      <option value="T-Shirts">T-Shirts</option>
       <option value="Dress">Dress</option>
       <option value="Saree">Saree</option>
-      <option value="T-shirts">T-shirts</option>
-      <option value="Short tops">Short tops</option>
+      <option value="Short Tops">Short Tops</option>
       <option value="Pants">Pants</option>
       <option value="Chudithar">Chudithar</option>
       <option value="Skirts">Skirts</option>
@@ -53,15 +55,17 @@
       <option value="Palazzos">Palazzos</option>
     </select>
   </div>
-
-  <div id="cartItems"></div>
-  <div id="productGrid" class="product-grid"></div>
-
-  <!-- The Popup Container -->
-  <div id="popupContainer" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
-    <p id="popupMessage">Successfully added to cart!</p>
+  <div id="cartModal" class="cart-modal">
+    <div class="modal-content">
+      <p id="modalMessage">Successfully added to cart!</p>
+    </div>
   </div>
+  <div id="popupContainer" class="popup-container">
+    <div id="popupMessage" class="popup-message">Item added to cart successfully!</div>
+  </div>
+  
 
-  <script src="../js/shePage.js"></script>
+  <div class="product-grid" id="productGrid"></div>
+  <script type ="module" src="../js/shePage.js"></script>
 </body>
 </html>

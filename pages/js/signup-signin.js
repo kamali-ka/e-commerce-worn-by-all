@@ -103,39 +103,49 @@ document.addEventListener("DOMContentLoaded", function () {
       const username = document.getElementById("signup-username").value.trim();
       const email = document.getElementById("signup-email").value.trim();
       const password = document.getElementById("signup-password").value;
-      const confirmPassword = document.getElementById("signup-confirm-password").value;
+      const confirmPassword = document.getElementById(
+        "signup-confirm-password"
+      ).value;
 
       // Basic Validation
       if (!username) {
-        document.getElementById("username-error").textContent = "Username is required.";
+        document.getElementById("username-error").textContent =
+          "Username is required.";
         return;
       } else {
         document.getElementById("username-error").textContent = "";
       }
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById("email-error").textContent = "Invalid email format.";
+        document.getElementById("email-error").textContent =
+          "Invalid email format.";
         return;
       } else {
         document.getElementById("email-error").textContent = "";
       }
 
       if (password.length < 6) {
-        document.getElementById("password-error").textContent = "Password must be at least 6 characters.";
+        document.getElementById("password-error").textContent =
+          "Password must be at least 6 characters.";
         return;
       } else {
         document.getElementById("password-error").textContent = "";
       }
 
       if (password !== confirmPassword) {
-        document.getElementById("confirm-password-error").textContent = "Passwords do not match.";
+        document.getElementById("confirm-password-error").textContent =
+          "Passwords do not match.";
         return;
       } else {
         document.getElementById("confirm-password-error").textContent = "";
       }
 
       // Create User
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       localStorage.setItem("username", username);
       localStorage.setItem("email", email);
       showModal(
@@ -156,14 +166,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Basic Validation
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById("login-email-error").textContent = "Invalid email format.";
+        document.getElementById("login-email-error").textContent =
+          "Invalid email format.";
         return;
       } else {
         document.getElementById("login-email-error").textContent = "";
       }
 
       if (!password) {
-        document.getElementById("login-general-error").textContent = "Password is required.";
+        document.getElementById("login-general-error").textContent =
+          "Password is required.";
         return;
       } else {
         document.getElementById("login-general-error").textContent = "";
@@ -192,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Handle Logout
-  const logoutButton = document.getElementById("logout-button");
+  const logoutButton = document.getElementById("logoutButton");
   if (logoutButton) {
     logoutButton.addEventListener("click", function () {
       signOut(auth)
@@ -217,7 +229,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (user) {
       console.log("User is signed in:", user);
       // Fetch user details and update the UI accordingly
-      const username = localStorage.getItem("username") || user.email.split("@")[0];
+      const username =
+        localStorage.getItem("username") || user.email.split("@")[0];
       const email = user.email;
       const phone = localStorage.getItem("phone");
       window.location.href = "../../index.html";

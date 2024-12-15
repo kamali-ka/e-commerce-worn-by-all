@@ -22,7 +22,7 @@ const auth = getAuth(app);
 // Function to load shirts from JSON file
 async function loadShirts() {
   try {
-    const response = await fetch("/pages/js/public/he-page.json");
+    const response = await fetch("/pages/js/public/she-page.json");
     if (!response.ok) {
       throw new Error(
         `Failed to fetch products: ${response.status} ${response.statusText}`
@@ -35,12 +35,12 @@ async function loadShirts() {
 
     // Filter and display shirts
     const shirtProducts = products.filter(
-      (product) => product.type === "Shirts"
+      (product) => product.type === "Chudithar"
     );
     shirtProducts.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
-      productCard.setAttribute("data-id", product.id);
+      productCard.setAttribute("data-type", product.type);
 
       // Create a link for the product card
       const productLink = document.createElement("a");
@@ -95,17 +95,14 @@ async function loadShirts() {
 
 // Navigate to the cart page
 function searchProducts() {
-  const searchBarValue = document
-    .getElementById("searchBar")
-    .value.toLowerCase();
+  const searchBarValue = document.getElementById("searchBar").value.toLowerCase();
   const products = document.querySelectorAll(".product-card");
   products.forEach((product) => {
     const productName = product.querySelector("h2").textContent.toLowerCase();
-    product.style.display = productName.includes(searchBarValue)
-      ? "block"
-      : "none";
+    product.style.display = productName.includes(searchBarValue) ? "block" : "none";
   });
 }
+
 
 // Add event listener to the search bar to trigger search when typing
 document.getElementById("searchBar").addEventListener("input", searchProducts);
@@ -131,17 +128,6 @@ function addToCart(item) {
 
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      // Update the button text and behavior
-      const addButton = document.querySelector(
-        `.product-card[data-id="${item.id}"] button`
-      );
-      console.log(addButton);
-
-      if (addButton) {
-        addButton.textContent = "Visit Cart"; // Change button text
-        addButton.onclick = navigateToCart; // Change button behavior
-      }
-
       // Show popup message
       showPopup("Item added to cart successfully!");
       updateCartCount();
@@ -149,11 +135,6 @@ function addToCart(item) {
       window.location.href = "../html/signup-signin.html";
     }
   });
-}
-
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = "../html/cartPage.html";
 }
 
 // Function to show the popup message
