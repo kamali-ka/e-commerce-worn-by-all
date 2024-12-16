@@ -686,7 +686,7 @@ body {
 }
 
 .size-option.selected {
-  background-color: #007bff; /* Blue background for selected size */
+  background-color: green; /* Blue background for selected size */
   color: white; /* White text for selected size */
   font-weight: bold;
 }
@@ -717,7 +717,11 @@ body {
 }
 
 .selected-size-display {
+  color: #000;
   margin-top: 10px;
   font-size: 14px;
   font-weight: bold;
+}
+.product-card h2{
+  color: #000;
 }

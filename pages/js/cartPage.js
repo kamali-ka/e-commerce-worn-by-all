@@ -16,6 +16,30 @@ function setLocalStorage(key, value) {
   }
 }
 
+// Global variable to cache sizes data
+let cachedSizesData = null;
+
+// Fetch sizes data once and cache it
+function fetchSizesData() {
+  if (cachedSizesData) {
+    return Promise.resolve(cachedSizesData); // Return cached data if already fetched
+  }
+
+  return fetch("../js/public/he-page.json") // Ensure this path is accurate
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch sizes");
+      return response.json();
+    })
+    .then((data) => {
+      cachedSizesData = data; // Cache the sizes data
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error fetching sizes:", error);
+      return [];
+    });
+}
+
 // Load cart items and display them dynamically
 function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
@@ -47,13 +71,15 @@ function loadCartItems() {
     return;
   }
 
-  cart.forEach((item) => renderCartItem(item, cartItemsContainer));
-  updateBillSummary(); // Update the bill summary
-  updateCartCount(); // Update the cart count
+  fetchSizesData().then((sizesData) => {
+    cart.forEach((item) => renderCartItem(item, cartItemsContainer, sizesData));
+    updateBillSummary(); // Update the bill summary
+    updateCartCount(); // Update the cart count
+  });
 }
 
 // Render individual cart item
-function renderCartItem(item, container) {
+function renderCartItem(item, container, sizesData) {
   const productCard = document.createElement("div");
   productCard.classList.add("product-card");
   productCard.dataset.productId = item.id;
@@ -73,9 +99,75 @@ function renderCartItem(item, container) {
   `;
 
   const sizesContainer = productCard.querySelector(".sizes-container");
-  productCard.addEventListener("mouseover", () => fetchSizesOnHover(item.id, sizesContainer, item, productCard));
+  populateSizes(sizesContainer, item, sizesData);
 
   container.appendChild(productCard);
+}
+
+// Populate sizes dynamically for a product
+function populateSizes(sizesContainer, product, sizesData) {
+  const productData = sizesData.find((item) => item.id === product.id);
+
+  sizesContainer.innerHTML = ""; // Clear previous sizes
+
+  if (productData && productData.sizes) {
+    productData.sizes.forEach((size) => {
+      const sizeElement = document.createElement("span");
+      sizeElement.textContent = size;
+      sizeElement.classList.add("size-option");
+
+      // Highlight the selected size
+      if (product.selectedSize === size) sizeElement.classList.add("selected");
+
+      // Add click event for selecting size
+      sizeElement.addEventListener("click", () => {
+        console.log(`Size clicked: ${size}`);
+        selectSize(product.id, size);
+      });
+
+      sizesContainer.appendChild(sizeElement);
+    });
+  } else {
+    sizesContainer.innerHTML = "<p>No sizes available</p>";
+  }
+}
+
+// Select a size for a product
+function selectSize(productId, size) {
+  const cart = getLocalStorage("cart", []);
+  const product = cart.find((item) => item.id === productId);
+
+  if (product) {
+    // Update the selected size for the product
+    product.selectedSize = size;
+
+    // Update the cart in localStorage
+    const updatedCart = cart.map((item) =>
+      item.id === productId ? { ...item, selectedSize: size } : item
+    );
+    setLocalStorage("cart", updatedCart);
+
+    // Update the UI
+    const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+    if (productCard) {
+      const selectedSizeDisplay = productCard.querySelector(".selected-size");
+      if (selectedSizeDisplay) selectedSizeDisplay.textContent = size;
+
+      const sizesContainer = productCard.querySelector(".sizes-container");
+      if (sizesContainer) {
+        sizesContainer.querySelectorAll(".size-option").forEach((el) =>
+          el.classList.remove("selected")
+        );
+        const clickedSizeElement = [...sizesContainer.children].find(
+          (el) => el.textContent === size
+        );
+        if (clickedSizeElement) clickedSizeElement.classList.add("selected");
+      }
+    }
+
+    // Log for debugging
+    console.log(`Size selected: ${size} for Product ID: ${productId}`);
+  }
 }
 
 // Update item quantity in the cart
@@ -88,41 +180,6 @@ function updateQuantity(productId, change) {
     setLocalStorage("cart", cart);
     loadCartItems(); // Reload items to reflect the updated quantity
   }
-}
-
-// Fetch sizes dynamically on hover
-function fetchSizesOnHover(productId, sizesContainer, product, productCard) {
-  fetch("../js/public/he-page.json") // Ensure this path is accurate
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch sizes");
-      return response.json();
-    })
-    .then((data) => {
-      const productData = data.find((item) => item.id === productId);
-      sizesContainer.innerHTML = ""; // Clear sizes
-
-      if (productData && productData.sizes) {
-        productData.sizes.forEach((size) => {
-          const sizeElement = document.createElement("span");
-          sizeElement.textContent = size;
-          sizeElement.classList.add("size-option");
-          if (product.selectedSize === size) sizeElement.classList.add("selected");
-
-          sizeElement.addEventListener("click", () => {
-            sizesContainer.querySelectorAll(".size-option").forEach((el) => el.classList.remove("selected"));
-            sizeElement.classList.add("selected");
-            product.selectedSize = size;
-            setLocalStorage("cart", getLocalStorage("cart"));
-            productCard.querySelector(".selected-size").textContent = size;
-          });
-
-          sizesContainer.appendChild(sizeElement);
-        });
-      } else {
-        sizesContainer.innerHTML = "<p>No sizes available</p>";
-      }
-    })
-    .catch(() => (sizesContainer.innerHTML = "<p>Error loading sizes</p>"));
 }
 
 // Remove item from cart
