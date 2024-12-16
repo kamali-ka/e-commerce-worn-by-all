@@ -1,3 +1,4 @@
+// Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
   loadProducts().then(() => {
@@ -31,23 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Sidebar element not found.");
       }
     });
-  }
-
-  // Add click event listener to the "Add to Cart" button
-  const addButton = document.getElementById("addToCartButton");
-  if (addButton) {
-    addButton.onclick = () => {
-      const item = {
-        id: "12345", // Example item data
-        name: "T-Shirt",
-        price: 499,
-        image: "../images/tshirt.jpg"
-      };
-      addToCart(item);
-      navigateToCart();
-    };
-  } else {
-    console.error("Add to Cart button not found!");
   }
 });
 
@@ -97,11 +81,13 @@ async function loadProducts() {
 
       const addButton = document.createElement("button");
       addButton.textContent = isInCart(product) ? "Visit Cart" : "Add to Cart";
-      addButton.onclick = () => handleCartButtonClick(product, addButton);
+      addButton.onclick = (e) => {
+        e.stopPropagation(); // Prevent triggering product click event
+        handleCartButtonClick(product, addButton);
+      };
 
       productCard.onclick = () => {
-        localStorage.setItem("selectedProductId", product.id);
-        window.location.href = "../html/productDetails.html";
+        window.location.href = `../html/productDetails.html?id=${product.id}`;
       };
 
       productCard.append(productImage, productName, productPrice, addButton);
@@ -162,7 +148,7 @@ function handleCartButtonClick(product, button) {
 // Function to check if a product is already in the cart
 function isInCart(product) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  return cart.some((item) => item.name === product.name);
+  return cart.some((item) => item.id === product.id);
 }
 
 // Function to add a product to the cart
@@ -185,11 +171,6 @@ function addToCart(item) {
 
   // Show popup message
   showPopup("Item added to cart successfully!");
-}
-
-// Function to navigate to the cart page
-function navigateToCart() {
-  window.location.href = "../html/cartPage.html";
 }
 
 // Function to update the cart count
