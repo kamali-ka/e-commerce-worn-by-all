@@ -1,11 +1,11 @@
 // Fetch data from JSON
 async function fetchProductData() {
   try {
-    const response = await fetch('../js/public/he-page.json'); // Path to your JSON file
-    if (!response.ok) throw new Error('Failed to fetch product data');
+    const response = await fetch("../js/public/he-page.json"); // Path to your JSON file
+    if (!response.ok) throw new Error("Failed to fetch product data");
     return await response.json();
   } catch (error) {
-    console.error('Error fetching product data:', error);
+    console.error("Error fetching product data:", error);
     return [];
   }
 }
@@ -25,14 +25,14 @@ function setLocalStorage(key, value) {
 
 // Load cart items
 async function loadCartItems() {
-  const cartItemsContainer = document.getElementById('cartItems');
-  const cart = getLocalStorage('cart', []);
+  const cartItemsContainer = document.getElementById("cartItems");
+  const cart = getLocalStorage("cart", []);
   const products = await fetchProductData();
 
-  cartItemsContainer.innerHTML = '';
+  cartItemsContainer.innerHTML = "";
 
   if (cart.length === 0) {
-    cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
     updateBillSummary();
     return;
   }
@@ -50,12 +50,21 @@ async function loadCartItems() {
 // Render individual cart item
 function renderCartItem(cartItem, product, container) {
   const sizeOptions = product.sizes
-    .map((size) => `<option value="${size}" ${cartItem.size === size ? 'selected' : ''}>${size}</option>`)
-    .join('');
+    .map(
+      (size) =>
+        `<option value="${size}" ${
+          cartItem.size === size ? "selected" : ""
+        }>${size}</option>`
+    )
+    .join("");
 
-  const quantityOptions = Array.from({ length: 10 }, (_, i) =>
-    `<option value="${i + 1}" ${cartItem.quantity === i + 1 ? 'selected' : ''}>${i + 1}</option>`
-  ).join('');
+  const quantityOptions = Array.from(
+    { length: 10 },
+    (_, i) =>
+      `<option value="${i + 1}" ${
+        cartItem.quantity === i + 1 ? "selected" : ""
+      }>${i + 1}</option>`
+  ).join("");
 
   const cartItemHTML = `
     <div class="cart-item">
@@ -79,9 +88,16 @@ function renderCartItem(cartItem, product, container) {
   container.innerHTML += cartItemHTML;
 
   // Attach event listeners
-  document.getElementById(`size-select-${cartItem.id}`).addEventListener('change', handleSizeChange);
-  document.getElementById(`quantity-select-${cartItem.id}`).addEventListener('change', handleQuantityChange);
-  document.querySelector(`.remove-btn[data-id="${cartItem.id}"]`).addEventListener('click', handleRemoveItem);
+  document
+    .getElementById(`size-select-${cartItem.id}`)
+    .addEventListener("change", handleSizeChange);
+  document.querySelectorAll(`.quantity-select`).forEach((item) => {
+    item.addEventListener("change", handleQuantityChange);
+  });
+
+  document
+    .querySelector(`.remove-btn[data-id="${cartItem.id}"]`)
+    .addEventListener("click", handleRemoveItem);
 }
 
 // Handle size change
@@ -89,26 +105,28 @@ function handleSizeChange(event) {
   const productId = event.target.dataset.id;
   const selectedSize = event.target.value;
 
-  const cart = getLocalStorage('cart', []);
+  const cart = getLocalStorage("cart", []);
   const product = cart.find((item) => item.id === productId);
 
   if (product) {
     product.size = selectedSize;
-    setLocalStorage('cart', cart);
+    setLocalStorage("cart", cart);
   }
 }
 
 // Handle quantity change
 function handleQuantityChange(event) {
+  console.log("Nadakuthu");
+
   const productId = event.target.dataset.id;
   const selectedQuantity = parseInt(event.target.value, 10);
 
-  const cart = getLocalStorage('cart', []);
+  const cart = getLocalStorage("cart", []);
   const product = cart.find((item) => item.id === productId);
 
   if (product) {
     product.quantity = selectedQuantity;
-    setLocalStorage('cart', cart);
+    setLocalStorage("cart", cart);
     updateBillSummary();
   }
 }
@@ -116,19 +134,23 @@ function handleQuantityChange(event) {
 // Handle item removal
 function handleRemoveItem(event) {
   const productId = event.target.dataset.id;
-  const cart = getLocalStorage('cart', []).filter((item) => item.id !== productId);
-  setLocalStorage('cart', cart);
+  const cart = getLocalStorage("cart", []).filter(
+    (item) => item.id !== productId
+  );
+  setLocalStorage("cart", cart);
   loadCartItems();
 }
 
 // Update bill summary
 function updateBillSummary() {
   const cart = getLocalStorage("cart", []); // Retrieve cart data from local storage
-  const totalPrice = cart.reduce((sum, item) => {
-    const price = parseFloat(item.price) || 0; // Ensure the price is a number
-    const quantity = item.quantity || 1; // Default quantity to 1 if not specified
-    return sum + price * quantity;
-  }, 0);
+  let totalPrice = 0;
+  for (const item of cart) {
+    totalPrice += item.price * item.quantity;
+    console.log(item.price, " ", item.quantity);
+  }
+
+  console.log(totalPrice);
 
   const tax = totalPrice * 0.02; // Calculate 2% tax
   const deliveryFee = totalPrice > 0 ? 30 : 0; // Delivery fee only if there are items
@@ -154,12 +176,11 @@ function updateBillSummary() {
   }
 }
 
-
 // Empty cart
-document.getElementById('emptyCartButton').addEventListener('click', () => {
-  setLocalStorage('cart', []);
+document.getElementById("emptyCartButton").addEventListener("click", () => {
+  setLocalStorage("cart", []);
   loadCartItems();
 });
 
 // Initialize cart on page load
-document.addEventListener('DOMContentLoaded', loadCartItems);
+document.addEventListener("DOMContentLoaded", loadCartItems);

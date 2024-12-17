@@ -19,8 +19,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Function to load shirts from JSON file
-async function loadShirts() {
+// Function to load Chudithars from JSON file
+async function loadChudithars() {
   try {
     const response = await fetch("/pages/js/public/she-page.json");
     if (!response.ok) {
@@ -31,13 +31,23 @@ async function loadShirts() {
 
     const products = await response.json();
     const productGrid = document.getElementById("productGrid");
+    if (!productGrid) {
+      console.error("Product grid element not found!");
+      return;
+    }
     productGrid.innerHTML = ""; // Clear existing products
 
-    // Filter and display shirts
-    const shirtProducts = products.filter(
-      (product) => product.type === "Chudithar"
+    // Filter and display Chudithars
+    const chuditharProducts = products.filter(
+      (product) => product.type.toLowerCase() === "chudithar"
     );
-    shirtProducts.forEach((product) => {
+
+    if (chuditharProducts.length === 0) {
+      productGrid.textContent = "No Chudithars found!";
+      return;
+    }
+
+    chuditharProducts.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
       productCard.setAttribute("data-type", product.type);
@@ -48,7 +58,7 @@ async function loadShirts() {
       productLink.style.textDecoration = "none"; // Remove the default link underline
 
       const productImage = document.createElement("img");
-      productImage.src = product.image || "";
+      productImage.src = product.image || "default-image.jpg";
       productImage.alt = product.alt || product.name || "Product Image";
 
       const productName = document.createElement("h2");
@@ -57,11 +67,9 @@ async function loadShirts() {
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
       const price = parseFloat(product.price.replace(/[₹,]/g, ""));
-      if (isNaN(price)) {
-        productPrice.textContent = "Price not available";
-      } else {
-        productPrice.textContent = `₹${price.toFixed(2)}`;
-      }
+      productPrice.textContent = isNaN(price)
+        ? "Price not available"
+        : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement("button");
       addButton.textContent = "Add to Cart";
@@ -89,9 +97,21 @@ async function loadShirts() {
       productGrid.appendChild(productCard);
     });
   } catch (error) {
-    console.error("Error loading shirts:", error.message);
+    console.error("Error loading Chudithars:", error.message);
+    const productGrid = document.getElementById("productGrid");
+    if (productGrid) {
+      productGrid.textContent = "Failed to load Chudithars.";
+    }
   }
 }
+
+// Load Chudithars on page load
+document.addEventListener("DOMContentLoaded", () => {
+  loadChudithars();
+  updateCartCount();
+  const popupContainer = document.getElementById("popupContainer");
+  popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
+});
 
 // Navigate to the cart page
 function searchProducts() {
@@ -172,13 +192,6 @@ function updateCartCount() {
   localStorage.setItem("cartCount", totalItems);
 }
 
-// Load cart count on page load
-document.addEventListener("DOMContentLoaded", () => {
-  loadShirts();
-  updateCartCount();
-  const popupContainer = document.getElementById("popupContainer");
-  popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
-});
 
 // Function to get URL parameters
 function getQueryParam(param) {

@@ -41,7 +41,7 @@ async function loadProducts() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      const price = parseFloat(product.price.replace(/[₹,]/g, "")); // Remove ₹ and commas
+      const price = parseFloat(product.price); // Remove ₹ and commas
       productPrice.textContent = isNaN(price)
         ? "Price not available"
         : `₹${price.toFixed(2)}`;
@@ -356,7 +356,6 @@ function updateCartCount() {
   }
 }
 
-// Function to display the popup message
 // Function to show the popup message
 function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
