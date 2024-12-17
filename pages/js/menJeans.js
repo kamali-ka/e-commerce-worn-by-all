@@ -119,19 +119,43 @@ function isInCart(product) {
 
 // Function to add a product to the cart
 function addToCart(product) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const existingItemIndex = cart.findIndex(
-    (item) => item.name === product.name
-  );
-  if (existingItemIndex === -1) {
-    product.quantity = 1; // Add quantity property
-    cart.push(product);
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-  showCartPopup("Successfully added to the cart!");
+  onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user);
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.findIndex(
+          (cartItem) => cartItem.id === item.id
+        );
+        if (existingItemIndex > -1) {
+          // Update quantity if item exists
+          cart[existingItemIndex].quantity += 1;
+        } else {
+          // Add new item to the cart
+          cart.push({ ...item, quantity: 1 });
+        }
+  
+        localStorage.setItem("cart", JSON.stringify(cart));
+  
+        // Update the button text and behavior
+        const addButton = document.querySelector(
+          `.product-card[data-id="${item.id}"] button`
+        );
+        console.log(addButton);
+  
+        if (addButton) {
+          addButton.textContent = "Visit Cart"; // Change button text
+          addButton.onclick = navigateToCart; // Change button behavior
+        }
+  
+        // Show popup message
+        showPopup("Item added to cart successfully!");
+        updateCartCount();
+      } else {
+        window.location.href = "../html/signup-signin.html";
+      }
+    });
 }
 
 // Function to update the cart count
