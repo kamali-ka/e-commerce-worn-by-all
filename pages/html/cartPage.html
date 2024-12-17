@@ -18,56 +18,35 @@
 
   <!-- Main Content Container -->
   <div class="main-container">
-    <!-- Cart and Bill Summary -->
-    <div class="scrollable-content">
-      <div id="cartItems" class="product-grid">
-        <!-- Cart items will be dynamically loaded here by JavaScript -->
-      </div>
-
-      <div id="billSummary" class="bill-summary">
-        <!-- Bill summary details will be dynamically populated by JavaScript -->
-      </div>
+    <!-- Cart Items Section -->
+    <div id="cartItems" class="product-grid">
+      <!-- Cart items will be dynamically loaded here -->
     </div>
 
-    <!-- Fixed Buy Now Button -->
-    <div id="buyNowContainer" class="fixed-footer">
-      <a href="../html/address-page.html"><button id="buyNowButton" class="buy-now-btn">Buy Now</button></a>
+    <!-- Bill Summary Section -->
+    <div id="billSummary" class="bill-summary">
+      <!-- Bill summary details will be dynamically populated -->
     </div>
-  </div>
 
-  <!-- Modal Popup -->
-  <div id="popupModal" class="popup-modal">
-    <div class="popup-content">
-      <p id="popupMessage">Please add items to proceed to payment.</p>
-      <button id="closePopupButton">Close</button>
-    </div>
-  </div>
-
-  <!-- Login/Signup Buttons (Initially hidden if logged in) -->
-  <div id="loginSignupButtons" style="display: none;">
-    <button id="loginButton">Login</button>
-    <button id="signupButton">Signup</button>
-  </div>
-
-  <!-- Cart Icon and Count (Initially hidden if not logged in) -->
-  <div id="cartIcon" style="display: none;">
-    <i class="fa fa-shopping-cart"></i>
-  </div>
-  <div id="cart-count" style="display: none;">
-    0
-  </div>
-  <div id="totalPrice">
+    <!-- Fixed Footer Buttons -->
+    <!-- Fixed Footer with Total Price -->
+<div id="footerButtons" class="fixed-footer">
+  <div class="total-price-container">
     <span>Total: ₹<span id="totalPriceAmount">0.00</span></span>
   </div>
-
-  <!-- Container for sizes -->
-  <div class="sizes-container">
-    <!-- Sizes will be dynamically populated here by JavaScript -->
+  <div class="footer-buttons">
+    <button id="emptyCartButton" class="empty-cart-btn">Empty Cart</button>
+    <a href="../html/address-page.html"><button id="buyNowButton" class="buy-now-btn">Buy Now</button></a>
   </div>
+</div>
 
-  <!-- Display the selected size -->
-  <div class="selected-size-display">
-    <span class="selected-size"></span>
+
+  <!-- Modal Popup for Messages -->
+  <div id="popupModal" class="popup-modal">
+    <div class="popup-content">
+      <p id="popupMessage">Message goes here.</p>
+      <button id="closePopupButton">Close</button>
+    </div>
   </div>
 
   <!-- JavaScript -->
