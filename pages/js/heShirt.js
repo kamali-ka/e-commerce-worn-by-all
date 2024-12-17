@@ -56,7 +56,7 @@ async function loadShirts() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      const price = parseFloat(product.price.replace(/[₹,]/g, ""));
+      const price = parseFloat(product.price);
       if (isNaN(price)) {
         productPrice.textContent = "Price not available";
       } else {
