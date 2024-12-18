@@ -1,3 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
+  authDomain: "wornbyall-926f5.firebaseapp.com",
+  projectId: "wornbyall-926f5",
+  storageBucket: "wornbyall-926f5.appspot.com",
+  messagingSenderId: "770771226995",
+  appId: "1:770771226995:web:15636d6b9e17d27611b506",
+  measurementId: "G-B6PER21YN1",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
@@ -74,7 +94,7 @@ async function loadProducts() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      const price = parseFloat(product.price.replace(/[₹,]/g, ""));
+      const price = parseFloat(product.price);
       productPrice.textContent = isNaN(price)
         ? "Price not available"
         : `₹${price.toFixed(2)}`;
@@ -153,24 +173,43 @@ function isInCart(product) {
 
 // Function to add a product to the cart
 function addToCart(item) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // Check if the item already exists in the cart
-  const existingItemIndex = cart.findIndex(
-    (cartItem) => cartItem.id === item.id
-  );
-  if (existingItemIndex > -1) {
-    // Update quantity if item exists
-    cart[existingItemIndex].quantity += 1;
-  } else {
-    // Add new item to the cart
-    cart.push({ ...item, quantity: 1 });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  // Show popup message
-  showPopup("Item added to cart successfully!");
+  onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user);
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.findIndex(
+          (cartItem) => cartItem.id === item.id
+        );
+        if (existingItemIndex > -1) {
+          // Update quantity if item exists
+          cart[existingItemIndex].quantity += 1;
+        } else {
+          // Add new item to the cart
+          cart.push({ ...item, quantity: 1 });
+        }
+  
+        localStorage.setItem("cart", JSON.stringify(cart));
+  
+        // Update the button text and behavior
+        const addButton = document.querySelector(
+          `.product-card[data-id="${item.id}"] button`
+        );
+        console.log(addButton);
+  
+        if (addButton) {
+          addButton.textContent = "Visit Cart"; // Change button text
+          addButton.onclick = navigateToCart; // Change button behavior
+        }
+  
+        // Show popup message
+        showPopup("Item added to cart successfully!");
+        updateCartCount();
+      } else {
+        window.location.href = "../html/signup-signin.html";
+      }
+    });
 }
 
 // Function to update the cart count

@@ -31,6 +31,12 @@ async function loadShirts() {
 
     const products = await response.json();
     const productGrid = document.getElementById("productGrid");
+
+    if (!productGrid) {
+      console.error("Element with ID 'productGrid' not found.");
+      return;
+    }
+
     productGrid.innerHTML = ""; // Clear existing products
 
     // Filter and display shirts
@@ -42,10 +48,9 @@ async function loadShirts() {
       productCard.classList.add("product-card");
       productCard.setAttribute("data-id", product.id);
 
-      // Create a link for the product card
       const productLink = document.createElement("a");
       productLink.href = `../html/productDetails.html?id=${product.id}`;
-      productLink.style.textDecoration = "none"; // Remove the default link underline
+      productLink.style.textDecoration = "none";
 
       const productImage = document.createElement("img");
       productImage.src = product.image || "";
@@ -57,32 +62,27 @@ async function loadShirts() {
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
       const price = parseFloat(product.price);
-      if (isNaN(price)) {
-        productPrice.textContent = "Price not available";
-      } else {
-        productPrice.textContent = `₹${price.toFixed(2)}`;
-      }
+      productPrice.textContent = isNaN(price)
+        ? "Price not available"
+        : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement("button");
-      addButton.textContent = "Add to Cart";
 
-      // Check if the product is already in the cart
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingItem = cart.find((item) => item.name === product.name);
 
       if (existingItem) {
-        addButton.textContent = "Visit Cart"; // Change to 'Visit Cart' if the item is in the cart
-        addButton.onclick = () => navigateToCart(); // Navigate to the cart
+        addButton.textContent = "Visit Cart";
+        addButton.onclick = navigateToCart;
       } else {
-        addButton.onclick = () => addToCart(product); // Add to cart
+        addButton.textContent = "Add to Cart";
+        addButton.onclick = () => addToCart(product);
       }
 
-      // Append product details to the link
       productLink.appendChild(productImage);
       productLink.appendChild(productName);
       productLink.appendChild(productPrice);
 
-      // Append the link and add button to the product card
       productCard.appendChild(productLink);
       productCard.appendChild(addButton);
 
@@ -93,56 +93,60 @@ async function loadShirts() {
   }
 }
 
-// Navigate to the cart page
+// Search products
 function searchProducts() {
-  const searchBarValue = document
-    .getElementById("searchBar")
-    .value.toLowerCase();
+  const searchBar = document.getElementById("searchBar");
+  if (!searchBar) {
+    console.error("Element with ID 'searchBar' not found.");
+    return;
+  }
+
+  const searchBarValue = searchBar.value.toLowerCase();
   const products = document.querySelectorAll(".product-card");
+
   products.forEach((product) => {
-    const productName = product.querySelector("h2").textContent.toLowerCase();
+    const productName = product
+      .querySelector("h2")
+      ?.textContent.toLowerCase() || "";
     product.style.display = productName.includes(searchBarValue)
       ? "block"
       : "none";
   });
 }
 
-// Add event listener to the search bar to trigger search when typing
-document.getElementById("searchBar").addEventListener("input", searchProducts);
+// Add event listener to the search bar
+const searchBarElement = document.getElementById("searchBar");
+if (searchBarElement) {
+  searchBarElement.addEventListener("input", searchProducts);
+}
 
 // Add product to the cart
 function addToCart(item) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("User is signed in:", user);
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      // Check if the item already exists in the cart
       const existingItemIndex = cart.findIndex(
         (cartItem) => cartItem.id === item.id
       );
+
       if (existingItemIndex > -1) {
-        // Update quantity if item exists
         cart[existingItemIndex].quantity += 1;
       } else {
-        // Add new item to the cart
         cart.push({ ...item, quantity: 1 });
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      // Update the button text and behavior
       const addButton = document.querySelector(
         `.product-card[data-id="${item.id}"] button`
       );
-      console.log(addButton);
 
       if (addButton) {
-        addButton.textContent = "Visit Cart"; // Change button text
-        addButton.onclick = navigateToCart; // Change button behavior
+        addButton.textContent = "Visit Cart";
+        addButton.onclick = navigateToCart;
       }
 
-      // Show popup message
       showPopup("Item added to cart successfully!");
       updateCartCount();
     } else {
@@ -151,30 +155,32 @@ function addToCart(item) {
   });
 }
 
-// Function to navigate to the cart page
+// Navigate to cart page
 function navigateToCart() {
   window.location.href = "../html/cartPage.html";
 }
 
-// Function to show the popup message
+// Show popup message
 function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
+
+  if (!popupContainer) {
+    console.error("Element with ID 'popupContainer' not found.");
+    return;
+  }
+
   const popupMessage = popupContainer.querySelector(".popup-message");
+  if (popupMessage) {
+    popupMessage.textContent = message;
+    popupMessage.style.backgroundColor = "green";
+    popupMessage.style.color = "white";
 
-  // Set the message
-  popupMessage.textContent = message;
+    popupContainer.classList.add("show");
 
-  // Ensure the popup is styled for success
-  popupMessage.style.backgroundColor = "green"; // Set to green for success
-  popupMessage.style.color = "white";
-
-  // Show the popup
-  popupContainer.classList.add("show");
-
-  // Hide the popup after 3 seconds
-  setTimeout(() => {
-    popupContainer.classList.remove("show");
-  }, 3000);
+    setTimeout(() => {
+      popupContainer.classList.remove("show");
+    }, 3000);
+  }
 }
 
 // Update cart count
@@ -187,30 +193,38 @@ function updateCartCount() {
     cartCountElement.textContent = totalItems;
   }
 
-  // Save cart count to localStorage
   localStorage.setItem("cartCount", totalItems);
 }
 
-// Load cart count on page load
+// Load page content on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
   loadShirts();
   updateCartCount();
+
   const popupContainer = document.getElementById("popupContainer");
-  popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
 });
 
-// Function to get URL parameters
+// Get URL parameters
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
 
-// Load product details from URL parameter
+// Load product details
 function loadProductDetails() {
   const productId = getQueryParam("id");
+
+  const productDetailsElement = document.getElementById("productDetails");
+  if (!productDetailsElement) {
+    console.error("Element with ID 'productDetails' not found.");
+    return;
+  }
+
   if (!productId) {
-    document.getElementById("productDetails").textContent =
-      "Product ID not found!";
+    productDetailsElement.textContent = "Product ID not found!";
     return;
   }
 
@@ -223,26 +237,47 @@ function loadProductDetails() {
           product.image || "default-image.jpg";
         document.getElementById("productName").textContent =
           product.name || "Unnamed Product";
-        document.getElementById("productPrice").textContent =
-          product.price || "Price not available";
+        document.getElementById("productPrice").textContent = `₹${
+          product.price || "Price not available"
+        }`;
         document.getElementById("productRatings").textContent = `Rating: ${
           product.rating || "N/A"
         }`;
         document.getElementById("productDescription").textContent =
           product.description || "No description available.";
+
+        const addToCartButton = document.createElement("button");
+        addToCartButton.textContent = "Add to Cart";
+
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            addToCartButton.onclick = () => addToCart(product);
+          } else {
+            addToCartButton.onclick = () =>
+              (window.location.href = "../html/signup-signin.html");
+          }
+        });
+
+        productDetailsElement.appendChild(addToCartButton);
       } else {
-        document.getElementById("productDetails").textContent =
-          "Product not found!";
+        productDetailsElement.textContent = "Product not found!";
       }
     })
     .catch((error) => {
       console.error("Error fetching product details:", error);
-      document.getElementById("productDetails").textContent =
-        "Failed to load product details.";
+      productDetailsElement.textContent = "Failed to load product details.";
     });
 }
+
 // Toggle sidebar visibility
-document.getElementById("toggleSidebar").addEventListener("click", () => {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.toggle("visible"); // Toggle 'visible' class to show/hide sidebar
-});
+const toggleSidebarButton = document.getElementById("toggleSidebar");
+if (toggleSidebarButton) {
+  toggleSidebarButton.addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) {
+      sidebar.classList.toggle("visible");
+    } else {
+      console.error("Element with ID 'sidebar' not found.");
+    }
+  });
+}

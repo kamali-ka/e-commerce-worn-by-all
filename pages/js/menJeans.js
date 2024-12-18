@@ -22,7 +22,7 @@ const auth = getAuth(app);
 async function loadProducts() {
   try {
     // Fetch the product data from the JSON file
-    const response = await fetch("../js/public/he-page.json"); // Adjusted path for local file
+    const response = await fetch("../js/public/he-page.json"); 
     if (!response.ok) {
       throw new Error(
         `Failed to fetch products: ${response.status} ${response.statusText}`
@@ -37,7 +37,7 @@ async function loadProducts() {
       return;
     }
 
-    productGrid.innerHTML = ""; // Clear existing products
+    productGrid.innerHTML = ""; 
 
     // Filter and display jeans
     const jeansProducts = products.filter(
@@ -118,7 +118,7 @@ function isInCart(product) {
 }
 
 // Function to add a product to the cart
-function addToCart(product) {
+function addToCart(item) {
   onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("User is signed in:", user);
@@ -170,14 +170,18 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-function showCartPopup(message) {
+function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
-  const popupMessage = document.getElementById("popupMessage");
+  const popupMessage = popupContainer.querySelector(".popup-message");
 
-  // Set the message content
+  // Set the message
   popupMessage.textContent = message;
 
-  // Display the popup
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
+
+  // Show the popup
   popupContainer.classList.add("show");
 
   // Hide the popup after 3 seconds
@@ -185,7 +189,6 @@ function showCartPopup(message) {
     popupContainer.classList.remove("show");
   }, 3000);
 }
-
 // Function to search for products
 function searchProducts() {
   const searchBarValue = document
@@ -224,126 +227,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// // Function to redirect to the product detail page
-// function redirectToProductDetail(productId) {
-//   // Redirect to the product detail page with the product ID as a query parameter
-//   window.location.href = `../html/productDetails.html?id=${productId}`;
-// }
-
-// Function to handle the button click for adding/visiting the cart
-// function handleCartButtonClick(product, button) {
-//   if (isInCart(product)) {
-//     // Redirect to cart
-//     window.location.href = "../html/cartPage.html"; // Adjust path to your cart page
-//   } else {
-//     addToCart(product);
-//     button.textContent = "Visit Cart";
-//   }
-// }
-
-// Function to check if a product is already in the cart
-// function isInCart(product) {
-//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   return cart.some((item) => item.name === product.name);
-// }
-
-// Function to add a product to the cart
-// Corrected heShirt.js
 
 // Function to navigate to the cart page
 function navigateToCart() {
   window.location.href = "../html/cartPage.html"; // Ensure this path is correct
 }
-
-// Add product to the cart
-// function addToCart(item) {
-//   onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       console.log("User is signed in:", user);
-//       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-//       // Check if the item already exists in the cart
-//       const existingItemIndex = cart.findIndex(
-//         (cartItem) => cartItem.id === item.id
-//       );
-//       if (existingItemIndex > -1) {
-//         // Update quantity if item exists
-//         cart[existingItemIndex].quantity += 1;
-//       } else {
-//         // Add new item to the cart
-//         cart.push({ ...item, quantity: 1 });
-//       }
-
-//       localStorage.setItem("cart", JSON.stringify(cart));
-
-//       // Update the button text and behavior
-//       const addButton = document.querySelector(
-//         `.product-card[data-id="${item.id}"] button`
-//       );
-//       console.log(addButton);
-
-//       if (addButton) {
-//         addButton.textContent = "Visit Cart"; // Change button text
-//         addButton.onclick = navigateToCart; // Change button behavior
-//       }
-
-//       // Show popup message
-//       showPopup("Item added to cart successfully!");
-//       updateCartCount();
-//     } else {
-//       window.location.href = "../html/signup-signin.html";
-//     }
-//   });
-// }
-
-// Function to update the cart count
-// function updateCartCount() {
-//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
-//   const cartCountElement = document.getElementById("cartCount");
-//   if (cartCountElement) {
-//     cartCountElement.textContent = totalItems;
-//   }
-// }
-
-// Function to display the popup message
-// function showCartPopup(message) {
-//   const popupContainer = document.getElementById("popupContainer");
-//   const popupMessage = document.getElementById("popupMessage");
-
-//   // Set the message content
-//   popupMessage.textContent = message;
-
-//   // Display the popup
-//   popupContainer.classList.add("show");
-
-//   // Hide the popup after 3 seconds
-//   setTimeout(() => {
-//     popupContainer.classList.remove("show");
-//   }, 3000);
-// }
-
-// Function to search for products
-// function searchProducts() {
-//   const searchBarValue = document
-//     .getElementById("searchBar")
-//     .value.toLowerCase();
-//   const products = document.querySelectorAll(".product-card");
-
-//   products.forEach((product) => {
-//     const productName = product.querySelector("h2").textContent.toLowerCase();
-//     product.style.display = productName.includes(searchBarValue)
-//       ? "block"
-//       : "none";
-//   });
-// }
-
-// Toggle sidebar visibility
-// document.getElementById("toggleSidebar").addEventListener("click", () => {
-//   const sidebar = document.getElementById("sidebar");
-//   sidebar.classList.toggle("visible");
-// });
 
 // Load cart count on page load and fetch products
 document.addEventListener("DOMContentLoaded", () => {
@@ -359,56 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Search bar element not found.");
   }
 });
-
-// Function to handle the button click for adding/visiting the cart
-// function handleCartButtonClick(product, button) {
-//   if (isInCart(product)) {
-//     // Redirect to cart
-//     window.location.href = "../html/cartPage.html"; // Adjust path to your cart page
-//   } else {
-//     addToCart(product);
-//     button.textContent = "Visit Cart";
-//   }
-// }
-
-// Function to check if a product is already in the cart
-// function isInCart(product) {
-//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   return cart.some((item) => item.name === product.name);
-// }
-
-// Function to add a product to the cart
-// function addToCart(item) {
-//   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-//   // Check if the item already exists in the cart
-//   const existingItemIndex = cart.findIndex(
-//     (cartItem) => cartItem.id === item.id
-//   );
-//   if (existingItemIndex > -1) {
-//     // Update quantity if item exists
-//     cart[existingItemIndex].quantity += 1;
-//   } else {
-//     // Add new item to the cart
-//     cart.push({ ...item, quantity: 1 });
-//   }
-
-//   localStorage.setItem("cart", JSON.stringify(cart));
-
-//   // Show popup message
-//   showPopup("Item added to cart successfully!");
-// }
-
-// Function to update the cart count
-// function updateCartCount() {
-//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
-//   const cartCountElement = document.getElementById("cartCount");
-//   if (cartCountElement) {
-//     cartCountElement.textContent = totalItems;
-//   }
-// }
 
 // Function to show the popup message
 function showPopup(message) {
@@ -431,26 +269,6 @@ function showPopup(message) {
   }, 3000);
 }
 
-// Function to search for products
-// function searchProducts() {
-//   const searchBarValue = document
-//     .getElementById("searchBar")
-//     .value.toLowerCase();
-//   const products = document.querySelectorAll(".product-card");
-
-//   products.forEach((product) => {
-//     const productName = product.querySelector("h2").textContent.toLowerCase();
-//     product.style.display = productName.includes(searchBarValue)
-//       ? "block"
-//       : "none";
-//   });
-// }
-
-// Toggle sidebar visibility
-// document.getElementById("toggleSidebar").addEventListener("click", () => {
-//   const sidebar = document.getElementById("sidebar");
-//   sidebar.classList.toggle("visible");
-// });
 
 // Load cart count on page load and fetch products
 document.addEventListener("DOMContentLoaded", () => {

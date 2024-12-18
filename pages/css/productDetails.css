@@ -213,3 +213,44 @@ button {
         opacity: 1;
     }
 }
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-container.show {
+    display: flex;
+  }
+  
+  .popup-message {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  .popup-ok-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup-ok-button:hover {
+    background-color: green;
+  }
+  
