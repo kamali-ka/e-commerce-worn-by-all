@@ -170,25 +170,25 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-function showPopup(message) {
-  const popupContainer = document.getElementById("popupContainer");
-  const popupMessage = popupContainer.querySelector(".popup-message");
+// function showPopup(message) {
+//   const popupContainer = document.getElementById("popupContainer");
+//   const popupMessage = popupContainer.querySelector(".popup-message");
 
-  // Set the message
-  popupMessage.textContent = message;
+//   // Set the message
+//   popupMessage.textContent = message;
 
-  // Ensure the popup is styled for success
-  popupMessage.style.backgroundColor = "green"; // Set to green for success
-  popupMessage.style.color = "white";
+//   // Ensure the popup is styled for success
+//   popupMessage.style.backgroundColor = "green"; // Set to green for success
+//   popupMessage.style.color = "white";
 
-  // Show the popup
-  popupContainer.classList.add("show");
+//   // Show the popup
+//   popupContainer.classList.add("show");
 
-  // Hide the popup after 3 seconds
-  setTimeout(() => {
-    popupContainer.classList.remove("show");
-  }, 3000);
-}
+//   // Hide the popup after 3 seconds
+//   setTimeout(() => {
+//     popupContainer.classList.remove("show");
+//   }, 3000);
+// }
 // Function to search for products
 function searchProducts() {
   const searchBarValue = document
@@ -249,26 +249,53 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Function to show the popup message
-function showPopup(message) {
+function showBuyNowPopup() {
   const popupContainer = document.getElementById("popupContainer");
   const popupMessage = popupContainer.querySelector(".popup-message");
 
-  // Set the message
-  popupMessage.textContent = message;
+  // Check if the user is logged in
+  const isLoggedIn = localStorage.getItem("email"); // Assuming login sets an email in localStorage
 
-  // Ensure the popup is styled for success
-  popupMessage.style.backgroundColor = "green"; // Set to green for success
-  popupMessage.style.color = "white";
+  if (isLoggedIn) {
+    // Set the popup message for logged-in users
+    popupMessage.innerHTML = `
+      <p>Proceeding to checkout!</p>
+      <button id="confirmButton" class="popup-ok-button">OK</button>
+    `;
 
-  // Show the popup
-  popupContainer.classList.add("show");
+    // Show the popup
+    popupContainer.classList.add("show");
 
-  // Hide the popup after 3 seconds
-  setTimeout(() => {
-    popupContainer.classList.remove("show");
-  }, 3000);
+    // Add event listener to the OK button
+    const confirmButton = document.getElementById("confirmButton");
+    if (confirmButton) {
+      confirmButton.addEventListener("click", () => {
+        // Hide popup and redirect to the address page
+        popupContainer.classList.remove("show");
+        window.location.href = "../html/address-page.html";
+      });
+    }
+  } else {
+    // Set the popup message for users not logged in
+    popupMessage.innerHTML = `
+      <p>You need to log in to proceed to checkout.</p>
+      <button id="loginButton" class="popup-ok-button">Log In</button>
+    `;
+
+    // Show the popup
+    popupContainer.classList.add("show");
+
+    // Add event listener to the Log In button
+    const loginButton = document.getElementById("loginButton");
+    if (loginButton) {
+      loginButton.addEventListener("click", () => {
+        // Redirect to login/sign-up page
+        popupContainer.classList.remove("show");
+        window.location.href = "../html/signup-signin.html";
+      });
+    }
+  }
 }
-
 
 // Load cart count on page load and fetch products
 document.addEventListener("DOMContentLoaded", () => {

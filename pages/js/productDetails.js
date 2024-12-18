@@ -104,27 +104,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const popupContainer = document.getElementById("popupContainer");
     const popupMessage = popupContainer.querySelector(".popup-message");
   
-    // Set the popup message
-    popupMessage.innerHTML = `
-      <p>Proceeding to checkout!</p>
-      <button id="confirmButton" class="popup-ok-button">OK</button>
-    `;
+    // Check if the user is logged in
+    const isLoggedIn = localStorage.getItem("email"); // Assuming login sets an email in localStorage
   
-    // Show the popup
-    popupContainer.classList.add("show");
+    if (isLoggedIn) {
+      // Set the popup message for logged-in users
+      popupMessage.innerHTML = `
+        <p>Proceeding to checkout!</p>
+        <button id="confirmButton" class="popup-ok-button">OK</button>
+      `;
   
-    // Add event listener to the OK button
-    const confirmButton = document.getElementById("confirmButton");
-    if (confirmButton) {
-      confirmButton.addEventListener("click", () => {
-        // Hide popup and redirect to the address page
-        popupContainer.classList.remove("show");
-        window.location.href = "../html/address-page.html";
-      });
+      // Show the popup
+      popupContainer.classList.add("show");
+  
+      // Add event listener to the OK button
+      const confirmButton = document.getElementById("confirmButton");
+      if (confirmButton) {
+        confirmButton.addEventListener("click", () => {
+          // Hide popup and redirect to the address page
+          popupContainer.classList.remove("show");
+          window.location.href = "../html/address-page.html";
+        });
+      }
+    } else {
+      // Set the popup message for users not logged in
+      popupMessage.innerHTML = `
+        <p>You need to log in to proceed to checkout.</p>
+        <button id="loginButton" class="popup-ok-button">Log In</button>
+      `;
+  
+      // Show the popup
+      popupContainer.classList.add("show");
+  
+      // Add event listener to the Log In button
+      const loginButton = document.getElementById("loginButton");
+      if (loginButton) {
+        loginButton.addEventListener("click", () => {
+          // Redirect to login/sign-up page
+          popupContainer.classList.remove("show");
+          window.location.href = "../html/signup-signin.html";
+        });
+      }
     }
-  }
-  
-  
+  }  
 
     // Function to add product to cart
     function addToCart(product, addButton) {
