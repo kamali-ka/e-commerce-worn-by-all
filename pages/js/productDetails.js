@@ -243,8 +243,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return urlParams.get(param);
   }
 
+
+  
   // Function to display the star rating
-  function displayRating(rating) {
+  function displayRating(rating, count) {
     const starContainer = document.getElementById("productRatings");
     const totalStars = 5;
 

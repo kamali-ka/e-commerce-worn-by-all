@@ -1,56 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Your shopping cart, where you can view and manage items before checkout.">
-  <title>Shopping Cart</title>
+  <title>Cart Page</title>
   <link rel="stylesheet" href="../css/cartPage.css">
-  <link rel="icon" href="/assets/images/ic_cart_icon.png" type="image/x-icon">
 </head>
-
-<body data-page="cartPage">
-  <!-- Header Section -->
+<body>
   <header>
-    <h1>Your Shopping Cart</h1>
+    <h1>Shopping Cart</h1>
   </header>
-
-  <!-- Main Content Container -->
-  <div class="main-container">
-    <!-- Cart Items Section -->
-    <div id="cartItems" class="product-grid">
-      <!-- Cart items will be dynamically loaded here -->
-    </div>
+  <main>
+    <!-- Cart Items Container -->
+    <section id="cartItems" class="cart-container"></section>
 
     <!-- Bill Summary Section -->
-    <div id="billSummary" class="bill-summary">
-      <!-- Bill summary details will be dynamically populated -->
-    </div>
+    <section id="billSummary" class="bill-summary"></section>
+  </main>
 
-    <!-- Fixed Footer Buttons -->
-    <!-- Fixed Footer with Total Price -->
-<div id="footerButtons" class="fixed-footer">
-  <div class="total-price-container">
-    <span>Total: ₹<span id="totalPriceAmount">0.00</span></span>
-  </div>
-  <div class="footer-buttons">
-    <button id="emptyCartButton" class="empty-cart-btn">Empty Cart</button>
-    <a href="../html/address-page.html"><button id="buyNowButton" class="buy-now-btn">Buy Now</button></a>
-  </div>
-</div>
-
-
-  <!-- Modal Popup for Messages -->
-  <div id="popupModal" class="popup-modal">
-    <div class="popup-content">
-      <p id="popupMessage">Message goes here.</p>
-      <button id="closePopupButton">Close</button>
-    </div>
+  <!-- Cart Footer with buttons -->
+  <div id="cartFooter">
+    <button id="emptyCartButton">Empty Cart</button>
+    <button id="buyNowButton">Buy Now</button>
   </div>
 
-  <!-- JavaScript -->
   <script src="../js/cartPage.js"></script>
 </body>
-
 </html>

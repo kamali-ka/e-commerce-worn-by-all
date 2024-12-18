@@ -108,73 +108,94 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Handle Sign-Up
-  window.handleSignup = async function () {
-    try {
-      const username = document.getElementById("signup-username").value.trim();
-      const email = document.getElementById("signup-email").value.trim();
-      const password = document.getElementById("signup-password").value;
-      const confirmPassword = document.getElementById(
-        "signup-confirm-password"
-      ).value;
+  // Handle Sign-Up
+window.handleSignup = async function () {
+  try {
+    const username = document.getElementById("signup-username").value.trim();
+    const email = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value;
+    const confirmPassword = document.getElementById(
+      "signup-confirm-password"
+    ).value;
 
-      // Validate Username
-      const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9@.\-_']+$/;
-      if (!username) {
-        document.getElementById("username-error").textContent =
-          "Username is required.";
-        return;
-      } else if (!usernameRegex.test(username)) {
-        document.getElementById("username-error").textContent =
-          "Username must contain at least one letter and can include letters, numbers, and @, ., -, _, or ' characters.";
-        return;
-      } else {
-        document.getElementById("username-error").textContent = "";
-      }
-
-      // Validate Email
-      if (!validateEmail(email)) {
-        document.getElementById("email-error").textContent =
-          "Invalid email format or too many special characters.";
-        return;
-      } else {
-        document.getElementById("email-error").textContent = "";
-      }
-
-      // Validate Password
-      if (password.length < 6) {
-        document.getElementById("password-error").textContent =
-          "Password must be at least 6 characters.";
-        return;
-      } else {
-        document.getElementById("password-error").textContent = "";
-      }
-
-      // Confirm Password Match
-      if (password !== confirmPassword) {
-        document.getElementById("confirm-password-error").textContent =
-          "Passwords do not match.";
-        return;
-      } else {
-        document.getElementById("confirm-password-error").textContent = "";
-      }
-
-      // Create User
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", email);
-      showModal(
-        "Sign-up successful! Redirecting to account details page...",
-        "../html/accountDetails.html"
-      );
-    } catch (error) {
-      console.error("Sign-up error:", error.message);
-      showModal(`Error during sign-up: ${error.message}`);
+    // Validate Username
+    const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9@.\-_']+$/;
+    if (!username) {
+      document.getElementById("username-error").textContent =
+        "Username is required.";
+      return;
+    } else if (!usernameRegex.test(username)) {
+      document.getElementById("username-error").textContent =
+        "Username must contain at least one letter and can include letters, numbers, and @, ., -, _, or ' characters.";
+      return;
+    } else {
+      document.getElementById("username-error").textContent = "";
     }
-  };
+
+    // Validate Email
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
+    const specialCharCount = (email.match(specialCharRegex) || []).length;
+    if (!emailRegex.test(email) || specialCharCount > 2) {
+      document.getElementById("email-error").textContent =
+        "Invalid email format or too many special characters.";
+      return;
+    } else {
+      document.getElementById("email-error").textContent = "";
+    }
+
+    // Validate Password
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!passwordRegex.test(password)) {
+      document.getElementById("password-error").textContent =
+        "Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+      return;
+    }
+
+    const onlyLettersRegex = /^[a-zA-Z]+$/;
+    const onlyNumbersRegex = /^\d+$/;
+    const onlySpecialCharsRegex = /^[!@#$%^&*(),.?":{}|<>]+$/;
+
+    if (
+      onlyLettersRegex.test(password) ||
+      onlyNumbersRegex.test(password) ||
+      onlySpecialCharsRegex.test(password)
+    ) {
+      document.getElementById("password-error").textContent =
+        "Password cannot consist of only letters, only numbers, or only special characters.";
+      return;
+    } else {
+      document.getElementById("password-error").textContent = "";
+    }
+
+    // Confirm Password Match
+    if (password !== confirmPassword) {
+      document.getElementById("confirm-password-error").textContent =
+        "Passwords do not match.";
+      return;
+    } else {
+      document.getElementById("confirm-password-error").textContent = "";
+    }
+
+    // Create User
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    showModal(
+      "Sign-up successful! Redirecting to account details page...",
+      "../html/accountDetails.html"
+    );
+  } catch (error) {
+    console.error("Sign-up error:", error.message);
+    showModal(`Error during sign-up: ${error.message}`);
+  }
+};
 
   // Handle Login
   window.handleLogin = async function () {
