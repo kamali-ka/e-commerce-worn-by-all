@@ -8,22 +8,24 @@
 </head>
 <body>
   <header>
-    <h1>Shopping Cart</h1>
+    <h1>My Shopping Cart</h1>
   </header>
   <main>
-    <!-- Cart Items Container -->
     <section id="cartItems" class="cart-container"></section>
-
-    <!-- Bill Summary Section -->
     <section id="billSummary" class="bill-summary"></section>
   </main>
-
-  <!-- Cart Footer with buttons -->
-  <div id="cartFooter">
-    <button id="emptyCartButton">Empty Cart</button>
-    <button id="buyNowButton">Buy Now</button>
-  </div>
-
+  <!-- Fixed Footer Section -->
+  <footer id="cartFooter">
+    <div class="footer-content">
+      <div class="total-amount">
+        <span>Total: ₹<span id="totalAmount">0.00</span></span>
+      </div>
+      <div class="footer-buttons">
+        <button id="emptyCartButton" class="secondary-button">Empty Cart</button>
+        <button id="buyNowButton" class="primary-button">Checkout</button>
+      </div>
+    </div>
+  </footer>
   <script src="../js/cartPage.js"></script>
 </body>
 </html>

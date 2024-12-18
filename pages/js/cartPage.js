@@ -103,6 +103,13 @@ document.getElementById("cartItems").addEventListener("click", (event) => {
     removeCartItem(productId);
   }
 });
+// Remove item from cart
+function removeCartItem(productId) {
+  const cart = getLocalStorage("cart", []);
+  const updatedCart = cart.filter((item) => item.id !== productId); // Remove the item with the given ID
+  setLocalStorage("cart", updatedCart);
+  loadCartItems(); // Re-render the cart after removal
+}
 
 // Change quantity
 function changeQuantity(productId, change) {
@@ -117,14 +124,6 @@ function changeQuantity(productId, change) {
 }
 
 // Remove item
-function removeCartItem(productId) {
-  let cart = getLocalStorage("cart", []);
-  cart = cart.filter((item) => item.id !== productId);
-  setLocalStorage("cart", cart);
-  loadCartItems(); // Re-render the cart after removal
-}
-
-// Update bill summary
 function updateBillSummary(cart, products) {
   let totalPrice = 0;
 
@@ -139,6 +138,7 @@ function updateBillSummary(cart, products) {
   const deliveryFee = totalPrice > 0 ? 30 : 0;
   const totalBill = totalPrice + tax + deliveryFee;
 
+  // Update Bill Summary Section
   const billSummary = document.getElementById("billSummary");
   billSummary.innerHTML = `
     <h3>Bill Summary</h3>
@@ -148,6 +148,10 @@ function updateBillSummary(cart, products) {
     <hr>
     <h4>Total: ₹${totalBill.toFixed(2)}</h4>
   `;
+
+  // Update Total Amount in Footer
+  const totalAmountElement = document.getElementById("totalAmount");
+  totalAmountElement.textContent = totalBill.toFixed(2);
 }
 
 // Handle "Buy Now" button click
