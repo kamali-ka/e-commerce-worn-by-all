@@ -97,70 +97,84 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Handle Sign-Up
-  // Handle Sign-Up
-// Handle Sign-Up
-window.handleSignup = async () => {
-  try {
-    const username = document.getElementById("signup-username").value.trim();
-    const email = document.getElementById("signup-email").value.trim();
-    const password = document.getElementById("signup-password").value;
-    const confirmPassword = document.getElementById(
-      "signup-confirm-password"
-    ).value;
+  // Helper: Validate Email with Rules
+  function validateEmail(email) {
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
+    const specialCharCount = (email.match(specialCharRegex) || []).length;
 
-    // Username Validation
-    const usernamePattern = /^[a-zA-Z0-9@.\-_']+$/;
-    if (!username) {
-      document.getElementById("username-error").textContent =
-        "Username is required.";
-      return;
-    }
-    if (!usernamePattern.test(username)) {
-      document.getElementById("username-error").textContent =
-        "Username can only contain letters (A-Z), numbers (0-9), and the special characters @, ., -, _, or '.";
-      return;
-    }
-    document.getElementById("username-error").textContent = "";
-
-    // Email Validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      document.getElementById("email-error").textContent =
-        "Invalid email format.";
-      return;
-    }
-    document.getElementById("email-error").textContent = "";
-
-    // Password Validation
-    const passwordPattern =
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-
-    if (!passwordPattern.test(password)) {
-      document.getElementById("password-error").textContent =
-        "Password must be at least 6 characters and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.";
-      return;
-    }
-    document.getElementById("password-error").textContent = "";
-
-    if (password !== confirmPassword) {
-      document.getElementById("confirm-password-error").textContent =
-        "Passwords do not match.";
-      return;
-    }
-    document.getElementById("confirm-password-error").textContent = "";
-
-    // Create User
-    await createUserWithEmailAndPassword(auth, email, password);
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-
-    showModal("Sign-up successful!", "../html/accountDetails.html");
-  } catch (error) {
-    console.error("Sign-up error:", error.message);
-    showModal(`Error during sign-up: ${error.message}`);
+    return emailRegex.test(email) && specialCharCount <= 2;
   }
-};
 
+  // Handle Sign-Up
+  window.handleSignup = async function () {
+    try {
+      const username = document.getElementById("signup-username").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById(
+        "signup-confirm-password"
+      ).value;
+
+      // Validate Username
+      const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9@.\-_']+$/;
+      if (!username) {
+        document.getElementById("username-error").textContent =
+          "Username is required.";
+        return;
+      } else if (!usernameRegex.test(username)) {
+        document.getElementById("username-error").textContent =
+          "Username must contain at least one letter and can include letters, numbers, and @, ., -, _, or ' characters.";
+        return;
+      } else {
+        document.getElementById("username-error").textContent = "";
+      }
+
+      // Validate Email
+      if (!validateEmail(email)) {
+        document.getElementById("email-error").textContent =
+          "Invalid email format or too many special characters.";
+        return;
+      } else {
+        document.getElementById("email-error").textContent = "";
+      }
+
+      // Validate Password
+      if (password.length < 6) {
+        document.getElementById("password-error").textContent =
+          "Password must be at least 6 characters.";
+        return;
+      } else {
+        document.getElementById("password-error").textContent = "";
+      }
+
+      // Confirm Password Match
+      if (password !== confirmPassword) {
+        document.getElementById("confirm-password-error").textContent =
+          "Passwords do not match.";
+        return;
+      } else {
+        document.getElementById("confirm-password-error").textContent = "";
+      }
+
+      // Create User
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      showModal(
+        "Sign-up successful! Redirecting to account details page...",
+        "../html/accountDetails.html"
+      );
+    } catch (error) {
+      console.error("Sign-up error:", error.message);
+      showModal(`Error during sign-up: ${error.message}`);
+    }
+  };
 
   // Handle Login
   window.handleLogin = async function () {
@@ -168,8 +182,8 @@ window.handleSignup = async () => {
       const email = document.getElementById("login-email").value.trim();
       const password = document.getElementById("login-password").value;
 
-      // Basic Validation
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      // Validate Email
+      if (!validateEmail(email)) {
         document.getElementById("login-email-error").textContent =
           "Invalid email format.";
         return;
@@ -177,6 +191,7 @@ window.handleSignup = async () => {
         document.getElementById("login-email-error").textContent = "";
       }
 
+      // Validate Password
       if (!password) {
         document.getElementById("login-general-error").textContent =
           "Password is required.";
@@ -189,14 +204,7 @@ window.handleSignup = async () => {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("email", email);
 
-      // Fetch or set username
-      let userName = localStorage.getItem("username");
-      if (!userName) {
-        userName = email.split("@")[0]; // Default to email prefix if username not set
-        localStorage.setItem("username", userName);
-      }
-
-      // Redirect to account details page after successful login
+      // Redirect to account details page
       showModal(
         "Login successful! Redirecting to account details page...",
         "../html/accountDetails.html"
@@ -213,7 +221,6 @@ window.handleSignup = async () => {
     logoutButton.addEventListener("click", function () {
       signOut(auth)
         .then(() => {
-          // Clear localStorage and logout user
           localStorage.clear();
           showModal(
             "Logged out successfully! Redirecting to login page...",
@@ -231,14 +238,12 @@ window.handleSignup = async () => {
   // Check Auth State
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("User is signed in:", user);
-      // Fetch user details and update the UI accordingly
       const username =
         localStorage.getItem("username") || user.email.split("@")[0];
       const email = user.email;
       const phone = localStorage.getItem("phone");
       window.location.href = "../../index.html";
-      // Assuming you have elements with the following ids in your account details page:
+
       document.getElementById("profile-username").textContent = username;
       document.getElementById("profile-email").textContent = email;
       document.getElementById("profile-phone").textContent =

@@ -253,4 +253,7 @@ button {
   .popup-ok-button:hover {
     background-color: green;
   }
-  
+  #buyNowButton:hover{
+    background-color: green;
+    color: white;
+  }
