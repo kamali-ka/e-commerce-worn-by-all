@@ -99,13 +99,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Helper: Validate Email with Rules
   function validateEmail(email) {
-    const emailRegex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // General Email Regex
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  
+    // Special Character Regex
     const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
     const specialCharCount = (email.match(specialCharRegex) || []).length;
-
-    return emailRegex.test(email) && specialCharCount <= 2;
+  
+    // Split email into local part and domain part
+    const [localPart, domain] = email.split("@");
+  
+    // Local part RFC compliance check
+    const localPartRegex = /^(?!\.)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*(?<!\.)$/;
+  
+    // Validate the domain part format
+    const domainRegex = /^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  
+    // Validate conditions
+    return (
+      emailRegex.test(email) &&
+      specialCharCount <= 2 &&
+      localPartRegex.test(localPart) &&
+      domainRegex.test(domain)
+    );
   }
+  
+  // Integration into Sign-Up and Login
+  window.handleSignup = async function () {
+    try {
+      const email = document.getElementById("signup-email").value.trim();
+  
+      // Validate Email
+      if (!validateEmail(email)) {
+        document.getElementById("email-error").textContent =
+          "Invalid email format. Ensure it meets the required standards.";
+        return;
+      } else {
+        document.getElementById("email-error").textContent = "";
+      }
+  
+      // Proceed with existing sign-up logic...
+      const password = document.getElementById("signup-password").value;
+      // Other validations and user creation flow...
+    } catch (error) {
+      console.error("Sign-up error:", error.message);
+    }
+  };
+  
+  window.handleLogin = async function () {
+    try {
+      const email = document.getElementById("login-email").value.trim();
+  
+      // Validate Email
+      if (!validateEmail(email)) {
+        document.getElementById("login-email-error").textContent =
+          "Invalid email format.";
+        return;
+      } else {
+        document.getElementById("login-email-error").textContent = "";
+      }
+  
+      // Proceed with existing login logic...
+      const password = document.getElementById("login-password").value;
+      // Other validations and login flow...
+    } catch (error) {
+      console.error("Login error:", error.message);
+    }
+  };
+  
 
   // Handle Sign-Up
   // Handle Sign-Up
