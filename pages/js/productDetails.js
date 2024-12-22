@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return response.json();
     })
     .then((products) => {
-      // Retrieve productId from URL query params
       const selectedProductId = getQueryParam("id");
 
       if (!selectedProductId) {
@@ -38,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Find the product by ID
       const product = products.find((item) => item.id === selectedProductId);
 
       if (!product) {
@@ -48,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Display product details on the page
       displayProductDetails(product);
     })
     .catch((error) => {
@@ -56,134 +53,173 @@ document.addEventListener("DOMContentLoaded", () => {
       displayErrorMessage(
         `Failed to load product details. Error: ${error.message}`
       );
+      const product = {
+        // Example product data
+        cashOnDelivery: true,
+        returnsAndExchanges: true,
+        isOriginal: true
+      };
+    
+      // Check if each feature should be displayed based on product data
+      if (!product.cashOnDelivery) {
+        document.getElementById("cashOnDelivery").style.display = "none";
+      }
+    
+      if (!product.returnsAndExchanges) {
+        document.getElementById("returnsAndExchanges").style.display = "none";
+      }
+    
+      if (!product.isOriginal) {
+        document.getElementById("isOriginal").style.display = "none";
+      }
     });
 
-  // Function to display error messages
   function displayErrorMessage(message) {
     document.getElementById("product-details").innerHTML = `<p>${message}</p>`;
   }
 
-  // Function to display product details
-  function displayProductDetails(product) {
-    // Set product details in the HTML
-    document.getElementById("productImage").src =
-      product.image || "placeholder.jpg";
-    document.getElementById("productName").textContent =
-      product.name || "Unnamed Product";
-    document.getElementById("productPrice").textContent = product.price
-      ? `₹${product.price}`
-      : "Price not available";
-    displayRating(product.rating || 0); // Display rating stars
-    document.getElementById("productDescription").textContent =
-      product.description || "No description available.";
-  
-    // Add event listeners to buttons
-    const addToCartButton = document.getElementById("addToCartButton");
-    const buyNowButton = document.getElementById("buyNowButton");
-  
-    if (addToCartButton) {
-      addToCartButton.addEventListener("click", () =>
-        addToCart(product, addToCartButton)
-      );
+// Function to display product details
+function displayProductDetails(product) {
+  // Set product details in the HTML
+  document.getElementById("productImage").src = product.image || "placeholder.jpg";
+  document.getElementById("productName").textContent = product.name || "Unnamed Product";
+  document.getElementById("productPrice").textContent = product.price ? `₹${product.price}` : "Price not available";
+  displayRating(product.rating || 0); // Display rating stars
+  document.getElementById("productDescription").textContent = product.description || "No description available.";
+
+  // Display stock status
+  displayStockStatus(product.stock);
+
+  // Display size options
+  displayProductSizes(product.sizes); // Call the function to display sizes
+
+  // Check if the product is already in the cart
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const productInCart = cart.find((item) => item.id === product.id);
+
+  const addToCartButton = document.getElementById("addToCartButton");
+  const buyNowButton = document.getElementById("buyNowButton");
+
+  if (productInCart) {
+    addToCartButton.textContent = "Visit Cart";
+    addToCartButton.onclick = () => {
+      window.location.href = "../html/cartPage.html"; // Redirect to cart page
+    };
+  } else {
+    addToCartButton.addEventListener("click", () => addToCart(product, addToCartButton));
+  }
+
+  if (buyNowButton) {
+    buyNowButton.addEventListener("click", () => showBuyNowPopup());
+  }
+}
+
+// Function to display stock status
+function displayStockStatus(stock) {
+  const stockStatusElement = document.getElementById("stockStatus");
+  if (stockStatusElement) {
+    stockStatusElement.textContent = `Stock Available: ${stock} items`;
+    
+    // Check stock quantity
+    if (stock < 10) {
+      stockStatusElement.style.color = "red"; // Change color to red if stock is less than 10
     } else {
-      console.error("Add to Cart button not found in the DOM.");
-    }
-  
-    if (buyNowButton) {
-      buyNowButton.addEventListener("click", () => {
-        // Show popup for Buy Now action
-        showBuyNowPopup();
-      });
-    } else {
-      console.error("Buy Now button not found in the DOM.");
+      stockStatusElement.style.color = "green"; // You can set this to any color based on your design
     }
   }
-  
-  // Function to show Buy Now popup
-  function showBuyNowPopup() {
-    const popupContainer = document.getElementById("popupContainer");
-    const popupMessage = popupContainer.querySelector(".popup-message");
-  
-    // Check if the user is logged in
-    const isLoggedIn = localStorage.getItem("email"); // Assuming login sets an email in localStorage
-  
-    if (isLoggedIn) {
-      // Set the popup message for logged-in users
-      popupMessage.innerHTML = `
-        <p>Proceeding to checkout!</p>
-        <button id="confirmButton" class="popup-ok-button">OK</button>
-      `;
-  
-      // Show the popup
-      popupContainer.classList.add("show");
-  
-      // Add event listener to the OK button
-      const confirmButton = document.getElementById("confirmButton");
-      if (confirmButton) {
-        confirmButton.addEventListener("click", () => {
-          // Hide popup and redirect to the address page
-          popupContainer.classList.remove("show");
-          window.location.href = "../html/address-page.html";
-        });
-      }
-    } else {
-      // Set the popup message for users not logged in
-      popupMessage.innerHTML = `
-        <p>You need to log in to proceed to checkout.</p>
-        <button id="loginButton" class="popup-ok-button">Log In</button>
-      `;
-  
-      // Show the popup
-      popupContainer.classList.add("show");
-  
-      // Add event listener to the Log In button
-      const loginButton = document.getElementById("loginButton");
-      if (loginButton) {
-        loginButton.addEventListener("click", () => {
-          // Redirect to login/sign-up page
-          popupContainer.classList.remove("show");
-          window.location.href = "../html/signup-signin.html";
-        });
-      }
-    }
-  }  
+}
 
-    // Function to add product to cart
-    function addToCart(product, addButton) {
-      // Check Auth State
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          console.log("User is signed in:", user);
-          let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    
-          // Check if the product is already in the cart
-          const existingItemIndex = cart.findIndex((item) => item.id === product.id);
-    
-          if (existingItemIndex > -1) {
-            // Increment quantity if the item already exists in the cart
-            cart[existingItemIndex].quantity += 1;
-          } else {
-            // Add new item to the cart
-            product.quantity = 1;
-            cart.push(product);
-          }
-    
-          localStorage.setItem("cart", JSON.stringify(cart));
-          updateCartCount(); // Update the cart count
-    
-          // Change button to visit cart
-          addButton.textContent = "Visit Cart";
-          addButton.onclick = () => {
-            window.location.href = "../html/cartPage.html"; // Redirect to cart page
-          };
-    
-          showPopup("Successfully added to your cart!");
-        } else {
-          // Show popup for unauthenticated users
-          showRedirectPopup("Please log in or sign up to add items to your cart.");
-        }
-      });
-    }
+// Function to display size options
+function displayProductSizes(sizes) {
+  const sizeOptionsContainer = document.getElementById("sizeOptions");
+  sizeOptionsContainer.innerHTML = ""; // Clear any existing options
+
+  sizes.forEach((size) => {
+    const sizeButton = document.createElement("button");
+    sizeButton.textContent = size;
+    sizeButton.onclick = () => selectSize(sizeButton, size);
+    sizeOptionsContainer.appendChild(sizeButton);
+  });
+}
+// Function to handle size selection
+function selectSize(button, size) {
+  // Remove the 'selected' class from all size buttons
+  const allSizeButtons = document.querySelectorAll(".size-options button");
+  allSizeButtons.forEach((btn) => btn.classList.remove("selected"));
+
+  // Add the 'selected' class to the clicked size button
+  button.classList.add("selected");
+
+  // Store the selected size in localStorage
+  localStorage.setItem("selectedSize", size);
+  
+  // Optionally enable the Add to Cart button when size is selected
+  const addToCartButton = document.getElementById("addToCartButton");
+  addToCartButton.disabled = !size; // Disable Add to Cart if no size is selected
+}
+
+// Function to display error messages
+function displayErrorMessage(message) {
+  const productDetailsElement = document.getElementById("product-details");
+  if (!productDetailsElement) {
+    console.error("Product details element not found!");
+    return;
+  }
+
+  productDetailsElement.innerHTML = `<p>${message}</p>`;
+}
+
+// Function to add product to cart
+function addToCart(product, addButton) {
+  const selectedSize = localStorage.getItem("selectedSize");
+
+  if (!selectedSize) {
+    // Show an error or prompt the user to select a size
+    alert("Please select a size before adding the product to the cart.");
+    return;
+  }
+
+  // Proceed with adding the product to the cart
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Add selected size to the product data
+  const productWithSize = { ...product, size: selectedSize, quantity: 1 };
+
+  const existingItemIndex = cart.findIndex((item) => item.id === product.id && item.size === selectedSize);
+
+  if (existingItemIndex > -1) {
+    // Increment quantity if the item already exists in the cart with the same size
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    // Add new item to the cart with the selected size
+    cart.push(productWithSize);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount(); // Update the cart count
+
+  // Change button to visit cart
+  addButton.textContent = "Visit Cart";
+  addButton.onclick = () => {
+    window.location.href = "../html/cartPage.html"; // Redirect to cart page
+  };
+
+  showPopup("Successfully added to your cart!");
+}
+
+// Function to show the popup message
+function showPopup(message) {
+  const popupContainer = document.getElementById("popupContainer");
+  const popupMessage = popupContainer.querySelector(".popup-message");
+
+  popupMessage.textContent = message; // Set the message
+  popupContainer.classList.add("show"); // Show the popup
+
+  // Hide the popup after 1 seconds
+  setTimeout(() => {
+    popupContainer.classList.remove("show");
+  }, 1000);
+}
     function showRedirectPopup(message) {
       const popupContainer = document.getElementById("popupContainer");
       const popupMessage = popupContainer.querySelector(".popup-message");

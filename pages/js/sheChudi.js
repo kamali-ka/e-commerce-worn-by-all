@@ -66,7 +66,7 @@ async function loadChudithars() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      const price = parseFloat(product.price.replace(/[₹,]/g, ""));
+      const price = parseFloat(product.price);
       productPrice.textContent = isNaN(price)
         ? "Price not available"
         : `₹${price.toFixed(2)}`;

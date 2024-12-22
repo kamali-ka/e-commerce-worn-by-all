@@ -10,7 +10,8 @@
       "rating": 4.2,
       "stock": 15,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "2",
@@ -23,7 +24,8 @@
       "rating": 4.5,
       "stock": 8,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "3",
@@ -36,7 +38,9 @@
       "rating": 4.0,
       "stock": 12,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": false
+
     },
     {
       "id": "4",
@@ -49,7 +53,9 @@
       "rating": 4.8,
       "stock": 6,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
+
     },
     {
       "id": "5",
@@ -62,7 +68,8 @@
       "rating": 3.9,
       "stock": 10,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "6",
@@ -75,7 +82,8 @@
       "rating": 4.1,
       "stock": 20,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "7",
@@ -88,7 +96,8 @@
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": false
     },
     {
       "id": "8",
@@ -101,7 +110,8 @@
       "rating": 4.0,
       "stock": 9,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "9",
@@ -114,7 +124,8 @@
       "rating": 3.8,
       "stock": 25,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "10",
@@ -127,7 +138,8 @@
       "rating": 4.4,
       "stock": 7,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "11",
@@ -140,7 +152,8 @@
       "rating": 4.0,
       "stock": 12,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "12",
@@ -153,7 +166,8 @@
       "rating": 4.3,
       "stock": 9,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "13",
@@ -166,7 +180,8 @@
       "rating": 3.7,
       "stock": 6,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "14",
@@ -179,7 +194,8 @@
       "rating": 4.6,
       "stock": 8,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
     },
     {
       "id": "15",
@@ -192,7 +208,8 @@
       "rating": 4.5,
       "stock": 10,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "16",
@@ -205,7 +222,9 @@
       "rating": 4.2,
       "stock": 12,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
+
     },
     {
       "id": "17",
@@ -218,7 +237,8 @@
       "rating": 4.0,
       "stock": 15,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "18",
@@ -231,7 +251,9 @@
       "rating": 3.6,
       "stock": 10,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
+
     },
     {
       "id": "19",
@@ -244,7 +266,9 @@
       "rating": 4.1,
       "stock": 13,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": false
+
     },
     {
       "id": "20",
@@ -257,7 +281,8 @@
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"]
+      "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+      "newArrival": true
     },
     {
       "id": "21",
@@ -270,7 +295,9 @@
       "rating": 4.4,
       "stock": 20,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": true
+
     },
     {
       "id": "22",
@@ -283,7 +310,8 @@
       "rating": 4.2,
       "stock": 10,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": true
     },
     {
       "id": "23",
@@ -296,7 +324,9 @@
       "rating": 4.1,
       "stock": 15,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": false
+
     },
     {
       "id": "24",
@@ -309,7 +339,9 @@
       "rating": 4.3,
       "stock": 18,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": false
+
     },
     {
       "id": "25",
@@ -322,7 +354,8 @@
       "rating": 4.0,
       "stock": 10,
       "button": "Add to Cart",
-      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"]
+      "sizes": ["26", "28", "30", "32", "34", "36", "38", "40"],
+      "newArrival": false
     }
   ]
   

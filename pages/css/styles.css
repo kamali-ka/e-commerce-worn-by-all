@@ -160,6 +160,7 @@ body {
 
 /* Categories */
 .categories h2 {
+  margin-left: 15px;
   font-size: 2rem;
   margin-bottom: 20px;
   color: #000000; /* Black */
