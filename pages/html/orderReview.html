@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Progress</title>
+    <link rel="stylesheet" href="../css/orderReview.css">
+    <link rel="icon" href="/assets/images/ic_icon.png">
+</head>
+
+<body>
+    <!-- Progress Tracker -->
+    <div class="progress-container">
+        <h2>Checkout Progress</h2>
+        <div class="progress-bar">
+            <div class="progress-step active" id="step-1">
+                <div class="step-number">1</div>
+                <p>Address</p>
+            </div>
+            <div class="progress-step" id="step-2">
+                <div class="step-number">2</div>
+                <p>Payment</p>
+            </div>
+            <div class="progress-step" id="step-3">
+                <div class="step-number">3</div>
+                <p>Review</p>
+            </div>
+        </div>
+
+        <div class="step-content">
+            <!-- Address Step -->
+            <div class="address-step active">
+                <h3>Enter Shipping Address</h3>
+                <form id="address-form">
+                    <div class="form-group">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" placeholder="Enter your full name" required>
+                        <span class="error-message" id="name-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-line-1">Address Line 1</label>
+                        <input type="text" id="address-line-1" placeholder="House/Flat Number, Street" required>
+                        <span class="error-message" id="address1-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-line-2">Address Line 2 (Optional)</label>
+                        <input type="text" id="address-line-2" placeholder="Landmark, Nearby Location">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" placeholder="Enter your city" required>
+                        <span class="error-message" id="city-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" placeholder="Enter your state" required>
+                        <span class="error-message" id="state-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" placeholder="6-digit PIN code" required>
+                        <span class="error-message" id="postal-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" placeholder="Enter your country" required>
+                        <span class="error-message" id="country-error"></span>
+                    </div>
+                </form>
+                <button type="button" id="next-btn" class="next-step">Next</button>
+            </div>
+
+            <!-- Payment Step -->
+            <!-- Payment Step -->
+            <div class="payment-step">
+                <h3>Enter Payment Details</h3>
+                <form id="payment-form">
+                    <div class="payment-option">
+                        <input type="radio" id="upi" name="payment_method" value="upi" required>
+                        <label for="upi">UPI</label>
+                    </div>
+                    <div class="upi-details" id="upi-details" style="display: none;">
+                        <label for="upi-id">Enter UPI ID</label>
+                        <input type="text" id="upi-id" placeholder="Enter your UPI ID">
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="card" name="payment_method" value="card">
+                        <label for="card">Credit/Debit Card</label>
+                    </div>
+                    <div class="card-details" id="card-details" style="display: none;">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="Enter your card number">
+                        <label for="card-expiry">Expiry Date</label>
+                        <input type="text" id="card-expiry" placeholder="MM/YY">
+                        <label for="card-cvc">CVC</label>
+                        <input type="text" id="card-cvc" placeholder="CVC">
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="cod" name="payment_method" value="cod">
+                        <label for="cod">Cash on Delivery</label>
+                    </div>
+                    <span class="error-message" id="payment-method-error"></span>
+                </form>
+                <button type="button" id="next-btn-payment" class="next-step">Next</button>
+            </div>
+
+
+            <!-- Review Step -->
+            <div class="review-step">
+                <h3>Review Your Order</h3>
+                <div class="order-review-container">
+                    <p><strong>Address:</strong> <span id="review-address">Please fill in your address details.</span>
+                    </p>
+                    <p><strong>Payment Method:</strong> <span id="review-payment">Please select a payment method.</span>
+                    </p>
+                    <button type="button" class="submit-btn" id="confirm-order-btn">Place Order</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/orderReview.js" defer></script>
+</body>
+
+</html>

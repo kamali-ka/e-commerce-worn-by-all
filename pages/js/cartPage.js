@@ -167,7 +167,7 @@ function handleBuyNow() {
   setLocalStorage("checkoutItems", cart);
 
   // Redirect to the address page
-  window.location.href = "../html/address-page.html"; // Update the path as needed
+  window.location.href = "../html/orderReview.html"; // Update the path as needed
 }
 
 // Empty cart functionality

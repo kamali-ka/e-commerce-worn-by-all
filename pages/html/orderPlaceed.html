@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="../css/orderPlaceed.css">
+    <link rel="icon" href="/assets/images/ic_icon.png">
+</head>
+
+<body>
+    <div class="order-container">
+        <h2 class="animate-heading">Thank You for Your Order!</h2>
+        <p class="animate-text">Your order has been successfully placed. You will receive an email with your order details shortly.</p>
+
+        <div class="order-summary animate-content">
+            <h3>Order Summary</h3>
+            <p><strong>Order Number:</strong> <span id="order-number">#123456789</span></p>
+            <p><strong>Delivery Address:</strong> <span id="order-address">John Doe, 123 Main St, City, State, 123456, Country</span></p>
+            <p><strong>Payment Method:</strong> <span id="order-payment">Credit Card</span></p>
+        </div>
+
+        <div class="order-details animate-content">
+            <h3>Your Order Details</h3>
+            <ul id="order-items">
+                <!-- List of ordered items will be dynamically added here -->
+            </ul>
+        </div>
+
+        <button class="animate-btn" onclick="window.location.href='/home'">Go to Home</button>
+    </div>
+
+    <script src="../js/orderConfirmation.js"></script>
+</body>
+
+</html>
