@@ -51,49 +51,49 @@ async function loadChudithars() {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
       productCard.setAttribute("data-type", product.type);
-
+    
       // Create a link for the product card
       const productLink = document.createElement("a");
       productLink.href = `../html/productDetails.html?id=${product.id}`;
-      productLink.style.textDecoration = "none"; // Remove the default link underline
-
+      productLink.style.textDecoration = "none";
+    
       const productImage = document.createElement("img");
       productImage.src = product.image || "default-image.jpg";
       productImage.alt = product.alt || product.name || "Product Image";
-
+    
       const productName = document.createElement("h2");
       productName.textContent = product.name || "Unnamed Product";
-
+    
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
       const price = parseFloat(product.price);
       productPrice.textContent = isNaN(price)
         ? "Price not available"
         : `₹${price.toFixed(2)}`;
-
+    
       const addButton = document.createElement("button");
-      addButton.textContent = "Add to Cart";
-
+    
       // Check if the product is already in the cart
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existingItem = cart.find((item) => item.name === product.name);
-
+      const existingItem = cart.find((item) => item.id === product.id);
+    
       if (existingItem) {
-        addButton.textContent = "Visit Cart"; // Change to 'Visit Cart' if the item is in the cart
-        addButton.onclick = () => navigateToCart(); // Navigate to the cart
+        addButton.textContent = "Visit Cart";
+        addButton.onclick = () => navigateToCart();
       } else {
-        addButton.onclick = () => addToCart(product); // Add to cart
+        addButton.textContent = "Add to Cart";
+        addButton.onclick = () => addToCart(product, addButton); // Pass button
       }
-
+    
       // Append product details to the link
       productLink.appendChild(productImage);
       productLink.appendChild(productName);
       productLink.appendChild(productPrice);
-
+    
       // Append the link and add button to the product card
       productCard.appendChild(productLink);
       productCard.appendChild(addButton);
-
+    
       productGrid.appendChild(productCard);
     });
   } catch (error) {
@@ -110,34 +110,43 @@ document.addEventListener("DOMContentLoaded", () => {
   loadChudithars();
   updateCartCount();
   const popupContainer = document.getElementById("popupContainer");
-  popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
+  if (popupContainer) {
+    popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
+  }
 });
 
-// Navigate to the cart page
+// Search products
 function searchProducts() {
-  const searchBarValue = document.getElementById("searchBar").value.toLowerCase();
+  const searchBarValue = document
+    .getElementById("searchBar")
+    .value.toLowerCase();
   const products = document.querySelectorAll(".product-card");
   products.forEach((product) => {
     const productName = product.querySelector("h2").textContent.toLowerCase();
-    product.style.display = productName.includes(searchBarValue) ? "block" : "none";
+    product.style.display = productName.includes(searchBarValue)
+      ? "block"
+      : "none";
   });
 }
 
-
-// Add event listener to the search bar to trigger search when typing
-document.getElementById("searchBar").addEventListener("input", searchProducts);
+// Add event listener to the search bar
+const searchBar = document.getElementById("searchBar");
+if (searchBar) {
+  searchBar.addEventListener("input", searchProducts);
+}
 
 // Add product to the cart
-function addToCart(item) {
+// Add product to the cart
+function addToCart(item, buttonElement) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log("User is signed in:", user);
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
       // Check if the item already exists in the cart
       const existingItemIndex = cart.findIndex(
         (cartItem) => cartItem.id === item.id
       );
+
       if (existingItemIndex > -1) {
         // Update quantity if item exists
         cart[existingItemIndex].quantity += 1;
@@ -151,16 +160,23 @@ function addToCart(item) {
       // Show popup message
       showPopup("Item added to cart successfully!");
       updateCartCount();
+
+      // Change the clicked button's text to "Visit Cart"
+      buttonElement.textContent = "Visit Cart";
+      buttonElement.onclick = () => navigateToCart(); // Update the button's click behavior
     } else {
       window.location.href = "../html/signup-signin.html";
     }
   });
 }
 
+
 // Function to show the popup message
 function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
-  const popupMessage = popupContainer.querySelector(".popup-message");
+  const popupMessage = popupContainer?.querySelector(".popup-message");
+
+  if (!popupContainer || !popupMessage) return;
 
   // Set the message
   popupMessage.textContent = message;
@@ -175,7 +191,7 @@ function showPopup(message) {
   // Hide the popup after 3 seconds
   setTimeout(() => {
     popupContainer.classList.remove("show");
-  }, 3000);
+  }, 1500);
 }
 
 // Update cart count
@@ -192,51 +208,13 @@ function updateCartCount() {
   localStorage.setItem("cartCount", totalItems);
 }
 
-
-// Function to get URL parameters
-function getQueryParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
+// Sidebar toggle
+const toggleSidebarButton = document.getElementById("toggleSidebar");
+if (toggleSidebarButton) {
+  toggleSidebarButton.addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) {
+      sidebar.classList.toggle("visible");
+    }
+  });
 }
-
-// Load product details from URL parameter
-function loadProductDetails() {
-  const productId = getQueryParam("id");
-  if (!productId) {
-    document.getElementById("productDetails").textContent =
-      "Product ID not found!";
-    return;
-  }
-
-  fetch("/pages/js/public/he-page.json")
-    .then((response) => response.json())
-    .then((data) => {
-      const product = data.find((p) => p.id === productId);
-      if (product) {
-        document.getElementById("productImage").src =
-          product.image || "default-image.jpg";
-        document.getElementById("productName").textContent =
-          product.name || "Unnamed Product";
-        document.getElementById("productPrice").textContent =
-          product.price || "Price not available";
-        document.getElementById("productRatings").textContent = `Rating: ${
-          product.rating || "N/A"
-        }`;
-        document.getElementById("productDescription").textContent =
-          product.description || "No description available.";
-      } else {
-        document.getElementById("productDetails").textContent =
-          "Product not found!";
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching product details:", error);
-      document.getElementById("productDetails").textContent =
-        "Failed to load product details.";
-    });
-}
-// Toggle sidebar visibility
-document.getElementById("toggleSidebar").addEventListener("click", () => {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.toggle("visible"); // Toggle 'visible' class to show/hide sidebar
-});

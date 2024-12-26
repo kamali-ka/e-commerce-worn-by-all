@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch the JSON files containing product data
   Promise.all([
     fetch("../js/public/he-page.json"), // Update the path if needed
-    fetch("../js/public/she-page.json") // Fetch from the second JSON file
+    fetch("../js/public/she-page.json"), // Fetch from the second JSON file
+    fetch("../js/public/kids-page.json"),
+    fetch("../js/public/unisex-page.json")
   ])
     .then(([responseHe, responseShe]) => {
       if (!responseHe.ok || !responseShe.ok) {
