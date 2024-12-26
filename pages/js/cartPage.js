@@ -1,9 +1,16 @@
-// Fetch data from JSON
+// Fetch data from both JSON files
 async function fetchProductData() {
   try {
-    const response = await fetch("../js/public/he-page.json"); // Update the path to your JSON file
-    if (!response.ok) throw new Error("Failed to fetch product data");
-    return await response.json();
+    const heResponse = await fetch("../js/public/he-page.json"); // Fetch from he-page.json
+    if (!heResponse.ok) throw new Error("Failed to fetch data from he-page.json");
+
+    const sheResponse = await fetch("../js/public/she-page.json"); // Fetch from she-page.json
+    if (!sheResponse.ok) throw new Error("Failed to fetch data from she-page.json");
+
+    const heProducts = await heResponse.json();
+    const sheProducts = await sheResponse.json();
+
+    return [...heProducts, ...sheProducts]; // Combine products from both files
   } catch (error) {
     console.error("Error fetching product data:", error);
     return [];
@@ -29,7 +36,7 @@ async function loadCartItems() {
   if (!cartItemsContainer) return;
 
   const cart = getLocalStorage("cart", []);
-  const products = await fetchProductData();
+  const products = await fetchProductData(); // Fetch data from both files
 
   cartItemsContainer.innerHTML = "";
 
@@ -50,15 +57,19 @@ async function loadCartItems() {
 }
 
 // Render individual cart item
+// Render individual cart item
 function renderCartItem(cartItem, product, container) {
-  const sizeOptions = product.sizes
-    .map(
-      (size) =>
-        `<option value="${size}" ${
-          cartItem.size === size ? "selected" : ""
-        }>${size}</option>`
-    )
-    .join("");
+  // Check if product.sizes exists and is an array
+  const sizeOptions = Array.isArray(product.sizes)
+    ? product.sizes
+        .map(
+          (size) =>
+            `<option value="${size}" ${
+              cartItem.size === size ? "selected" : ""
+            }>${size}</option>`
+        )
+        .join("")
+    : ""; // If no sizes, set empty string
 
   const cartItemHTML = `
     <div class="cart-item" data-id="${cartItem.id}">
@@ -81,6 +92,7 @@ function renderCartItem(cartItem, product, container) {
   `;
   container.innerHTML += cartItemHTML;
 }
+
 
 // Attach event delegation for cart controls
 document.addEventListener("DOMContentLoaded", () => {
@@ -196,5 +208,5 @@ function handleBuyNow() {
 function clearCartAfterOrder() {
   setLocalStorage("cart", []); // Clear cart data
   alert("Your order has been placed successfully! The cart is now empty.");
-  window.location.href = "../html/home.html"; // Redirect to home or any other page
+  window.location.href = "/index.html"; // Redirect to home or any other page
 }

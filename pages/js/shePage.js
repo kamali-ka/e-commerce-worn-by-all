@@ -1,18 +1,24 @@
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-  };
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
+  authDomain: "wornbyall-926f5.firebaseapp.com",
+  projectId: "wornbyall-926f5",
+  storageBucket: "wornbyall-926f5.appspot.com",
+  messagingSenderId: "770771226995",
+  appId: "1:770771226995:web:15636d6b9e17d27611b506",
+  measurementId: "G-B6PER21YN1",
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+// Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
   loadProducts().then(() => {
@@ -47,32 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  // Add click event listener to dynamically created "Add to Cart" buttons
-  document.addEventListener("click", (e) => {
-    if (e.target && e.target.classList.contains("add-to-cart-btn")) {
-      const productId = e.target.dataset.id;
-      const productName = e.target.dataset.name;
-      const productPrice = parseFloat(e.target.dataset.price);
-      const productImage = e.target.dataset.image;
-
-      const product = {
-        id: productId,
-        name: productName,
-        price: productPrice,
-        image: productImage,
-      };
-
-      handleCartButtonClick(product, e.target);
-    }
-  });
 });
-
 // Function to load and display all products
 async function loadProducts() {
   try {
     const response = await fetch("../js/public/she-page.json");
     if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.status}`);
+      throw new Error(
+        `Failed to fetch products: ${response.status} ${response.statusText}`
+      );
     }
 
     const products = await response.json();
@@ -104,17 +93,21 @@ async function loadProducts() {
 
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
-      productPrice.textContent = product.price
-        ? `₹${parseFloat(product.price).toFixed(2)}`
-        : "Price not available";
+      const price = parseFloat(product.price);
+      productPrice.textContent = isNaN(price)
+        ? "Price not available"
+        : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement("button");
-      addButton.classList.add("add-to-cart-btn");
-      addButton.dataset.id = product.id;
-      addButton.dataset.name = product.name;
-      addButton.dataset.price = product.price;
-      addButton.dataset.image = product.image;
       addButton.textContent = isInCart(product) ? "Visit Cart" : "Add to Cart";
+      addButton.onclick = (e) => {
+        e.stopPropagation(); // Prevent triggering product click event
+        handleCartButtonClick(product, addButton);
+      };
+
+      productCard.onclick = () => {
+        window.location.href = `../html/productDetails.html?id=${product.id}`;
+      };
 
       productCard.append(productImage, productName, productPrice, addButton);
       productGrid.appendChild(productCard);
@@ -172,34 +165,43 @@ function isInCart(product) {
 
 function addToCart(item) {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("User is signed in:", user);
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-      // Check if the item already exists in the cart
-      const existingItemIndex = cart.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
-      if (existingItemIndex > -1) {
-        // Update quantity if item exists
-        cart[existingItemIndex].quantity += 1;
+      if (user) {
+        console.log("User is signed in:", user);
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.findIndex(
+          (cartItem) => cartItem.id === item.id
+        );
+        if (existingItemIndex > -1) {
+          // Update quantity if item exists
+          cart[existingItemIndex].quantity += 1;
+        } else {
+          // Add new item to the cart
+          cart.push({ ...item, quantity: 1 });
+        }
+  
+        localStorage.setItem("cart", JSON.stringify(cart));
+  
+        // Update the button text and behavior
+        const addButton = document.querySelector(
+          `.product-card[data-id="${item.id}"] button`
+        );
+        console.log(addButton);
+  
+        if (addButton) {
+          addButton.textContent = "Visit Cart"; // Change button text
+          addButton.onclick = navigateToCart; // Change button behavior
+        }
+  
+        // Show popup message
+        showPopup("Item added to cart successfully!");
+        updateCartCount();
       } else {
-        // Add new item to the cart
-        cart.push({ ...item, quantity: 1 });
+        window.location.href = "../html/signup-signin.html";
       }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      // Show popup message
-      showPopup("Item added to cart successfully!");
-      updateCartCount();
-    } else {
-      // If user is not signed in, redirect to the sign-in page
-      window.location.href = "../html/signup-signin.html";
-    }
-  });
+    });
 }
-
 
 // Function to update the cart count
 function updateCartCount() {
@@ -217,14 +219,17 @@ function showPopup(message) {
   const popupContainer = document.getElementById("popupContainer");
   const popupMessage = popupContainer.querySelector(".popup-message");
 
-  if (!popupContainer || !popupMessage) {
-    console.error("Popup container or message not found!");
-    return;
-  }
-
+  // Set the message
   popupMessage.textContent = message;
+
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
+
+  // Show the popup
   popupContainer.classList.add("show");
 
+  // Hide the popup after 3 seconds
   setTimeout(() => {
     popupContainer.classList.remove("show");
   }, 3000);

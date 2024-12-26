@@ -19,15 +19,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 document.addEventListener("DOMContentLoaded", () => {
-  // Fetch the JSON file containing product data
-  fetch("../js/public/he-page.json") // Update the path if needed
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  // Fetch the JSON files containing product data
+  Promise.all([
+    fetch("../js/public/he-page.json"), // Update the path if needed
+    fetch("../js/public/she-page.json") // Fetch from the second JSON file
+  ])
+    .then(([responseHe, responseShe]) => {
+      if (!responseHe.ok || !responseShe.ok) {
+        throw new Error("One or more network responses were not ok");
       }
-      return response.json();
+      return Promise.all([responseHe.json(), responseShe.json()]);
     })
-    .then((products) => {
+    .then(([productsHe, productsShe]) => {
+      // Combine both products from the he-page and she-page
+      const products = [...productsHe, ...productsShe];
+
       const selectedProductId = getQueryParam("id");
 
       if (!selectedProductId) {
@@ -53,22 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
       displayErrorMessage(
         `Failed to load product details. Error: ${error.message}`
       );
+
+      // Fallback example product data
       const product = {
-        // Example product data
         cashOnDelivery: true,
         returnsAndExchanges: true,
         isOriginal: true
       };
-    
+
       // Check if each feature should be displayed based on product data
       if (!product.cashOnDelivery) {
         document.getElementById("cashOnDelivery").style.display = "none";
       }
-    
+
       if (!product.returnsAndExchanges) {
         document.getElementById("returnsAndExchanges").style.display = "none";
       }
-    
+
       if (!product.isOriginal) {
         document.getElementById("isOriginal").style.display = "none";
       }
@@ -76,6 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayErrorMessage(message) {
     document.getElementById("product-details").innerHTML = `<p>${message}</p>`;
+  }
+
+  // Example function to get query parameter (product ID)
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
   }
 
 // Function to display product details
