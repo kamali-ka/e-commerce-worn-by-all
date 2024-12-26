@@ -26,6 +26,8 @@ function setLocalStorage(key, value) {
 // Load cart items
 async function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
+  if (!cartItemsContainer) return;
+
   const cart = getLocalStorage("cart", []);
   const products = await fetchProductData();
 
@@ -81,28 +83,44 @@ function renderCartItem(cartItem, product, container) {
 }
 
 // Attach event delegation for cart controls
-document.getElementById("cartItems").addEventListener("click", (event) => {
-  const target = event.target;
-  const cart = getLocalStorage("cart", []);
+document.addEventListener("DOMContentLoaded", () => {
+  const cartItemsContainer = document.getElementById("cartItems");
+  if (cartItemsContainer) {
+    cartItemsContainer.addEventListener("click", (event) => {
+      const target = event.target;
+      const productId = target.dataset.id;
 
-  // Handle decrease button
-  if (target.classList.contains("decrease-btn")) {
-    const productId = target.dataset.id;
-    changeQuantity(productId, -1);
+      if (target.classList.contains("decrease-btn")) {
+        changeQuantity(productId, -1);
+      } else if (target.classList.contains("increase-btn")) {
+        changeQuantity(productId, 1);
+      } else if (target.classList.contains("remove-btn")) {
+        removeCartItem(productId);
+      }
+    });
   }
 
-  // Handle increase button
-  if (target.classList.contains("increase-btn")) {
-    const productId = target.dataset.id;
-    changeQuantity(productId, 1);
+  const emptyCartButton = document.getElementById("emptyCartButton");
+  if (emptyCartButton) {
+    emptyCartButton.addEventListener("click", () => {
+      setLocalStorage("cart", []);
+      loadCartItems(); // Re-render the cart after emptying
+    });
   }
 
-  // Handle remove button
-  if (target.classList.contains("remove-btn")) {
-    const productId = target.dataset.id;
-    removeCartItem(productId);
+  const buyNowButton = document.getElementById("buyNowButton");
+  if (buyNowButton) {
+    buyNowButton.addEventListener("click", handleBuyNow);
   }
+
+  const confirmOrderButton = document.getElementById("confirmOrderButton");
+  if (confirmOrderButton) {
+    confirmOrderButton.addEventListener("click", clearCartAfterOrder);
+  }
+
+  loadCartItems(); // Initialize cart on page load
 });
+
 // Remove item from cart
 function removeCartItem(productId) {
   const cart = getLocalStorage("cart", []);
@@ -123,7 +141,7 @@ function changeQuantity(productId, change) {
   }
 }
 
-// Remove item
+// Update bill summary
 function updateBillSummary(cart, products) {
   let totalPrice = 0;
 
@@ -140,18 +158,22 @@ function updateBillSummary(cart, products) {
 
   // Update Bill Summary Section
   const billSummary = document.getElementById("billSummary");
-  billSummary.innerHTML = `
-    <h3>Bill Summary</h3>
-    <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
-    <p>Tax (2%): ₹${tax.toFixed(2)}</p>
-    <p>Delivery Fee: ₹${deliveryFee.toFixed(2)}</p>
-    <hr>
-    <h4>Total: ₹${totalBill.toFixed(2)}</h4>
-  `;
+  if (billSummary) {
+    billSummary.innerHTML = `
+      <h3>Bill Summary</h3>
+      <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
+      <p>Tax (2%): ₹${tax.toFixed(2)}</p>
+      <p>Delivery Fee: ₹${deliveryFee.toFixed(2)}</p>
+      <hr>
+      <h4>Total: ₹${totalBill.toFixed(2)}</h4>
+    `;
+  }
 
   // Update Total Amount in Footer
   const totalAmountElement = document.getElementById("totalAmount");
-  totalAmountElement.textContent = totalBill.toFixed(2);
+  if (totalAmountElement) {
+    totalAmountElement.textContent = totalBill.toFixed(2);
+  }
 }
 
 // Handle "Buy Now" button click
@@ -170,14 +192,9 @@ function handleBuyNow() {
   window.location.href = "../html/orderReview.html"; // Update the path as needed
 }
 
-// Empty cart functionality
-document.getElementById("emptyCartButton").addEventListener("click", () => {
-  setLocalStorage("cart", []);
-  loadCartItems(); // Re-render the cart after emptying
-});
-
-// Attach "Buy Now" button event listener
-document.getElementById("buyNowButton").addEventListener("click", handleBuyNow);
-
-// Initialize cart on page load
-document.addEventListener("DOMContentLoaded", loadCartItems);
+// Clear cart after order submission
+function clearCartAfterOrder() {
+  setLocalStorage("cart", []); // Clear cart data
+  alert("Your order has been placed successfully! The cart is now empty.");
+  window.location.href = "../html/home.html"; // Redirect to home or any other page
+}

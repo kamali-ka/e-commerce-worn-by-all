@@ -114,12 +114,20 @@
                     </p>
                     <p><strong>Payment Method:</strong> <span id="review-payment">Please select a payment method.</span>
                     </p>
-                    <button type="button" class="submit-btn" id="confirm-order-btn">Place Order</button>
+                    <a href="../html/orderPlaced.html"><button type="button" class="submit-btn" id="confirm-order-btn">Place Order</button></a>
                 </div>
             </div>
 
         </div>
     </div>
+<!-- Modal for Order Confirmation -->
+<div id="order-confirmation-modal" class="modal">
+    <div id="order-confirmation-popup" style="display: none;">
+        <p>Your order has been confirmed!</p>
+        <button id="close-popup-btn">Close</button>
+    </div>
+    
+</div>
 
     <script src="../js/orderReview.js" defer></script>
 </body>

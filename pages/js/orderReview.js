@@ -7,32 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const cardRadio = document.getElementById('card');
     const cardDetails = document.getElementById('card-details');
     const codRadio = document.getElementById('cod');
+    const closePopupBtn = document.getElementById('close-popup-btn');
+    const orderConfirmationPopup = document.getElementById('order-confirmation-popup');
 
     // Start checkout process from the first step
     nextStep(1); // Start with step 1 (Address)
 
-    // Toggle UPI details based on radio selection
-    if (upiRadio) {
-        upiRadio.addEventListener('change', function () {
-            togglePaymentDetails('upi');
-        });
-    }
+    // Toggle payment details based on radio selection
+    const paymentRadios = [upiRadio, cardRadio, codRadio];
+    paymentRadios.forEach((radio) => {
+        if (radio) {
+            radio.addEventListener('change', function () {
+                togglePaymentDetails(radio.id);
+            });
+        }
+    });
 
-    // Toggle Card details based on radio selection
-    if (cardRadio) {
-        cardRadio.addEventListener('change', function () {
-            togglePaymentDetails('card');
-        });
-    }
-
-    // Toggle COD details based on radio selection
-    if (codRadio) {
-        codRadio.addEventListener('change', function () {
-            togglePaymentDetails('cod');
-        });
-    }
-
-    // Attach event listener for the Address "Next" button
+    // Address "Next" button
     if (nextBtn) {
         nextBtn.addEventListener('click', function () {
             if (validateAddress()) {
@@ -41,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Attach event listener for the Payment "Next" button
+    // Payment "Next" button
     if (nextBtnPayment) {
         nextBtnPayment.addEventListener('click', function () {
             if (validatePayment()) {
@@ -50,66 +41,48 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Attach event listener for confirming the order
+    // Confirm order button
     if (confirmOrderBtn) {
         confirmOrderBtn.addEventListener('click', function () {
             confirmOrder(); // Confirm the order and finish checkout
         });
     }
 
-    // Function to move to the next step
-    // Function to move to the next step
-function nextStep(step) {
-    // Hide all steps
-    document.querySelectorAll('.step-content > div').forEach(stepDiv => {
-        stepDiv.classList.remove('active');
-    });
-
-    // Show the selected step
-    if (step === 1) {
-        document.querySelector('.address-step')?.classList.add('active');
-        document.getElementById('step-1')?.classList.add('active');
-    } else if (step === 2) {
-        document.querySelector('.payment-step')?.classList.add('active');
-        document.getElementById('step-1')?.classList.add('completed');
-        document.getElementById('step-2')?.classList.add('active');
-    } else if (step === 3) {
-        document.querySelector('.review-step')?.classList.add('active');
-        document.getElementById('step-2')?.classList.add('completed');
-        document.getElementById('step-3')?.classList.add('active');
-
-        // Update review details for address
-        const reviewAddress = document.getElementById('review-address');
-        const reviewPayment = document.getElementById('review-payment');
-
-        if (reviewAddress) {
-            reviewAddress.innerText = [
-                document.getElementById('full-name')?.value,
-                document.getElementById('address-line-1')?.value,
-                document.getElementById('city')?.value,
-                document.getElementById('state')?.value,
-                document.getElementById('postal-code')?.value,
-                document.getElementById('country')?.value
-            ].filter(Boolean).join(', ');
-        }
-
-        if (reviewPayment) {
-            const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
-            if (selectedPayment) {
-                // Update payment method in the review step
-                reviewPayment.innerText = selectedPayment.nextSibling?.textContent?.trim() || selectedPayment.value;
-            } else {
-                reviewPayment.innerText = 'No payment method selected.';
-            }
-        }
+    // Close popup button
+    if (closePopupBtn) {
+        closePopupBtn.addEventListener('click', function () {
+            orderConfirmationPopup.style.display = 'none';
+            window.location.href = '../html/orderPlaced.html'; // Redirect to the order placed page
+        });
     }
 
-    // Update progress bar
-    updateProgress(step);
-}
+    function nextStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.step-content > div').forEach(stepDiv => {
+            stepDiv.classList.remove('active');
+        });
 
+        // Show the selected step
+        if (step === 1) {
+            document.querySelector('.address-step')?.classList.add('active');
+            document.getElementById('step-1')?.classList.add('active');
+        } else if (step === 2) {
+            document.querySelector('.payment-step')?.classList.add('active');
+            document.getElementById('step-1')?.classList.add('completed');
+            document.getElementById('step-2')?.classList.add('active');
+        } else if (step === 3) {
+            document.querySelector('.review-step')?.classList.add('active');
+            document.getElementById('step-2')?.classList.add('completed');
+            document.getElementById('step-3')?.classList.add('active');
 
-    // Update progress bar and step styles
+            // Update review details
+            updateReviewDetails();
+        }
+
+        // Update progress bar
+        updateProgress(step);
+    }
+
     function updateProgress(stepNumber) {
         document.querySelectorAll('.progress-step').forEach((step, index) => {
             step.classList.toggle('completed', index + 1 < stepNumber);
@@ -117,7 +90,6 @@ function nextStep(step) {
         });
     }
 
-    // Validate address form
     function validateAddress() {
         let isValid = true;
 
@@ -136,47 +108,71 @@ function nextStep(step) {
         isValid = isValid && validateField('city', 'city-error', 'City is required.');
         isValid = isValid && validateField('state', 'state-error', 'State is required.');
         isValid = isValid && validateField('postal-code', 'postal-error', 'Enter a valid 6-digit postal code.') &&
-                   /^[0-9]{6}$/.test(document.getElementById('postal-code')?.value);
+            /^[0-9]{6}$/.test(document.getElementById('postal-code')?.value);
         isValid = isValid && validateField('country', 'country-error', 'Country is required.');
 
         return isValid;
     }
 
-    // Validate payment form fields
     function validatePayment() {
-        let isValid = true;
-
         const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
         if (!paymentMethod) {
             alert('Please select a payment method.');
             return false;
         }
 
-        if (paymentMethod.value === 'upi' && !document.getElementById('upi-id').value) {
+        if (paymentMethod.value === 'upi' && !document.getElementById('upi-id')?.value) {
             alert('Please enter your UPI ID.');
             return false;
         }
 
-        return isValid;
+        return true;
     }
 
-    // Confirm the order
     function confirmOrder() {
-        alert('Order confirmed! Thank you for your purchase.');
-        // Optionally, reset the form or redirect to a confirmation page
+        // Show the pop-up
+        if (orderConfirmationPopup) {
+            orderConfirmationPopup.style.display = 'flex';
+        }
+
+        // Clear the cart
+        clearCartAfterOrder();
     }
 
-    // Function to toggle payment details based on the selected option
+    function clearCartAfterOrder() {
+        localStorage.removeItem('cart'); // Clear the cart from localStorage
+        console.log('Cart cleared successfully.');
+    }
+
     function togglePaymentDetails(selectedOption) {
-        // Hide all payment detail sections
         upiDetails.style.display = 'none';
         cardDetails.style.display = 'none';
 
-        // Show the selected option details
-        if (selectedOption === 'upi') {
-            upiDetails.style.display = upiDetails.style.display === 'block' ? 'none' : 'block';
-        } else if (selectedOption === 'card') {
-            cardDetails.style.display = cardDetails.style.display === 'block' ? 'none' : 'block';
+        if (selectedOption === 'upi' && upiDetails) {
+            upiDetails.style.display = 'block';
+        } else if (selectedOption === 'card' && cardDetails) {
+            cardDetails.style.display = 'block';
+        }
+    }
+
+    function updateReviewDetails() {
+        const reviewAddress = document.getElementById('review-address');
+        const reviewPayment = document.getElementById('review-payment');
+
+        if (reviewAddress) {
+            reviewAddress.innerText = [
+                document.getElementById('full-name')?.value,
+                document.getElementById('address-line-1')?.value,
+                document.getElementById('city')?.value,
+                document.getElementById('state')?.value,
+                document.getElementById('postal-code')?.value,
+                document.getElementById('country')?.value
+            ].filter(Boolean).join(', ');
+        }
+
+        if (reviewPayment) {
+            const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+            reviewPayment.innerText = selectedPayment?.nextSibling?.textContent?.trim() || selectedPayment?.value || 'No payment method selected.';
         }
     }
 });
