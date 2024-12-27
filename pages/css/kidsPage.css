@@ -264,3 +264,10 @@ body {
   .toggle-sidebar-btn:hover {
     background-color: #444;
   }
+  .sidebar.hidden {
+    transform: translateX(-250px); /* Move sidebar offscreen */
+  }
+  .sidebar.visible {
+    transform: translateX(0); /* Bring sidebar onscreen */
+  }
+    
