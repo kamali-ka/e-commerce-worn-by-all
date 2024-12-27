@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
   const phoneInput = document.getElementById("phone");
+  const addressInput = document.getElementById("address");
   const profilePlaceholder = document.getElementById("profile-placeholder");
   const popupMessage = document.getElementById("popupMessage");
   const logoutButton = document.getElementById("logoutButton");
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const currentUserEmail = localStorage.getItem("email");
   const currentUserName = localStorage.getItem("username");
+
 
   // Redirect to login page if no user is logged in
   if (!currentUserEmail) {
@@ -47,9 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const userName = currentUserName || "";
     const phone = localStorage.getItem(getUserKey("phone")) || "";
+    const address = localStorage.getItem(getUserKey("address")) || "";
 
     nameInput.value = userName;
     phoneInput.value = phone;
+    addressInput.value = address;
+
 
     profilePlaceholder.textContent = userName
       ? userName.charAt(0).toUpperCase()
@@ -61,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
       currentUserEmail || "Not provided";
     document.getElementById("profile-phone").textContent =
       phone || "Not provided";
+    document.getElementById("profile-address").textContent =
+      address || "Not provided";
   }
 
   function getUserKey(field) {
@@ -74,10 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const userName = nameInput.value.trim();
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
+    const address = addressInput.value.trim();
 
     // Save profile data to localStorage
     localStorage.setItem("username", userName);
     localStorage.setItem(getUserKey("phone"), phone);
+    localStorage.setItem(getUserKey("address"), address); 
 
     // Update UI
     profilePlaceholder.textContent = userName
@@ -90,7 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
       email || "Not provided";
     document.getElementById("profile-phone").textContent =
       phone || "Not provided";
-
+      document.getElementById("profile-address").textContent =
+      address || "Not provided";
+      
     // Show confirmation popup
     showPopup("Profile details saved successfully!", "success");
   });
@@ -102,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.removeItem("username");
     localStorage.removeItem(getUserKey("name"));
     localStorage.removeItem(getUserKey("phone"));
+    localStorage.removeItem(getUserKey("address"));
 
     // Clear cart from localStorage
     localStorage.removeItem("cart");

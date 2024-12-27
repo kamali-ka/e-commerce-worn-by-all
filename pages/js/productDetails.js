@@ -26,15 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("../js/public/kids-page.json"),
     fetch("../js/public/unisex-page.json")
   ])
-    .then(([responseHe, responseShe]) => {
-      if (!responseHe.ok || !responseShe.ok) {
+    .then(([responseHe, responseShe, responseKids, responseUnisex]) => {
+      if (!responseHe.ok || !responseShe.ok || !responseKids.ok || !responseUnisex.ok) {
         throw new Error("One or more network responses were not ok");
       }
-      return Promise.all([responseHe.json(), responseShe.json()]);
+      return Promise.all([responseHe.json(), responseShe.json(), responseKids.json(), responseUnisex.json()]);
     })
-    .then(([productsHe, productsShe]) => {
+    .then(([productsHe, productsShe, productsKids, productsUnisex]) => {
       // Combine both products from the he-page and she-page
-      const products = [...productsHe, ...productsShe];
+      const products = [...productsHe, ...productsShe, ...productsKids, ...productsUnisex];
 
       const selectedProductId = getQueryParam("id");
 

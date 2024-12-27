@@ -394,3 +394,131 @@ button:hover {
     font-size: 1rem;
   }
 }
+/* General Address Section Styles */
+.address-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.account-details {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #ffffff; /* White */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-details h2 {
+  font-size: 1.8rem;
+  color: #333333; /* Dark grey */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Address Form */
+#accountForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.form-group label {
+  color: #333333; /* Dark grey */
+  font-size: 1.1rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #444444; /* Mid grey border */
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  height: 100px; /* Set height for the address textarea */
+  resize: vertical; /* Allow resizing vertically */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline-color: #333333; /* Dark grey focus effect */
+}
+
+button.save-button {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  background-color: #333333; /* Dark grey */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.save-button:hover {
+  background-color: #555555; /* Lighter grey */
+}
+
+/* Profile Address Display */
+.profile-item {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-item strong {
+  color: #333333; /* Dark grey */
+}
+
+.profile-item span {
+  color: #555555; /* Mid grey for the text */
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .account-details {
+    padding: 10px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 1rem;
+  }
+
+  button.save-button {
+    padding: 8px 15px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-details h2 {
+    font-size: 1.6rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.9rem;
+  }
+
+  button.save-button {
+    padding: 7px 12px;
+    font-size: 1rem;
+  }
+}

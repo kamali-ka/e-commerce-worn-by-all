@@ -10,6 +10,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopupBtn = document.getElementById('close-popup-btn');
     const orderConfirmationPopup = document.getElementById('order-confirmation-popup');
 
+    // Fetch user details from localStorage
+    const userName = localStorage.getItem('username') || '';
+    const userPhone = localStorage.getItem('phone') || '';
+    const userAddress = localStorage.getItem('address') || ''; // Assuming 'address' is stored in localStorage
+    console.log('Retrieved address:', userAddress); // Check address value
+    console.log('Retrieved name:', userName); // Check name value
+
+
+    // Set these values to the address fields in the checkout page
+    const fullNameField = document.getElementById('full-name');
+    const phoneField = document.getElementById('phone');
+    const addressField = document.getElementById('address-line-1');
+
+    // Pre-fill fields with existing data from localStorage
+    if (fullNameField) fullNameField.value = userName;
+    if (phoneField) phoneField.value = userPhone;
+    if (addressField) addressField.value = userAddress;  // Address field
+
     // Start checkout process from the first step
     nextStep(1); // Start with step 1 (Address)
 
