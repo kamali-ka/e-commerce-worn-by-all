@@ -66,9 +66,81 @@
     "alt": "Frock",
     "name": "Frock",
     "rating": 4.1,
-      "stock": 20,
+    "stock": 20,
     "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
     "price": "899",
     "button": "Add to Cart"
+  },
+  {
+    "id":"206",
+    "type":"co-ords",
+    "alt":"green co-ords",
+    "name":"green co-ords",
+    "rating":3.9,
+    "stock":5,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":799,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_kids2.jpg"
+  },
+  {
+    "id":"207",
+    "type":"co-ords",
+    "alt":"orange co-ords",
+    "name":"orange co-ords",
+    "rating":4.9,
+    "stock":10,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":779,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_kids4.jpg"
+  },
+  {
+    "id":"208",
+    "type":"co-ords",
+    "alt":"co-ords",
+    "name":"t-shirt and pant co-ords",
+    "rating":5,
+    "stock":50,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":899,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_kids5.jpg"
+  },
+  {
+    "id":"209",
+    "type":"onesie",
+    "alt":"onesie",
+    "name":"baby onesies",
+    "rating":4.3,
+    "stock":9,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":299,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_onesie1.jpg"
+  },
+  {
+    "id":"210",
+    "type":"onesie",
+    "alt":"onesie",
+    "name":"baby onesies",
+    "rating":3.8,
+    "stock":19,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":469,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_onesie2.jpg"
+  },
+  {
+    "id":"211",
+    "type":"co-ords",
+    "alt":"co-ords",
+    "name":"baby co-ords",
+    "rating":4.6,
+    "stock":35,
+    "sizes": ["S", "M", "L", "XL", "XXL", "XXXL"],
+    "price":349,
+    "button":"Add to Cart",
+    "image":"/assets/images/img_onesie3.jpg"
   }
 ]

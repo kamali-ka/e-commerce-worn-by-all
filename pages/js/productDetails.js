@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 // Function to display product details
+// Function to display product details
 function displayProductDetails(product) {
   // Set product details in the HTML
   document.getElementById("productImage").src = product.image || "placeholder.jpg";
@@ -108,12 +109,17 @@ function displayProductDetails(product) {
   // Display size options
   displayProductSizes(product.sizes); // Call the function to display sizes
 
+  // Disable "Buy Now" button initially
+  const buyNowButton = document.getElementById("buyNowButton");
+  if (buyNowButton) {
+    buyNowButton.disabled = true; // Disable "Buy Now" button
+  }
+
   // Check if the product is already in the cart
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   const productInCart = cart.find((item) => item.id === product.id);
 
   const addToCartButton = document.getElementById("addToCartButton");
-  const buyNowButton = document.getElementById("buyNowButton");
 
   if (productInCart) {
     addToCartButton.textContent = "Visit Cart";
@@ -127,6 +133,27 @@ function displayProductDetails(product) {
   if (buyNowButton) {
     buyNowButton.addEventListener("click", () => showBuyNowPopup());
   }
+}
+
+// Function to handle size selection
+function selectSize(button, size) {
+  // Remove the 'selected' class from all size buttons
+  const allSizeButtons = document.querySelectorAll(".size-options button");
+  allSizeButtons.forEach((btn) => btn.classList.remove("selected"));
+
+  // Add the 'selected' class to the clicked size button
+  button.classList.add("selected");
+
+  // Store the selected size in localStorage
+  localStorage.setItem("selectedSize", size);
+
+  // Optionally enable the Buy Now button when size is selected
+  const buyNowButton = document.getElementById("buyNowButton");
+  buyNowButton.disabled = false; // Enable "Buy Now" button when size is selected
+
+  // Optionally enable the Add to Cart button when size is selected
+  const addToCartButton = document.getElementById("addToCartButton");
+  addToCartButton.disabled = !size; // Disable Add to Cart if no size is selected
 }
 
 // Function to display stock status
@@ -156,22 +183,7 @@ function displayProductSizes(sizes) {
     sizeOptionsContainer.appendChild(sizeButton);
   });
 }
-// Function to handle size selection
-function selectSize(button, size) {
-  // Remove the 'selected' class from all size buttons
-  const allSizeButtons = document.querySelectorAll(".size-options button");
-  allSizeButtons.forEach((btn) => btn.classList.remove("selected"));
 
-  // Add the 'selected' class to the clicked size button
-  button.classList.add("selected");
-
-  // Store the selected size in localStorage
-  localStorage.setItem("selectedSize", size);
-  
-  // Optionally enable the Add to Cart button when size is selected
-  const addToCartButton = document.getElementById("addToCartButton");
-  addToCartButton.disabled = !size; // Disable Add to Cart if no size is selected
-}
 
 // Function to display error messages
 function displayErrorMessage(message) {

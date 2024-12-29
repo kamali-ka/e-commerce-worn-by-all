@@ -166,33 +166,57 @@ function handleCartButtonClick(product, button) {
 
 // Function to check if a product is already in the cart
 function isInCart(product) {
+  
+  
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   return cart.some((item) => item.id === product.id);
 }
 
 // Function to add a product to the cart
+// Function to add a product to the cart
 function addToCart(item) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  // Check current authentication state
+  const user = auth.currentUser;
 
-      const existingItemIndex = cart.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
-      if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        cart.push({ ...item, quantity: 1 });
-      }
+  console.log("Checking user state in addToCart:", user);
+  if (user) {
+    // User is authenticated; proceed to add item to cart
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCartCount();
-      showPopup("Item added to cart successfully!");
+    const existingItemIndex = cart.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
+    if (existingItemIndex > -1) {
+      // Item already exists; increment its quantity
+      cart[existingItemIndex].quantity += 1;
     } else {
-      window.location.href = "../html/signup-signin.html";
+      // Add a new item to the cart
+      cart.push({ ...item, quantity: 1 });
     }
-  });
+
+    // Save updated cart back to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    
+    // Update cart count UI
+    updateCartCount();
+    
+    // Show confirmation popup
+    showPopup("Item added to cart successfully!");
+  } else {
+    // User is not signed in; do NOT redirect to the sign-up page if already signed up
+    console.log("User is not signed in. Redirecting...");
+    const currentURL = window.location.href;
+
+    // Redirect only if the user is on a page where sign-in is required (e.g., cart page or product details page)
+    if (!currentURL.includes("signup-signin.html")) {
+      window.location.href = "../html/signup-signin.html";
+    } else {
+      console.log("Already on the sign-up/sign-in page. No redirection.");
+    }
+  }
 }
+
+
 
 // Function to update the cart count
 function updateCartCount() {
