@@ -284,21 +284,21 @@ function showPopup(message) {
   }
 
   // Function to update cart count
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const totalItems = cart.reduce(
-      (sum, item) => sum + (item.quantity || 1),
-      0
-    );
+ // Function to update the cart count (counting unique products)
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+  // Get the number of unique products in the cart
+  const totalProducts = cart.length;
 
-    const cartCountElement = document.getElementById("cartCount");
-    if (cartCountElement) {
-      cartCountElement.textContent = totalItems;
-    }
-
-    // Save cart count explicitly to localStorage
-    localStorage.setItem("cartCount", totalItems);
+  const cartCountElement = document.getElementById("cartCount");
+  if (cartCountElement) {
+    cartCountElement.textContent = totalProducts;
   }
+
+  // Save cart count explicitly to localStorage (if needed)
+  localStorage.setItem("cartCount", totalProducts);
+}
 
   // Utility function to get query parameters from the URL
   function getQueryParam(param) {

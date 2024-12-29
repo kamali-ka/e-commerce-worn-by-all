@@ -184,17 +184,22 @@ function showPopup(message) {
 }
 
 // Update cart count
+// Function to update the cart count (counting unique products)
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  
+  // Get the number of unique products in the cart
+  const totalProducts = cart.length;
 
   const cartCountElement = document.getElementById("cartCount");
   if (cartCountElement) {
-    cartCountElement.textContent = totalItems;
+    cartCountElement.textContent = totalProducts;
   }
 
-  localStorage.setItem("cartCount", totalItems);
+  // Save cart count explicitly to localStorage (if needed)
+  localStorage.setItem("cartCount", totalProducts);
 }
+
 
 // Load page content on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {

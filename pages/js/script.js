@@ -25,17 +25,20 @@ function updateCartVisibility() {
 }
 
 // Function to update the cart count dynamically
+// Function to update the cart count (counting unique products)
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const totalItems = cart.reduce(
-    (total, item) => total + (item.quantity || 1),
-    0
-  );
-  const cartCountElement = document.getElementById("cartCount");
+  
+  // Get the number of unique products in the cart
+  const totalProducts = cart.length;
 
+  const cartCountElement = document.getElementById("cartCount");
   if (cartCountElement) {
-    cartCountElement.textContent = totalItems;
+    cartCountElement.textContent = totalProducts;
   }
+
+  // Save cart count explicitly to localStorage (if needed)
+  localStorage.setItem("cartCount", totalProducts);
 }
 
 // Function to initialize all necessary updates on page load
