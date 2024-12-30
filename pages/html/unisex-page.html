@@ -16,17 +16,23 @@
       <ul>
         <i class="fa-solid fa-house"></i> <li><a href="/index.html">Home</a></li>
         <i class="fa-solid fa-person"></i> <li><a href="./men-category.html">Men</a></li>
-        <i class="fa-solid fa-person-dress"></i> <li><a href="./shePage.html">Women</a></li>
-        <i class="fa-solid fa-child"></i> <li><a href="./kidsPage.html">Kids</a></li>
+        <i class="fa-solid fa-person-dress"></i> <li><a href="./women-category.html">Women</a></li>
+        <i class="fa-solid fa-child"></i><li><a href="./kidsPage.html">Kids</a></li>
         ⚤<li><a href="./unisex-page.html">Unisex</a></li>
         <i class="fa-solid fa-cart-shopping"></i><li><a href="./cartPage.html">Cart</a></li>
       </ul>
     </nav>
   </div>
-
+  <div class="nav-icon">
+    <a href="../html/cartPage.html">
+      <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      <span id="cartCount" class="cart-count" style="color: white;">0</span>
+    </a>
+  </div>
   <!-- Toggle Sidebar Button -->
-  <button id="toggleSidebar" class="toggle-sidebar-btn">☰</button>
-
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+    ☰
+  </button>
   <!-- Header -->
   <header class="header">
     <div class="header-content">
@@ -37,32 +43,21 @@
 
   <!-- Search Bar -->
   <div class="search-container">
-    <input 
-      type="text" 
-      id="searchBar" 
-      placeholder="Search for clothes..." 
-      onkeyup="filterAndSearchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for clothes..." onkeyup="searchProducts()">
   </div>
-
-  <!-- Filters -->
-  <div class="filters">
-    <label for="clothingType">Filter by Category:</label>
-    <select id="clothingType" onchange="filterAndSearchProducts()">
-      <option value="all">All</option>
-      <option value="hoodies">Hoodies</option>
-      <option value="jackets">Jackets</option>
-      <option value="t-shirts">T-Shirts</option>
-      <option value="sweatshirts">Sweatshirts</option>
-      <option value="caps">Caps</option>
-    </select>
-  </div>
-
   <!-- Product Grid -->
   <div class="product-grid" id="productGrid">
     <!-- Dynamic content populated via JavaScript -->
   </div>
-
-  <script src="../js/unisex-page.js"></script>
+  <div id="cartModal" class="cart-modal">
+    <div class="modal-content">
+      <p id="modalMessage">Successfully added to cart!</p>
+    </div>
+  </div>
+  <div id="popupContainer" class="popup-container">
+    <div id="popupMessage" class="popup-message">Item added to cart successfully!</div>
+  </div>
+  <script type="module" src="../js/unisex-page.js" defer></script>
 </body>
 
 </html>
