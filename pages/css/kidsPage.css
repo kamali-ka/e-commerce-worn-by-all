@@ -51,6 +51,7 @@ body {
   /* Show sidebar */
   .sidebar.visible {
     left: 0;
+    transform: translateX(0); /* Bring sidebar onscreen */
   }
   /* Toggle Sidebar Button */
   .toggle-sidebar-btn {
@@ -244,10 +245,6 @@ body {
     bottom: 0;
     z-index: 100;
   }
-
-  .sidebar.hidden {
-    transform: translateX(-250px); /* Move sidebar offscreen */
-  }
   
   .toggle-sidebar-btn {
     position: fixed;
@@ -266,8 +263,5 @@ body {
   }
   .sidebar.hidden {
     transform: translateX(-250px); /* Move sidebar offscreen */
-  }
-  .sidebar.visible {
-    transform: translateX(0); /* Bring sidebar onscreen */
   }
     
