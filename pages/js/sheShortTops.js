@@ -39,9 +39,7 @@ async function loadShortTops() {
   
       // Filter and display Short Tops
       const shortTopProducts = products.filter(
-        (product) =>
-          product.type &&
-          product.type.toLowerCase() === "short tops".toLowerCase()
+        (product) => product.type.toLowerCase() === "short tops".toLowerCase()
       );
   
       if (shortTopProducts.length === 0) {
@@ -60,7 +58,7 @@ async function loadShortTops() {
         productLink.style.textDecoration = "none"; // Remove the default link underline
   
         const productImage = document.createElement("img");
-        productImage.src = product.image || "default-image.jpg";
+        productImage.src = product.image || "";
         productImage.alt = product.alt || product.name || "Product Image";
   
         const productName = document.createElement("h2");
@@ -74,7 +72,6 @@ async function loadShortTops() {
           : `₹${price.toFixed(2)}`;
   
         const addButton = document.createElement("button");
-        addButton.textContent = "Add to Cart";
   
         // Check if the product is already in the cart
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -84,6 +81,7 @@ async function loadShortTops() {
           addButton.textContent = "Visit Cart"; // Change to 'Visit Cart' if the item is in the cart
           addButton.onclick = () => navigateToCart(); // Navigate to the cart
         } else {
+          addButton.textContent = "Add to Cart";
           addButton.onclick = () => addToCart(product); // Add to cart
         }
   
@@ -163,6 +161,7 @@ function addToCart(item) {
     }
   }
 }
+
 async function handlePostLoginRedirect() {
   const redirectURL = localStorage.getItem("redirectAfterLogin");
   const itemToAdd = localStorage.getItem("itemToAdd");
@@ -211,7 +210,7 @@ function showPopup(message) {
   // Hide the popup after 3 seconds
   setTimeout(() => {
     popupContainer.classList.remove("show");
-  }, 3000);
+  }, 1500);
 }
 
 // Update cart count
@@ -298,3 +297,6 @@ document.getElementById("toggleSidebar").addEventListener("click", () => {
   const sidebar = document.getElementById("sidebar");
   sidebar.classList.toggle("visible"); // Toggle 'visible' class to show/hide sidebar
 });
+function navigateToCart() {
+  window.location.href = "../html/cartPage.html";
+}

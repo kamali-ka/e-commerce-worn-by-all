@@ -216,6 +216,15 @@ function addToCart(item) {
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount();
     showPopup("Item added to cart successfully!");
+
+    // Change "Add to Cart" button to "Visit Cart"
+    const addToCartButton = document.getElementById("addToCartButton");
+    if (addToCartButton) {
+      addToCartButton.textContent = "Visit Cart";
+      addToCartButton.onclick = () => {
+        window.location.href = "../html/cartPage.html";  // Redirect to cart page
+      };
+    }
   } else {
     console.log("User is not signed in. Redirecting...");
 
@@ -231,6 +240,7 @@ function addToCart(item) {
     }
   }
 }
+
 async function handlePostLoginRedirect() {
   const redirectURL = localStorage.getItem("redirectAfterLogin");
   const itemToAdd = localStorage.getItem("itemToAdd");

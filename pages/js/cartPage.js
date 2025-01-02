@@ -10,10 +10,15 @@ async function fetchProductData() {
     const kidsResponse = await fetch("../js/public/kids-page.json");
     if(!kidsResponse.ok) throw new Error("Failed to fetch data from kids-page.json");
 
+    const unisexResponse = await fetch("../js/public/unisex-page.json");
+    if(!unisexResponse.ok) throw new Error("Failed to fetch data from unisex-page.json");
+
     const heProducts = await heResponse.json();
     const sheProducts = await sheResponse.json();
     const kidsProducts = await kidsResponse.json();
-    return [...heProducts, ...sheProducts, ...kidsProducts]; // Combine products from both files
+    const unisexProducts = await unisexResponse.json();
+
+    return [...heProducts, ...sheProducts, ...kidsProducts, ...unisexProducts]; // Combine products from both files
   } catch (error) {
     console.error("Error fetching product data:", error);
     return [];

@@ -50,7 +50,7 @@ async function loadChudithars() {
     chuditharProducts.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
-      productCard.setAttribute("data-type", product.type);
+      productCard.setAttribute("data-type", product.id);
     
       // Create a link for the product card
       const productLink = document.createElement("a");
@@ -58,7 +58,7 @@ async function loadChudithars() {
       productLink.style.textDecoration = "none";
     
       const productImage = document.createElement("img");
-      productImage.src = product.image || "default-image.jpg";
+      productImage.src = product.image || "";
       productImage.alt = product.alt || product.name || "Product Image";
     
       const productName = document.createElement("h2");
@@ -75,14 +75,14 @@ async function loadChudithars() {
     
       // Check if the product is already in the cart
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existingItem = cart.find((item) => item.id === product.id);
+      const existingItem = cart.find((item) => item.name === product.name);
     
       if (existingItem) {
         addButton.textContent = "Visit Cart";
-        addButton.onclick = () => navigateToCart();
+        addButton.onclick = () => navigateToCart;
       } else {
         addButton.textContent = "Add to Cart";
-        addButton.onclick = () => addToCart(product, addButton); // Pass button
+        addButton.onclick = () => addToCart(product); // Pass button
       }
     
       // Append product details to the link

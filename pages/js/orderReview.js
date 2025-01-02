@@ -158,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function clearCartAfterOrder() {
+        
         localStorage.removeItem('cart'); // Clear the cart from localStorage
         console.log('Cart cleared successfully.');
     }
