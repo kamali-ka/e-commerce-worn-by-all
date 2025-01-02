@@ -197,42 +197,69 @@ function displayErrorMessage(message) {
 }
 
 // Function to add product to cart
-function addToCart(product, addButton) {
-  const selectedSize = localStorage.getItem("selectedSize");
+function addToCart(item) {
+  const user = auth.currentUser;
+  console.log("Checking user state in addToCart:", user);
 
-  if (!selectedSize) {
-    // Show an error or prompt the user to select a size
-    alert("Please select a size before adding the product to the cart.");
-    return;
-  }
+  if (user) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = cart.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
 
-  // Proceed with adding the product to the cart
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1;
+    } else {
+      cart.push({ ...item, quantity: 1 });
+    }
 
-  // Add selected size to the product data
-  const productWithSize = { ...product, size: selectedSize, quantity: 1 };
-
-  const existingItemIndex = cart.findIndex((item) => item.id === product.id && item.size === selectedSize);
-
-  if (existingItemIndex > -1) {
-    // Increment quantity if the item already exists in the cart with the same size
-    cart[existingItemIndex].quantity += 1;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showPopup("Item added to cart successfully!");
   } else {
-    // Add new item to the cart with the selected size
-    cart.push(productWithSize);
+    console.log("User is not signed in. Redirecting...");
+
+    const currentURL = window.location.href;
+    const itemToStore = JSON.stringify(item);
+
+    // Store current URL and item to add after login
+    localStorage.setItem("redirectAfterLogin", currentURL);
+    localStorage.setItem("itemToAdd", itemToStore);
+
+    if (!currentURL.includes("signup-signin.html")) {
+      window.location.href = "../html/signup-signin.html";
+    }
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount(); // Update the cart count
-
-  // Change button to visit cart
-  addButton.textContent = "Visit Cart";
-  addButton.onclick = () => {
-    window.location.href = "../html/cartPage.html"; // Redirect to cart page
-  };
-
-  showPopup("Successfully added to your cart!");
 }
+async function handlePostLoginRedirect() {
+  const redirectURL = localStorage.getItem("redirectAfterLogin");
+  const itemToAdd = localStorage.getItem("itemToAdd");
+
+  if (redirectURL && itemToAdd) {
+    const parsedItem = JSON.parse(itemToAdd);
+    
+    // Add item to cart first
+    addToCart(parsedItem);
+
+    // Clear stored data
+    localStorage.removeItem("redirectAfterLogin");
+    localStorage.removeItem("itemToAdd");
+
+    // Redirect to the previous page
+    window.location.href = redirectURL || "../../index.html";  // Use stored URL, fallback to default
+  }
+}
+
+// Listen for Authentication State Changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User signed in:", user);
+    // Add the item to cart and redirect immediately
+    handlePostLoginRedirect();
+  } else {
+    console.log("No user signed in.");
+  }
+});
 
 // Function to show the popup message
 function showPopup(message) {
@@ -266,23 +293,6 @@ function showPopup(message) {
         window.location.href = "../html/signup-signin.html"; // Redirect to login/signup page
       });
     }
-        
-  
-
-  // Function to show the popup message
-  function showPopup(message) {
-    const popupContainer = document.getElementById("popupContainer");
-    const popupMessage = popupContainer.querySelector(".popup-message");
-
-    popupMessage.textContent = message; // Set the message
-    popupContainer.classList.add("show"); // Show the popup
-
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popupContainer.classList.remove("show");
-    }, 3000);
-  }
-
   // Function to update cart count
  // Function to update the cart count (counting unique products)
 function updateCartCount() {

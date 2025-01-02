@@ -175,46 +175,68 @@ function isInCart(product) {
 // Function to add a product to the cart
 // Function to add a product to the cart
 function addToCart(item) {
-  // Check current authentication state
   const user = auth.currentUser;
-
   console.log("Checking user state in addToCart:", user);
-  if (user) {
-    // User is authenticated; proceed to add item to cart
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+  if (user) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingItemIndex = cart.findIndex(
       (cartItem) => cartItem.id === item.id
     );
+
     if (existingItemIndex > -1) {
-      // Item already exists; increment its quantity
       cart[existingItemIndex].quantity += 1;
     } else {
-      // Add a new item to the cart
       cart.push({ ...item, quantity: 1 });
     }
 
-    // Save updated cart back to localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
-    
-    // Update cart count UI
     updateCartCount();
-    
-    // Show confirmation popup
     showPopup("Item added to cart successfully!");
   } else {
-    // User is not signed in; do NOT redirect to the sign-up page if already signed up
     console.log("User is not signed in. Redirecting...");
-    const currentURL = window.location.href;
 
-    // Redirect only if the user is on a page where sign-in is required (e.g., cart page or product details page)
+    const currentURL = window.location.href;
+    const itemToStore = JSON.stringify(item);
+
+    // Store current URL and item to add after login
+    localStorage.setItem("redirectAfterLogin", currentURL);
+    localStorage.setItem("itemToAdd", itemToStore);
+
     if (!currentURL.includes("signup-signin.html")) {
       window.location.href = "../html/signup-signin.html";
-    } else {
-      console.log("Already on the sign-up/sign-in page. No redirection.");
     }
   }
 }
+async function handlePostLoginRedirect() {
+  const redirectURL = localStorage.getItem("redirectAfterLogin");
+  const itemToAdd = localStorage.getItem("itemToAdd");
+
+  if (redirectURL && itemToAdd) {
+    const parsedItem = JSON.parse(itemToAdd);
+    
+    // Add item to cart first
+    addToCart(parsedItem);
+
+    // Clear stored data
+    localStorage.removeItem("redirectAfterLogin");
+    localStorage.removeItem("itemToAdd");
+
+    // Redirect to the previous page
+    window.location.href = redirectURL || "../../index.html";  // Use stored URL, fallback to default
+  }
+}
+
+// Listen for Authentication State Changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User signed in:", user);
+    // Add the item to cart and redirect immediately
+    handlePostLoginRedirect();
+  } else {
+    console.log("No user signed in.");
+  }
+});
 
 
 

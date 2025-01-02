@@ -112,49 +112,73 @@ function handleCartButtonClick(product, button) {
 // Function to check if a product is already in the cart
 function isInCart(product) {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  return cart.some((item) => item.name === product.name);
+  return cart.some((item) => item.id === product.id);
 }
 
 // Function to add a product to the cart
 function addToCart(item) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("User is signed in:", user);
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const user = auth.currentUser;
+  console.log("Checking user state in addToCart:", user);
 
-      // Check if the item already exists in the cart
-      const existingItemIndex = cart.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
-      if (existingItemIndex > -1) {
-        // Update quantity if item exists
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        // Add new item to the cart
-        cart.push({ ...item, quantity: 1 });
-      }
+  if (user) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = cart.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      // Update the button text and behavior
-      const addButton = document.querySelector(
-        `.product-card[data-id="${item.id}"] button`
-      );
-      console.log(addButton);
-
-      if (addButton) {
-        addButton.textContent = "Visit Cart"; // Change button text
-        addButton.onclick = navigateToCart; // Change button behavior
-      }
-
-      // Show popup message
-      showPopup("Item added to cart successfully!");
-      updateCartCount();
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1;
     } else {
+      cart.push({ ...item, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showPopup("Item added to cart successfully!");
+  } else {
+    console.log("User is not signed in. Redirecting...");
+
+    const currentURL = window.location.href;
+    const itemToStore = JSON.stringify(item);
+
+    // Store current URL and item to add after login
+    localStorage.setItem("redirectAfterLogin", currentURL);
+    localStorage.setItem("itemToAdd", itemToStore);
+
+    if (!currentURL.includes("signup-signin.html")) {
       window.location.href = "../html/signup-signin.html";
     }
-  });
+  }
 }
+async function handlePostLoginRedirect() {
+  const redirectURL = localStorage.getItem("redirectAfterLogin");
+  const itemToAdd = localStorage.getItem("itemToAdd");
+
+  if (redirectURL && itemToAdd) {
+    const parsedItem = JSON.parse(itemToAdd);
+    
+    // Add item to cart first
+    addToCart(parsedItem);
+
+    // Clear stored data
+    localStorage.removeItem("redirectAfterLogin");
+    localStorage.removeItem("itemToAdd");
+
+    // Redirect to the previous page
+    window.location.href = redirectURL || "../../index.html";  // Use stored URL, fallback to default
+  }
+}
+
+// Listen for Authentication State Changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User signed in:", user);
+    // Add the item to cart and redirect immediately
+    handlePostLoginRedirect();
+  } else {
+    console.log("No user signed in.");
+  }
+});
 
 // Function to update the cart count
 // Function to update the cart count (counting unique products)
@@ -174,25 +198,25 @@ function updateCartCount() {
 }
 
 // Function to display the popup message
-// function showPopup(message) {
-//   const popupContainer = document.getElementById("popupContainer");
-//   const popupMessage = popupContainer.querySelector(".popup-message");
+function showPopup(message) {
+  const popupContainer = document.getElementById("popupContainer");
+  const popupMessage = popupContainer.querySelector(".popup-message");
 
-//   // Set the message
-//   popupMessage.textContent = message;
+  // Set the message
+  popupMessage.textContent = message;
 
-//   // Ensure the popup is styled for success
-//   popupMessage.style.backgroundColor = "green"; // Set to green for success
-//   popupMessage.style.color = "white";
+  // Ensure the popup is styled for success
+  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.color = "white";
 
-//   // Show the popup
-//   popupContainer.classList.add("show");
+  // Show the popup
+  popupContainer.classList.add("show");
 
-//   // Hide the popup after 3 seconds
-//   setTimeout(() => {
-//     popupContainer.classList.remove("show");
-//   }, 3000);
-// }
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popupContainer.classList.remove("show");
+  }, 3000);
+}
 // Function to search for products
 function searchProducts() {
   const searchBarValue = document

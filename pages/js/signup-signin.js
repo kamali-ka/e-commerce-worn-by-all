@@ -324,7 +324,7 @@ window.handleSignup = async function () {
         localStorage.getItem("username") || user.email.split("@")[0];
       const email = user.email;
       const phone = localStorage.getItem("phone");
-      window.location.href = "../../index.html";
+      window.location.href = localStorage.getItem("redirectAfterLogin") || "../../index.html";
 
       document.getElementById("profile-username").textContent = username;
       document.getElementById("profile-email").textContent = email;

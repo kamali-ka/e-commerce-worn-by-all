@@ -137,38 +137,69 @@ if (searchBar) {
 
 // Add product to the cart
 // Add product to the cart
-function addToCart(item, buttonElement) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function addToCart(item) {
+  const user = auth.currentUser;
+  console.log("Checking user state in addToCart:", user);
 
-      // Check if the item already exists in the cart
-      const existingItemIndex = cart.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
+  if (user) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = cart.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
 
-      if (existingItemIndex > -1) {
-        // Update quantity if item exists
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        // Add new item to the cart
-        cart.push({ ...item, quantity: 1 });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      // Show popup message
-      showPopup("Item added to cart successfully!");
-      updateCartCount();
-
-      // Change the clicked button's text to "Visit Cart"
-      buttonElement.textContent = "Visit Cart";
-      buttonElement.onclick = () => navigateToCart(); // Update the button's click behavior
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += 1;
     } else {
+      cart.push({ ...item, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    showPopup("Item added to cart successfully!");
+  } else {
+    console.log("User is not signed in. Redirecting...");
+
+    const currentURL = window.location.href;
+    const itemToStore = JSON.stringify(item);
+
+    // Store current URL and item to add after login
+    localStorage.setItem("redirectAfterLogin", currentURL);
+    localStorage.setItem("itemToAdd", itemToStore);
+
+    if (!currentURL.includes("signup-signin.html")) {
       window.location.href = "../html/signup-signin.html";
     }
-  });
+  }
 }
+async function handlePostLoginRedirect() {
+  const redirectURL = localStorage.getItem("redirectAfterLogin");
+  const itemToAdd = localStorage.getItem("itemToAdd");
+
+  if (redirectURL && itemToAdd) {
+    const parsedItem = JSON.parse(itemToAdd);
+    
+    // Add item to cart first
+    addToCart(parsedItem);
+
+    // Clear stored data
+    localStorage.removeItem("redirectAfterLogin");
+    localStorage.removeItem("itemToAdd");
+
+    // Redirect to the previous page
+    window.location.href = redirectURL || "../../index.html";  // Use stored URL, fallback to default
+  }
+}
+
+// Listen for Authentication State Changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User signed in:", user);
+    // Add the item to cart and redirect immediately
+    handlePostLoginRedirect();
+  } else {
+    console.log("No user signed in.");
+  }
+});
 
 
 // Function to show the popup message
