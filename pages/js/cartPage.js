@@ -207,7 +207,9 @@ function handleBuyNow() {
 
   // Save cart details for checkout
   setLocalStorage("checkoutItems", cart);
-
+  localStorage.setItem('isFromCartPage',true);
+  window.location.href='../html/orderReview.html'
+  
   // Redirect to the address page
   window.location.href = "../html/orderReview.html"; // Update the path as needed
 }

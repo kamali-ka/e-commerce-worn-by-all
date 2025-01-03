@@ -213,7 +213,7 @@ function showPopup(message) {
   popupMessage.textContent = message;
 
   // Ensure the popup is styled for success
-  popupMessage.style.backgroundColor = "green"; // Set to green for success
+  popupMessage.style.backgroundColor = "green"; 
   popupMessage.style.color = "white";
 
   // Show the popup
@@ -225,7 +225,6 @@ function showPopup(message) {
   }, 1500);
 }
 
-// Update cart count
 // Function to update the cart count (counting unique products)
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];

@@ -360,3 +360,8 @@ function updateCartCount() {
   // Initialize cart count on page load
   updateCartCount();
 });
+
+document.getElementById("buyNowButton").addEventListener('click',()=>{
+    localStorage.setItem('isFromCartPage',false);
+    window.location.href='../html/orderReview.html'
+})

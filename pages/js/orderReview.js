@@ -154,7 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Clear the cart
-        clearCartAfterOrder();
+        
+        if(localStorage.getItem('isFromCartPage')=='true') clearCartAfterOrder();
     }
 
     function clearCartAfterOrder() {
