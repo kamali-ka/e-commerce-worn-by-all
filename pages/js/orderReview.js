@@ -176,13 +176,12 @@ document.addEventListener('DOMContentLoaded', function () {
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
         orders.push(orderDetails);
         localStorage.setItem('orders', JSON.stringify(orders));
-    
+        if(localStorage.getItem("isFromCartPage")=="true") clearCartAfterOrder()
         // Redirect to the order history page
         window.location.href = '../html/orderHistory.html';
     }
     
     function clearCartAfterOrder() {
-        
         localStorage.removeItem('cart'); // Clear the cart from localStorage
         console.log('Cart cleared successfully.');
     }
