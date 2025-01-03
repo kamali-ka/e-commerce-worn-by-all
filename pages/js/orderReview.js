@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const userName = localStorage.getItem('username') || '';
     const userPhone = localStorage.getItem('phone') || '';
     const userAddress = localStorage.getItem('address') || ''; // Assuming 'address' is stored in localStorage
-    console.log('Retrieved address:', userAddress); // Check address value
-    console.log('Retrieved name:', userName); // Check name value
+   /*  console.log('Retrieved address:', userAddress); // Check address value
+    console.log('Retrieved name:', userName); // Check name value */
 
 
     // Set these values to the address fields in the checkout page
@@ -152,12 +152,35 @@ document.addEventListener('DOMContentLoaded', function () {
         if (orderConfirmationPopup) {
             orderConfirmationPopup.style.display = 'flex';
         }
-
-        // Clear the cart
-        
-        if(localStorage.getItem('isFromCartPage')=='true') clearCartAfterOrder();
+    
+        // Get the current order ID from localStorage or initialize it to 1
+        let orderId = localStorage.getItem('orderId');
+        if (!orderId) {
+            orderId = 1;
+        } else {
+            orderId = parseInt(orderId) + 1; // Increment the order ID
+        }
+    
+        // Store the new order ID back into localStorage
+        localStorage.setItem('orderId', orderId);
+    
+        const orderDetails = {
+            orderId: `ORD-${orderId}`,  // Use the incremented order ID
+            date: new Date().toLocaleDateString(),
+            name: document.getElementById('full-name').value,
+            address: document.getElementById('address-line-1').value,
+            payment: document.querySelector('input[name="payment_method"]:checked')?.value || 'COD'
+        };
+    
+        // Store the order details in localStorage
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(orderDetails);
+        localStorage.setItem('orders', JSON.stringify(orders));
+    
+        // Redirect to the order history page
+        window.location.href = '../html/orderHistory.html';
     }
-
+    
     function clearCartAfterOrder() {
         
         localStorage.removeItem('cart'); // Clear the cart from localStorage

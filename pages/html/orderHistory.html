@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="../css/orderHistory.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Your Order History</h1>
+        </div>
+    </header>
+
+    <div id="order-history" class="order-history-container">
+        <!-- Orders will dynamically appear here -->
+    </div>
+
+    <!-- Undo Notification (Hidden initially) -->
+    <div id="undo-notification" class="undo-notification" style="display: none;">
+        <p>Order deleted. <button onclick="undoDelete()">Undo</button></p>
+    </div>
+
+    <script src="../js/orderHistory.js"></script>
+</body>
+</html>
