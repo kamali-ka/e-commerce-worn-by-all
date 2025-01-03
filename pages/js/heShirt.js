@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,19 +15,22 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
 
 // Function to load shirts from JSON file
 async function loadShirts() {
   try {
-    const response = await fetch("/pages/js/public/he-page.json");
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
-      );
+    // Fetch data from Firebase Realtime Database
+    const dbRef = ref(database, "he-page"); // Reference to your data in Firebase
+    const snapshot = await get(dbRef);
+
+    if (!snapshot.exists()) {
+      throw new Error("No products found in the database.");
     }
 
-    const products = await response.json();
+    const products = snapshot.val(); // Get the products array
+
     const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
@@ -43,6 +44,7 @@ async function loadShirts() {
     const shirtProducts = products.filter(
       (product) => product.type === "Shirts"
     );
+
     shirtProducts.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
@@ -92,6 +94,19 @@ async function loadShirts() {
     console.error("Error loading shirts:", error.message);
   }
 }
+
+// Other functions like searchProducts(), addToCart(), etc., remain unchanged.
+
+// Load page content on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  loadShirts();
+  updateCartCount();
+
+  const popupContainer = document.getElementById("popupContainer");
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
 
 // Search products
 function searchProducts() {
@@ -315,3 +330,5 @@ if (toggleSidebarButton) {
     }
   });
 }
+const response = await fetch("/pages/js/public/he-page.json").then(res=>res.json('he-page')).then(data=>data);
+console.log(response)

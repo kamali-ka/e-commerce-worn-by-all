@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,7 +15,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
+
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
@@ -57,15 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to load and display all products
 async function loadProducts() {
   try {
-    const response = await fetch("../js/public/she-page.json");
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const products = await response.json();
-    const productGrid = document.getElementById("productGrid");
+   const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
+           const snapshot = await get(dbRef);
+           if (!snapshot.exists()) {
+             throw new Error("No products found in the database.");
+           }
+   
+           const products = snapshot.val(); // Get the products array
+       const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
       console.error("Element with ID 'productGrid' not found.");
@@ -120,6 +119,17 @@ async function loadProducts() {
     }
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  updateCartCount();
+
+  const popupContainer = document.getElementById("popupContainer");
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
+
 
 // Function to filter products by type
 function filterByType() {

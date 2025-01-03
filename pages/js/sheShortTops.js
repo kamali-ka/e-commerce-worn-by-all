@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,19 +15,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
 
 // Function to load Chudithars from JSON file
 async function loadShortTops() {
     try {
-      const response = await fetch("/pages/js/public/she-page.json");
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch products: ${response.status} ${response.statusText}`
-        );
-      }
-  
-      const products = await response.json();
+       const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
+          const snapshot = await get(dbRef);
+      
+          if (!snapshot.exists()) {
+            throw new Error("No products found in the database.");
+          }
+      
+          const products = snapshot.val(); // Get the products array
+
       const productGrid = document.getElementById("productGrid");
       if (!productGrid) {
         console.error("Product grid element not found!");
@@ -38,8 +38,8 @@ async function loadShortTops() {
       productGrid.innerHTML = ""; // Clear existing products
   
       // Filter and display Short Tops
-      const shortTopProducts = products.filter(
-        (product) => product.type.toLowerCase() === "short tops".toLowerCase()
+      const shortTopProducts = products['she-page'].filter(
+        (product) => product.type=== "Short tops"
       );
   
       if (shortTopProducts.length === 0) {
@@ -98,13 +98,18 @@ async function loadShortTops() {
       });
     } catch (error) {
       console.error("Error loading Short Tops:", error.message);
-      const productGrid = document.getElementById("productGrid");
-      if (productGrid) {
-        productGrid.textContent = "Failed to load Short Tops.";
-      }
     }
   }
-  
+  // Load page content on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  loadShortTops();
+  updateCartCount();
+
+  const popupContainer = document.getElementById("popupContainer");
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
   // Load Short Tops on page load
   document.addEventListener("DOMContentLoaded", () => {
     loadShortTops();
@@ -300,3 +305,5 @@ document.getElementById("toggleSidebar").addEventListener("click", () => {
 function navigateToCart() {
   window.location.href = "../html/cartPage.html";
 }
+const response = await fetch("/pages/js/public/she-page.json").then(res=>res.json('she-page')).then(data=>data);
+console.log(response)

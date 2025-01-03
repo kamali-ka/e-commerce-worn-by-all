@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,40 +15,43 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
+
 
 // Function to load Chudithars from JSON file
 async function loadChudithars() {
   try {
-    const response = await fetch("/pages/js/public/she-page.json");
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
-      );
-    }
+    const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
+        const snapshot = await get(dbRef);
+        if (!snapshot.exists()) {
+          throw new Error("No products found in the database.");
+        }
 
-    const products = await response.json();
+        const products = snapshot.val(); // Get the products array
+
     const productGrid = document.getElementById("productGrid");
     if (!productGrid) {
       console.error("Product grid element not found!");
       return;
     }
     productGrid.innerHTML = ""; // Clear existing products
-
-    // Filter and display Chudithars
-    const chuditharProducts = products.filter(
-      (product) => product.type.toLowerCase() === "chudithar"
+    console.log(products);
+    
+    const chuditharProducts = products['she-page'].filter(
+      (product) => product.type === "Chudithar"
     );
+    
 
     if (chuditharProducts.length === 0) {
       productGrid.textContent = "No Chudithars found!";
       return;
-    }
+    } 
 
     chuditharProducts.forEach((product) => {
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
-      productCard.setAttribute("data-type", product.id);
+      productCard.setAttribute("data-id", product.id);
     
       // Create a link for the product card
       const productLink = document.createElement("a");
@@ -98,15 +99,21 @@ async function loadChudithars() {
     });
   } catch (error) {
     console.error("Error loading Chudithars:", error.message);
-    const productGrid = document.getElementById("productGrid");
-    if (productGrid) {
-      productGrid.textContent = "Failed to load Chudithars.";
-    }
   }
 }
+// Load page content on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  loadChudithars();
+  updateCartCount();
+
+  const popupContainer = document.getElementById("popupContainer");
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
 
 // Load Chudithars on page load
-document.addEventListener("DOMContentLoaded", () => {
+/* document.addEventListener("DOMContentLoaded", () => {
   loadChudithars();
   updateCartCount();
   const popupContainer = document.getElementById("popupContainer");
@@ -114,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
   }
 });
-
+ */
 // Search products
 function searchProducts() {
   const searchBarValue = document
@@ -251,3 +258,5 @@ if (toggleSidebarButton) {
     }
   });
 }
+const response = await fetch("/pages/js/public/she-page.json").then(res=>res.json('she-page')).then(data=>data);
+console.log(response)

@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,19 +15,21 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
 // Function to load and display only shirts (or all products)
 async function loadProducts() {
   try {
     // Fetch the product data from the JSON file
-    const response = await fetch("../js/public/he-page.json"); 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
-      );
+   const dbRef = ref(database, "he-page");
+   const snapshot = await get(dbRef);
+
+    if (!snapshot.exists()) {
+      throw new Error( "No products found in the database");
     }
 
-    const products = await response.json();
+    const products = snapshot.val();
+
     const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
@@ -86,13 +86,19 @@ async function loadProducts() {
     });
   } catch (error) {
     console.error("Error loading jeans:", error.message);
-    const productGrid = document.getElementById("productGrid");
-    if (productGrid) {
-      productGrid.innerHTML =
-        "<p>Failed to load products. Please try again later.</p>";
-    }
   }
 }
+
+//Load page content on DOMContentLoaded
+document.addEventListener("DOMContentLoaded",()=>{
+  loadProducts();
+  updateCartCount();
+  const popupContainer = document.getElementById("popupContainer");
+  if(popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
+
 
 // Function to redirect to the product detail page
 function redirectToProductDetail(productId) {
@@ -342,3 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Search bar element not found.");
   }
 });
+
+const response = await fetch("/pages/js/public/he-page.json").then(res=>res.json('he-page')).then(data=>data);
+console.log(response);

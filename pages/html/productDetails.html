@@ -28,33 +28,33 @@
     <div class="product-info">
       <h1 id="productName">Product Name</h1>
       <p id="productPrice">$0.00</p>
-     
       <p id="stockStatus"></p> <!-- Stock status here -->
       <div id="productRatings">★★★★★</div>
       <p id="productDescription">Product description will go here.</p>
-    
-    <!-- Product Sizes Section -->
-<div id="productSizes" class="product-sizes">
-  <p>Select Size:</p>
-  <div id="sizeOptions" class="size-options">
-    <!-- Dynamically added size options will appear here -->
-  </div>
-</div>
-<!-- Shipping Features Section -->
-<div class="shipping-features">
-  <div class="feature" id="cashOnDelivery">
-    <i class="fa-solid fa-credit-card"></i>
-    <span>Cash on Delivery Available</span>
-  </div>
-  <div class="feature" id="returnsAndExchanges">
-    <i class="fa-solid fa-undo-alt"></i>
-    <span>7 Days Returns & Exchanges Available</span>
-  </div>
-  <div class="feature" id="isOriginal">
-    <i class="fa-solid fa-shield-alt"></i>
-    <span>100% Original Products</span>
-  </div>
-</div>
+
+      <!-- Product Sizes Section -->
+      <div id="productSizes" class="product-sizes">
+        <p>Select Size:</p>
+        <div id="sizeOptions" class="size-options">
+          <!-- Dynamically added size options will appear here -->
+        </div>
+      </div>
+
+      <!-- Shipping Features Section -->
+      <div class="shipping-features">
+        <div class="feature" id="cashOnDelivery">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Cash on Delivery Available</span>
+        </div>
+        <div class="feature" id="returnsAndExchanges">
+          <i class="fa-solid fa-undo-alt"></i>
+          <span>7 Days Returns & Exchanges Available</span>
+        </div>
+        <div class="feature" id="isOriginal">
+          <i class="fa-solid fa-shield-alt"></i>
+          <span>100% Original Products</span>
+        </div>
+      </div>
 
       <!-- Action Buttons -->
       <button id="addToCartButton">Add to Cart</button>
@@ -62,19 +62,16 @@
     </div>
   </div>
 
+  <!-- Error Message Display (Add this to show error messages) -->
+  <div id="product-details"></div> <!-- This div will hold the error message -->
+
   <!-- Popup Container (For messages) -->
   <div id="popupContainer" class="popup-container">
     <div class="popup-message">Item added to cart successfully!</div>
   </div>
 
-  <!-- Cart Modal (For cart actions) -->
-  <div id="cartModal" class="cart-modal">
-    <div class="modal-content">
-      <p id="modalMessage">Successfully added to cart!</p>
-    </div>
-  </div>
-
   <!-- External JavaScript -->
   <script type="module" src="../js/productDetails.js"></script>
 </body>
+
 </html>

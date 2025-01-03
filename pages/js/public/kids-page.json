@@ -1,4 +1,4 @@
-[
+{"kids-page":[
   {
     "id": "200",
     "type": "co-ords",
@@ -143,3 +143,4 @@
     "image":"/assets/images/img_onesie2.jpg"
   } 
 ]
+}

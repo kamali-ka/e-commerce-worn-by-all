@@ -1,30 +1,58 @@
-// Fetch data from both JSON files
+// Import Firebase functions from the modular SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
+  authDomain: "wornbyall-926f5.firebaseapp.com",
+  projectId: "wornbyall-926f5",
+  storageBucket: "wornbyall-926f5.appspot.com",
+  messagingSenderId: "770771226995",
+  appId: "1:770771226995:web:15636d6b9e17d27611b506",
+  measurementId: "G-B6PER21YN1",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Export Firebase database references and the 'get' function for use
+export { database, ref, get };
+
+
+
+
+
+// Import the necessary functions from firebase-config.js
+// import { database, ref, get } from './firebase-config.js'; // Ensure the correct path
+
+// Fetch product data from Firebase Realtime Database
 async function fetchProductData() {
   try {
-    const heResponse = await fetch("../js/public/he-page.json"); // Fetch from he-page.json
-    if (!heResponse.ok) throw new Error("Failed to fetch data from he-page.json");
+    const productCategories = ['he-page', 'she-page', 'kids-page', 'unisex-page'];
+    let allProducts = [];
 
-    const sheResponse = await fetch("../js/public/she-page.json"); // Fetch from she-page.json
-    if (!sheResponse.ok) throw new Error("Failed to fetch data from she-page.json");
-    
-    const kidsResponse = await fetch("../js/public/kids-page.json");
-    if(!kidsResponse.ok) throw new Error("Failed to fetch data from kids-page.json");
+    for (let category of productCategories) {
+      // Use the new ref() and get() functions
+      const snapshot = await get(ref(database, category)); // Correct usage of ref and get in Firebase v9+
+      
+      if (snapshot.exists()) {
+        const categoryProducts = snapshot.val();
+        allProducts = [...allProducts, ...Object.values(categoryProducts)];
+      } else {
+        console.error(`No data found for category: ${category}`);
+      }
+    }
 
-    const unisexResponse = await fetch("../js/public/unisex-page.json");
-    if(!unisexResponse.ok) throw new Error("Failed to fetch data from unisex-page.json");
-
-    const heProducts = await heResponse.json();
-    const sheProducts = await sheResponse.json();
-    const kidsProducts = await kidsResponse.json();
-    const unisexProducts = await unisexResponse.json();
-
-    return [...heProducts, ...sheProducts, ...kidsProducts, ...unisexProducts]; // Combine products from both files
+    return allProducts; // Return the combined products
   } catch (error) {
-    console.error("Error fetching product data:", error);
+    console.error("Error fetching product data from Firebase:", error);
     return [];
   }
 }
 
+// Other existing functions for handling cart and rendering cart items
 // Helper to get/set localStorage safely
 function getLocalStorage(key, defaultValue = []) {
   try {

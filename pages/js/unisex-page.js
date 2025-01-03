@@ -1,8 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -17,7 +15,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
+
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
@@ -49,14 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to load and display all products
 async function loadProducts() {
   try {
-    const response = await fetch("../js/public/unisex-page.json");
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
-      );
+    const dbRef = ref(database,"unisex-page");
+    const snapshot = await get(dbRef);
+    if(!snapshot.exists()){
+      throw new Error("No products found in the database.")
     }
 
-    const products = await response.json();
+    const products = snapshot.val();
     const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
@@ -112,6 +111,16 @@ async function loadProducts() {
     }
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  updateCartCount();
+
+  const popupContainer = document.getElementById("popupContainer");
+  if (popupContainer) {
+    popupContainer.classList.remove("show");
+  }
+});
 
 // Function to filter products by type
 function filterByType() {
@@ -256,3 +265,6 @@ function showPopup(message) {
     popupContainer.classList.remove("show");
   }, 3000);
 }
+
+const response = await fetch("/pages/js/public/unisex-page.json").then(res=>res.json('unisex-page')).then(data=>data);
+console.log(response)
