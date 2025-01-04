@@ -9,14 +9,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const codRadio = document.getElementById('cod');
     const closePopupBtn = document.getElementById('close-popup-btn');
     const orderConfirmationPopup = document.getElementById('order-confirmation-popup');
+    const cardExpiryField = document.getElementById('card-expiry');
+
+    // Expiry date auto-slash logic
+    if (cardExpiryField) {
+        cardExpiryField.addEventListener('input', function (e) {
+            const value = this.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length >= 2) {
+                this.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            } else {
+                this.value = value;
+            }
+        });
+    }
 
     // Fetch user details from localStorage
     const userName = localStorage.getItem('username') || '';
     const userPhone = localStorage.getItem('phone') || '';
     const userAddress = localStorage.getItem('address') || ''; // Assuming 'address' is stored in localStorage
-   /*  console.log('Retrieved address:', userAddress); // Check address value
-    console.log('Retrieved name:', userName); // Check name value */
-
+    console.log('Retrieved address:', userAddress); // Check address value
+    console.log('Retrieved name:', userName); // Check name value
 
     // Set these values to the address fields in the checkout page
     const fullNameField = document.getElementById('full-name');
@@ -110,17 +122,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function validateAddress() {
         let isValid = true;
-
+    
         const validateField = (fieldId, errorId, message) => {
             const field = document.getElementById(fieldId);
             const errorElement = document.getElementById(errorId);
             const isFieldValid = field?.value.trim();
             if (errorElement) {
                 errorElement.innerText = isFieldValid ? '' : message;
+                errorElement.style.color = isFieldValid ? '' : 'red';  // Show error in red
             }
             return !!isFieldValid;
         };
-
+    
         isValid = isValid && validateField('full-name', 'name-error', 'Full Name is required.');
         isValid = isValid && validateField('address-line-1', 'address1-error', 'Address Line 1 is required.');
         isValid = isValid && validateField('city', 'city-error', 'City is required.');
@@ -128,25 +141,78 @@ document.addEventListener('DOMContentLoaded', function () {
         isValid = isValid && validateField('postal-code', 'postal-error', 'Enter a valid 6-digit postal code.') &&
             /^[0-9]{6}$/.test(document.getElementById('postal-code')?.value);
         isValid = isValid && validateField('country', 'country-error', 'Country is required.');
-
+    
         return isValid;
     }
+    
 
     function validatePayment() {
         const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+        
         if (!paymentMethod) {
-            alert('Please select a payment method.');
+            displayErrorMessage('payment-method-error', 'Please select a payment method.');
             return false;
         }
-
-        if (paymentMethod.value === 'upi' && !document.getElementById('upi-id')?.value) {
-            alert('Please enter your UPI ID.');
-            return false;
+        clearErrorMessage('payment-method-error');  // Clear any previous error message
+    
+        // Validate UPI
+        if (paymentMethod.value === 'upi') {
+            const upiId = document.getElementById('upi-id')?.value;
+            if (!upiId || !/^[\w.-]+@[\w.-]+$/.test(upiId)) {
+                displayErrorMessage('upi-id-error', 'Please enter a valid UPI ID.');
+                return false;
+            }
+            clearErrorMessage('upi-id-error');
         }
-
+    
+        // Validate Card
+        if (paymentMethod.value === 'card') {
+            const cardNumberField = document.getElementById('card-number');
+            const cardExpiryField = document.getElementById('card-expiry');
+            const cardCvvField = document.getElementById('card-cvv');
+    
+            const cardNumber = cardNumberField.value;
+            if (!cardNumber || cardNumber.length !== 16) {
+                displayErrorMessage('card-number-error', 'Please enter a valid 16-digit card number.');
+                return false;
+            }
+            clearErrorMessage('card-number-error');
+    
+            // Validate Expiry Date (MM/YY)
+            const cardExpiry = cardExpiryField?.value.trim();
+            if (!cardExpiry || !/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(cardExpiry)) {
+                displayErrorMessage('card-expiry-error', 'Please enter a valid expiration date (MM/YY).');
+                return false;
+            }
+            clearErrorMessage('card-expiry-error');
+    
+            // Validate CVV (3 digits)
+            const cardCvv = cardCvvField?.value.trim();
+            if (!cardCvv || !/^\d{3}$/.test(cardCvv)) {
+                displayErrorMessage('card-cvv-error', 'Please enter a valid 3-digit CVV.');
+                return false;
+            }
+            clearErrorMessage('card-cvv-error');
+        }
         return true;
     }
-
+    
+    function displayErrorMessage(errorId, message) {
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+            errorElement.innerText = message;
+            errorElement.style.color = 'red';  // Display the error message in red
+        }
+    }
+    
+    function clearErrorMessage(errorId) {
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+            errorElement.innerText = '';  // Clear any previous error message
+        }
+    }
+    
+    
     function confirmOrder() {
         // Show the pop-up
         if (orderConfirmationPopup) {

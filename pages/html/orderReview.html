@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label for="postal-code">Postal Code</label>
-                        <input type="text" id="postal-code" placeholder="6-digit PIN code" required>
+                        <input type="text" id="postal-code" placeholder="6-digit PIN code" maxlength="6" required>
                         <span class="error-message" id="postal-error"></span>
                     </div>
                     <div class="form-group">
@@ -72,17 +72,17 @@
             </div>
 
             <!-- Payment Step -->
-            <!-- Payment Step -->
             <div class="payment-step">
                 <h3>Enter Payment Details</h3>
                 <form id="payment-form">
                     <div class="payment-option">
-                        <input type="radio" id="upi" name="payment_method" value="upi" required>
+                        <input type="radio" id="upi" name="payment_method" value="upi">
                         <label for="upi">UPI</label>
                     </div>
                     <div class="upi-details" id="upi-details" style="display: none;">
                         <label for="upi-id">Enter UPI ID</label>
                         <input type="text" id="upi-id" placeholder="Enter your UPI ID">
+                        <span class="error-message" id="upi-id-error"></span>
                     </div>
                     <div class="payment-option">
                         <input type="radio" id="card" name="payment_method" value="card">
@@ -90,11 +90,14 @@
                     </div>
                     <div class="card-details" id="card-details" style="display: none;">
                         <label for="card-number">Card Number</label>
-                        <input type="text" id="card-number" placeholder="Enter your card number">
+                        <input type="text" id="card-number" maxlength="16" placeholder="Card Number">
+                        <span class="error-message" id="card-number-error"></span>
                         <label for="card-expiry">Expiry Date</label>
                         <input type="text" id="card-expiry" placeholder="MM/YY">
-                        <label for="card-cvc">CVC</label>
-                        <input type="text" id="card-cvc" placeholder="CVC">
+                        <span class="error-message" id="card-expiry-error"></span>
+                        <label for="card-cvv">CVV</label>
+                        <input type="text" id="card-cvv" maxlength="3" minlength="3" placeholder="CVV">
+                        <span class="error-message" id="card-cvv-error"></span>
                     </div>
                     <div class="payment-option">
                         <input type="radio" id="cod" name="payment_method" value="cod">
@@ -105,29 +108,17 @@
                 <button type="button" id="next-btn-payment" class="next-step">Next</button>
             </div>
 
-
             <!-- Review Step -->
             <div class="review-step">
                 <h3>Review Your Order</h3>
                 <div class="order-review-container">
-                    <p><strong>Address:</strong> <span id="review-address">Please fill in your address details.</span>
-                    </p>
-                    <p><strong>Payment Method:</strong> <span id="review-payment">Please select a payment method.</span>
-                    </p>
-                    <a href="../html/orderPlaced.html"><button type="button" class="submit-btn" id="confirm-order-btn">Place Order</button></a>
+                    <p><strong>Address:</strong> <span id="review-address">Please fill in your address details.</span></p>
+                    <p><strong>Payment Method:</strong> <span id="review-payment">Please select a payment method.</span></p>
+                    <button type="button" class="submit-btn" id="confirm-order-btn">Place Order</button>
                 </div>
             </div>
-
         </div>
     </div>
-<!-- Modal for Order Confirmation -->
-<div id="order-confirmation-modal" class="modal">
-    <div id="order-confirmation-popup" style="display: none;">
-        <p>Your order has been confirmed!</p>
-        <button id="close-popup-btn">Close</button>
-    </div>
-    
-</div>
 
     <script src="../js/orderReview.js" defer></script>
 </body>
