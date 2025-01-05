@@ -324,7 +324,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-/* Simple spinner animation */
 .loader {
   position: fixed;
   top: 0;
@@ -350,5 +349,15 @@ body {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Fade-in/out Animation */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
   }
 }
