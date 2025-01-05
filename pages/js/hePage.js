@@ -53,11 +53,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
+function showLoader(){
+  document.getElementById("loader").style.display = "flex";
+}
+function hideLoader(){
+  document.getElementById("loader").style.display = "none";
+}
 // Function to load and display all products
 async function loadProducts() {
   try {
-    const dbRef = ref(database, "he-page");
+    showLoader();
+
+    //fetch data from firebase realtime database
+    const dbRef = ref(database, "he-page"); //reference to your data n firebase
     const snapshot = await get(dbRef);
 
     if (!snapshot.exists()) {
@@ -115,6 +123,9 @@ async function loadProducts() {
     });
   } catch (error) {
     console.error("Error loading products:", error.message);
+  }
+  finally{
+    hideLoader();
   }
 }
 

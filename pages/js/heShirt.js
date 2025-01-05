@@ -18,9 +18,20 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-// Function to load shirts from JSON file
+// Loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
+// Load and display shirts
 async function loadShirts() {
   try {
+    showLoader(); // Show loader while fetching data
+
     // Fetch data from Firebase Realtime Database
     const dbRef = ref(database, "he-page"); // Reference to your data in Firebase
     const snapshot = await get(dbRef);
@@ -30,7 +41,6 @@ async function loadShirts() {
     }
 
     const products = snapshot.val(); // Get the products array
-
     const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
@@ -92,11 +102,10 @@ async function loadShirts() {
     });
   } catch (error) {
     console.error("Error loading shirts:", error.message);
+  } finally {
+    hideLoader(); // Hide loader after data fetch
   }
 }
-
-// Other functions like searchProducts(), addToCart(), etc., remain unchanged.
-
 // Load page content on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
   loadShirts();

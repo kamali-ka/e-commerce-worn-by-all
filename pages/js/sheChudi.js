@@ -19,9 +19,22 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 
 
+
+
+// Loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
+
 // Function to load Chudithars from JSON file
 async function loadChudithars() {
   try {
+    showLoader(); // Show loader while fetching data
     const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
         const snapshot = await get(dbRef);
         if (!snapshot.exists()) {
@@ -100,6 +113,9 @@ async function loadChudithars() {
   } catch (error) {
     console.error("Error loading Chudithars:", error.message);
   }
+  finally {
+    hideLoader(); // Hide loader after data fetch
+  }
 }
 // Load page content on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -112,16 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Load Chudithars on page load
-/* document.addEventListener("DOMContentLoaded", () => {
-  loadChudithars();
-  updateCartCount();
-  const popupContainer = document.getElementById("popupContainer");
-  if (popupContainer) {
-    popupContainer.classList.remove("show"); // Ensure the popup is hidden on page load
-  }
-});
- */
 // Search products
 function searchProducts() {
   const searchBarValue = document

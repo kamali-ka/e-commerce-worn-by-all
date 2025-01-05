@@ -27,15 +27,24 @@ export { database, ref, get };
 // Import the necessary functions from firebase-config.js
 // import { database, ref, get } from './firebase-config.js'; // Ensure the correct path
 
-// Fetch product data from Firebase Realtime Database
+// Show and hide loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
+// Modify fetchProductData to include spinner
 async function fetchProductData() {
+  showLoader();  // Show spinner before fetching data
   try {
     const productCategories = ['he-page', 'she-page', 'kids-page', 'unisex-page'];
     let allProducts = [];
 
     for (let category of productCategories) {
-      // Use the new ref() and get() functions
-      const snapshot = await get(ref(database, category)); // Correct usage of ref and get in Firebase v9+
+      const snapshot = await get(ref(database, category));
       
       if (snapshot.exists()) {
         const categoryProducts = snapshot.val();
@@ -45,13 +54,14 @@ async function fetchProductData() {
       }
     }
 
-    return allProducts; // Return the combined products
+    return allProducts;
   } catch (error) {
     console.error("Error fetching product data from Firebase:", error);
     return [];
+  } finally {
+    hideLoader();  // Hide spinner after fetching data
   }
 }
-
 // Other existing functions for handling cart and rendering cart items
 // Helper to get/set localStorage safely
 function getLocalStorage(key, defaultValue = []) {
@@ -67,18 +77,22 @@ function setLocalStorage(key, value) {
 }
 
 // Load cart items
+// Modify loadCartItems to use the spinner
 async function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   if (!cartItemsContainer) return;
 
+  showLoader();  // Show spinner while loading cart items
+
   const cart = getLocalStorage("cart", []);
-  const products = await fetchProductData(); // Fetch data from both files
+  const products = await fetchProductData();
 
   cartItemsContainer.innerHTML = "";
 
   if (cart.length === 0) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
     updateBillSummary(cart, products);
+    hideLoader();
     return;
   }
 
@@ -90,7 +104,13 @@ async function loadCartItems() {
   });
 
   updateBillSummary(cart, products);
+  hideLoader();  // Hide spinner after rendering cart
 }
+
+// Call loadCartItems on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", loadCartItems);
+
+
 
 // Render individual cart item
 // Render individual cart item

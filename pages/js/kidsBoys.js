@@ -18,9 +18,20 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+
+// Loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
 // Function to load and display only shirts (or all products)
 async function loadProducts() {
   try {
+    showLoader(); // Show loader while fetching data
     // Fetch the product data from the JSON file
     const dbRef = ref(database, "kids-page"); // Reference to your data in Firebase
     const snapshot = await get(dbRef);
@@ -89,6 +100,9 @@ async function loadProducts() {
       productGrid.innerHTML =
         "<p>Failed to load products. Please try again later.</p>";
     }
+  }
+  finally {
+    hideLoader(); // Hide loader after data fetch
   }
 }
 

@@ -39,7 +39,7 @@
   
   <!-- Search Bar -->
   <div class="search-container">
-    <input type="text" id="searchBar" placeholder="Search for kids' clothes..." onkeyup="filterAndSearchProducts()">
+    <input type="text" id="searchBar" placeholder="Search for kid's clothes..." onkeyup="filterAndSearchProducts()">
   </div>
   
   <!-- Filters -->
@@ -59,7 +59,9 @@
   <div class="product-grid" id="productGrid">
     <!-- Dynamic content populated via JavaScript -->
   </div>
-  
+  <div id="loader" class="loader" style="display: none;">
+    <div class="spinner"></div>
+  </div>
   <script src="../js/kidsPage.js" type="module"></script>
 </body>
 </html>

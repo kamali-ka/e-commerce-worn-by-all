@@ -18,9 +18,20 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
+
+// Loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
 // Function to load Chudithars from JSON file
 async function loadShortTops() {
     try {
+      showLoader();
        const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
           const snapshot = await get(dbRef);
       
@@ -98,6 +109,8 @@ async function loadShortTops() {
       });
     } catch (error) {
       console.error("Error loading Short Tops:", error.message);
+    }finally{
+      hideLoader();
     }
   }
   // Load page content on DOMContentLoaded

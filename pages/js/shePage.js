@@ -54,17 +54,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-// Function to load and display all products
+
+// Loader functions
+function showLoader() {
+  document.getElementById("loader").style.display = "flex";
+}
+
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
 async function loadProducts() {
   try {
-   const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
-           const snapshot = await get(dbRef);
-           if (!snapshot.exists()) {
-             throw new Error("No products found in the database.");
-           }
-   
-           const products = snapshot.val(); // Get the products array
-       const productGrid = document.getElementById("productGrid");
+    showLoader(); // Show loader while fetching data
+
+    const dbRef = ref(database, "she-page"); // Reference to your data in Firebase
+    const snapshot = await get(dbRef);
+    if (!snapshot.exists()) {
+      throw new Error("No products found in the database.");
+    }
+
+    const data = snapshot.val(); // Get the data object
+    const products = data["she-page"]; // Access the array under the 'she-page' key
+
+    console.log(products); // Log the array to confirm
+
+    const productGrid = document.getElementById("productGrid");
 
     if (!productGrid) {
       console.error("Element with ID 'productGrid' not found.");
@@ -73,7 +88,7 @@ async function loadProducts() {
 
     productGrid.innerHTML = ""; // Clear existing products
 
-    if (products.length === 0) {
+    if (!products || products.length === 0) {
       productGrid.innerHTML = "<p>No products available at the moment.</p>";
       return;
     }
@@ -117,8 +132,11 @@ async function loadProducts() {
     if (productGrid) {
       productGrid.innerHTML = "<p>Failed to load products. Please try again later.</p>";
     }
+  } finally {
+    hideLoader(); // Hide loader after data fetch
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   loadProducts();

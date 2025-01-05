@@ -25,7 +25,19 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app); // Initialize Realtime Database
 
+
+// Function to show the loader (spinner)
+function showLoader() {
+  document.getElementById("loader").style.display = "block";
+}
+
+// Function to hide the loader (spinner)
+function hideLoader() {
+  document.getElementById("loader").style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  showLoader();
   // Fetch data from Firebase Realtime Database
   const hePageRef = ref(database, "he-page");
   const shePageRef = ref(database, "she-page");
@@ -40,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     get(unisexPageRef),
   ])
     .then(([snapshotHe, snapshotShe, snapshotKids, snapshotUnisex]) => {
+      hideLoader();
       if (
         !snapshotHe.exists() ||
         !snapshotShe.exists() ||
@@ -94,6 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
       displayProductDetails(product);
     })
     .catch((error) => {
+      hideLoader();
+
       console.error("Error fetching product data:", error);
       displayErrorMessage(
         `Failed to load product details. Error: ${error.message}`

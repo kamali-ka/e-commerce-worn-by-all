@@ -383,4 +383,22 @@ button {
   .wishlist-heart:hover {
     color: #ff6347;  /* Change to a slight red when hovered */
   }
-      
+/* Loader styling */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 5px solid #f3f3f3;
+  border-top: 6px solid rgb(82, 81, 81);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  z-index: 1000; /* Ensure the loader is on top of other content */
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

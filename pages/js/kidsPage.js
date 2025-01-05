@@ -19,6 +19,14 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 
 
+
+function showLoader(){
+  document.getElementById("loader").style.display = "flex";
+}
+function hideLoader(){
+  document.getElementById("loader").style.display = "none";
+}
+
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
   // Load all products initially and update cart count
@@ -60,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to load and display all products
 async function loadProducts() {
   try {
+    showLoader();
         const dbRef = ref(database, "kids-page"); // Reference to your data in Firebase
         const snapshot = await get(dbRef);
         if (!snapshot.exists()) {
@@ -122,6 +131,9 @@ async function loadProducts() {
       productGrid.innerHTML =
         "<p>Failed to load products. Please try again later.</p>";
     }
+  }
+  finally{
+    hideLoader();
   }
 }
 
