@@ -74,8 +74,7 @@ async function loadProducts() {
       throw new Error("No products found in the database.");
     }
 
-    const data = snapshot.val(); // Get the data object
-    const products = data["she-page"]; // Access the array under the 'she-page' key
+    const products = snapshot.val(); // Access the array under the 'she-page' key
 
     console.log(products); // Log the array to confirm
 

@@ -51,7 +51,7 @@ async function loadChudithars() {
     productGrid.innerHTML = ""; // Clear existing products
     console.log(products);
     
-    const chuditharProducts = products['she-page'].filter(
+    const chuditharProducts = products.filter(
       (product) => product.type === "Chudithar"
     );
     

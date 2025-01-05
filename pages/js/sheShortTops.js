@@ -49,7 +49,7 @@ async function loadShortTops() {
       productGrid.innerHTML = ""; // Clear existing products
   
       // Filter and display Short Tops
-      const shortTopProducts = products['she-page'].filter(
+      const shortTopProducts = products.filter(
         (product) => product.type=== "Short tops"
       );
   
