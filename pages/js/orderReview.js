@@ -35,9 +35,9 @@ async function getToken() {
       method: "GET",
       headers: {
         "api-token":
-          "5G63Z8Pifh6ZHt4N2togj-GElSMBCwt9hK4pIMIM1j3y0HsbZTpD_V-89QK1uxEStNQ",
+          "oL2g_Vm0tMkL2eQM511fegF89xIemo9O7EYIg-5R5mnTIjokg7OPS9StJOk6wf67wVc",
         Accept: "application/json",
-        "user-email": "utchikanna3108@gmail.com",
+        "user-email": "kamalika.azhakar2328@gmail.com",
       },
     }
   );
@@ -317,6 +317,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Get the current order ID from localStorage or initialize it to 1
     let orderId = localStorage.getItem("orderId");
     let productId = localStorage.getItem("orderedProductsId");
+    let totalBillPrice = localStorage.getItem("orderedTotalPrice");
     
     if (!orderId) {
       orderId = 1;
@@ -338,6 +339,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const orderDetails = {
       orderId: `ORD-${orderId}`, // Use the incremented order ID
       productId,
+      price:totalBillPrice, 
       date: new Date().toLocaleDateString(),
       name: document.getElementById("full-name").value,
       address: document.getElementById("address-line-1").value,

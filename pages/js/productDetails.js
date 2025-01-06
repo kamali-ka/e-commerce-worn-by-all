@@ -6,7 +6,8 @@ import {
 import {
   getDatabase,
   ref,
-  get,set,
+  get,
+  set,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
 // Firebase Configuration
@@ -171,7 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (buyNowButton) {
-      buyNowButton.addEventListener("click", () => showBuyNowPopup());
+      buyNowButton.addEventListener("click", () => {
+        localStorage.setItem("orderedProductsId", product.id);
+        window.location.href = "../html/orderReview.html";
+      });
     }
   }
 
@@ -229,14 +233,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user) {
       const userId = user.uid;
       const cartRef = ref(database, `cart/${userId}/${gender}`);
-  
+
       get(cartRef)
         .then((snapshot) => {
           const cart = snapshot.exists() ? snapshot.val() : [];
           const existingItemIndex = cart.findIndex(
             (cartItem) => cartItem.id === item.id
           );
-  
+
           if (existingItemIndex > -1) {
             // If the item already exists, increase its quantity
             cart[existingItemIndex].quantity += 1;
@@ -244,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // If the item is new, add it with its id and initial quantity
             cart.push({ id: item.id, quantity: 1 });
           }
-  
+
           // Save the updated cart back to Firebase
           return set(cartRef, cart);
         })
@@ -263,19 +267,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Function to update the "Add to Cart" button text
-function updateCartButton(productId) {
-  const productCard = document.querySelector(
-    `.product-card[data-id="${productId}"]`
-  );
-  if (productCard) {
-    const addButton = productCard.querySelector("button");
-    if (addButton) {
-      addButton.textContent = "Visit Cart";
-      addButton.onclick = () =>
-        (window.location.href = "../html/cartPage.html");
+  function updateCartButton(productId) {
+    const productCard = document.querySelector(
+      `.product-card[data-id="${productId}"]`
+    );
+    if (productCard) {
+      const addButton = productCard.querySelector("button");
+      if (addButton) {
+        addButton.textContent = "Visit Cart";
+        addButton.onclick = () =>
+          (window.location.href = "../html/cartPage.html");
+      }
     }
   }
-}
 
   // Function to display the star rating
   function displayRating(rating) {
@@ -328,12 +332,12 @@ async function fetchCartItems() {
     console.log(userId);
     const cartRef = ref(database, `cart/${userId}/${gender}`);
     const snapshot = await get(cartRef);
-    
+
     if (snapshot.exists()) {
       const cartData = snapshot.val();
-      return cartData || {};  // Return the cart data or an empty object
+      return cartData || {}; // Return the cart data or an empty object
     }
-    return {};  // Return empty object if no cart data is found
+    return {}; // Return empty object if no cart data is found
   } catch (error) {
     console.error("Error fetching cart items from Firebase:", error);
     return {};
@@ -342,7 +346,7 @@ async function fetchCartItems() {
 
 async function updateCartCountInHeader() {
   const cartItems = await fetchCartItems();
-  let totalItems = Object.keys(cartItems).length;  // Count the keys directly
+  let totalItems = Object.keys(cartItems).length; // Count the keys directly
 
   // Update the cart count in the DOM
   const cartCountElement = document.getElementById("cartCount");
@@ -373,7 +377,6 @@ function updateCartCount() {
       });
   }
 }
-
 
 // Function to show popup messages
 function showPopup(message) {

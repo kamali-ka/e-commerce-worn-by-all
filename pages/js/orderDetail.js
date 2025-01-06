@@ -22,6 +22,8 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app); // Initialize Realtime Database
 
 const orderPageRef = ref(database, "orders");
+const totalPrice = document.getElementById("total-price");
+
 // Fetch order data
 get(orderPageRef)
   .then((snapshot) => {
@@ -109,7 +111,7 @@ function loadOrders(order) {
     }
   }
 
-  
+  totalPrice.innerHTML = `<p>Order Total:${order.price}</p>`
   // Add order details
   orderItem.innerHTML += `
     <div class="item-info">
@@ -125,4 +127,3 @@ function loadOrders(order) {
   // Update total items
   document.getElementById("total-items").textContent = totalItems;
 }
-

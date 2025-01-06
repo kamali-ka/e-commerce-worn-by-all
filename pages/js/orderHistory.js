@@ -62,16 +62,13 @@ function loadOrders() {
 
             orderCard.innerHTML = `
                 <div>
-                <img src="/assets/images/img_boy3.jpg">
                     <h3>Order ID: ${order.orderId}</h3>
-                    <p>Name: ${order.name}</p>
+                    
                     <p>Address: ${order.address}</p>
-                    <p>Payment: ${order.payment}</p>
-                    <p class="total">Date: ${order.date}</p>
+                    
                     <p>Status: ${order.status}</p>
                 </div>
-                <button class="delete-btn" onclick="deleteOrder('${orderId}')">Delete</button>
-                <a class="delete-btn" href='../html/orderDetail.html?id=${orderId}'>View Details</a>
+                 <a class="delete-btn" href='../html/orderDetail.html?id=${orderId}'>View Details</i></a>
             `;
 
             orderHistoryContainer.appendChild(orderCard);

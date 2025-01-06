@@ -17,7 +17,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+
+
 const productId = [];
+let totalBill = 0;
 
 // Show and hide loader functions
 function showLoader() {
@@ -260,6 +263,7 @@ async function removeCartItem(productId) {
 
 
 // Update the total amount in the UI
+
 function updateTotalAmount(cart) {
   const userId = auth.currentUser?.uid;
   if (!userId) return;
@@ -279,7 +283,7 @@ function updateTotalAmount(cart) {
 
     const tax = totalPrice * 0.02;
     const deliveryFee = totalPrice > 0 ? 30 : 0;
-    const totalBill = totalPrice + tax + deliveryFee;
+     totalBill = totalPrice + tax + deliveryFee;
 
     const billSummary = document.getElementById("billSummary");
     if (billSummary) {
@@ -370,5 +374,6 @@ document.getElementById("emptyCartButton").addEventListener("click", async () =>
 
 document.getElementById("buyNowButton").addEventListener("click",()=>{
   localStorage.setItem("orderedProductsId",productId)
+localStorage.setItem("orderedTotalPrice",totalBill)
   window.location.href="../html/orderReview.html"
 })
