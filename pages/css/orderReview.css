@@ -125,7 +125,7 @@ h2 {
     text-align: left;
 }
 
-input[type="text"] {
+select[type="text"] {
     width: 100%;
     padding: 12px;
     font-size: 14px;
@@ -136,11 +136,25 @@ input[type="text"] {
     background-color: #f9f9f9;
 }
 
-input[type="text"]:focus {
+select[type="text"]:focus {
     border-color: #f44336;
     background-color: white;
 }
 
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f9f9f9;
+}
+input[type="text"]:focus {
+    border-color: #f44336;
+    background-color: white;
+}
 button {
     padding: 12px 24px;
     background-color: #f44336;
@@ -368,4 +382,48 @@ button#next-btn-payment {
 
 .modal-content button:hover {
     background-color: #218838;
+}
+/* Custom Styling for Select Dropdowns */
+select {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    outline: none;
+    appearance: none; /* Remove default arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" d="M4 6l4 4 4-4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #f44336;
+    background-color: #fff;
+}
+
+select:hover {
+    background-color: #f1f1f1;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Container for Select Box with more spacing */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Optional: Add focus effect for better interaction */
+select:focus + .select-wrapper {
+    border-color: #f44336;
 }

@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Save profile data to localStorage
     localStorage.setItem("username", userName);
-    localStorage.setItem(getUserKey("phone"), phone);
-    localStorage.setItem(getUserKey("address"), address); 
+    localStorage.setItem("phone", phone);
+    localStorage.setItem("address", address); 
 
     // Update UI
     profilePlaceholder.textContent = userName

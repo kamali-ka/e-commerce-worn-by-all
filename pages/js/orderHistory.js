@@ -1,52 +1,104 @@
-let deletedOrder = null;
-let deletedOrderIndex = null;
-let undoTimeout = null;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getDatabase, ref, get, set, remove, push } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
-document.addEventListener('DOMContentLoaded', loadOrders);
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
+  authDomain: "wornbyall-926f5.firebaseapp.com",
+  projectId: "wornbyall-926f5",
+  storageBucket: "wornbyall-926f5.appspot.com",
+  messagingSenderId: "770771226995",
+  appId: "1:770771226995:web:15636d6b9e17d27611b506",
+  measurementId: "G-B6PER21YN1",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
+let userId = null;  // Initially null
+
+// Wait for the authentication state to be confirmed
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in, set userId
+        userId = user.uid;
+        console.log("User ID:", userId);  // You can check the user ID here
+        loadOrders();  // Call the loadOrders function once the user is authenticated
+    } else {
+        // No user is signed in
+        console.log("No user is signed in.");
+    }
+});
+
+let deletedOrder = null;
+let deletedOrderId = null;
+let undoTimeout = null;
 
 function loadOrders() {
     const orderHistoryContainer = document.getElementById('order-history');
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    console.log(userId);
 
-    orderHistoryContainer.innerHTML = '';  // Clear existing content
+    // Assuming `userId` is set correctly for the logged-in user
+    const ordersRef = ref(database, `orders/${userId}`);
 
-    if (orders.length === 0) {
-        orderHistoryContainer.innerHTML = '<p id="loading">No orders found.</p>';
-        return;
-    }
+    get(ordersRef).then(snapshot => {
+        const orders = snapshot.exists() ? snapshot.val() : {};  // Retrieve the orders object
 
-    orders.forEach((order, index) => {
-        const orderCard = document.createElement('div');
-        orderCard.classList.add('order-card');
+        orderHistoryContainer.innerHTML = '';  // Clear existing content
 
-        orderCard.innerHTML = `
-            <div>
-                <h3>Order ID: ${order.orderId}</h3>
-                <p>Name: ${order.name}</p>
-                <p>Address: ${order.address}</p>
-                <p>Payment: ${order.payment}</p>
-                <p class="total">Date: ${order.date}</p>
-            </div>
-            <button class="delete-btn" onclick="deleteOrder(${index})">Delete</button>
-        `;
+        if (Object.keys(orders).length === 0) {
+            orderHistoryContainer.innerHTML = '<p id="loading">No orders found.</p>';
+            return;
+        }
 
-        orderHistoryContainer.appendChild(orderCard);
+        // Iterate through orders for the given user
+        Object.keys(orders).forEach(orderId => {
+            const order = orders[orderId];  // Access order using its key
+
+            const orderCard = document.createElement('div');
+            orderCard.classList.add('order-card');
+
+            orderCard.innerHTML = `
+                <div>
+                <img src="/assets/images/img_boy3.jpg">
+                    <h3>Order ID: ${order.orderId}</h3>
+                    <p>Name: ${order.name}</p>
+                    <p>Address: ${order.address}</p>
+                    <p>Payment: ${order.payment}</p>
+                    <p class="total">Date: ${order.date}</p>
+                    <p>Status: ${order.status}</p>
+                </div>
+                <button class="delete-btn" onclick="deleteOrder('${orderId}')">Delete</button>
+                <a class="delete-btn" href='../html/orderDetail.html?id=${orderId}'>View Details</a>
+            `;
+
+            orderHistoryContainer.appendChild(orderCard);
+        });
+    }).catch(error => {
+        console.error('Error fetching orders from Firebase:', error);
     });
 }
 
-// Function to delete order by index
-function deleteOrder(index) {
-    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+// Function to delete order by orderId
+function deleteOrder(orderId) {
+    const ordersRef = ref(database, `orders/${userId}/${orderId}`);
+    // Get the order before deletion
+    get(ordersRef).then(snapshot => {
+        if (snapshot.exists()) {
+            deletedOrder = snapshot.val();
+            deletedOrderId = orderId; // Store orderId to identify the order
 
-    // Store deleted order temporarily
-    deletedOrder = orders[index];
-    deletedOrderIndex = index;
-    orders.splice(index, 1);  // Remove order from array
-    localStorage.setItem('orders', JSON.stringify(orders));  // Update localStorage
-    loadOrders();  // Refresh UI
-
-    // Show Undo notification
-    showUndoNotification();
+            // Remove order from Firebase
+            remove(ordersRef).then(() => {
+                loadOrders();  // Refresh UI
+                showUndoNotification();  // Show undo notification
+            }).catch(error => {
+                console.error('Error deleting order from Firebase:', error);
+            });
+        }
+    });
 }
 
 // Show Undo Notification
@@ -57,22 +109,34 @@ function showUndoNotification() {
     // Set timeout to clear the undo option after 5 seconds
     undoTimeout = setTimeout(() => {
         deletedOrder = null;
-        deletedOrderIndex = null;
+        deletedOrderId = null;
         undoNotification.style.display = 'none';
     }, 5000);
 }
 
 // Undo the delete action
 function undoDelete() {
-    let orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-    if (deletedOrder) {
-        orders.splice(deletedOrderIndex, 0, deletedOrder);  // Reinsert at the original position
-        localStorage.setItem('orders', JSON.stringify(orders));  // Update localStorage
-        loadOrders();  // Refresh UI
-        clearTimeout(undoTimeout);  // Cancel timeout
-        document.getElementById('undo-notification').style.display = 'none';
-        deletedOrder = null;
-        deletedOrderIndex = null;
+    if (deletedOrder && deletedOrderId) {
+        const ordersRef = ref(database, `orders/${userId}`);
+        
+        // Add the deleted order back to Firebase using the original orderId
+        const newOrderRef = ref(ordersRef, deletedOrderId);  // Use deletedOrderId as the key
+        newOrderRef.set(deletedOrder).then(() => {
+            loadOrders();  // Refresh UI
+            clearTimeout(undoTimeout);  // Cancel timeout
+            document.getElementById('undo-notification').style.display = 'none';
+            deletedOrder = null;
+            deletedOrderId = null;
+        }).catch(error => {
+            console.error('Error restoring order to Firebase:', error);
+        });
     }
 }
+
+// Expose the deleteOrder function to the global window object
+window.deleteOrder = deleteOrder;
+
+
+document.getElementById("undoDelete").addEventListener("click",()=>{
+    undoDelete()
+})

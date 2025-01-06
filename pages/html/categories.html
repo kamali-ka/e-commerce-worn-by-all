@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men's Clothing Categories</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/categories.css">
+  <link rel="icon" href="/assets/images/ic_icon.png">
+</head>
+<body>
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i>
+        <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i>
+        <li><a class="category-link " data-target="men">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i>
+        <li><a class="category-link " data-target="women">Women</a></li>
+        <i class="fa-solid fa-child"></i>
+        <li><a class="category-link " data-target="kids">Kids</a></li>
+        ⚤<li><a href="./unisex-page.html">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i>
+        <li><a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Sidebar toggle button -->
+  <button id="toggleSidebar" class="toggle-sidebar-btn" aria-label="Toggle Sidebar">☰</button>
+  <header class="header">
+    <div class="header-content">
+      <h1><span id="pageTitle">Men</span> 's Clothing</h1>
+      <p>Select a category to explore our collection</p>
+    </div>
+  </header>
+  <main id="categories-container"></main>
+  <script src="../js/categories.js" type="module" ></script>
+</body>
+</html>

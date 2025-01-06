@@ -63,7 +63,7 @@ body {
   font-size: 18px;
   cursor: pointer;
   border-radius: 5px;
-  z-index: 1100;
+  z-index: 999;
 }
 
 .toggle-sidebar-btn:hover {
@@ -103,7 +103,7 @@ header p {
 }
 
 /* Container Styling */
-.categories-container {
+#categories-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -137,7 +137,6 @@ header p {
   border-radius: 10px 10px 0 0;
 }
 
-
 .category-card h2 {
   font-size: 1.6rem;
   margin: 15px 0;
@@ -166,7 +165,7 @@ header p {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .categories-container {
+  #categories-container {
     flex-direction: column;
     align-items: center;
   }

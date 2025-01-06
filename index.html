@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./pages/css/styles.css">
     <link rel="icon" href="/assets/images/ic_icon.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script defer src="./pages/js/script.js"></script>
+    <script defer src="./pages/js/script.js" type="module"></script>
 </head>
 
 <body>
@@ -18,11 +18,12 @@
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <ul class="nav-links" id="navMenu">
             <li><a href="./index.html">Home</a></li>
-            <li><a href="./pages/html/men-category.html">Men</a></li>
-            <li><a href="./pages/html/women-category.html">Women</a></li>
-            <li><a href="./pages/html/kids-category.html">Kids</a></li>
+            <li><a class="category-link" data-target="men">Men</a></li>
+            <li><a class="category-link" data-target="women">Women</a></li>
+            <li><a class="category-link" data-target="kid">Kids</a></li>
             <li><a href="./pages/html/unisex-page.html">Unisex</a></li>
-        </ul>
+          </ul>
+          
         <div class="nav-icon">
             <!-- Login/Signup Button -->
             <form id="loginForm" onsubmit="event.preventDefault(); redirectToSignIn();">
@@ -54,26 +55,27 @@
                 <img src="./assets/images/img_men9.jpg" alt="Men">
                 <h3>Men</h3>
                 <p>Stylish outfits for every occasion.</p>
-                <a href="./pages/html/men-category.html" class="cta-button">Shop Men</a>
-            </div>
-            <div class="card">
+                <a class="category-link cta-button" data-target="men">Shop Men</a>
+              </div>
+              <div class="card">
                 <img src="./assets/images/img_women9.jpg" alt="Women">
                 <h3>Women</h3>
                 <p>Elegant and trendy collections.</p>
-                <a href="./pages/html/women-category.html" class="cta-button">Shop Women</a>
-            </div>
-            <div class="card">
+                <a class="category-link cta-button" data-target="women">Shop Women</a>
+              </div>
+              <div class="card">
                 <img src="./assets/images/img_kids3.jpg" alt="Kids">
                 <h3>Kids</h3>
                 <p>Comfortable and fun apparel for kids.</p>
-                <a href="./pages/html/kids-category.html" class="cta-button">Shop Kids</a>
-            </div>
-            <div class="card">
+                <a class="category-link cta-button" data-target="kids">Shop Kids</a>
+              </div>
+              <div class="card">
                 <img src="./assets/images/img_unisex2.jpg" alt="Unisex">
                 <h3>Unisex</h3>
                 <p>Fashion for everyone.</p>
                 <a href="./pages/html/unisex-page.html" class="cta-button">Shop Unisex</a>
-            </div>
+              </div>
+              
         </div>
     </section>
 

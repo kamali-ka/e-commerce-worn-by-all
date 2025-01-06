@@ -1,6 +1,6 @@
-// Import Firebase functions from the modular SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+import { getDatabase, ref, get, set, remove } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -16,16 +16,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-
-// Export Firebase database references and the 'get' function for use
-export { database, ref, get };
-
-
-
-
-
-// Import the necessary functions from firebase-config.js
-// import { database, ref, get } from './firebase-config.js'; // Ensure the correct path
+const auth = getAuth(app);
+const productId = [];
 
 // Show and hide loader functions
 function showLoader() {
@@ -36,96 +28,100 @@ function hideLoader() {
   document.getElementById("loader").style.display = "none";
 }
 
-// Modify fetchProductData to include spinner
-async function fetchProductData() {
-  showLoader();  // Show spinner before fetching data
+// Fetch cart items from Firebase
+async function fetchCartItems(userId) {
   try {
-    const productCategories = ['he-page', 'she-page', 'kids-page', 'unisex-page'];
-    let allProducts = [];
-
-    for (let category of productCategories) {
-      const snapshot = await get(ref(database, category));
-      
-      if (snapshot.exists()) {
-        const categoryProducts = snapshot.val();
-        allProducts = [...allProducts, ...Object.values(categoryProducts)];
-      } else {
-        console.error(`No data found for category: ${category}`);
-      }
+    const cartRef = ref(database, `cart/${userId}`);
+    const snapshot = await get(cartRef);
+    if (snapshot.exists()) {
+      return snapshot.val(); // The cart data will be in a nested structure
     }
-
-    return allProducts;
+    return {};
   } catch (error) {
-    console.error("Error fetching product data from Firebase:", error);
-    return [];
-  } finally {
-    hideLoader();  // Hide spinner after fetching data
+    console.error("Error fetching cart items from Firebase:", error);
+    return {};
   }
 }
-// Other existing functions for handling cart and rendering cart items
-// Helper to get/set localStorage safely
-function getLocalStorage(key, defaultValue = []) {
+
+// Save cart items to Firebase
+async function saveCartItems(userId, cart) {
   try {
-    return JSON.parse(localStorage.getItem(key)) || defaultValue;
-  } catch {
-    return defaultValue;
+    const cartRef = ref(database, `cart/${userId}`);
+    await set(cartRef, cart);
+  } catch (error) {
+    console.error("Error saving cart items to Firebase:", error);
   }
 }
 
-function setLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+
+// Empty the cart in Firebase
+async function emptyCartInFirebase(userId) {
+  try {
+    const cartRef = ref(database, `cart/${userId}`);
+    await set(cartRef, {}); // Set the cart to an empty object to clear it
+  } catch (error) {
+    console.error("Error emptying the cart in Firebase:", error);
+  }
 }
 
-// Load cart items
-// Modify loadCartItems to use the spinner
+// Load cart items and display them
 async function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   if (!cartItemsContainer) return;
 
-  showLoader();  // Show spinner while loading cart items
+  showLoader();
 
-  const cart = getLocalStorage("cart", []);
+  const user = auth.currentUser;
+  if (!user) {
+    cartItemsContainer.innerHTML = "<p>Please sign in to view your cart.</p>";
+    hideLoader();
+    return;
+  }
+
+  const userId = user.uid;
+  const cart = await fetchCartItems(userId);
   const products = await fetchProductData();
 
   cartItemsContainer.innerHTML = "";
 
-  if (cart.length === 0) {
+  if (Object.keys(cart).length === 0) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
     updateBillSummary(cart, products);
     hideLoader();
     return;
   }
 
-  cart.forEach((cartItem) => {
-    const product = products.find((p) => p.id === cartItem.id);
-    if (product) {
-      renderCartItem(cartItem, product, cartItemsContainer);
-    }
-  });
 
-  updateBillSummary(cart, products);
-  hideLoader();  // Hide spinner after rendering cart
+  for (const category in cart) {
+    const categoryItems = cart[category];
+    categoryItems.forEach(cartItem => {
+
+      const product = products.find((p) => p.id === cartItem.id);
+      productId.push(product.id)
+      console.log(productId);
+      
+      if (product) {
+        renderCartItem(cartItem, product, cartItemsContainer);
+      }
+    });
+  }
+
+  // Update the total amount on page load
+  updateTotalAmount(cart);
+
+  hideLoader();
 }
 
-// Call loadCartItems on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", loadCartItems);
-
-
-
-// Render individual cart item
 // Render individual cart item
 function renderCartItem(cartItem, product, container) {
-  // Check if product.sizes exists and is an array
   const sizeOptions = Array.isArray(product.sizes)
     ? product.sizes
         .map(
           (size) =>
-            `<option value="${size}" ${
-              cartItem.size === size ? "selected" : ""
-            }>${size}</option>`
+            `<option value="${size}" ${cartItem.size === size ? "selected" : ""}>${size}</option>`
         )
-        .join("")
-    : ""; // If no sizes, set empty string
+        .join(" ")
+    : "";
 
   const cartItemHTML = `
     <div class="cart-item" data-id="${cartItem.id}">
@@ -149,122 +145,213 @@ function renderCartItem(cartItem, product, container) {
   container.innerHTML += cartItemHTML;
 }
 
+// Attach event listeners using event delegation
+document.getElementById("cartItems").addEventListener("click", (event) => {
+  const target = event.target;
+  const productId = target.dataset.id;
 
-// Attach event delegation for cart controls
-document.addEventListener("DOMContentLoaded", () => {
-  const cartItemsContainer = document.getElementById("cartItems");
-  if (cartItemsContainer) {
-    cartItemsContainer.addEventListener("click", (event) => {
-      const target = event.target;
-      const productId = target.dataset.id;
+  if (!productId) return; // Make sure target has a valid productId
 
-      if (target.classList.contains("decrease-btn")) {
-        changeQuantity(productId, -1);
-      } else if (target.classList.contains("increase-btn")) {
-        changeQuantity(productId, 1);
-      } else if (target.classList.contains("remove-btn")) {
-        removeCartItem(productId);
-      }
-    });
+  if (target.classList.contains("increase-btn")) {
+    updateQuantity(productId, 1);
+  } else if (target.classList.contains("decrease-btn")) {
+    updateQuantity(productId, -1);
+  } else if (target.classList.contains("remove-btn")) {
+    removeCartItem(productId);
   }
-
-  const emptyCartButton = document.getElementById("emptyCartButton");
-  if (emptyCartButton) {
-    emptyCartButton.addEventListener("click", () => {
-      setLocalStorage("cart", []);
-      loadCartItems(); // Re-render the cart after emptying
-    });
-  }
-
-  const buyNowButton = document.getElementById("buyNowButton");
-  if (buyNowButton) {
-    buyNowButton.addEventListener("click", handleBuyNow);
-  }
-
-  const confirmOrderButton = document.getElementById("confirmOrderButton");
-  if (confirmOrderButton) {
-    confirmOrderButton.addEventListener("click", clearCartAfterOrder);
-  }
-
-  loadCartItems(); // Initialize cart on page load
 });
 
-// Remove item from cart
-function removeCartItem(productId) {
-  const cart = getLocalStorage("cart", []);
-  const updatedCart = cart.filter((item) => item.id !== productId); // Remove the item with the given ID
-  setLocalStorage("cart", updatedCart);
-  loadCartItems(); // Re-render the cart after removal
-}
+// Update quantity of product in the cart
+async function updateQuantity(productId, change) {
+  const user = auth.currentUser;
+  if (!user) return;
 
-// Change quantity
-function changeQuantity(productId, change) {
-  const cart = getLocalStorage("cart", []);
-  const item = cart.find((i) => i.id === productId);
+  const userId = user.uid;
+  const cart = await fetchCartItems(userId);
 
-  if (item) {
-    item.quantity = Math.max(1, item.quantity + change); // Ensure quantity is at least 1
-    setLocalStorage("cart", cart);
-    loadCartItems(); // Re-render the cart after update
-  }
-}
+  let productFound = false;
 
-// Update bill summary
-function updateBillSummary(cart, products) {
-  let totalPrice = 0;
+  for (const category in cart) {
+    const categoryItems = cart[category];
+    for (let i = 0; i < categoryItems.length; i++) {
+      const product = categoryItems[i];
+      if (product.id === productId) {
+        product.quantity = Math.max(1, product.quantity + change);
 
-  cart.forEach((item) => {
-    const product = products.find((p) => p.id === item.id);
-    if (product) {
-      totalPrice += product.price * item.quantity;
+        const quantityElement = document.querySelector(`[data-id="${productId}"] .quantity`);
+        if (quantityElement) {
+          quantityElement.textContent = product.quantity;
+        }
+
+        productFound = true;
+        break;
+      }
     }
-  });
 
-  const tax = totalPrice * 0.02;
-  const deliveryFee = totalPrice > 0 ? 30 : 0;
-  const totalBill = totalPrice + tax + deliveryFee;
-
-  // Update Bill Summary Section
-  const billSummary = document.getElementById("billSummary");
-  if (billSummary) {
-    billSummary.innerHTML = `
-      <h3>Bill Summary</h3>
-      <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
-      <p>Tax (2%): ₹${tax.toFixed(2)}</p>
-      <p>Delivery Fee: ₹${deliveryFee.toFixed(2)}</p>
-      <hr>
-      <h4>Total: ₹${totalBill.toFixed(2)}</h4>
-    `;
+    if (productFound) break;
   }
 
-  // Update Total Amount in Footer
-  const totalAmountElement = document.getElementById("totalAmount");
-  if (totalAmountElement) {
-    totalAmountElement.textContent = totalBill.toFixed(2);
-  }
-}
-
-// Handle "Buy Now" button click
-function handleBuyNow() {
-  const cart = getLocalStorage("cart", []);
-
-  if (cart.length === 0) {
-    alert("Your cart is empty. Add items before proceeding to checkout.");
+  if (!productFound) {
+    console.error("Product not found in the cart.");
     return;
   }
 
-  // Save cart details for checkout
-  setLocalStorage("checkoutItems", cart);
-  localStorage.setItem('isFromCartPage',true);
-  window.location.href='../html/orderReview.html'
-  
-  // Redirect to the address page
-  window.location.href = "../html/orderReview.html"; // Update the path as needed
+  await saveCartItems(userId, cart);
+  updateTotalAmount(cart);
 }
 
-// Clear cart after order submission
-function clearCartAfterOrder() {
-  setLocalStorage("cart", []); // Clear cart data
-  alert("Your order has been placed successfully! The cart is now empty.");
-  window.location.href = "/index.html"; // Redirect to home or any other page
+// Remove item from cart
+async function removeCartItem(productId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userId = user.uid;
+
+  try {
+    // List of categories to check
+    const categories = ['women', 'men', 'kids', 'unisex']; // Add more categories if necessary
+
+    // Loop through each category
+    for (const category of categories) {
+      const cartRef = ref(database, `cart/${userId}/${category}`);
+      const snapshot = await get(cartRef);
+
+      if (snapshot.exists()) {
+        // Get the cart items for this category
+        const cartItems = snapshot.val();
+        
+        // Check if product exists and remove it
+        const updatedCartItems = cartItems.filter(item => item.id !== productId);
+
+        // If the item was removed, save the updated cart
+        if (cartItems.length !== updatedCartItems.length) {
+          await set(cartRef, updatedCartItems);
+          console.log(`Removed item with ID ${productId} from ${category} category.`);
+        }
+      }
+    }
+
+    // Reload the cart items after removal
+    loadCartItems();
+
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
+  }
 }
+
+
+
+
+// Update the total amount in the UI
+function updateTotalAmount(cart) {
+  const userId = auth.currentUser?.uid;
+  if (!userId) return;
+
+  fetchProductData().then((products) => {
+    let totalPrice = 0;
+
+    for (const category in cart) {
+      const categoryItems = cart[category];
+      categoryItems.forEach(cartItem => {
+        const product = products.find(p => p.id === cartItem.id);
+        if (product) {
+          totalPrice += product.price * cartItem.quantity;
+        }
+      });
+    }
+
+    const tax = totalPrice * 0.02;
+    const deliveryFee = totalPrice > 0 ? 30 : 0;
+    const totalBill = totalPrice + tax + deliveryFee;
+
+    const billSummary = document.getElementById("billSummary");
+    if (billSummary) {
+      billSummary.innerHTML = `
+        <h3>Bill Summary</h3>
+        <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
+        <p>Tax (2%): ₹${tax.toFixed(2)}</p>
+        <p>Delivery Fee: ₹${deliveryFee.toFixed(2)}</p>
+        <hr>
+        <h4>Total: ₹${totalBill.toFixed(2)}</h4>
+      `;
+    }
+
+    const totalAmountElement = document.getElementById("totalAmount");
+    if (totalAmountElement) {
+      totalAmountElement.textContent = totalBill.toFixed(2);
+    }
+  }).catch((error) => {
+    console.error("Error fetching product data for total amount update:", error);
+  });
+}
+
+
+
+
+// Initialize cart on page load
+document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadCartItems();
+    } else {
+      const cartItemsContainer = document.getElementById("cartItems");
+      if (cartItemsContainer) {
+        cartItemsContainer.innerHTML = "<p>Please sign in to view your cart.</p>";
+      }
+    }
+  });
+});
+
+// Fetch product data
+async function fetchProductData() {
+  showLoader();
+  try {
+    const productCategories = ['he-page', 'she-page', 'kids-page', 'unisex-page'];
+    let allProducts = [];
+
+    for (let category of productCategories) {
+      const snapshot = await get(ref(database, category));
+      if (snapshot.exists()) {
+        const categoryProducts = snapshot.val();
+        allProducts = [...allProducts, ...Object.values(categoryProducts)];
+      } else {
+        console.error(`No data found for category: ${category}`);
+      }
+    }
+
+    return allProducts;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    return [];
+  } finally {
+    hideLoader();
+  }
+}
+
+// Empty cart button click event listener
+document.getElementById("emptyCartButton").addEventListener("click", async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userId = user.uid;
+
+  // Clear cart items in the UI
+  const cartItemsContainer = document.getElementById("cartItems");
+  if (cartItemsContainer) {
+    cartItemsContainer.innerHTML = "<p>Your cart is now empty.</p>";
+  }
+
+  // Empty the cart in Firebase
+  await emptyCartInFirebase(userId);
+
+  // Optionally, you can update the total amount to 0 after clearing the cart
+  updateTotalAmount({}); // Pass an empty cart to reset the total
+});
+
+
+
+
+document.getElementById("buyNowButton").addEventListener("click",()=>{
+  localStorage.setItem("orderedProductsId",productId)
+  window.location.href="../html/orderReview.html"
+})

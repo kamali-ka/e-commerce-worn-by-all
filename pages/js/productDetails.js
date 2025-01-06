@@ -6,7 +6,7 @@ import {
 import {
   getDatabase,
   ref,
-  get,
+  get,set,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
 // Firebase Configuration
@@ -24,7 +24,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app); // Initialize Realtime Database
-
+let gender = localStorage.getItem("gender");
+let userId = null;
 
 // Function to show the loader (spinner)
 function showLoader() {
@@ -84,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ...productsUnisex,
       ];
 
+      localStorage.setItem("allProducts", JSON.stringify(allProducts));
       const selectedProductId = getQueryParam("id");
 
       if (!selectedProductId) {
@@ -222,66 +224,58 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to add product to cart
   function addToCart(item) {
     const user = auth.currentUser;
-    console.log("Checking user state in addToCart:", user);
-
     if (user) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existingItemIndex = cart.findIndex(
-        (cartItem) => cartItem.id === item.id
-      );
-
-      if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += 1;
-      } else {
-        cart.push({ ...item, quantity: 1 });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCartCount();
-      showPopup("Item added to cart successfully!");
-
-      // Change "Add to Cart" button to "Visit Cart"
-      const addToCartButton = document.getElementById("addToCartButton");
-      if (addToCartButton) {
-        addToCartButton.textContent = "Visit Cart";
-        addToCartButton.onclick = () => {
-          window.location.href = "../html/cartPage.html"; // Redirect to cart page
-        };
-      }
+      const userId = user.uid;
+      const cartRef = ref(database, `cart/${userId}/${gender}`);
+  
+      get(cartRef)
+        .then((snapshot) => {
+          const cart = snapshot.exists() ? snapshot.val() : [];
+          const existingItemIndex = cart.findIndex(
+            (cartItem) => cartItem.id === item.id
+          );
+  
+          if (existingItemIndex > -1) {
+            // If the item already exists, increase its quantity
+            cart[existingItemIndex].quantity += 1;
+          } else {
+            // If the item is new, add it with its id and initial quantity
+            cart.push({ id: item.id, quantity: 1 });
+          }
+  
+          // Save the updated cart back to Firebase
+          return set(cartRef, cart);
+        })
+        .then(() => {
+          updateCartButton(item.id);
+          showPopup("Item added to cart successfully!");
+        })
+        .catch((error) => {
+          console.error("Error updating cart:", error);
+          showPopup("Failed to add item to cart. Please try again.");
+        });
     } else {
       console.log("User is not signed in. Redirecting...");
-
-      const currentURL = window.location.href;
-      const itemToStore = JSON.stringify(item);
-
-      // Store current URL and item to add after login
-      localStorage.setItem("redirectAfterLogin", currentURL);
-      localStorage.setItem("itemToAdd", itemToStore);
-
-      if (!currentURL.includes("signup-signin.html")) {
-        window.location.href = "../html/signup-signin.html";
-      }
+      window.location.href = "../html/signup-signin.html";
     }
   }
 
-  // Function to update cart count (counting unique products)
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Get the number of unique products in the cart
-    const totalProducts = cart.length;
-
-    const cartCountElement = document.getElementById("cartCount");
-    if (cartCountElement) {
-      cartCountElement.textContent = totalProducts;
+  // Function to update the "Add to Cart" button text
+function updateCartButton(productId) {
+  const productCard = document.querySelector(
+    `.product-card[data-id="${productId}"]`
+  );
+  if (productCard) {
+    const addButton = productCard.querySelector("button");
+    if (addButton) {
+      addButton.textContent = "Visit Cart";
+      addButton.onclick = () =>
+        (window.location.href = "../html/cartPage.html");
     }
-
-    // Save cart count explicitly to localStorage (if needed)
-    localStorage.setItem("cartCount", totalProducts);
   }
+}
 
   // Function to display the star rating
   function displayRating(rating) {
@@ -315,3 +309,86 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize cart count on page load
   updateCartCount();
 });
+
+// Wait for the authentication state to be confirmed
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // User is signed in, set userId
+    userId = user.uid;
+    await updateCartCountInHeader(); // Update the cart count once the user is authenticated
+  } else {
+    // No user is signed in
+    console.log("No user is signed in.");
+  }
+});
+
+// Fetch cart items from Firebase
+async function fetchCartItems() {
+  try {
+    console.log(userId);
+    const cartRef = ref(database, `cart/${userId}/${gender}`);
+    const snapshot = await get(cartRef);
+    
+    if (snapshot.exists()) {
+      const cartData = snapshot.val();
+      return cartData || {};  // Return the cart data or an empty object
+    }
+    return {};  // Return empty object if no cart data is found
+  } catch (error) {
+    console.error("Error fetching cart items from Firebase:", error);
+    return {};
+  }
+}
+
+async function updateCartCountInHeader() {
+  const cartItems = await fetchCartItems();
+  let totalItems = Object.keys(cartItems).length;  // Count the keys directly
+
+  // Update the cart count in the DOM
+  const cartCountElement = document.getElementById("cartCount");
+  if (cartCountElement) {
+    cartCountElement.textContent = totalItems;
+  }
+
+  // Save cart count to localStorage
+  localStorage.setItem("cartCount", totalItems);
+}
+
+// Function to update the cart count
+function updateCartCount() {
+  const user = auth.currentUser;
+  if (user) {
+    const cartRef = ref(database, `cart/${user.uid}/${gender}`);
+    get(cartRef)
+      .then((snapshot) => {
+        const cart = snapshot.exists() ? snapshot.val() : [];
+        const totalProducts = cart.length;
+        const cartCountElement = document.getElementById("cartCount");
+        if (cartCountElement) {
+          cartCountElement.textContent = totalProducts;
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching cart count:", error);
+      });
+  }
+}
+
+
+// Function to show popup messages
+function showPopup(message) {
+  const popupContainer = document.getElementById("popupContainer");
+  const popupMessage = popupContainer?.querySelector(".popup-message");
+
+  if (!popupContainer || !popupMessage) return;
+
+  popupMessage.textContent = message;
+  popupMessage.style.backgroundColor = "green";
+  popupMessage.style.color = "white";
+
+  popupContainer.classList.add("show");
+
+  setTimeout(() => {
+    popupContainer.classList.remove("show");
+  }, 1500);
+}

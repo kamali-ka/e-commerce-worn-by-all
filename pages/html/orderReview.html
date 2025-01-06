@@ -48,24 +48,40 @@
                         <input type="text" id="address-line-2" placeholder="Landmark, Nearby Location">
                     </div>
                     <div class="form-group">
-                        <label for="city">City</label>
-                        <input type="text" id="city" placeholder="Enter your city" required>
-                        <span class="error-message" id="city-error"></span>
+                        <label for="country">Country</label>
+                        <div class="select-wrapper">
+                            <select id="country" required>
+                                <option value="">Select Country</option>
+                                <!-- Options will go here -->
+                            </select>
+                        </div>
+                        <span class="error-message" id="country-error"></span>
                     </div>
+                    
                     <div class="form-group">
                         <label for="state">State</label>
-                        <input type="text" id="state" placeholder="Enter your state" required>
+                        <div class="select-wrapper">
+                            <select id="state" required>
+                                <option value="">Select State</option>
+                                <!-- Options will go here -->
+                            </select>
+                        </div>
                         <span class="error-message" id="state-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <div class="select-wrapper">
+                            <select id="city" required>
+                                <option value="">Select City</option>
+                                <!-- Options will go here -->
+                            </select>
+                        </div>
+                        <span class="error-message" id="city-error"></span>
                     </div>
                     <div class="form-group">
                         <label for="postal-code">Postal Code</label>
                         <input type="text" id="postal-code" placeholder="6-digit PIN code" maxlength="6" required>
                         <span class="error-message" id="postal-error"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <input type="text" id="country" placeholder="Enter your country" required>
-                        <span class="error-message" id="country-error"></span>
                     </div>
                 </form>
                 <button type="button" id="next-btn" class="next-step">Next</button>
@@ -120,7 +136,7 @@
         </div>
     </div>
 
-    <script src="../js/orderReview.js" defer></script>
+    <script src="../js/orderReview.js" defer type="module"></script>
 </body>
 
 </html>

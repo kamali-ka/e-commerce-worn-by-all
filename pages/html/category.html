@@ -6,6 +6,28 @@
   <title>Category Page</title>
   <link rel="stylesheet" href="../css/category.css">
   <link rel="icon" href="/assets/images/ic_icon.png">
+  <script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Select all the category links by class name
+      const categoryLinks = document.querySelectorAll('.category-link');
+    
+      // Use forEach to loop through the NodeList of links
+      categoryLinks.forEach(link => {
+        // Attach an event listener for each link
+        link.addEventListener('click', (e) => {
+          // Prevent the default behavior of the link
+          e.preventDefault();
+    
+          // Get the target URL from the data attribute (data-target)
+          const targetCategory = link.getAttribute('data-target');
+          localStorage.setItem('gender',targetCategory)
+          // Redirect to the target URL
+          window.location.href = "/pages/html/categories.html";
+        });
+      });
+    });
+    
+  </script>
 </head>
 <body>
   <header class="header">
@@ -14,17 +36,17 @@
 
   <div class="categories-container">
     <div class="category-card" >
-     <a href="../html/men-category.html"> <img src="/assets/images/img_men10.jpg" alt="Men"></a>
+     <a class="category-link" data-target="men"> <img src="/assets/images/img_men10.jpg" alt="Men"></a>
       <h3>Men</h3>
       <p>Stylish outfits for every occasion.</p>
     </div>
     <div class="category-card">
-      <a href="../html/women-category.html"><img src="/assets/images/img_women3.jpg" alt="Women"></a>
+      <a class="category-link" data-target="women"><img src="/assets/images/img_women3.jpg" alt="Women"></a>
       <h3>Women</h3>
       <p>Elegant and trendy collections.</p>
     </div>
     <div class="category-card">
-     <a href="../html/kids-category.html"> <img src="/assets/images/img_girl3.jpg" alt="Kids"></a>
+     <a class="category-link" data-target="kids"> <img src="/assets/images/img_girl3.jpg" alt="Kids"></a>
       <h3>Kids</h3>
       <p>Fun and comfortable apparel for kids.</p>
     </div>

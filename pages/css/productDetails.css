@@ -158,21 +158,26 @@ button {
 }
 
 .nav-icon #cartCount {
-    border-radius: 50%;
-    padding: 2px 6px;
-    margin-left: 5px;
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    border: 2px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white !important;  /* Ensures the color stays white */
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  border: 2px solid white;
+  line-height: 1;
+  box-sizing: border-box;
 }
+
+
 
 /* Popup Container */
 #popupContainer {

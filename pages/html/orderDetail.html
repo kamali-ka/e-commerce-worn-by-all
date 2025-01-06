@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link rel="stylesheet" href="../css/orderDetail.css">
+</head>
+
+<body>
+    <div class="order-list-container">
+        <h1>Your Orders</h1>
+
+        <div class="order-list" id="order-list">
+            <!-- Orders will be dynamically inserted here -->
+        </div>
+
+        <div class="order-footer">
+            <p><strong>Total Products:</strong> <span id="total-items">0</span></p>
+            <p><strong>Order Total:</strong> $<span id="total-price">0.00</span></p>
+        </div>
+
+        <button class="continue-shopping">Continue Shopping</button>
+    </div>
+
+    <script type="module" src="../js/orderDetail.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getDatabase, ref, get,set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 // Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAnKtlrGE7lMKtHhjQyzfElqCkI2bupWzs",
@@ -16,10 +24,27 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
-let userId = null; 
+let gender = localStorage.getItem("gender");
+let userId = null;
 
+const productTypeForFilter = {
+  Shirts: "Shirts",
+  Jeans: "Jeans",
+  "See All": null,
+  "Short Top": "Short tops",
+  Chudithar: "Chudithar",
+  Boys: ["pant", "co-ords"],
+  Girls: ["frock", "co-ords"],
+  Babies: "onesie",
+};
+const dataSet = {
+  men: "he-page",
+  women: "she-page",
+  kids: "kids-page",
+};
 
-
+let dataSetName = dataSet[gender];
+let productType = productTypeForFilter[localStorage.getItem("productType")];
 
 // Loader functions
 function showLoader() {
@@ -33,7 +58,7 @@ function hideLoader() {
 async function loadProducts() {
   try {
     showLoader();
-    const dbRef = ref(database, 'unisex-page');
+    const dbRef = ref(database, dataSetName);
     const snapshot = await get(dbRef);
     if (!snapshot.exists()) {
       throw new Error("No products found in the database.");
@@ -49,78 +74,83 @@ async function loadProducts() {
     }
     productGrid.innerHTML = "";
 
-    let filteredProducts=products;
-      
-  
-      if (filteredProducts.length === 0) {
-        productGrid.textContent = "No Products found!";
-        return;
-      }
-  
+    let filteredProducts = products;
+    if (productType) {
+      filteredProducts = products.filter((product) => {
+        // Check if productType is an array
+        if (Array.isArray(productType)) {
+          return productType.includes(product.type); // Filter products whose type matches any item in the array
+        } else {
+          return product.type === productType; // For non-array productType, check for equality
+        }
+      });
+    }
+
+    if (filteredProducts.length === 0) {
+      productGrid.textContent = "No Products found!";
+      return;
+    }
 
     const user = auth.currentUser;
     let cart = [];
     if (user) {
-      const cartRef = ref(database, `cart/${user.uid}/uniSex`);
+      const cartRef = ref(database, `cart/${user.uid}/${gender}`);
       const cartSnapshot = await get(cartRef);
       cart = cartSnapshot.exists() ? cartSnapshot.val() : [];
     }
 
     filteredProducts.forEach((product, index) => {
       if (!product || !product.id) {
-        console.error(`Product at index ${index} is invalid:`, product);  // Log the problematic product
+        console.error(`Product at index ${index} is invalid:`, product); // Log the problematic product
         return; // Skip this product if no valid data or id
       }
-    
+
       const productCard = document.createElement("div");
       productCard.classList.add("product-card");
       productCard.setAttribute("data-id", product.id);
-    
+
       const productLink = document.createElement("a");
-      productLink.addEventListener("click",()=>{
-        localStorage.setItem("gender","uniSex")
-        window.location.href = `../html/productDetails.html?id=${product.id}`; 
-      })
+      productLink.href = `../html/productDetails.html?id=${product.id}`;
       productLink.style.textDecoration = "none";
-    
+
       const productImage = document.createElement("img");
       productImage.src = product.image || "";
       productImage.alt = product.alt || product.name || "Product Image";
-    
+
       const productName = document.createElement("h2");
       productName.textContent = product.name || "Unnamed Product";
-    
+
       const productPrice = document.createElement("p");
       productPrice.classList.add("price");
       const price = parseFloat(product.price);
       productPrice.textContent = isNaN(price)
         ? "Price not available"
         : `₹${price.toFixed(2)}`;
-    
+
       const addButton = document.createElement("button");
       console.log(product);
       console.log(cart);
-      
+
       const existingItem = cart.find((item) => item.id === product.id);
-    
+
       if (existingItem) {
         addButton.textContent = "Visit Cart";
-        addButton.onclick = () => (window.location.href = "../html/cartPage.html");
+        addButton.onclick = () =>
+          (window.location.href = "../html/cartPage.html");
       } else {
         addButton.textContent = "Add to Cart";
         addButton.onclick = () => addToCart(product);
       }
-    
+
       productLink.appendChild(productImage);
       productLink.appendChild(productName);
       productLink.appendChild(productPrice);
-    
+
       productCard.appendChild(productLink);
       productCard.appendChild(addButton);
-    
+
       productGrid.appendChild(productCard);
     });
-      
   } catch (error) {
     console.error("Error loading products:", error.message);
   } finally {
@@ -128,14 +158,12 @@ async function loadProducts() {
   }
 }
 
-
-
 // Function to add an item to the cart
 function addToCart(item) {
   const user = auth.currentUser;
   if (user) {
     const userId = user.uid;
-    const cartRef = ref(database, `cart/${userId}/uniSex`);
+    const cartRef = ref(database, `cart/${userId}/${gender}`);
 
     get(cartRef)
       .then((snapshot) => {
@@ -169,15 +197,17 @@ function addToCart(item) {
   }
 }
 
-
 // Function to update the "Add to Cart" button text
 function updateCartButton(productId) {
-  const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+  const productCard = document.querySelector(
+    `.product-card[data-id="${productId}"]`
+  );
   if (productCard) {
     const addButton = productCard.querySelector("button");
     if (addButton) {
       addButton.textContent = "Visit Cart";
-      addButton.onclick = () => (window.location.href = "../html/cartPage.html");
+      addButton.onclick = () =>
+        (window.location.href = "../html/cartPage.html");
     }
   }
 }
@@ -204,7 +234,7 @@ function showPopup(message) {
 function updateCartCount() {
   const user = auth.currentUser;
   if (user) {
-    const cartRef = ref(database, `cart/${user.uid}/uniSex`);
+    const cartRef = ref(database, `cart/${user.uid}/${gender}`);
     get(cartRef)
       .then((snapshot) => {
         const cart = snapshot.exists() ? snapshot.val() : [];
@@ -222,10 +252,22 @@ function updateCartCount() {
 
 // Load content on page load
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("gender").innerText = capitalizeFirstLetter(gender);
+  if (productType) {
+    document.getElementById("productType").innerText =
+      localStorage.getItem("productType");
+    document.getElementById(
+      "searchBar"
+    ).placeholder = `Search for ${localStorage.getItem("productType")} ...`;
+  }
   loadProducts();
   updateCartCount();
 });
 
+function capitalizeFirstLetter(string) {
+  if (string.length === 0) return string; // Handle empty strings
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 // Wait for the authentication state to be confirmed
 onAuthStateChanged(auth, async (user) => {
@@ -243,7 +285,7 @@ onAuthStateChanged(auth, async (user) => {
 async function fetchCartItems() {
   try {
     console.log(userId);
-    const cartRef = ref(database, `cart/${userId}/uniSex`);
+    const cartRef = ref(database, `cart/${userId}/${gender}`);
     const snapshot = await get(cartRef);
     if (snapshot.exists()) {
       return snapshot.val(); // The cart data will be in a nested structure
@@ -260,9 +302,9 @@ async function updateCartCountInHeader() {
   // Get the cart items data
   const cartItems = await fetchCartItems();
 
-  let totalItems = cartItems.length; 
+  let totalItems = cartItems.length; // Initialize total item counter
+
   console.log(cartItems);
-  
 
   // Update the cart count on the page
   const cartCountElement = document.getElementById("cartCount");
@@ -273,18 +315,23 @@ async function updateCartCountInHeader() {
   // Save cart count explicitly to localStorage (if needed)
   localStorage.setItem("cartCount", totalItems);
 }
+
 document.addEventListener("DOMContentLoaded", () => {
-  const sidebar = document.getElementById("sidebar");
-  const toggleButton = document.getElementById("toggleSidebar");
+  // Select all the category links by class name
+  const categoryLinks = document.querySelectorAll(".category-link");
 
-  toggleButton.addEventListener("click", () => {
-    sidebar.classList.toggle("hidden");
-    toggleButton.classList.toggle("active");
+  // Use forEach to loop through the NodeList of links
+  categoryLinks.forEach((link) => {
+    // Attach an event listener for each link
+    link.addEventListener("click", (e) => {
+      // Prevent the default behavior of the link
+      e.preventDefault();
 
-    if (sidebar.classList.contains("hidden")) {
-      toggleButton.textContent = "✖ ";
-    } else {
-      toggleButton.textContent = "☰";
-    }
+      // Get the target URL from the data attribute (data-target)
+      const targetCategory = link.getAttribute("data-target");
+      localStorage.setItem("gender", targetCategory);
+      // Redirect to the target URL
+      window.location.href = "/pages/html/categories.html";
+    });
   });
 });
