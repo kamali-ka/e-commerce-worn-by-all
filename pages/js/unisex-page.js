@@ -273,18 +273,29 @@ async function updateCartCountInHeader() {
   // Save cart count explicitly to localStorage (if needed)
   localStorage.setItem("cartCount", totalItems);
 }
-document.addEventListener("DOMContentLoaded", () => {
+
+
+  // Sidebar Toggle Functionality
+  
+  // Toggle sidebar visibility
+  const toggleSidebar = document.getElementById("toggleSidebar");
   const sidebar = document.getElementById("sidebar");
-  const toggleButton = document.getElementById("toggleSidebar");
-
-  toggleButton.addEventListener("click", () => {
-    sidebar.classList.toggle("hidden");
-    toggleButton.classList.toggle("active");
-
-    if (sidebar.classList.contains("hidden")) {
-      toggleButton.textContent = "✖ ";
-    } else {
-      toggleButton.textContent = "☰";
-    }
-  });
-});
+  const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
+  
+  if (toggleSidebar) {
+    toggleSidebar.addEventListener("click", () => {
+      if (sidebar) {
+        sidebar.classList.toggle("visible");
+        overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
+      }
+    });
+  }
+  
+  // Close sidebar when clicking outside of it
+  if (sidebar && overlay) {
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("visible");
+      overlay.classList.remove("visible"); // Hide the overlay
+    });
+  }
+  
