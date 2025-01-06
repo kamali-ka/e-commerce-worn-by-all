@@ -69,9 +69,10 @@ async function loadProducts() {
 
     const productGrid = document.getElementById("productGrid");
     if (!productGrid) {
-      console.error("Product grid element not found!");
+      console.error("Product grid element not found! Ensure #productGrid exists in your HTML.");
       return;
     }
+    
     productGrid.innerHTML = "";
 
     let filteredProducts = products;
@@ -93,12 +94,17 @@ async function loadProducts() {
 
     const user = auth.currentUser;
     let cart = [];
+    
     if (user) {
       const cartRef = ref(database, `cart/${user.uid}/${gender}`);
       const cartSnapshot = await get(cartRef);
       cart = cartSnapshot.exists() ? cartSnapshot.val() : [];
+    } else {
+      // Fallback to localStorage cart
+      const localCart = localStorage.getItem("cart");
+      cart = localCart ? JSON.parse(localCart) : [];
     }
-
+    
     filteredProducts.forEach((product, index) => {
       if (!product || !product.id) {
         console.error(`Product at index ${index} is invalid:`, product); // Log the problematic product
@@ -162,40 +168,34 @@ async function loadProducts() {
 function addToCart(item) {
   const user = auth.currentUser;
   if (user) {
-    const userId = user.uid;
-    const cartRef = ref(database, `cart/${userId}/${gender}`);
-
-    get(cartRef)
-      .then((snapshot) => {
-        const cart = snapshot.exists() ? snapshot.val() : [];
-        const existingItemIndex = cart.findIndex(
-          (cartItem) => cartItem.id === item.id
-        );
-
-        if (existingItemIndex > -1) {
-          // If the item already exists, increase its quantity
-          cart[existingItemIndex].quantity += 1;
-        } else {
-          // If the item is new, add it with its id and initial quantity
-          cart.push({ id: item.id, quantity: 1 });
-        }
-
-        // Save the updated cart back to Firebase
-        return set(cartRef, cart);
-      })
-      .then(() => {
+    const cartRef = ref(database, `cart/${user.uid}/${gender}`);
+    get(cartRef).then((snapshot) => {
+      let cart = snapshot.exists() ? snapshot.val() : [];
+      const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id: item.id, quantity: 1 });
+      }
+      set(cartRef, cart).then(() => {
         updateCartButton(item.id);
-        showPopup("Item added to cart successfully!");
-      })
-      .catch((error) => {
-        console.error("Error updating cart:", error);
-        showPopup("Failed to add item to cart. Please try again.");
+        showPopup("Item added to cart!");
       });
+    });
   } else {
-    console.log("User is not signed in. Redirecting...");
-    window.location.href = "../html/signup-signin.html";
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ id: item.id, quantity: 1 });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartButton(item.id);
+    showPopup("Item added to cart (local). Sign in to save.");
   }
 }
+
 
 // Function to update the "Add to Cart" button text
 function updateCartButton(productId) {
@@ -272,33 +272,34 @@ function capitalizeFirstLetter(string) {
 // Wait for the authentication state to be confirmed
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // User is signed in, set userId
     userId = user.uid;
-    await updateCartCountInHeader(); // Update the cart count once the user is authenticated
-  } else {
-    // No user is signed in
-    console.log("No user is signed in.");
+    await updateCartCountInHeader(user.uid);
   }
 });
 
 // Fetch cart items from Firebase
-async function fetchCartItems() {
+async function fetchCartItems(uid) {
   try {
-    console.log(userId);
-    const cartRef = ref(database, `cart/${userId}/${gender}`);
+    const cartRef = ref(database, `cart/${uid}/${gender}`);
     const snapshot = await get(cartRef);
-    if (snapshot.exists()) {
-      return snapshot.val(); // The cart data will be in a nested structure
-    }
-    return {}; // Return empty if no cart data is found
+    return snapshot.exists() ? snapshot.val() : [];
   } catch (error) {
     console.error("Error fetching cart items from Firebase:", error);
-    return {};
+    return [];
+  }
+}
+
+async function updateCartCountInHeader(uid) {
+  const cartItems = await fetchCartItems(uid);
+  const totalItems = cartItems.length;
+  const cartCountElement = document.getElementById("cartCount");
+  if (cartCountElement) {
+    cartCountElement.textContent = totalItems;
   }
 }
 
 // Function to update the cart count (counting all items in the cart)
-async function updateCartCountInHeader() {
+/* async function updateCartCountInHeader() {
   // Get the cart items data
   const cartItems = await fetchCartItems();
 
@@ -315,7 +316,7 @@ async function updateCartCountInHeader() {
   // Save cart count explicitly to localStorage (if needed)
   localStorage.setItem("cartCount", totalItems);
 }
-
+ */
 document.addEventListener("DOMContentLoaded", () => {
   // Select all the category links by class name
   const categoryLinks = document.querySelectorAll(".category-link");
@@ -335,24 +336,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-  // Toggle sidebar visibility
-  const toggleSidebar = document.getElementById("toggleSidebar");
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
-  
-  if (toggleSidebar) {
-    toggleSidebar.addEventListener("click", () => {
-      if (sidebar) {
-        sidebar.classList.toggle("visible");
-        overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
-      }
-    });
-  }
-  
-  // Close sidebar when clicking outside of it
-  if (sidebar && overlay) {
-    overlay.addEventListener("click", () => {
-      sidebar.classList.remove("visible");
-      overlay.classList.remove("visible"); // Hide the overlay
-    });
-  }
+ // Toggle sidebar visibility
+ const toggleSidebar = document.getElementById("toggleSidebar");
+ const sidebar = document.getElementById("sidebar");
+ const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
+ 
+ if (toggleSidebar) {
+   toggleSidebar.addEventListener("click", () => {
+     if (sidebar) {
+       sidebar.classList.toggle("visible");
+       overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
+     }
+   });
+ }
+ 
+ // Close sidebar when clicking outside of it
+ if (sidebar && overlay) {
+   overlay.addEventListener("click", () => {
+     sidebar.classList.remove("visible");
+     overlay.classList.remove("visible"); // Hide the overlay
+   });
+ }

@@ -209,23 +209,42 @@ async function removeCartItem(productId) {
 
   try {
     // List of categories to check
-    const categories = ['women', 'men', 'kids', 'unisex']; // Add more categories if necessary
+    const categories = ['women', 'men', 'kids', 'unisex'];
 
-    // Loop through each category
     for (const category of categories) {
       const cartRef = ref(database, `cart/${userId}/${category}`);
       const snapshot = await get(cartRef);
 
       if (snapshot.exists()) {
-        // Get the cart items for this category
         const cartItems = snapshot.val();
-        
-        // Check if product exists and remove it
-        const updatedCartItems = cartItems.filter(item => item.id !== productId);
 
-        // If the item was removed, save the updated cart
-        if (cartItems.length !== updatedCartItems.length) {
-          await set(cartRef, updatedCartItems);
+        let updatedCartItems = {};
+        let itemRemoved = false;
+
+        // Check if cartItems is an object (Firebase often stores data as objects)
+        if (typeof cartItems === 'object') {
+          updatedCartItems = Object.fromEntries(
+            Object.entries(cartItems).filter(([key, item]) => {
+              const keepItem = item.id !== productId;
+              if (!keepItem) {
+                itemRemoved = true;
+              }
+              return keepItem;
+            })
+          );
+        } else if (Array.isArray(cartItems)) {
+          // If it's an array (less common), filter directly
+          updatedCartItems = cartItems.filter(item => item.id !== productId);
+          itemRemoved = true;
+        }
+
+        if (itemRemoved) {
+          // Save updated cart or delete category if empty
+          if (Object.keys(updatedCartItems).length > 0) {
+            await set(cartRef, updatedCartItems);
+          } else {
+            await remove(cartRef); // Remove the entire category if empty
+          }
           console.log(`Removed item with ID ${productId} from ${category} category.`);
         }
       }
@@ -238,8 +257,6 @@ async function removeCartItem(productId) {
     console.error("Error removing item from cart:", error);
   }
 }
-
-
 
 
 // Update the total amount in the UI
