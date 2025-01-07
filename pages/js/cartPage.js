@@ -307,8 +307,6 @@ function updateTotalAmount(cart) {
 }
 
 
-
-
 // Initialize cart on page load
 document.addEventListener("DOMContentLoaded", () => {
   onAuthStateChanged(auth, (user) => {

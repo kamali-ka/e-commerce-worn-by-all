@@ -55,7 +55,16 @@ function hideLoader() {
   document.getElementById("loader").style.display = "none";
 }
 
-async function loadProducts() {
+// Add this function to filter products by name
+function searchProducts() {
+  const searchBar = document.getElementById("searchBar");
+  const searchQuery = searchBar.value.toLowerCase(); // Get the search query and convert to lowercase
+
+  loadProducts(searchQuery);
+}
+
+// Update loadProducts to accept searchQuery
+async function loadProducts(searchQuery = "") {
   try {
     showLoader();
     const dbRef = ref(database, dataSetName);
@@ -65,26 +74,26 @@ async function loadProducts() {
     }
 
     const products = snapshot.val();
-    console.log("Products from Firebase:", products); // Log products to verify
-
     const productGrid = document.getElementById("productGrid");
-    if (!productGrid) {
-      console.error("Product grid element not found! Ensure #productGrid exists in your HTML.");
-      return;
-    }
-    
     productGrid.innerHTML = "";
 
     let filteredProducts = products;
+
     if (productType) {
       filteredProducts = products.filter((product) => {
-        // Check if productType is an array
         if (Array.isArray(productType)) {
-          return productType.includes(product.type); // Filter products whose type matches any item in the array
+          return productType.includes(product.type);
         } else {
-          return product.type === productType; // For non-array productType, check for equality
+          return product.type === productType;
         }
       });
+    }
+
+    // Filter by search query
+    if (searchQuery) {
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery)
+      );
     }
 
     if (filteredProducts.length === 0) {
@@ -92,23 +101,10 @@ async function loadProducts() {
       return;
     }
 
-    const user = auth.currentUser;
-    let cart = [];
-    
-    if (user) {
-      const cartRef = ref(database, `cart/${user.uid}/${gender}`);
-      const cartSnapshot = await get(cartRef);
-      cart = cartSnapshot.exists() ? cartSnapshot.val() : [];
-    } else {
-      // Fallback to localStorage cart
-      const localCart = localStorage.getItem("cart");
-      cart = localCart ? JSON.parse(localCart) : [];
-    }
-    
     filteredProducts.forEach((product, index) => {
       if (!product || !product.id) {
-        console.error(`Product at index ${index} is invalid:`, product); // Log the problematic product
-        return; // Skip this product if no valid data or id
+        console.error(`Product at index ${index} is invalid:`, product);
+        return;
       }
 
       const productCard = document.createElement("div");
@@ -134,19 +130,8 @@ async function loadProducts() {
         : `₹${price.toFixed(2)}`;
 
       const addButton = document.createElement("button");
-      console.log(product);
-      console.log(cart);
-
-      const existingItem = cart.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        addButton.textContent = "Visit Cart";
-        addButton.onclick = () =>
-          (window.location.href = "../html/cartPage.html");
-      } else {
-        addButton.textContent = "Add to Cart";
-        addButton.onclick = () => addToCart(product);
-      }
+      addButton.textContent = "Add to Cart";
+      addButton.onclick = () => addToCart(product);
 
       productLink.appendChild(productImage);
       productLink.appendChild(productName);
@@ -163,6 +148,13 @@ async function loadProducts() {
     hideLoader();
   }
 }
+
+// Attach the search function to the search bar
+const searchBar = document.getElementById("searchBar");
+if (searchBar) {
+  searchBar.addEventListener("input", searchProducts);
+}
+
 
 // Function to add an item to the cart
 function addToCart(item) {
