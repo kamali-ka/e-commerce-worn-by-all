@@ -76,6 +76,16 @@ function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const continueShoppingButton = document.querySelector(".continue-shopping");
+
+  if (continueShoppingButton) {
+    continueShoppingButton.addEventListener("click", () => {
+      // Redirect to the index page
+      window.location.href = "/index.html"; // Update the path if necessary
+    });
+  }
+});
 
 // Function to load orders dynamically
 function loadOrders(order) {

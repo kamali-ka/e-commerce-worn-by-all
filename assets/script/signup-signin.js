@@ -250,8 +250,12 @@ window.handleSignup = async function () {
     localStorage.setItem("email", email);
     showModal(
       "Sign-up successful! Redirecting to account details page...",
-      "../html/accountDetails.html"
+     null
+    
     );
+    window.location.href='../../index.html';
+    
+  
   } catch (error) {
     console.error("Sign-up error:", error.message);
     showModal(`Error during sign-up: ${error.message}`);
@@ -287,10 +291,11 @@ window.handleSignup = async function () {
       localStorage.setItem("email", email);
 
       // Redirect to account details page
-      showModal(
-        "Login successful! Redirecting to account details page...",
-        "../html/accountDetails.html"
-      );
+      // showModal(
+      //   "Login successful! Redirecting to account details page...",
+      //   "../../index.html"
+      // );
+      window.location.href='../../index.html';
     } catch (error) {
       console.error("Login error:", error.message);
       showModal("Invalid email or password.");
