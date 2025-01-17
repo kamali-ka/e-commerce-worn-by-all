@@ -316,6 +316,20 @@ window.handleSignup = async function () {
   } else {
     console.warn("Logout button not found.");
   }
+// After successful sign-up or sign-in
+function onAuthenticationSuccess() {
+  // Retrieve the stored URL
+  const redirectUrl = localStorage.getItem('redirectAfterLogin');
+  if (redirectUrl) {
+    // Clear the stored URL
+    localStorage.removeItem('redirectAfterLogin');
+    // Redirect to the original page
+    window.location.href = redirectUrl;
+  } else {
+    // Fallback: Redirect to a default page
+    window.location.href = 'default_page.html';
+  }
+}
 
   // Check Auth State
   onAuthStateChanged(auth, (user) => {
@@ -324,7 +338,7 @@ window.handleSignup = async function () {
         localStorage.getItem("username") || user.email.split("@")[0];
       const email = user.email;
       const phone = localStorage.getItem("phone");
-      window.location.href = localStorage.getItem("redirectAfterLogin") || "../../index.html";
+      window.location.href = localStorage.getItem("redirectAfterLogin");
 
       document.getElementById("profile-username").textContent = username;
       document.getElementById("profile-email").textContent = email;

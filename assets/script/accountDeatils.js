@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Redirect to login page if no user is logged in
   if (!currentUserEmail) {
     signUpSignInOption.style.display = "block"; // Ensure the option is visible for unauthenticated users
-    window.location.href = "../html/signup-signin.html";
+    window.location.href = "/pages/html/signup-signin.html";
     return; // Prevent further execution if redirected
   } else {
     signUpSignInOption.style.display = "none"; // Hide for logged-in users
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
         signUpSignInOption.style.display = "block";
 
         // Redirect to login page after sign-out
-        window.location.href = "../../index.html";
+        window.location.href = "/index.html";
       })
       .catch((error) => {
         console.error("Error during logout:", error);

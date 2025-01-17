@@ -140,7 +140,7 @@ function signOutUser() {
   signOut(auth)
     .then(() => {
       localStorage.clear(); // Clear session data
-      window.location.href = "../../index.html"; // Redirect to homepage after logout
+      window.location.href = "/index.html"; // Redirect to homepage after logout
     })
     .catch((error) => {
       console.error("Logout error:", error.message);

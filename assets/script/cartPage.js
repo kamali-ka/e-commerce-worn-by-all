@@ -82,6 +82,8 @@ async function loadCartItems() {
   }
 
   const userId = user.uid;
+  console.log("userId",userId);
+  
   const cart = await fetchCartItems(userId);
   const products = await fetchProductData();
 
@@ -366,9 +368,6 @@ document.getElementById("emptyCartButton").addEventListener("click", async () =>
   // Optionally, you can update the total amount to 0 after clearing the cart
   updateTotalAmount({}); // Pass an empty cart to reset the total
 });
-
-
-
 
 document.getElementById("buyNowButton").addEventListener("click",()=>{
   localStorage.setItem("orderedProductsId",productId)

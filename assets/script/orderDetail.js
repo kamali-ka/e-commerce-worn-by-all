@@ -44,7 +44,19 @@ get(orderPageRef)
     // }
 
     // Find the specific order by ID
-    const order = orders[0][selectedOrderId];
+
+    let foundOrder = null;
+
+// Iterate through all entries
+for (const group of orders) {
+    if (group[selectedOrderId]) {
+        foundOrder = group[selectedOrderId];
+        break;
+    }
+}
+
+
+    // const order = orders[0][selectedOrderId];
 
     // if (!order) {
     //   displayErrorMessage(
@@ -54,7 +66,7 @@ get(orderPageRef)
     // }
 
     // Display the order details
-    loadOrders(order);
+    loadOrders(foundOrder);
   })
   .catch((error) => {
     console.error("Error fetching order data:", error);
@@ -67,6 +79,9 @@ function getQueryParam(param) {
 
 // Function to load orders dynamically
 function loadOrders(order) {
+console.log(order);
+
+  
   const orderList = document.getElementById("order-list");
   orderList.innerHTML = "";  // Clear previous content
 
@@ -101,7 +116,7 @@ function loadOrders(order) {
 
       // Add click event to redirect to product details page with product id
       imgElement.addEventListener("click", () => {
-        window.location.href = `../html/productDetails.html?id=${id}`;
+        window.location.href = `/pages/html/productDetails.html?id=${id}`;
       });
 
       imageWrapper.appendChild(imgElement)

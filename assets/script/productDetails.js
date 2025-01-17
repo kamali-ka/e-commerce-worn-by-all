@@ -157,13 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Check if the product is already in the cart
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const productInCart = cart.find((item) => item.id === product.id);
-
+const totalBill = product.price+30+(product.price*0.02);
     const addToCartButton = document.getElementById("addToCartButton");
 
     if (productInCart) {
       addToCartButton.textContent = "Visit Cart";
       addToCartButton.onclick = () => {
-        window.location.href = "../html/cartPage.html"; // Redirect to cart page
+        window.location.href = "/pages/html/cartPage.html"; // Redirect to cart page
       };
     } else {
       addToCartButton.addEventListener("click", () =>
@@ -174,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (buyNowButton) {
       buyNowButton.addEventListener("click", () => {
         localStorage.setItem("orderedProductsId", product.id);
-        window.location.href = "../html/orderReview.html";
+        localStorage.setItem("orderedTotalPrice",totalBill)
+        window.location.href = "/pages/html/orderReview.html";
       });
     }
   }
@@ -228,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function addToCart(item) {
+  function addToCart(product, button) {
     const user = auth.currentUser;
     if (user) {
       const userId = user.uid;
@@ -236,35 +237,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
       get(cartRef)
         .then((snapshot) => {
-          const cart = snapshot.exists() ? snapshot.val() : [];
-          const existingItemIndex = cart.findIndex(
-            (cartItem) => cartItem.id === item.id
-          );
+          let cart = snapshot.exists() ? snapshot.val() : [];
 
-          if (existingItemIndex > -1) {
-            // If the item already exists, increase its quantity
-            cart[existingItemIndex].quantity += 1;
+          // Check if the product is already in the cart
+          const existingProduct = cart.find((item) => item.id === product.id);
+
+          if (existingProduct) {
+            // If the product exists, optionally update quantity
+            existingProduct.quantity += 1; // Increment quantity
           } else {
-            // If the item is new, add it with its id and initial quantity
-            cart.push({ id: item.id, quantity: 1 });
+            // Add the product to the cart if not already present
+            cart.push({ id: product.id, quantity: 1 });
           }
 
           // Save the updated cart back to Firebase
           return set(cartRef, cart);
         })
         .then(() => {
-          updateCartButton(item.id);
+          // Update button to "Visit Cart"
+          button.textContent = "Visit Cart";
+          button.onclick = () => {
+            window.location.href = "/pages/html/cartPage.html";
+          };
+
+          // Show confirmation popup
           showPopup("Item added to cart successfully!");
+
+          // Update cart count in the header
+          updateCartCount();
         })
         .catch((error) => {
-          console.error("Error updating cart:", error);
+          console.error("Error adding item to cart:", error);
           showPopup("Failed to add item to cart. Please try again.");
         });
     } else {
       console.log("User is not signed in. Redirecting...");
-      window.location.href = "../html/signup-signin.html";
+      window.location.href = "/pages/html/signup-signin.html"; // Redirect to login if user is not signed in
     }
   }
+
+  function setupAddToCartButton(product) {
+    const addToCartButton = document.getElementById("addToCartButton");
+    if (!addToCartButton) return;
+
+    // Check if the product is already in the cart
+    const user = auth.currentUser;
+    if (user) {
+      const cartRef = ref(database, `cart/${user.uid}/${gender}`);
+      get(cartRef).then((snapshot) => {
+        const cart = snapshot.exists() ? snapshot.val() : [];
+        const productInCart = cart.some((item) => item.id === product.id);
+
+        if (productInCart) {
+          addToCartButton.textContent = "Visit Cart";
+          addToCartButton.onclick = () => {
+            window.location.href = "/pages/html/cartPage.html";
+          };
+        } else {
+          addToCartButton.textContent = "Add to Cart";
+          addToCartButton.onclick = () => addToCart(product, addToCartButton);
+        }
+      });
+    }
+  }
+  displayProductDetails(product);
+  setupAddToCartButton(product);
 
   // Function to update the "Add to Cart" button text
   function updateCartButton(productId) {
@@ -276,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (addButton) {
         addButton.textContent = "Visit Cart";
         addButton.onclick = () =>
-          (window.location.href = "../html/cartPage.html");
+          (window.location.href = "/pages/html/cartPage.html");
       }
     }
   }
@@ -366,14 +403,21 @@ function updateCartCount() {
     get(cartRef)
       .then((snapshot) => {
         const cart = snapshot.exists() ? snapshot.val() : [];
-        const totalProducts = cart.length;
+        const totalProducts = cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        ); // Calculate total quantity
+
         const cartCountElement = document.getElementById("cartCount");
         if (cartCountElement) {
-          cartCountElement.textContent = totalProducts;
+          cartCountElement.textContent = totalProducts; // Update cart count in the DOM
         }
+
+        // Save cart count to localStorage for persistence
+        localStorage.setItem("cartCount", totalProducts);
       })
       .catch((error) => {
-        console.error("Error fetching cart count:", error);
+        console.error("Error updating cart count:", error);
       });
   }
 }

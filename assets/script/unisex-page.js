@@ -87,7 +87,7 @@ async function loadProducts(searchQuery = "") {
       const productLink = document.createElement("a");
       productLink.addEventListener("click", () => {
         localStorage.setItem("gender", "uniSex");
-        window.location.href = `../html/productDetails.html?id=${product.id}`;
+        window.location.href = `/pages/html/productDetails.html?id=${product.id}`;
       });
       productLink.style.textDecoration = "none";
 
@@ -110,7 +110,7 @@ async function loadProducts(searchQuery = "") {
 
       if (existingItem) {
         addButton.textContent = "Visit Cart";
-        addButton.onclick = () => (window.location.href = "../html/cartPage.html");
+        addButton.onclick = () => (window.location.href = "pages/html/cartPage.html");
       } else {
         addButton.textContent = "Add to Cart";
         addButton.onclick = () => addToCart(product);
@@ -170,7 +170,7 @@ function addToCart(item) {
       });
   } else {
     console.log("User is not signed in. Redirecting...");
-    window.location.href = "../html/signup-signin.html";
+    window.location.href = "pages/html/signup-signin.html";
   }
 }
 
@@ -182,7 +182,7 @@ function updateCartButton(productId) {
     const addButton = productCard.querySelector("button");
     if (addButton) {
       addButton.textContent = "Visit Cart";
-      addButton.onclick = () => (window.location.href = "../html/cartPage.html");
+      addButton.onclick = () => (window.location.href = "pages/html/cartPage.html");
     }
   }
 }

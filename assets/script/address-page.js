@@ -59,7 +59,7 @@ function submitAddress() {
 
       // Simulate a slight delay before redirection
       setTimeout(() => {
-          window.location.href = "../html/payment.html"; // Redirect to payment page
+          window.location.href = "/pages/html/payment.html"; // Redirect to payment page
       }, 1500);
   }
 }

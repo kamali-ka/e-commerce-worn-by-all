@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (closePopupBtn) {
     closePopupBtn.addEventListener("click", function () {
       orderConfirmationPopup.style.display = "none";
-      window.location.href = "../html/orderPlaced.html"; // Redirect to the order placed page
+      window.location.href = "/pages/html/orderPlaced.html"; // Redirect to the order placed page
     });
   }
 
@@ -318,6 +318,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     let orderId = localStorage.getItem("orderId");
     let productId = localStorage.getItem("orderedProductsId");
     let totalBillPrice = localStorage.getItem("orderedTotalPrice");
+    console.log(totalBillPrice);
+    
     
     if (!orderId) {
       orderId = 1;
@@ -363,7 +365,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           emptyCartInFirebase(userId);
 
         // Redirect to the order history page
-        window.location.href = "../html/orderHistory.html";
+        window.location.href = "/pages/html/orderHistory.html";
       })
       .catch((error) => {
         console.error("Error saving order to Firebase:", error);
