@@ -11,6 +11,7 @@ import {
   getAuth,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+// import {} from "../script/signup-signin.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -334,6 +335,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const userId = auth.currentUser ? auth.currentUser.uid : null;
     if (!userId) {
       console.error("User not authenticated.");
+      window.location.href='../../pages/html/signup-signin.html'
+      
       return; // Prevent further execution if no user is logged in
     }
 
