@@ -41,6 +41,7 @@ const dataSet = {
   men: "he-page",
   women: "she-page",
   kids: "kids-page",
+  unisex: "unisex-page"
 };
 
 let dataSetName = dataSet[gender];
