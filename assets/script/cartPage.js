@@ -31,6 +31,11 @@ function hideLoader() {
   document.getElementById("loader").style.display = "none";
 }
 
+const checkOut = document.getElementById("buyNowButton");
+if(checkOut){
+  checkOut.disabled = true;
+}
+
 // Fetch cart items from Firebase
 async function fetchCartItems(userId) {
   try {
@@ -67,11 +72,26 @@ async function emptyCartInFirebase(userId) {
   }
 }
 
-// Load cart items and display them
+function isCartEmpty(cart) {
+  return !cart || Object.keys(cart).length === 0 || 
+         Object.values(cart).every(category => category.length === 0);
+}
+
+function updateCheckoutButton(cart) {
+  const checkOut = document.getElementById("buyNowButton");
+  if (isCartEmpty(cart)) {
+    checkOut.disabled = true;
+    checkOut.classList.add("disabled"); // Optional for styling
+  } else {
+    checkOut.disabled = false;
+    checkOut.classList.remove("disabled");
+  }
+}
+
 async function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   if (!cartItemsContainer) return;
-
+  if (checkOut) checkOut.disabled = true; // Default disabled state
   showLoader();
 
   const user = auth.currentUser;
@@ -82,40 +102,35 @@ async function loadCartItems() {
   }
 
   const userId = user.uid;
-  console.log("userId",userId);
-  
   const cart = await fetchCartItems(userId);
   const products = await fetchProductData();
 
   cartItemsContainer.innerHTML = "";
 
-  if (Object.keys(cart).length === 0) {
+  if (isCartEmpty(cart)) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    updateBillSummary(cart, products);
+    updateCheckoutButton(cart);
     hideLoader();
     return;
   }
 
-
   for (const category in cart) {
     const categoryItems = cart[category];
     categoryItems.forEach(cartItem => {
-
-      const product = products.find((p) => p.id === cartItem.id);
-      productId.push(product.id)
-      console.log(productId);
-      
+      const product = products.find(p => p.id === cartItem.id);
       if (product) {
         renderCartItem(cartItem, product, cartItemsContainer);
       }
     });
   }
 
-  // Update the total amount on page load
   updateTotalAmount(cart);
-
+  updateCheckoutButton(cart);
   hideLoader();
 }
+localStorage.removeItem("orderedProductsId");
+localStorage.removeItem("orderedTotalPrice");
+
 
 // Render individual cart item
 function renderCartItem(cartItem, product, container) {
