@@ -188,47 +188,89 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function validateAddress() {
     let isValid = true;
-
-    const validateField = (fieldId, errorId, message) => {
+  
+    const validateField = (fieldId, errorId, message, pattern = null) => {
       const field = document.getElementById(fieldId);
       const errorElement = document.getElementById(errorId);
-      const isFieldValid = field?.value.trim();
-      if (errorElement) {
-        errorElement.innerText = isFieldValid ? "" : message;
-        errorElement.style.color = isFieldValid ? "" : "red"; // Show error in red
+      const fieldValue = field?.value.trim();
+  
+      let isFieldValid = fieldValue !== "";
+  
+      if (pattern) {
+        isFieldValid = pattern.test(fieldValue);
       }
-      return !!isFieldValid;
+  
+      if (errorElement) {
+        if (isFieldValid) {
+          errorElement.innerText = "";
+          errorElement.style.display = "none";
+        } else {
+          errorElement.innerText = message;
+          errorElement.style.color = "red";
+          errorElement.style.fontWeight = "bold";
+          errorElement.style.display = "block"; // Ensure the error message is visible
+        }
+      }
+  
+      return isFieldValid;
     };
-
-    isValid =
-      isValid &&
-      validateField("full-name", "name-error", "Full Name is required.");
-    isValid =
-      isValid &&
-      validateField(
-        "address-line-1",
-        "address1-error",
-        "Address Line 1 is required."
-      );
-    isValid =
-      isValid && validateField("city", "city-error", "City is required.");
-    isValid =
-      isValid && validateField("state", "state-error", "State is required.");
-    isValid =
-      isValid &&
-      validateField(
-        "postal-code",
-        "postal-error",
-        "Enter a valid 6-digit postal code."
-      ) &&
-      /^[0-9]{6}$/.test(document.getElementById("postal-code")?.value);
-    isValid =
-      isValid &&
-      validateField("country", "country-error", "Country is required.");
-
-    return isValid;
+  
+    // Full name should contain at least 3 letters
+    isValid &= validateField(
+      "full-name",
+      "full-name-error",
+      "Full name should contain at least 3 letters.",
+      /^[A-Za-z ]{3,50}$/
+    );
+    isValid &= validateField("address-line-1", "address1-error", "Address Line 1 is required.");
+    isValid &= validateField("country", "country-error", "Please select a country.");
+    isValid &= validateField("state", "state-error", "Please select a state.");
+    isValid &= validateField("city", "city-error", "Please select a city.");
+    isValid &= validateField(
+      "postal-code",
+      "postal-error",
+      "Enter a valid 6-digit postal code.",
+      /^(?!(\d)\1{5}$)[0-9]{6}$/ // This regex prevents all repeated digits like '111111', '222222', etc.
+    );
+    
+    // Validate postal code to ensure it's a valid 6-digit number and not '000000'
+    const postalCodeField = document.getElementById("postal-code");
+    const postalCodeError = document.getElementById("postal-error");
+    const postalCodeValue = postalCodeField?.value.trim();
+  
+  let postalCodeValid = /^[0-9]{6}$/.test(postalCodeValue); // Ensure it's a 6-digit number
+  /*     if (postalCodeValid && postalCodeValue === "000000") {
+      postalCodeValid = false; // Invalid postal code if it's '000000'
+    } */
+  
+    if (postalCodeError) {
+      if (postalCodeValid) {
+        postalCodeError.innerText = "";
+        postalCodeError.style.display = "none";
+      } else {
+        postalCodeError.innerText = "Enter a valid 6-digit postal code.";
+        postalCodeError.style.color = "red";
+        postalCodeError.style.fontWeight = "bold";
+        postalCodeError.style.display = "block";
+      }
+    }
+  
+    // Update isValid status for postal code
+    isValid &= postalCodeValid;
+  
+    return !!isValid;
   }
-
+  
+  // Attach event listener to the "Next" button
+  document.getElementById("next-btn").addEventListener("click", function () {
+    if (validateAddress()) {
+      // Proceed to the next step, e.g., showing the payment step
+      document.querySelector(".address-step").classList.remove("active");
+      document.querySelector(".payment-step").classList.add("active");
+    }
+  });
+  
+  
   function validatePayment() {
     const paymentMethod = document.querySelector(
       'input[name="payment_method"]:checked'
@@ -271,15 +313,45 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       // Validate Expiry Date (MM/YY)
       const cardExpiry = cardExpiryField?.value.trim();
-      if (!cardExpiry || !/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(cardExpiry)) {
+      if (!cardExpiry || !/^([1-9]|1[0-2])\/([0-9]{2})$/.test(cardExpiry)) {
         displayErrorMessage(
           "card-expiry-error",
-          "Please enter a valid expiration date (MM/YY)."
+          "Please enter a valid expiration date (1-12/YY)."
         );
         return false;
       }
-      clearErrorMessage("card-expiry-error");
-
+  /*     clearErrorMessage("card-expiry-error");
+      document.getElementById("card-expiry").addEventListener("input", function () {
+        formatExpiry(this);
+      }); */
+            
+      function formatExpiry(input) {
+        let value = input.value.replace(/\D/g, ""); // Remove non-numeric characters
+      
+        if (value.length > 2) {
+          let month = parseInt(value.substring(0, 2), 10);
+          let year = value.substring(2, 4);
+      
+          if (month > 12) {
+            input.value = "12" + (year ? "/" + year : "");
+          } else if (month < 1) {
+            input.value = "01" + (year ? "/" + year : "");
+          } else {
+            input.value = value.substring(0, 2) + (year ? "/" + year : "");
+          }
+        } else {
+          input.value = value;
+        }
+      
+        // Auto-add "/" after month input
+        if (value.length >= 2 && !input.value.includes("/")) {
+          input.value = value.substring(0, 2) + "/" + value.substring(2);
+        }
+      }
+      document.getElementById("card-expiry").addEventListener("input", function () {
+        formatExpiry(this);
+      });
+            
       // Validate CVV (3 digits)
       const cardCvv = cardCvvField?.value.trim();
       if (!cardCvv || !/^\d{3}$/.test(cardCvv)) {
