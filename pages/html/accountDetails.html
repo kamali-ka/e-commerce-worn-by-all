@@ -65,11 +65,11 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" placeholder="Enter your email" disabled>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" placeholder="Enter your phone number">
+                    <input type="text" id="phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Enter your phone number">
                 </div>
                 <div class="form-group">
                     <label for="address">Address:</label>
