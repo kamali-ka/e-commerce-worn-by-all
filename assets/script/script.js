@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Function to redirect to the Sign In/Sign Up page
 function redirectToSignIn() {
   console.log("Redirecting to sign-in page");
-  window.location.href = "/pages/html/signup-signin.html"; // Adjust path as needed
+  window.location.href = "../../pages/html/signup-signin.html"; // Adjust path as needed
 }
 
 // Event listener for form submission (Login/Signup button)
