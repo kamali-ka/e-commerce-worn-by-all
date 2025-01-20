@@ -106,13 +106,13 @@
                     </div>
                     <div class="card-details" id="card-details" style="display: none;">
                         <label for="card-number">Card Number</label>
-                        <input type="text" id="card-number" maxlength="16" placeholder="Card Number">
+                        <input type="text" id="card-number" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Card Number">
                         <span class="error-message" id="card-number-error"></span>
                         <label for="card-expiry">Expiry Date</label>
                         <input type="text" id="card-expiry" placeholder="MM/YY">
                         <span class="error-message" id="card-expiry-error"></span>
                         <label for="card-cvv">CVV</label>
-                        <input type="text" id="card-cvv" maxlength="3" minlength="3" placeholder="CVV">
+                        <input type="text" id="card-cvv"maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4)" placeholder="CVV">
                         <span class="error-message" id="card-cvv-error"></span>
                     </div>
                     <div class="payment-option">
