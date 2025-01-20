@@ -271,20 +271,83 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   
   
-  function validatePayment() {
-    const paymentMethod = document.querySelector(
-      'input[name="payment_method"]:checked'
-    );
-
-    if (!paymentMethod) {
-      displayErrorMessage(
-        "payment-method-error",
-        "Please select a payment method."
-      );
+  function displayErrorMessage(errorId, message) {
+    const errorElement = document.getElementById(errorId);
+    if (errorElement) {
+      errorElement.innerText = message;
+      errorElement.style.color = "red"; // Set error message color to red
+      errorElement.style.fontWeight = "bold";
+      errorElement.style.display = "block"; // Ensure the error message is visible
+    }
+  }
+  
+  function clearErrorMessage(errorId) {
+    const errorElement = document.getElementById(errorId);
+    if (errorElement) {
+      errorElement.innerText = ""; // Clear the error message
+      errorElement.style.display = "none"; // Hide the error message
+    }
+  }
+  
+  function validateCardNumber(cardNumber) {
+    cardNumber = cardNumber.replace(/\D/g, ''); // Remove non-digit characters
+  
+    // Check if all digits are the same (e.g., 1111111111111111)
+    if (/^(\d)\1+$/.test(cardNumber)) {
+      return false; // Invalid if all digits are the same
+    }
+  
+    if (cardNumber.length < 13 || cardNumber.length > 19) {
+      return false; // Invalid length
+    }
+  
+    let sum = 0;
+    let shouldDouble = false;
+  
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+      let digit = parseInt(cardNumber.charAt(i), 10);
+  
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+  
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+  
+    return sum % 10 === 0; // Valid if divisible by 10
+  }
+  
+  function validateExpiryDate(expiryDate) {
+    // Ensure the format is MM/YY
+    if (!/^([1-9]|1[0-2])\/([0-9]{2})$/.test(expiryDate)) {
       return false;
     }
-    clearErrorMessage("payment-method-error"); // Clear any previous error message
-
+  
+    const [month, year] = expiryDate.split('/').map(num => parseInt(num, 10));
+    const currentYear = new Date().getFullYear() % 100; // Get the last two digits of the current year
+    const currentMonth = new Date().getMonth() + 1; // Get the current month (1-12)
+  
+    // Check if the expiry year is greater than the current year or if it's the same year but the month is in the future
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return false; // Expiry date is in the past
+    }
+  
+    return true; // Valid expiry date
+  }
+  
+  function validatePayment() {
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+  
+    if (!paymentMethod) {
+      displayErrorMessage("payment-method-error", "Please select a payment method.");
+      return false;
+    }
+    clearErrorMessage("payment-method-error");
+  
     // Validate UPI
     if (paymentMethod.value === "upi") {
       const upiId = document.getElementById("upi-id")?.value;
@@ -294,77 +357,69 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       clearErrorMessage("upi-id-error");
     }
-
+  
     // Validate Card
     if (paymentMethod.value === "card") {
       const cardNumberField = document.getElementById("card-number");
       const cardExpiryField = document.getElementById("card-expiry");
       const cardCvvField = document.getElementById("card-cvv");
-
+  
       const cardNumber = cardNumberField.value;
-      if (!cardNumber || cardNumber.length !== 16) {
-        displayErrorMessage(
-          "card-number-error",
-          "Please enter a valid 16-digit card number."
-        );
+      if (!cardNumber || cardNumber.length !== 16 || !validateCardNumber(cardNumber)) {
+        displayErrorMessage("card-number-error", "Please enter a valid 16-digit card number (no repeating digits).");
         return false;
       }
       clearErrorMessage("card-number-error");
-
+  
       // Validate Expiry Date (MM/YY)
       const cardExpiry = cardExpiryField?.value.trim();
-      if (!cardExpiry || !/^([1-9]|1[0-2])\/([0-9]{2})$/.test(cardExpiry)) {
-        displayErrorMessage(
-          "card-expiry-error",
-          "Please enter a valid expiration date (1-12/YY)."
-        );
+      if (!cardExpiry || !validateExpiryDate(cardExpiry)) {
+        displayErrorMessage("card-expiry-error", "Please enter a valid expiration date (1-12/YY) and ensure it's not expired.");
         return false;
       }
-  /*     clearErrorMessage("card-expiry-error");
-      document.getElementById("card-expiry").addEventListener("input", function () {
-        formatExpiry(this);
-      }); */
-            
-      function formatExpiry(input) {
-        let value = input.value.replace(/\D/g, ""); // Remove non-numeric characters
-      
-        if (value.length > 2) {
-          let month = parseInt(value.substring(0, 2), 10);
-          let year = value.substring(2, 4);
-      
-          if (month > 12) {
-            input.value = "12" + (year ? "/" + year : "");
-          } else if (month < 1) {
-            input.value = "01" + (year ? "/" + year : "");
-          } else {
-            input.value = value.substring(0, 2) + (year ? "/" + year : "");
-          }
-        } else {
-          input.value = value;
-        }
-      
-        // Auto-add "/" after month input
-        if (value.length >= 2 && !input.value.includes("/")) {
-          input.value = value.substring(0, 2) + "/" + value.substring(2);
-        }
-      }
-      document.getElementById("card-expiry").addEventListener("input", function () {
-        formatExpiry(this);
-      });
-            
+      clearErrorMessage("card-expiry-error");
+  
       // Validate CVV (3 digits)
       const cardCvv = cardCvvField?.value.trim();
       if (!cardCvv || !/^\d{3}$/.test(cardCvv)) {
-        displayErrorMessage(
-          "card-cvv-error",
-          "Please enter a valid 3-digit CVV."
-        );
+        displayErrorMessage("card-cvv-error", "Please enter a valid 3-digit CVV.");
         return false;
       }
       clearErrorMessage("card-cvv-error");
     }
-    return true;
+  
+    return true; // Everything is valid
   }
+  
+  // Format Expiry Date (MM/YY) automatically
+  function formatExpiry(input) {
+    let value = input.value.replace(/\D/g, ""); // Remove non-numeric characters
+  
+    if (value.length > 2) {
+      let month = parseInt(value.substring(0, 2), 10);
+      let year = value.substring(2, 4);
+  
+      if (month > 12) {
+        input.value = "12" + (year ? "/" + year : "");
+      } else if (month < 1) {
+        input.value = "01" + (year ? "/" + year : "");
+      } else {
+        input.value = value.substring(0, 2) + (year ? "/" + year : "");
+      }
+    } else {
+      input.value = value;
+    }
+  
+    // Auto-add "/" after month input
+    if (value.length >= 2 && !input.value.includes("/")) {
+      input.value = value.substring(0, 2) + "/" + value.substring(2);
+    }
+  }
+  
+  document.getElementById("card-expiry").addEventListener("input", function () {
+    formatExpiry(this);
+  });
+    
 
   function displayErrorMessage(errorId, message) {
     const errorElement = document.getElementById(errorId);
