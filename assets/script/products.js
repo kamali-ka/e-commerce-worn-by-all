@@ -65,6 +65,8 @@ function searchProducts() {
 }
 
 // Update loadProducts to accept searchQuery
+// Update loadProducts to check if the product is in the cart
+// Update loadProducts to check if the product is in the cart
 async function loadProducts(searchQuery = "") {
   try {
     showLoader();
@@ -102,10 +104,10 @@ async function loadProducts(searchQuery = "") {
       return;
     }
 
-    filteredProducts.forEach((product, index) => {
+    for (const product of filteredProducts) {
       if (!product || !product.id) {
-        console.error(`Product at index ${index} is invalid:`, product);
-        return;
+        console.error(`Product is invalid:`, product);
+        continue;
       }
 
       const productCard = document.createElement("div");
@@ -132,7 +134,17 @@ async function loadProducts(searchQuery = "") {
 
       const addButton = document.createElement("button");
       addButton.textContent = "Add to Cart";
-      addButton.onclick = () => addToCart(product);
+      addButton.setAttribute('id', 'summa');
+
+      // Check if the product is already in the cart (logged in or local storage)
+      const isInCart = await isProductInCart(product.id);
+      
+      if (isInCart) {
+        addButton.textContent = "Visit Cart";
+        addButton.onclick = () => window.location.href = "../html/cartPage.html";
+      } else {
+        addButton.onclick = () => addToCart(product);
+      }
 
       productLink.appendChild(productImage);
       productLink.appendChild(productName);
@@ -142,13 +154,15 @@ async function loadProducts(searchQuery = "") {
       productCard.appendChild(addButton);
 
       productGrid.appendChild(productCard);
-    });
+    }
   } catch (error) {
     console.error("Error loading products:", error.message);
   } finally {
     hideLoader();
   }
 }
+
+
 
 // Attach the search function to the search bar
 const searchBar = document.getElementById("searchBar");
@@ -157,6 +171,7 @@ if (searchBar) {
 }
 
 
+// Function to add an item to the cart
 // Function to add an item to the cart
 function addToCart(item) {
   const user = auth.currentUser;
@@ -172,6 +187,7 @@ function addToCart(item) {
       }
       set(cartRef, cart).then(() => {
         updateCartButton(item.id);
+        updateCartCount();  // Update the cart count after adding to the cart
         showPopup("Item added to cart!");
       });
     });
@@ -185,9 +201,11 @@ function addToCart(item) {
     }
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartButton(item.id);
+    updateCartCount();  // Update the cart count after adding to the cart
     showPopup("Item added to cart (local). Sign in to save.");
   }
 }
+
 
 
 // Function to update the "Add to Cart" button text
@@ -224,14 +242,16 @@ function showPopup(message) {
 }
 
 // Function to update the cart count
+// Function to update the cart count (for both logged-in and guest users)
 function updateCartCount() {
   const user = auth.currentUser;
   if (user) {
+    // If user is logged in, fetch the cart from Firebase
     const cartRef = ref(database, `cart/${user.uid}/${gender}`);
     get(cartRef)
       .then((snapshot) => {
         const cart = snapshot.exists() ? snapshot.val() : [];
-        const totalProducts = cart.length;
+        const totalProducts = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum up the quantities
         const cartCountElement = document.getElementById("cartCount");
         if (cartCountElement) {
           cartCountElement.textContent = totalProducts;
@@ -240,8 +260,17 @@ function updateCartCount() {
       .catch((error) => {
         console.error("Error fetching cart count:", error);
       });
+  } else {
+    // If user is not logged in, get cart from localStorage
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalProducts = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum up the quantities
+    const cartCountElement = document.getElementById("cartCount");
+    if (cartCountElement) {
+      cartCountElement.textContent = totalProducts;
+    }
   }
 }
+
 
 // Load content on page load
 document.addEventListener("DOMContentLoaded", () => {
@@ -350,3 +379,24 @@ document.addEventListener("DOMContentLoaded", () => {
      overlay.classList.remove("visible"); // Hide the overlay
    });
  }
+
+
+ // Function to check if a product is in the cart
+// Function to check if a product is in the cart
+function isProductInCart(productId) {
+  const user = auth.currentUser;
+  if (user) {
+    // Check in Firebase if the user is logged in
+    const cartRef = ref(database, `cart/${user.uid}/${gender}`);
+    return get(cartRef).then((snapshot) => {
+      const cart = snapshot.exists() ? snapshot.val() : [];
+      return cart.some((item) => item.id === productId);  // Return true if product is found
+    });
+  } else {
+    // Check in localStorage if the user is not logged in
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    return cart.some((item) => item.id === productId);  // Return true if product is found
+  }
+}
+
+
