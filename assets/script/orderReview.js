@@ -495,7 +495,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           emptyCartInFirebase(userId);
 
         // Redirect to the order history page
-        window.location.href = "/pages/html/orderHistory.html";
+        window.location.href = "../../pages/html/orderPlaced.html";
       })
       .catch((error) => {
         console.error("Error saving order to Firebase:", error);
