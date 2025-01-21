@@ -357,3 +357,19 @@
     display: block;
     height: 28px;
   }
+  /* .order {
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+
+.order.animate {
+    background-color: black;
+    transform: scale(1.1);
+    animation: shake 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+    100% { transform: translateX(-5px); }
+} */

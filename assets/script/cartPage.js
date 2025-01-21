@@ -416,7 +416,20 @@ document.getElementById("emptyCartButton").addEventListener("click", async () =>
 });
 
 document.getElementById("buyNowButton").addEventListener("click",()=>{
-  localStorage.setItem("orderedProductsId",productId)
-localStorage.setItem("orderedTotalPrice",totalBill)
-  window.location.href="../html/orderReview.html"
-})
+  document.getElementById("buyNowButton").addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+  
+    const userId = user.uid;
+  
+    // Store order details in localStorage
+    localStorage.setItem("orderedProductsId", JSON.stringify(productId));
+    localStorage.setItem("orderedTotalPrice", totalBill);
+  
+    // Clear the cart in Firebase before redirection
+    await emptyCartInFirebase(userId);
+  
+    // Redirect to the order review page
+    window.location.href = "../html/orderReview.html";
+  });
+});  

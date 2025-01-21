@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (closePopupBtn) {
     closePopupBtn.addEventListener("click", function () {
       orderConfirmationPopup.style.display = "none";
-      window.location.href = "/pages/html/orderPlaced.html"; // Redirect to the order placed page
+      window.location.href = "../../pages/html/orderPlaced.html";
     });
   }
 
@@ -517,6 +517,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("Cart cleared successfully.");
   }
 
+  document.addEventListener("DOMContentLoaded", () => {
+    const totalPrice = localStorage.getItem("orderedTotalPrice");
+    if (totalPrice) {
+      document.getElementById("orderTotalPrice").textContent = `₹${parseFloat(totalPrice).toFixed(2)}`;
+    }
+  });
+  
+
   function togglePaymentDetails(selectedOption) {
     upiDetails.style.display = "none";
     cardDetails.style.display = "none";
@@ -609,3 +617,9 @@ async function loadCountryStateCity() {
 
 // Initialize dynamic data loading
 loadCountryStateCity();
+
+console.log(localStorage.getItem('cartCount'))
+
+console.log(localStorage.getItem('orderedTotalPrice'))
+
+console.log(localStorage.getItem("orderedProductsId"))
