@@ -143,14 +143,14 @@ function renderCartItem(cartItem, product, container) {
         .join(" ")
     : "";
 
-  const cartItemHTML = `
+    const cartItemHTML = `
     <div class="cart-item" data-id="${cartItem.id}">
       <img src="${product.image}" alt="${product.alt}" />
       <div class="item-details">
         <h3>${product.name}</h3>
         <p>Price: ₹${product.price}</p>
         <label for="size-select-${cartItem.id}">Size:</label>
-        <select class="size-select" id="size-select-${cartItem.id}">
+        <select class="size-select" id="size-select-${cartItem.id}" data-id="${cartItem.id}">
           ${sizeOptions}
         </select>
         <div class="quantity-controls">
@@ -162,6 +162,7 @@ function renderCartItem(cartItem, product, container) {
       </div>
     </div>
   `;
+  
   container.innerHTML += cartItemHTML;
 }
 
@@ -337,6 +338,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+document.getElementById("cartItems").addEventListener("change", (event) => {
+  const target = event.target;
+  if (target.classList.contains("size-select")) {
+    const productId = target.dataset.id;
+    const selectedSize = target.value;
+    updateSelectedSize(productId, selectedSize);
+  }
+});
+
+async function updateSelectedSize(productId, size) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userId = user.uid;
+  const cart = await fetchCartItems(userId);
+
+  for (const category in cart) {
+    cart[category].forEach((item) => {
+      if (item.id === productId) {
+        item.size = size;
+      }
+    });
+  }
+
+  await saveCartItems(userId, cart);
+}
 
 // Fetch product data
 async function fetchProductData() {
