@@ -25,6 +25,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 let gender = localStorage.getItem("gender");
+// let gender=['men'].toString()
 let userId = null;
 
 const productTypeForFilter = {
@@ -246,12 +247,30 @@ function showPopup(message) {
 function updateCartCount() {
   const user = auth.currentUser;
   if (user) {
-    // If user is logged in, fetch the cart from Firebase
-    const cartRef = ref(database, `cart/${user.uid}/${gender}`);
-    get(cartRef)
-      .then((snapshot) => {
-        const cart = snapshot.exists() ? snapshot.val() : [];
-        const totalProducts = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum up the quantities
+    // If user is logged in, fetch the cart for both 'men' and 'women' categories
+    const genderCategories = ['men', 'women']; // You can add more categories if needed
+    const cartPromises = genderCategories.map(gender => {
+      const cartRef = ref(database, `cart/${user.uid}/${gender}`);
+      return get(cartRef)
+        .then((snapshot) => {
+          return {
+            gender,
+            cart: snapshot.exists() ? snapshot.val() : [] // Return cart data for this gender
+          };
+        });
+    });
+
+    // Wait for all cart data to be fetched
+    Promise.all(cartPromises)
+      .then(results => {
+        let totalProducts = 0;
+
+        // Combine cart items for all categories and sum their quantities
+        results.forEach(result => {
+          totalProducts += result.cart.reduce((sum, item) => sum + item.quantity, 0);
+        });
+
+        // Update the cart count in UI
         const cartCountElement = document.getElementById("cartCount");
         if (cartCountElement) {
           cartCountElement.textContent = totalProducts;
@@ -261,7 +280,7 @@ function updateCartCount() {
         console.error("Error fetching cart count:", error);
       });
   } else {
-    // If user is not logged in, get cart from localStorage
+    // If user is not logged in, get cart data from localStorage
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const totalProducts = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum up the quantities
     const cartCountElement = document.getElementById("cartCount");
@@ -270,6 +289,7 @@ function updateCartCount() {
     }
   }
 }
+
 
 
 // Load content on page load

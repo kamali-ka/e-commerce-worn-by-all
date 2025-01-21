@@ -58,30 +58,52 @@ async function fetchCartItems() {
 
 // Function to update the cart count (counting all items in the cart)
 async function updateCartCount() {
-  // Get the cart items data
-  const cartItems = await fetchCartItems();
-  console.log(cartItems);
+  // Get the currently signed-in user
+  const user = auth.currentUser;
+  if (!user) {
+    console.log("No user signed in");
+    document.getElementById("cartCount").textContent = "0"; // Set to 0 if no user
+    return;
+  }
 
-  let totalItems = 0; // Initialize total item counter
+  const userId = user.uid;
+  const cartRef = ref(database, `cart/${userId}`); // Reference to user's cart in Firebase
 
-  // Iterate through all categories and sum the quantities of each item
-  for (const category in cartItems) {
-    if (cartItems.hasOwnProperty(category)) {
-      totalItems = cartItems[category].length;
+  try {
+    const snapshot = await get(cartRef);
+    if (!snapshot.exists()) {
+      console.log("Cart is empty");
+      document.getElementById("cartCount").textContent = "0";
+      return;
     }
+
+    const cartItems = snapshot.val();
+    let totalItems = 0;
+
+    // Check for 'men' and 'women' categories and sum their items
+    if (cartItems.men) {
+      totalItems += Object.keys(cartItems.men).length;  // Count items in men
+    }
+    if (cartItems.women) {
+      totalItems += Object.keys(cartItems.women).length;  // Count items in women
+    }
+
+    console.log("Total items in cart:", totalItems);
+
+    // Update cart count in the UI
+    const cartCountElement = document.getElementById("cartCount");
+    if (cartCountElement) {
+      cartCountElement.textContent = totalItems;
+    }
+
+    // Optionally, store the count in localStorage
+    localStorage.setItem("cartCount", totalItems);
+
+  } catch (error) {
+    console.error("Error fetching cart count:", error);
   }
-
-  console.log("Total items in cart:", totalItems);
-
-  // Update the cart count on the page
-  const cartCountElement = document.getElementById("cartCount");
-  if (cartCountElement) {
-    cartCountElement.textContent = totalItems;
-  }
-
-  // Save cart count explicitly to localStorage (if needed)
-  localStorage.setItem("cartCount", totalItems);
 }
+
 
 // Function to toggle the navigation menu
 function toggleMenu() {
