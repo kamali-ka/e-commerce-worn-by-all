@@ -140,7 +140,7 @@ console.log(order);
   // Add order details
   orderItem.innerHTML += `
     <div class="item-info">
-      <h3>${order.name}</h3>
+      <h5><strong>Name:</strong>${order.name}</h5>
       <p>Quantity: ${totalItems}</p>
     </div>
   `;
