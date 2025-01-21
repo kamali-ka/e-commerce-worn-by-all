@@ -374,7 +374,11 @@ document.getElementById("emptyCartButton").addEventListener("click", async () =>
   // Clear cart items in the UI
   const cartItemsContainer = document.getElementById("cartItems");
   if (cartItemsContainer) {
+    document.getElementById("buyNowButton").disabled=true
+    document.getElementById("buyNowButton").classList.add("disabled")
+
     cartItemsContainer.innerHTML = "<p>Your cart is now empty.</p>";
+
   }
 
   // Empty the cart in Firebase
