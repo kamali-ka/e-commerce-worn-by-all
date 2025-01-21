@@ -290,35 +290,25 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   
   function validateCardNumber(cardNumber) {
-    cardNumber = cardNumber.replace(/\D/g, ''); // Remove non-digit characters
+    // Remove non-digit characters
+    cardNumber = cardNumber.replace(/\D/g, '');
+    
+    // Check if the card number contains exactly 16 digits
+    if (cardNumber.length !== 16) {
+      return false; // Invalid length
+    }
+    
+    // Check if the card number contains only digits
+    if (!/^\d{16}$/.test(cardNumber)) {
+      return false; // Invalid characters (only digits allowed)
+    }
   
     // Check if all digits are the same (e.g., 1111111111111111)
     if (/^(\d)\1+$/.test(cardNumber)) {
       return false; // Invalid if all digits are the same
     }
   
-    if (cardNumber.length < 13 || cardNumber.length > 19) {
-      return false; // Invalid length
-    }
-  
-    let sum = 0;
-    let shouldDouble = false;
-  
-    for (let i = cardNumber.length - 1; i >= 0; i--) {
-      let digit = parseInt(cardNumber.charAt(i), 10);
-  
-      if (shouldDouble) {
-        digit *= 2;
-        if (digit > 9) {
-          digit -= 9;
-        }
-      }
-  
-      sum += digit;
-      shouldDouble = !shouldDouble;
-    }
-  
-    return sum % 10 === 0; // Valid if divisible by 10
+    return true; // Valid card number
   }
   
   function validateExpiryDate(expiryDate) {
@@ -343,19 +333,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
   
     if (!paymentMethod) {
-      displayErrorMessage("payment-method-error", "Please select a payment method.");
+      displayErrorMessage("payment-method", "Please select a payment method.");
       return false;
     }
-    clearErrorMessage("payment-method-error");
+    clearErrorMessage("payment-method");
   
     // Validate UPI
     if (paymentMethod.value === "upi") {
-      const upiId = document.getElementById("upi-id")?.value;
-      if (!upiId || !/^[\w.-]+@[\w.-]+$/.test(upiId)) {
-        displayErrorMessage("upi-id-error", "Please enter a valid UPI ID.");
+      const upiId = document.getElementById("upi-id");
+      if (!upiId.value || !/^[\w.-]+@[\w.-]+$/.test(upiId.value)) {
+        displayErrorMessage("upi-id", "Please enter a valid UPI ID.");
         return false;
       }
-      clearErrorMessage("upi-id-error");
+      clearErrorMessage("upi-id");
     }
   
     // Validate Card
@@ -364,32 +354,28 @@ document.addEventListener("DOMContentLoaded", async function () {
       const cardExpiryField = document.getElementById("card-expiry");
       const cardCvvField = document.getElementById("card-cvv");
   
-      const cardNumber = cardNumberField.value;
-      if (!cardNumber || cardNumber.length !== 16 || !validateCardNumber(cardNumber)) {
-        displayErrorMessage("card-number-error", "Please enter a valid 16-digit card number (no repeating digits).");
+      if (!cardNumberField.value || cardNumberField.value.length !== 16 || !validateCardNumber(cardNumberField.value)) {
+        displayErrorMessage("card-number", "Please enter a valid 16-digit card number.");
         return false;
       }
-      clearErrorMessage("card-number-error");
+      clearErrorMessage("card-number");
   
-      // Validate Expiry Date (MM/YY)
-      const cardExpiry = cardExpiryField?.value.trim();
-      if (!cardExpiry || !validateExpiryDate(cardExpiry)) {
-        displayErrorMessage("card-expiry-error", "Please enter a valid expiration date (1-12/YY) and ensure it's not expired.");
+      if (!cardExpiryField.value.trim() || !validateExpiryDate(cardExpiryField.value.trim())) {
+        displayErrorMessage("card-expiry", "Please enter a valid expiration date (MM/YY) and ensure it's not expired.");
         return false;
       }
-      clearErrorMessage("card-expiry-error");
+      clearErrorMessage("card-expiry");
   
-      // Validate CVV (3 digits)
-      const cardCvv = cardCvvField?.value.trim();
-      if (!cardCvv || !/^\d{3}$/.test(cardCvv)) {
-        displayErrorMessage("card-cvv-error", "Please enter a valid 3-digit CVV.");
+      if (!cardCvvField.value.trim() || !/^\d{3}$/.test(cardCvvField.value.trim())) {
+        displayErrorMessage("card-cvv", "Please enter a valid 3-digit CVV.");
         return false;
       }
-      clearErrorMessage("card-cvv-error");
+      clearErrorMessage("card-cvv");
     }
   
     return true; // Everything is valid
   }
+  
   
   // Format Expiry Date (MM/YY) automatically
   function formatExpiry(input) {
@@ -421,20 +407,29 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
     
 
-  function displayErrorMessage(errorId, message) {
-    const errorElement = document.getElementById(errorId);
+  function displayErrorMessage(fieldId, message) {
+    let field = document.getElementById(fieldId);
+    let errorElement = document.getElementById(`${fieldId}-error-msg`);
+  
+    if (!errorElement) {
+      errorElement = document.createElement("div");
+      errorElement.id = `${fieldId}-error-msg`;
+      errorElement.style.color = "red";
+      errorElement.style.fontSize = "14px";
+      errorElement.style.marginTop = "5px";
+      field.parentNode.appendChild(errorElement);
+    }
+  
+    errorElement.textContent = message;
+  }
+  
+  function clearErrorMessage(fieldId) {
+    let errorElement = document.getElementById(`${fieldId}-error-msg`);
     if (errorElement) {
-      errorElement.innerText = message;
-      errorElement.style.color = "red"; // Display the error message in red
+      errorElement.remove();
     }
   }
-
-  function clearErrorMessage(errorId) {
-    const errorElement = document.getElementById(errorId);
-    if (errorElement) {
-      errorElement.innerText = ""; // Clear any previous error message
-    }
-  }
+  
 
   function confirmOrder() {
     // Show the pop-up
