@@ -440,3 +440,24 @@ function showPopup(message) {
     popupContainer.classList.remove("show");
   }, 1500);
 }
+  // Toggle sidebar visibility
+  const toggleSidebar = document.getElementById("toggleSidebar");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
+
+  if (toggleSidebar) {
+    toggleSidebar.addEventListener("click", () => {
+      if (sidebar) {
+        sidebar.classList.toggle("visible");
+        overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
+      }
+    });
+  }
+
+  // Close sidebar when clicking outside of it
+  if (sidebar && overlay) {
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("visible");
+      overlay.classList.remove("visible"); // Hide the overlay
+    });
+  }

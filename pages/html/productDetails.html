@@ -9,6 +9,27 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <div id="sidebar" class="sidebar hidden">
+    <nav>
+      <ul>
+        <i class="fa-solid fa-house"></i>
+        <li><a href="/index.html">Home</a></li>
+        <i class="fa-solid fa-person"></i>
+        <li><a class="category-link " data-target="men">Men</a></li>
+        <i class="fa-solid fa-person-dress"></i>
+        <li><a class="category-link " data-target="women">Women</a></li>
+        <i class="fa-solid fa-child"></i>
+        <li><a class="category-link " data-target="kids">Kids</a></li>
+        ⚤<li><a class="category-link" data-target="unisex">Unisex</a></li>
+        <i class="fa-solid fa-cart-shopping"></i>
+        <li><a href="./cartPage.html">Cart</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div id="overlay" class="overlay"></div>
+  <button id="toggleSidebar" class="toggle-sidebar-btn">
+      <i class="fas fa-bars"></i>
+  </button>
   <!-- Cart Icon -->
   <div class="nav-icon">
     <a href="../html/cartPage.html">
