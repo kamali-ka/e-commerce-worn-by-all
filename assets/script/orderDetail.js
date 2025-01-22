@@ -120,6 +120,7 @@ console.log(order);
       const imageWrapper = document.createElement("div");
       imageWrapper.classList.add("product-image-wrapper");
       const imgElement = document.createElement("img");
+      const deet=document.getElementById('userdetails')
       imgElement.src = product.image; // Assuming imageUrl is part of product data
       imgElement.alt = `Product ${id}`;
       imgElement.classList.add("product-image");
@@ -137,6 +138,7 @@ console.log(order);
   }
 
   totalPrice.innerHTML = `<p>Order Total:${order.price}</p>`
+  
   // Add order details
   orderItem.innerHTML += `
     <div class="item-info">

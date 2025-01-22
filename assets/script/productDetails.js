@@ -173,7 +173,8 @@ const totalBill = product.price+30+(product.price*0.02);
 
     if (buyNowButton) {
       buyNowButton.addEventListener("click", () => {
-        localStorage.setItem("orderedProductsId", product.id);
+        // localStorage.setItem("orderedProductsId", product.id);
+        localStorage.setItem('cartItemIds',product.id)
         localStorage.setItem("orderedTotalPrice",totalBill)
         window.location.href = "/pages/html/orderReview.html";
       });

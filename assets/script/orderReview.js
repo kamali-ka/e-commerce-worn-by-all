@@ -441,9 +441,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     let orderId = localStorage.getItem("orderId");
     let productId = localStorage.getItem("orderedProductsId");
     let totalBillPrice = localStorage.getItem("orderedTotalPrice");
+    const storedCartItemIds = JSON.parse(localStorage.getItem("cartItemIds") || "[]");
     console.log(totalBillPrice);
     
-    
+    if (Array.isArray(storedCartItemIds)) {
+    // Join the IDs into a single string separated by commas (if it's an array)
+    const cartItemIdsString = storedCartItemIds.join(", ");
+    console.log("Cart Item IDs:", cartItemIdsString); // This logs the cart item IDs
+
+    // Proceed with your order logic, passing the cartItemIdsString
+    // For example, send the cartItemIdsString to the server or further processing
+
+  } else {
+    // If it's not an array, log an error or handle it
+    console.error("Expected cartItemIds to be an array but got:", storedCartItemIds);
+    // You can show a user-friendly error message here or handle the issue accordingly
+  }
+
     if (!orderId) {
       orderId = 1;
     } else {
@@ -465,7 +479,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Prepare the order details
     const orderDetails = {
       orderId: `ORD-${orderId}`, // Use the incremented order ID
-      productId,
+      productId:JSON.parse(localStorage.getItem('cartItemIds')).join(','),
       price:totalBillPrice, 
       date: new Date().toLocaleDateString(),
       name: document.getElementById("full-name").value,
@@ -618,3 +632,5 @@ console.log(localStorage.getItem('cartCount'))
 console.log(localStorage.getItem('orderedTotalPrice'))
 
 console.log(localStorage.getItem("orderedProductsId"))
+
+console.log(JSON.parse(localStorage.getItem('cartItemIds')).join(','))

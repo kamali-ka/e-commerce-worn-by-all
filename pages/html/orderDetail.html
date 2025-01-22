@@ -7,6 +7,12 @@
     <title>Order Summary</title>
     <link rel="stylesheet" href="/assets/style/orderDetail.css">
 </head>
+<style>
+    .image-container{
+        display: flex;
+        flex-wrap: wrap;
+    }
+</style>
 
 <body>
     <div class="order-list-container">
@@ -16,7 +22,8 @@
             <!-- Orders will be dynamically inserted here -->
         </div>
 
-        <div class="order-footer">
+        <div id="userdetails" class="order-footer">
+            
             <p><strong>Total Products:</strong> <span id="total-items">0</span></p>
             <p><strong></strong> <span id="total-price"></span></p>
         </div>

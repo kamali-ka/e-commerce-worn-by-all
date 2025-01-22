@@ -88,6 +88,7 @@ function updateCheckoutButton(cart) {
   }
 }
 
+// Fetch and load cart items
 async function loadCartItems() {
   const cartItemsContainer = document.getElementById("cartItems");
   if (!cartItemsContainer) return;
@@ -114,22 +115,35 @@ async function loadCartItems() {
     return;
   }
 
+  // Reset cartItemIds array at the start of loading cart items
+  let cartItemIds = [];
+
+  // Loop through the cart categories and items
   for (const category in cart) {
     const categoryItems = cart[category];
     categoryItems.forEach(cartItem => {
       const product = products.find(p => p.id === cartItem.id);
       if (product) {
         renderCartItem(cartItem, product, cartItemsContainer);
+        // Push cartItem.id to the cartItemIds array
+        cartItemIds.push(cartItem.id);
       }
     });
   }
+
+  // Store the cartItemIds array in localStorage
+  localStorage.setItem("cartItemIds", JSON.stringify(cartItemIds));
+
+  // Optionally log it to check if it's stored correctly
+  console.log(cartItemIds); // This will log the array of all cart item ids
 
   updateTotalAmount(cart);
   updateCheckoutButton(cart);
   hideLoader();
 }
-localStorage.removeItem("orderedProductsId");
-localStorage.removeItem("orderedTotalPrice");
+
+// localStorage.removeItem("orderedProductsId");
+// localStorage.removeItem("orderedTotalPrice");
 
 
 // Render individual cart item
@@ -162,8 +176,11 @@ function renderCartItem(cartItem, product, container) {
       </div>
     </div>
   `;
+ 
   
   container.innerHTML += cartItemHTML;
+ 
+ 
 }
 
 // Attach event listeners using event delegation
