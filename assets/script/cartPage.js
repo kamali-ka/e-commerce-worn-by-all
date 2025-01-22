@@ -132,7 +132,7 @@ async function loadCartItems() {
   }
 
   // Store the cartItemIds array in localStorage
-  localStorage.setItem("cartItemIds", JSON.stringify(cartItemIds));
+  localStorage.setItem("cartItemIds", JSON.stringify([cartItemIds]));
 
   // Optionally log it to check if it's stored correctly
   console.log(cartItemIds); // This will log the array of all cart item ids

@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
   const currentUserEmail = localStorage.getItem("email");
   const currentUserName = localStorage.getItem("username");
+  const phone = localStorage.getItem("phone") || "";
+const address = localStorage.getItem("address") || "";
+
 
   // Check if the user is logged in
   if (!currentUserEmail) {
@@ -50,8 +53,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
     emailInput.value = currentUserEmail;
 
     const userName = currentUserName || "";
-    const phone = localStorage.getItem(getUserKey("phone")) || "";
-    const address = localStorage.getItem(getUserKey("address")) || "";
+    localStorage.setItem(getUserKey("phone"), phone);
+localStorage.setItem(getUserKey("address"), address);
+
 
     nameInput.value = userName;
     phoneInput.value = phone;
