@@ -1,6 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getDatabase, ref, get, set, remove } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  remove,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -18,7 +27,6 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-
 const productId = [];
 let totalBill = 0;
 
@@ -32,7 +40,7 @@ function hideLoader() {
 }
 
 const checkOut = document.getElementById("buyNowButton");
-if(checkOut){
+if (checkOut) {
   checkOut.disabled = true;
 }
 
@@ -61,7 +69,6 @@ async function saveCartItems(userId, cart) {
   }
 }
 
-
 // Empty the cart in Firebase
 async function emptyCartInFirebase(userId) {
   try {
@@ -73,8 +80,11 @@ async function emptyCartInFirebase(userId) {
 }
 
 function isCartEmpty(cart) {
-  return !cart || Object.keys(cart).length === 0 || 
-         Object.values(cart).every(category => category.length === 0);
+  return (
+    !cart ||
+    Object.keys(cart).length === 0 ||
+    Object.values(cart).every((category) => category.length === 0)
+  );
 }
 
 function updateCheckoutButton(cart) {
@@ -121,8 +131,8 @@ async function loadCartItems() {
   // Loop through the cart categories and items
   for (const category in cart) {
     const categoryItems = cart[category];
-    categoryItems.forEach(cartItem => {
-      const product = products.find(p => p.id === cartItem.id);
+    categoryItems.forEach((cartItem) => {
+      const product = products.find((p) => p.id === cartItem.id);
       if (product) {
         renderCartItem(cartItem, product, cartItemsContainer);
         // Push cartItem.id to the cartItemIds array
@@ -132,10 +142,10 @@ async function loadCartItems() {
   }
 
   // Store the cartItemIds array in localStorage
-  localStorage.setItem("cartItemIds", JSON.stringify([cartItemIds]));
+  localStorage.setItem("cartItemIds", JSON.stringify(cartItemIds));
 
   // Optionally log it to check if it's stored correctly
-  console.log(cartItemIds); // This will log the array of all cart item ids
+  console.log("cartItemIds :", cartItemIds); // This will log the array of all cart item ids
 
   updateTotalAmount(cart);
   updateCheckoutButton(cart);
@@ -145,19 +155,20 @@ async function loadCartItems() {
 // localStorage.removeItem("orderedProductsId");
 // localStorage.removeItem("orderedTotalPrice");
 
-
 // Render individual cart item
 function renderCartItem(cartItem, product, container) {
   const sizeOptions = Array.isArray(product.sizes)
     ? product.sizes
         .map(
           (size) =>
-            `<option value="${size}" ${cartItem.size === size ? "selected" : ""}>${size}</option>`
+            `<option value="${size}" ${
+              cartItem.size === size ? "selected" : ""
+            }>${size}</option>`
         )
         .join(" ")
     : "";
 
-    const cartItemHTML = `
+  const cartItemHTML = `
     <div class="cart-item" data-id="${cartItem.id}">
       <img src="${product.image}" alt="${product.alt}" />
       <div class="item-details">
@@ -176,11 +187,8 @@ function renderCartItem(cartItem, product, container) {
       </div>
     </div>
   `;
- 
-  
+
   container.innerHTML += cartItemHTML;
- 
- 
 }
 
 // Attach event listeners using event delegation
@@ -216,7 +224,9 @@ async function updateQuantity(productId, change) {
       if (product.id === productId) {
         product.quantity = Math.max(1, product.quantity + change);
 
-        const quantityElement = document.querySelector(`[data-id="${productId}"] .quantity`);
+        const quantityElement = document.querySelector(
+          `[data-id="${productId}"] .quantity`
+        );
         if (quantityElement) {
           quantityElement.textContent = product.quantity;
         }
@@ -247,7 +257,7 @@ async function removeCartItem(productId) {
 
   try {
     // List of categories to check
-    const categories = ['women', 'men', 'kids', 'unisex'];
+    const categories = ["women", "men", "kids", "unisex"];
 
     for (const category of categories) {
       const cartRef = ref(database, `cart/${userId}/${category}`);
@@ -260,7 +270,7 @@ async function removeCartItem(productId) {
         let itemRemoved = false;
 
         // Check if cartItems is an object (Firebase often stores data as objects)
-        if (typeof cartItems === 'object') {
+        if (typeof cartItems === "object") {
           updatedCartItems = Object.fromEntries(
             Object.entries(cartItems).filter(([key, item]) => {
               const keepItem = item.id !== productId;
@@ -272,7 +282,7 @@ async function removeCartItem(productId) {
           );
         } else if (Array.isArray(cartItems)) {
           // If it's an array (less common), filter directly
-          updatedCartItems = cartItems.filter(item => item.id !== productId);
+          updatedCartItems = cartItems.filter((item) => item.id !== productId);
           itemRemoved = true;
         }
 
@@ -283,19 +293,19 @@ async function removeCartItem(productId) {
           } else {
             await remove(cartRef); // Remove the entire category if empty
           }
-          console.log(`Removed item with ID ${productId} from ${category} category.`);
+          console.log(
+            `Removed item with ID ${productId} from ${category} category.`
+          );
         }
       }
     }
 
     // Reload the cart items after removal
     loadCartItems();
-
   } catch (error) {
     console.error("Error removing item from cart:", error);
   }
 }
-
 
 // Update the total amount in the UI
 
@@ -303,26 +313,27 @@ function updateTotalAmount(cart) {
   const userId = auth.currentUser?.uid;
   if (!userId) return;
 
-  fetchProductData().then((products) => {
-    let totalPrice = 0;
+  fetchProductData()
+    .then((products) => {
+      let totalPrice = 0;
 
-    for (const category in cart) {
-      const categoryItems = cart[category];
-      categoryItems.forEach(cartItem => {
-        const product = products.find(p => p.id === cartItem.id);
-        if (product) {
-          totalPrice += product.price * cartItem.quantity;
-        }
-      });
-    }
+      for (const category in cart) {
+        const categoryItems = cart[category];
+        categoryItems.forEach((cartItem) => {
+          const product = products.find((p) => p.id === cartItem.id);
+          if (product) {
+            totalPrice += product.price * cartItem.quantity;
+          }
+        });
+      }
 
-    const tax = totalPrice * 0.02;
-    const deliveryFee = totalPrice > 0 ? 30 : 0;
-     totalBill = totalPrice + tax + deliveryFee;
+      const tax = totalPrice * 0.02;
+      const deliveryFee = totalPrice > 0 ? 30 : 0;
+      totalBill = totalPrice + tax + deliveryFee;
 
-    const billSummary = document.getElementById("billSummary");
-    if (billSummary) {
-      billSummary.innerHTML = `
+      const billSummary = document.getElementById("billSummary");
+      if (billSummary) {
+        billSummary.innerHTML = `
         <h3>Bill Summary</h3>
         <p>Product Price: ₹${totalPrice.toFixed(2)}</p>
         <p>Tax (2%): ₹${tax.toFixed(2)}</p>
@@ -330,17 +341,20 @@ function updateTotalAmount(cart) {
         <hr>
         <h4>Total: ₹${totalBill.toFixed(2)}</h4>
       `;
-    }
+      }
 
-    const totalAmountElement = document.getElementById("totalAmount");
-    if (totalAmountElement) {
-      totalAmountElement.textContent = totalBill.toFixed(2);
-    }
-  }).catch((error) => {
-    console.error("Error fetching product data for total amount update:", error);
-  });
+      const totalAmountElement = document.getElementById("totalAmount");
+      if (totalAmountElement) {
+        totalAmountElement.textContent = totalBill.toFixed(2);
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Error fetching product data for total amount update:",
+        error
+      );
+    });
 }
-
 
 // Initialize cart on page load
 document.addEventListener("DOMContentLoaded", () => {
@@ -350,7 +364,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       const cartItemsContainer = document.getElementById("cartItems");
       if (cartItemsContainer) {
-        cartItemsContainer.innerHTML = "<p>Please sign in to view your cart.</p>";
+        cartItemsContainer.innerHTML =
+          "<p>Please sign in to view your cart.</p>";
       }
     }
   });
@@ -386,7 +401,12 @@ async function updateSelectedSize(productId, size) {
 async function fetchProductData() {
   showLoader();
   try {
-    const productCategories = ['he-page', 'she-page', 'kids-page', 'unisex-page'];
+    const productCategories = [
+      "he-page",
+      "she-page",
+      "kids-page",
+      "unisex-page",
+    ];
     let allProducts = [];
 
     for (let category of productCategories) {
@@ -409,44 +429,47 @@ async function fetchProductData() {
 }
 
 // Empty cart button click event listener
-document.getElementById("emptyCartButton").addEventListener("click", async () => {
-  const user = auth.currentUser;
-  if (!user) return;
-
-  const userId = user.uid;
-
-  // Clear cart items in the UI
-  const cartItemsContainer = document.getElementById("cartItems");
-  if (cartItemsContainer) {
-    document.getElementById("buyNowButton").disabled=true
-    document.getElementById("buyNowButton").classList.add("disabled")
-
-    cartItemsContainer.innerHTML = "<p>Your cart is now empty.</p>";
-
-  }
-
-  // Empty the cart in Firebase
-  await emptyCartInFirebase(userId);
-
-  // Optionally, you can update the total amount to 0 after clearing the cart
-  updateTotalAmount({}); // Pass an empty cart to reset the total
-});
-
-document.getElementById("buyNowButton").addEventListener("click",()=>{
-  document.getElementById("buyNowButton").addEventListener("click", async () => {
+document
+  .getElementById("emptyCartButton")
+  .addEventListener("click", async () => {
     const user = auth.currentUser;
     if (!user) return;
-  
+
     const userId = user.uid;
-  
-    // Store order details in localStorage
-    localStorage.setItem("orderedProductsId", JSON.stringify(productId));
-    localStorage.setItem("orderedTotalPrice", totalBill);
-  
-    // Clear the cart in Firebase before redirection
+
+    // Clear cart items in the UI
+    const cartItemsContainer = document.getElementById("cartItems");
+    if (cartItemsContainer) {
+      document.getElementById("buyNowButton").disabled = true;
+      document.getElementById("buyNowButton").classList.add("disabled");
+
+      cartItemsContainer.innerHTML = "<p>Your cart is now empty.</p>";
+    }
+
+    // Empty the cart in Firebase
     await emptyCartInFirebase(userId);
-  
-    // Redirect to the order review page
-    window.location.href = "../html/orderReview.html";
+
+    // Optionally, you can update the total amount to 0 after clearing the cart
+    updateTotalAmount({}); // Pass an empty cart to reset the total
   });
-});  
+
+document.getElementById("buyNowButton").addEventListener("click", () => {
+  document
+    .getElementById("buyNowButton")
+    .addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const userId = user.uid;
+
+      // Store order details in localStorage
+      localStorage.setItem("orderedProductsId", JSON.stringify(productId));
+      localStorage.setItem("orderedTotalPrice", totalBill);
+
+      // Clear the cart in Firebase before redirection
+      await emptyCartInFirebase(userId);
+
+      // Redirect to the order review page
+      window.location.href = "../html/orderReview.html";
+    });
+});

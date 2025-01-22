@@ -27,6 +27,7 @@ const auth = getAuth(app);
 const database = getDatabase(app); // Initialize Realtime Database
 let gender = localStorage.getItem("gender");
 let userId = null;
+let product = null;
 
 // Function to show the loader (spinner)
 function showLoader() {
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Find the product from the combined array of all products
-      const product = allProducts.find((item) => item.id === selectedProductId);
+      product = allProducts.find((item) => item.id === selectedProductId);
 
       if (!product) {
         displayErrorMessage(
@@ -157,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Check if the product is already in the cart
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const productInCart = cart.find((item) => item.id === product.id);
-const totalBill = product.price+30+(product.price*0.02);
+    const totalBill = product.price + 30 + product.price * 0.02;
     const addToCartButton = document.getElementById("addToCartButton");
 
     if (productInCart) {
@@ -174,8 +175,8 @@ const totalBill = product.price+30+(product.price*0.02);
     if (buyNowButton) {
       buyNowButton.addEventListener("click", () => {
         // localStorage.setItem("orderedProductsId", product.id);
-        localStorage.setItem('cartItemIds',product.id)
-        localStorage.setItem("orderedTotalPrice",totalBill)
+        localStorage.setItem("cartItemIds", JSON.stringify([product.id]));
+        localStorage.setItem("orderedTotalPrice", totalBill);
         window.location.href = "/pages/html/orderReview.html";
       });
     }
@@ -301,7 +302,6 @@ const totalBill = product.price+30+(product.price*0.02);
       });
     }
   }
-  displayProductDetails(product);
   setupAddToCartButton(product);
 
   // Function to update the "Add to Cart" button text
@@ -440,24 +440,24 @@ function showPopup(message) {
     popupContainer.classList.remove("show");
   }, 1500);
 }
-  // Toggle sidebar visibility
-  const toggleSidebar = document.getElementById("toggleSidebar");
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
+// Toggle sidebar visibility
+const toggleSidebar = document.getElementById("toggleSidebar");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay"); // Assuming you have an overlay element to cover the background
 
-  if (toggleSidebar) {
-    toggleSidebar.addEventListener("click", () => {
-      if (sidebar) {
-        sidebar.classList.toggle("visible");
-        overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
-      }
-    });
-  }
+if (toggleSidebar) {
+  toggleSidebar.addEventListener("click", () => {
+    if (sidebar) {
+      sidebar.classList.toggle("visible");
+      overlay.classList.toggle("visible"); // Show the overlay when sidebar is visible
+    }
+  });
+}
 
-  // Close sidebar when clicking outside of it
-  if (sidebar && overlay) {
-    overlay.addEventListener("click", () => {
-      sidebar.classList.remove("visible");
-      overlay.classList.remove("visible"); // Hide the overlay
-    });
-  }
+// Close sidebar when clicking outside of it
+if (sidebar && overlay) {
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("visible");
+    overlay.classList.remove("visible"); // Hide the overlay
+  });
+}
