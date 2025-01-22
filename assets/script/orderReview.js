@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import {
   getDatabase,
   ref,
@@ -6,11 +6,11 @@ import {
   set,
   remove,
   push,
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 import {
   getAuth,
   onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 // import {} from "../script/signup-signin.js";
 
 // Firebase Configuration
@@ -29,35 +29,35 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-async function getToken() {
-  const response = await fetch(
-    `https://www.universal-tutorial.com/api/getaccesstoken`,
-    {
-      method: "GET",
-      headers: {
-        "api-token":
-          "oL2g_Vm0tMkL2eQM511fegF89xIemo9O7EYIg-5R5mnTIjokg7OPS9StJOk6wf67wVc",
-        Accept: "application/json",
-        "user-email": "kamalika.azhakar2328@gmail.com",
-      },
-    }
-  );
-  return response.json();
-}
-async function getData(endpoint) {
-  const authToken = await getToken();
-  const response = await fetch(
-    `https://www.universal-tutorial.com/api/${endpoint}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${authToken.auth_token}`,
-        Accept: "application/json",
-      },
-    }
-  );
-  return await response.json();
-}
+// async function getToken() {
+//   const response = await fetch(
+//     `https://www.universal-tutorial.com/api/getaccesstoken`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "api-token":
+//           "oL2g_Vm0tMkL2eQM511fegF89xIemo9O7EYIg-5R5mnTIjokg7OPS9StJOk6wf67wVc",
+//         Accept: "application/json",
+//         "user-email": "kamalika.azhakar2328@gmail.com",
+//       },
+//     }
+//   );
+//   return response.json();
+// }
+// async function getData(endpoint) {
+//   const authToken = await getToken();
+//   const response = await fetch(
+//     `https://www.universal-tutorial.com/api/${endpoint}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${authToken.auth_token}`,
+//         Accept: "application/json",
+//       },
+//     }
+//   );
+//   return await response.json();
+// }
 
 document.addEventListener("DOMContentLoaded", async function () {
   const nextBtn = document.getElementById("next-btn");
@@ -74,8 +74,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   );
   const cardExpiryField = document.getElementById("card-expiry");
 
-  const countryList = await getData("countries");
-  console.log(countryList);
+  // const countryList = await getData("countries");
+  // console.log(countryList);
 
   // Expiry date auto-slash logic
   if (cardExpiryField) {
@@ -560,58 +560,58 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
-// Fetch country, state, and city data dynamically
-async function loadCountryStateCity() {
-  try {
-    // Load countries
-    const countries = await getData("countries");
-    const countrySelect = document.getElementById("country");
-    countries.forEach((country) => {
-      const option = document.createElement("option");
-      option.value = country.country_name;
-      option.textContent = country.country_name;
-      countrySelect.appendChild(option);
-    });
+// // Fetch country, state, and city data dynamically
+// async function loadCountryStateCity() {
+//   try {
+//     // Load countries
+//     const countries = await getData("countries");
+//     const countrySelect = document.getElementById("country");
+//     countries.forEach((country) => {
+//       const option = document.createElement("option");
+//       option.value = country.country_name;
+//       option.textContent = country.country_name;
+//       countrySelect.appendChild(option);
+//     });
 
-    // Load states based on selected country
-    countrySelect.addEventListener("change", async function () {
-      const selectedCountry = this.value;
-      const states = await getData(`states/${selectedCountry}`);
-      const stateSelect = document.getElementById("state");
-      stateSelect.innerHTML = '<option value="">Select State</option>'; // Clear previous options
-      states.forEach((state) => {
-        const option = document.createElement("option");
-        option.value = state.state_name;
-        option.textContent = state.state_name;
-        stateSelect.appendChild(option);
-      });
+//     // Load states based on selected country
+//     countrySelect.addEventListener("change", async function () {
+//       const selectedCountry = this.value;
+//       const states = await getData(`states/${selectedCountry}`);
+//       const stateSelect = document.getElementById("state");
+//       stateSelect.innerHTML = '<option value="">Select State</option>'; // Clear previous options
+//       states.forEach((state) => {
+//         const option = document.createElement("option");
+//         option.value = state.state_name;
+//         option.textContent = state.state_name;
+//         stateSelect.appendChild(option);
+//       });
 
-      // Clear cities dropdown when country or state changes
-      document.getElementById("city").innerHTML =
-        '<option value="">Select City</option>';
-    });
+//       // Clear cities dropdown when country or state changes
+//       document.getElementById("city").innerHTML =
+//         '<option value="">Select City</option>';
+//     });
 
-    // Load cities based on selected state
-    const stateSelect = document.getElementById("state");
-    stateSelect.addEventListener("change", async function () {
-      const selectedState = this.value;
-      const cities = await getData(`cities/${selectedState}`);
-      const citySelect = document.getElementById("city");
-      citySelect.innerHTML = '<option value="">Select City</option>'; // Clear previous options
-      cities.forEach((city) => {
-        const option = document.createElement("option");
-        option.value = city.city_name;
-        option.textContent = city.city_name;
-        citySelect.appendChild(option);
-      });
-    });
-  } catch (error) {
-    console.error("Error loading country, state, or city data:", error);
-  }
-}
+//     // Load cities based on selected state
+//     const stateSelect = document.getElementById("state");
+//     stateSelect.addEventListener("change", async function () {
+//       const selectedState = this.value;
+//       const cities = await getData(`cities/${selectedState}`);
+//       const citySelect = document.getElementById("city");
+//       citySelect.innerHTML = '<option value="">Select City</option>'; // Clear previous options
+//       cities.forEach((city) => {
+//         const option = document.createElement("option");
+//         option.value = city.city_name;
+//         option.textContent = city.city_name;
+//         citySelect.appendChild(option);
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error loading country, state, or city data:", error);
+//   }
+// }
 
-// Initialize dynamic data loading
-loadCountryStateCity();
+// // Initialize dynamic data loading
+// loadCountryStateCity();
 
 console.log(localStorage.getItem('cartCount'))
 
