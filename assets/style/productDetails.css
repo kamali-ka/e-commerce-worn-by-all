@@ -1,160 +1,160 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9; /* Light background */
-    color: #333; /* Dark text for readability */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* Light background */
+  color: #333; /* Dark text for readability */
 }
 
 /* Product Detail Container */
 .product-detail {
-    display: flex; /* Flexbox for layout */
-    justify-content: space-between; /* Space out image and details */
-    width: 80%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #ffffff; /* White for clean contrast */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px;
-    border: 1px solid #ddd; /* Light border for definition */
+  display: flex; /* Flexbox for layout */
+  justify-content: space-between; /* Space out image and details */
+  width: 80%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff; /* White for clean contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Light border for definition */
 }
 
 /* Product Image */
 .product-image img {
-    width: 100%; /* Make the image responsive */
-    max-width: 400px; /* Set a max width for the image */
-    height: auto;
-    border-radius: 8px;
-    border: 1px solid #ccc; /* Soft border for definition */
+  width: 100%; /* Make the image responsive */
+  max-width: 400px; /* Set a max width for the image */
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ccc; /* Soft border for definition */
 }
 
 /* Product Info Section */
 .product-info {
-    width: 55%; /* Take up 55% of the container */
-    text-align: left; /* Align text to the left */
-    padding-left: 20px; /* Add space between image and text */
+  width: 55%; /* Take up 55% of the container */
+  text-align: left; /* Align text to the left */
+  padding-left: 20px; /* Add space between image and text */
 }
 
 /* Product Name */
 #productName {
-    font-size: 2rem;
-    margin: 20px 0;
-    color: #222; /* Darker text for titles */
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #222; /* Darker text for titles */
 }
 
 /* Product Description */
 #productDescription {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: #555; /* Medium gray for description text */
-    line-height: 1.6;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #555; /* Medium gray for description text */
+  line-height: 1.6;
 }
 
 /* Product Price */
 #productPrice {
-    font-size: 1.5rem;
-    color: black; /* Highlight color for price */
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: black; /* Highlight color for price */
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 /* Product Ratings */
 #productRatings {
-    font-size: 1.2rem;
-    color: black; /* Softer gray for ratings */
-    margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: black; /* Softer gray for ratings */
+  margin-bottom: 20px;
 }
 
 /* Rating Styling */
 #productRatings i {
-    color: gold; /* Golden color for the stars */
-    margin-right: 5px; /* Space between stars */
-    font-size: 1.2rem; /* Adjust size of stars */
+  color: gold; /* Golden color for the stars */
+  margin-right: 5px; /* Space between stars */
+  font-size: 1.2rem; /* Adjust size of stars */
 }
 
 /* Size Selection */
 #sizeSelection {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .size-option {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s, border-color 0.3s;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .size-option:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .size-option.selected {
-    background-color: #ffd700; /* Gold highlight for selected size */
-    border-color: #c79500; /* Darker border when selected */
+  background-color: #ffd700; /* Gold highlight for selected size */
+  border-color: #c79500; /* Darker border when selected */
 }
 
 /* Buttons */
 button {
-    background-color: rgb(188, 187, 187); /* Initial button background */
-    color: black; /* Button text color */
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-top: 20px;
+  background-color: rgb(188, 187, 187); /* Initial button background */
+  color: black; /* Button text color */
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 20px;
 }
 
 #addToCartButton:hover {
-    background-color: orangered;
-    color: white;
+  background-color: orangered;
+  color: white;
 }
 
 #byNowButton:hover {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
 }
 
 /* Cart Modal */
 .cart-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 5px;
-    display: none;
-    z-index: 9999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  display: none;
+  z-index: 9999;
 }
 
 .cart-modal .modal-content {
-    font-size: 18px;
-    text-align: center;
+  font-size: 18px;
+  text-align: center;
 }
 
 /* Navigation Icon */
 .nav-icon {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    z-index: 1100;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  z-index: 1100;
 }
 
 .nav-icon a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
 
 .nav-icon #cartCount {
@@ -166,7 +166,7 @@ button {
   top: -10px;
   right: -10px;
   background-color: red;
-  color: white !important;  /* Ensures the color stays white */
+  color: white !important; /* Ensures the color stays white */
   font-size: 12px;
   display: flex;
   justify-content: center;
@@ -177,217 +177,217 @@ button {
   box-sizing: border-box;
 }
 
-
-
 /* Popup Container */
 #popupContainer {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    display: none; /* Initially hidden */
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .popup-message {
-    background-color: green;
-    color: white;
-    padding: 15px 30px;
-    border-radius: 5px;
-    font-size: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 400px;
-    margin: auto;
+  background-color: green;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  margin: auto;
 }
 
 #popupContainer.show {
-    display: flex;
-    animation: fadeInOut 3s ease-in-out;
+  display: flex;
+  animation: fadeInOut 3s ease-in-out;
 }
 
 /* Keyframes for fade in/out effect */
 @keyframes fadeInOut {
-    0%, 100% {
-        opacity: 0;
-    }
-    10%, 90% {
-        opacity: 1;
-    }
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
 }
 .popup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .popup-container.show {
-    display: flex;
-  }
-  
-  .popup-message {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-  }
-  
-  .popup-ok-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: gray;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .popup-ok-button:hover {
-    background-color: green;
-  }
-  #buyNowButton:hover{
-    background-color: green;
-    color: white;
-  }
-  /* Product Sizes Section */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-container.show {
+  display: flex;
+}
+
+.popup-message {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup-ok-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-ok-button:hover {
+  background-color: green;
+}
+#buyNowButton:hover {
+  background-color: green;
+  color: white;
+}
+/* Product Sizes Section */
 #productSizes {
-    margin-top: 20px;
-  }
-  
-  .product-sizes p {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  /* Size Options (Clickable Buttons) */
-  .size-options {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  
-  .size-options button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border 0.3s ease;
-    min-width: 70px;
-    text-align: center;
-  }
-  
-  .size-options button:hover {
-    background-color: #ff5722;
-    color: white;
-    border-color: #ff5722;
-  }
-  
-  .size-options button.selected {
-    background-color: #ff5722;
-    color: white;
-    border-color: #ff5722;
-  }
-  
-  .size-options button:disabled {
-    background-color: #e0e0e0;
-    color: #bbb;
-    cursor: not-allowed;
-  }
-  
-  /* Buttons (Add to Cart, Buy Now) */
-  button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 1rem;
-    background-color: #ff5722;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #e64a19;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  #stockStatus {
-    font-weight: bold;
-    font-size: 16px;
-  }
+  margin-top: 20px;
+}
+
+.product-sizes p {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Size Options (Clickable Buttons) */
+.size-options {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.size-options button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  min-width: 70px;
+  text-align: center;
+}
+
+.size-options button:hover {
+  background-color: #ff5722;
+  color: white;
+  border-color: #ff5722;
+}
+
+.size-options button.selected {
+  background-color: #ff5722;
+  color: white;
+  border-color: #ff5722;
+}
+
+.size-options button:disabled {
+  background-color: #e0e0e0;
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+/* Buttons (Add to Cart, Buy Now) */
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e64a19;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+#stockStatus {
+  font-weight: bold;
+  font-size: 16px;
+}
 /* Styling for shipping features section */
 .shipping-features {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .shipping-features .feature {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Space between the icon and text */
-  }
-  
-  .shipping-features .feature i {
-    color: #28a745; /* Green color for the icons */
-    font-size: 18px;
-  }
-  
-  .shipping-features .feature span {
-    font-size: 14px;
-  }
-  
-  /* Optional: Add hover effect to each feature */
-  .shipping-features .feature:hover {
-    color: #007bff;
-    cursor: pointer;
-  }
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.shipping-features .feature {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and text */
+}
+
+.shipping-features .feature i {
+  color: #28a745; /* Green color for the icons */
+  font-size: 18px;
+}
+
+.shipping-features .feature span {
+  font-size: 14px;
+}
+
+/* Optional: Add hover effect to each feature */
+.shipping-features .feature:hover {
+  color: #007bff;
+  cursor: pointer;
+}
 /* Product Card */
 .product-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 200px;
-    text-align: center;
-    position: relative;
-  }
-  
-  /* Heart Icon */
-  .wishlist-heart {
-    color: grey;  /* Default color is grey */
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  }
-  
-  .wishlist-heart:hover {
-    color: #ff6347;  /* Change to a slight red when hovered */
-  }
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  position: relative;
+}
+
+/* Heart Icon */
+.wishlist-heart {
+  color: grey; /* Default color is grey */
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.wishlist-heart:hover {
+  color: #ff6347; /* Change to a slight red when hovered */
+}
 /* Loader styling */
 .loader {
   position: fixed;
@@ -404,8 +404,12 @@ button {
 
 /* Spinner animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 /* Sidebar Styles */
 .sidebar {

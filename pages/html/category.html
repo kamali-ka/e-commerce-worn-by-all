@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,33 +11,34 @@
     document.addEventListener("DOMContentLoaded", () => {
       // Select all the category links by class name
       const categoryLinks = document.querySelectorAll('.category-link');
-    
+
       // Use forEach to loop through the NodeList of links
       categoryLinks.forEach(link => {
         // Attach an event listener for each link
         link.addEventListener('click', (e) => {
           // Prevent the default behavior of the link
           e.preventDefault();
-    
+
           // Get the target URL from the data attribute (data-target)
           const targetCategory = link.getAttribute('data-target');
-          localStorage.setItem('gender',targetCategory)
+          localStorage.setItem('gender', targetCategory)
           // Redirect to the target URL
           window.location.href = "/pages/html/categories.html";
         });
       });
     });
-    
+
   </script>
 </head>
+
 <body>
   <header class="header">
     <h1>Shop by Category</h1>
   </header>
 
   <div class="categories-container">
-    <div class="category-card" >
-     <a class="category-link" data-target="men"> <img src="/assets/images/img_men10.jpg" alt="Men"></a>
+    <div class="category-card">
+      <a class="category-link" data-target="men"> <img src="/assets/images/img_men10.jpg" alt="Men"></a>
       <h3>Men</h3>
       <p>Stylish outfits for every occasion.</p>
     </div>
@@ -46,7 +48,7 @@
       <p>Elegant and trendy collections.</p>
     </div>
     <div class="category-card">
-     <a class="category-link" data-target="kids"> <img src="/assets/images/img_girl3.jpg" alt="Kids"></a>
+      <a class="category-link" data-target="kids"> <img src="/assets/images/img_girl3.jpg" alt="Kids"></a>
       <h3>Kids</h3>
       <p>Fun and comfortable apparel for kids.</p>
     </div>
@@ -57,9 +59,9 @@
     </div>
   </div>
   <h1 style="text-align: center;">Our Products!!</h1>
-  <p style="text-align: center;">Explore on the categories</p>  
+  <p style="text-align: center;">Explore on the categories</p>
   <div class="product-grid">
-   
+
     <!-- Product Cards -->
     <div class="product-card">
       <img src="/assets/images/img_boy2.jpg" alt="Product 1">
@@ -112,136 +114,137 @@
       <p>₹799</p>
     </div>
     <div class="product-card">
-        <img src="/assets/images/img_skirt2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_skirt3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_skirt4.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_dress2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_boy2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_boy3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_dress3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_home_women.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_home_unisex.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_girl3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_girls2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_home_kids.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_home_men.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_kids2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_kids5.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_kids2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_kids3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_kids4.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men2.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men3.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men4.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men5.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men6.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men7.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men8.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
-      <div class="product-card">
-        <img src="/assets/images/img_men9.jpg" alt="Product 10">
-        <h3>Product 10</h3>
-        <p>₹799</p>
-      </div>
+      <img src="/assets/images/img_skirt2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_skirt3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_skirt4.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_dress2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_boy2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_boy3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_dress3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_home_women.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_home_unisex.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_girl3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_girls2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_home_kids.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_home_men.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_kids2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_kids5.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_kids2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_kids3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_kids4.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men2.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men3.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men4.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men5.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men6.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men7.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men8.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
+    <div class="product-card">
+      <img src="/assets/images/img_men9.jpg" alt="Product 10">
+      <h3>Product 10</h3>
+      <p>₹799</p>
+    </div>
   </div>
 
 </body>
+
 </html>

@@ -28,7 +28,7 @@
         <aside class="sidebar">
             <ul>
                 <li id="signUpSignInOption"><a href="../html/signup-signin.html">Sign-Up Or Sign-In</a></li>
-                <li ><a href="../html/accountDetails.html" class="active">Personal Information</a></li>
+                <li><a href="../html/accountDetails.html" class="active">Personal Information</a></li>
                 <li><a href="../html/orderHistory.html">Order History</a></li>
                 <button id="logoutButton">Logout</button>
             </ul>
@@ -68,11 +68,14 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Enter your phone number">
+                    <input type="text" id="phone" maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Enter your phone number">
                 </div>
                 <div class="form-group">
                     <label for="address">Address:</label>
-                    <textarea id="address" placeholder="Enter your address" oninput="this.value = this.value.replace(/[^A-Za-z0-9, ]/g, '').replace(/\s{2,}/g, ' ')" maxlength="50"></textarea>
+                    <textarea id="address" placeholder="Enter your address"
+                        oninput="this.value = this.value.replace(/[^A-Za-z0-9, ]/g, '').replace(/\s{2,}/g, ' ')"
+                        maxlength="50"></textarea>
                 </div>
                 <div id="popupMessage" class="popup-message">Profile removed successfully.</div>
                 <button type="submit" class="save-button">Save Changes</button>

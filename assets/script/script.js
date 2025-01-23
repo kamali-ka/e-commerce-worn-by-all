@@ -82,10 +82,10 @@ async function updateCartCount() {
 
     // Check for 'men' and 'women' categories and sum their items
     if (cartItems.men) {
-      totalItems += Object.keys(cartItems.men).length;  // Count items in men
+      totalItems += Object.keys(cartItems.men).length; // Count items in men
     }
     if (cartItems.women) {
-      totalItems += Object.keys(cartItems.women).length;  // Count items in women
+      totalItems += Object.keys(cartItems.women).length; // Count items in women
     }
 
     console.log("Total items in cart:", totalItems);
@@ -98,12 +98,10 @@ async function updateCartCount() {
 
     // Optionally, store the count in localStorage
     localStorage.setItem("cartCount", totalItems);
-
   } catch (error) {
     console.error("Error fetching cart count:", error);
   }
 }
-
 
 // Function to toggle the navigation menu
 function toggleMenu() {
@@ -172,21 +170,20 @@ function signOutUser() {
 // Assuming you have a sign-out button somewhere that triggers the sign-out action
 // document.getElementById("signOutButton").addEventListener("click", signOutUser);
 
-
 document.addEventListener("DOMContentLoaded", () => {
   // Select all the category links by class name
-  const categoryLinks = document.querySelectorAll('.category-link');
+  const categoryLinks = document.querySelectorAll(".category-link");
 
   // Use forEach to loop through the NodeList of links
-  categoryLinks.forEach(link => {
+  categoryLinks.forEach((link) => {
     // Attach an event listener for each link
-    link.addEventListener('click', (e) => {
+    link.addEventListener("click", (e) => {
       // Prevent the default behavior of the link
       e.preventDefault();
 
       // Get the target URL from the data attribute (data-target)
-      const targetCategory = link.getAttribute('data-target');
-      localStorage.setItem('gender',targetCategory)
+      const targetCategory = link.getAttribute("data-target");
+      localStorage.setItem("gender", targetCategory);
       // Redirect to the target URL
       window.location.href = "/pages/html/categories.html";
     });

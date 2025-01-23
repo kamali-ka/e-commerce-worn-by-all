@@ -22,7 +22,8 @@ const db = getDatabase(app);
 let gender = localStorage.getItem("gender");
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("pageTitle").innerText = capitalizeFirstLetter(gender);
+  document.getElementById("pageTitle").innerText =
+    capitalizeFirstLetter(gender);
   const menRef = ref(db, `categories/${gender}`);
   const container = document.getElementById("categories-container");
 

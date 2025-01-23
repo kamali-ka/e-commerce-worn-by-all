@@ -47,14 +47,13 @@ get(orderPageRef)
 
     let foundOrder = null;
 
-// Iterate through all entries
-for (const group of orders) {
-    if (group[selectedOrderId]) {
+    // Iterate through all entries
+    for (const group of orders) {
+      if (group[selectedOrderId]) {
         foundOrder = group[selectedOrderId];
         break;
+      }
     }
-}
-
 
     // const order = orders[0][selectedOrderId];
 
@@ -89,11 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Function to load orders dynamically
 function loadOrders(order) {
-console.log(order);
+  console.log(order);
 
-  
   const orderList = document.getElementById("order-list");
-  orderList.innerHTML = "";  // Clear previous content
+  orderList.innerHTML = ""; // Clear previous content
 
   let totalItems = 0;
 
@@ -108,7 +106,7 @@ console.log(order);
   imageContainer.classList.add("image-container");
 
   // Fetch all products from local storage
-  const allProducts = JSON.parse(localStorage.getItem('allProducts')) || [];
+  const allProducts = JSON.parse(localStorage.getItem("allProducts")) || [];
 
   // Loop through each product ID in the order
   for (const id of productIds) {
@@ -120,7 +118,7 @@ console.log(order);
       const imageWrapper = document.createElement("div");
       imageWrapper.classList.add("product-image-wrapper");
       const imgElement = document.createElement("img");
-      const deet=document.getElementById('userdetails')
+      const deet = document.getElementById("userdetails");
       imgElement.src = product.image; // Assuming imageUrl is part of product data
       imgElement.alt = `Product ${id}`;
       imgElement.classList.add("product-image");
@@ -130,15 +128,15 @@ console.log(order);
         window.location.href = `/pages/html/productDetails.html?id=${id}`;
       });
 
-      imageWrapper.appendChild(imgElement)
+      imageWrapper.appendChild(imgElement);
       imageContainer.appendChild(imageWrapper);
     } else {
       console.warn(`Product with ID ${id} not found in local storage.`);
     }
   }
 
-  totalPrice.innerHTML = `<p>Order Total:${order.price}</p>`
-  
+  totalPrice.innerHTML = `<p>Order Total:${order.price}</p>`;
+
   // Add order details
   orderItem.innerHTML += `
     <div class="item-info">

@@ -137,26 +137,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
- // Confirm order button
- if (confirmOrderBtn) {
-  confirmOrderBtn.addEventListener("click", function () {
-    confirmOrderBtn.disabled = true;
-    confirmOrderBtn.innerHTML = `Processing... <span class="loading-spinner"></span>`;
+  // Confirm order button
+  if (confirmOrderBtn) {
+    confirmOrderBtn.addEventListener("click", function () {
+      confirmOrderBtn.disabled = true;
+      confirmOrderBtn.innerHTML = `Processing... <span class="loading-spinner"></span>`;
 
-    confirmOrder()
-      .then(() => {
-        confirmOrderBtn.innerHTML = "Order Confirmed!";
-        confirmOrderBtn.disabled = false;
-      })
-      .catch((error) => {
-        console.error("Error confirming order:", error);
-        confirmOrderBtn.innerHTML = "Try Again";
-        confirmOrderBtn.disabled = false;
-      });
-  });
-}
-
-
+      confirmOrder()
+        .then(() => {
+          confirmOrderBtn.innerHTML = "Order Confirmed!";
+          confirmOrderBtn.disabled = false;
+        })
+        .catch((error) => {
+          console.error("Error confirming order:", error);
+          confirmOrderBtn.innerHTML = "Try Again";
+          confirmOrderBtn.disabled = false;
+        });
+    });
+  }
 
   // Close popup button
   if (closePopupBtn) {
@@ -202,18 +200,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function validateAddress() {
     let isValid = true;
-  
+
     const validateField = (fieldId, errorId, message, pattern = null) => {
       const field = document.getElementById(fieldId);
       const errorElement = document.getElementById(errorId);
       const fieldValue = field?.value.trim();
-  
+
       let isFieldValid = fieldValue !== "";
-  
+
       if (pattern) {
         isFieldValid = pattern.test(fieldValue);
       }
-  
+
       if (errorElement) {
         if (isFieldValid) {
           errorElement.innerText = "";
@@ -225,10 +223,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           errorElement.style.display = "block"; // Ensure the error message is visible
         }
       }
-  
+
       return isFieldValid;
     };
-  
+
     // Full name should contain at least 3 letters
     isValid &= validateField(
       "full-name",
@@ -236,8 +234,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       "Full name should contain at least 3 letters.",
       /^[A-Za-z ]{3,50}$/
     );
-    isValid &= validateField("address-line-1", "address1-error", "Address Line 1 is required.");
-    isValid &= validateField("country", "country-error", "Please select a country.");
+    isValid &= validateField(
+      "address-line-1",
+      "address1-error",
+      "Address Line 1 is required."
+    );
+    isValid &= validateField(
+      "country",
+      "country-error",
+      "Please select a country."
+    );
     isValid &= validateField("state", "state-error", "Please select a state.");
     isValid &= validateField("city", "city-error", "Please select a city.");
     isValid &= validateField(
@@ -246,17 +252,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       "Enter a valid 6-digit postal code.",
       /^(?!(\d)\1{5}$)[0-9]{6}$/ // This regex prevents all repeated digits like '111111', '222222', etc.
     );
-    
+
     // Validate postal code to ensure it's a valid 6-digit number and not '000000'
     const postalCodeField = document.getElementById("postal-code");
     const postalCodeError = document.getElementById("postal-error");
     const postalCodeValue = postalCodeField?.value.trim();
-  
-  let postalCodeValid = /^[0-9]{6}$/.test(postalCodeValue); // Ensure it's a 6-digit number
-  /*     if (postalCodeValid && postalCodeValue === "000000") {
+
+    let postalCodeValid = /^[0-9]{6}$/.test(postalCodeValue); // Ensure it's a 6-digit number
+    /*     if (postalCodeValid && postalCodeValue === "000000") {
       postalCodeValid = false; // Invalid postal code if it's '000000'
     } */
-  
+
     if (postalCodeError) {
       if (postalCodeValid) {
         postalCodeError.innerText = "";
@@ -268,13 +274,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         postalCodeError.style.display = "block";
       }
     }
-  
+
     // Update isValid status for postal code
     isValid &= postalCodeValid;
-  
+
     return !!isValid;
   }
-  
+
   // Attach event listener to the "Next" button
   document.getElementById("next-btn").addEventListener("click", function () {
     if (validateAddress()) {
@@ -283,8 +289,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.querySelector(".payment-step").classList.add("active");
     }
   });
-  
-  
+
   function displayErrorMessage(errorId, message) {
     const errorElement = document.getElementById(errorId);
     if (errorElement) {
@@ -294,7 +299,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       errorElement.style.display = "block"; // Ensure the error message is visible
     }
   }
-  
+
   function clearErrorMessage(errorId) {
     const errorElement = document.getElementById(errorId);
     if (errorElement) {
@@ -302,56 +307,58 @@ document.addEventListener("DOMContentLoaded", async function () {
       errorElement.style.display = "none"; // Hide the error message
     }
   }
-  
+
   function validateCardNumber(cardNumber) {
     // Remove non-digit characters
-    cardNumber = cardNumber.replace(/\D/g, '');
-    
+    cardNumber = cardNumber.replace(/\D/g, "");
+
     // Check if the card number contains exactly 16 digits
     if (cardNumber.length !== 16) {
       return false; // Invalid length
     }
-    
+
     // Check if the card number contains only digits
     if (!/^\d{16}$/.test(cardNumber)) {
       return false; // Invalid characters (only digits allowed)
     }
-  
+
     // Check if all digits are the same (e.g., 1111111111111111)
     if (/^(\d)\1+$/.test(cardNumber)) {
       return false; // Invalid if all digits are the same
     }
-  
+
     return true; // Valid card number
   }
-  
+
   function validateExpiryDate(expiryDate) {
     // Ensure the format is MM/YY
     if (!/^([1-9]|1[0-2])\/([0-9]{2})$/.test(expiryDate)) {
       return false;
     }
-  
-    const [month, year] = expiryDate.split('/').map(num => parseInt(num, 10));
+
+    const [month, year] = expiryDate.split("/").map((num) => parseInt(num, 10));
     const currentYear = new Date().getFullYear() % 100; // Get the last two digits of the current year
     const currentMonth = new Date().getMonth() + 1; // Get the current month (1-12)
-  
+
     // Check if the expiry year is greater than the current year or if it's the same year but the month is in the future
     if (year < currentYear || (year === currentYear && month < currentMonth)) {
       return false; // Expiry date is in the past
     }
-  
+
     return true; // Valid expiry date
   }
-  
+
   function validatePayment() {
-    const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
-  
+    const paymentMethod = document.querySelector(
+      'input[name="payment_method"]:checked'
+    );
+
     if (!paymentMethod) {
       displayErrorMessage("payment-method", "Please select a payment method.");
       return false;
     }
     clearErrorMessage("payment-method");
-  
+
     // Validate UPI
     if (paymentMethod.value === "upi") {
       const upiId = document.getElementById("upi-id");
@@ -361,44 +368,59 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       clearErrorMessage("upi-id");
     }
-  
+
     // Validate Card
     if (paymentMethod.value === "card") {
       const cardNumberField = document.getElementById("card-number");
       const cardExpiryField = document.getElementById("card-expiry");
       const cardCvvField = document.getElementById("card-cvv");
-  
-      if (!cardNumberField.value || cardNumberField.value.length !== 16 || !validateCardNumber(cardNumberField.value)) {
-        displayErrorMessage("card-number", "Please enter a valid 16-digit card number.");
+
+      if (
+        !cardNumberField.value ||
+        cardNumberField.value.length !== 16 ||
+        !validateCardNumber(cardNumberField.value)
+      ) {
+        displayErrorMessage(
+          "card-number",
+          "Please enter a valid 16-digit card number."
+        );
         return false;
       }
       clearErrorMessage("card-number");
-  
-      if (!cardExpiryField.value.trim() || !validateExpiryDate(cardExpiryField.value.trim())) {
-        displayErrorMessage("card-expiry", "Please enter a valid expiration date (MM/YY) and ensure it's not expired.");
+
+      if (
+        !cardExpiryField.value.trim() ||
+        !validateExpiryDate(cardExpiryField.value.trim())
+      ) {
+        displayErrorMessage(
+          "card-expiry",
+          "Please enter a valid expiration date (MM/YY) and ensure it's not expired."
+        );
         return false;
       }
       clearErrorMessage("card-expiry");
-  
-      if (!cardCvvField.value.trim() || !/^\d{3}$/.test(cardCvvField.value.trim())) {
+
+      if (
+        !cardCvvField.value.trim() ||
+        !/^\d{3}$/.test(cardCvvField.value.trim())
+      ) {
         displayErrorMessage("card-cvv", "Please enter a valid 3-digit CVV.");
         return false;
       }
       clearErrorMessage("card-cvv");
     }
-  
+
     return true; // Everything is valid
   }
-  
-  
+
   // Format Expiry Date (MM/YY) automatically
   function formatExpiry(input) {
     let value = input.value.replace(/\D/g, ""); // Remove non-numeric characters
-  
+
     if (value.length > 2) {
       let month = parseInt(value.substring(0, 2), 10);
       let year = value.substring(2, 4);
-  
+
       if (month > 12) {
         input.value = "12" + (year ? "/" + year : "");
       } else if (month < 1) {
@@ -409,22 +431,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else {
       input.value = value;
     }
-  
+
     // Auto-add "/" after month input
     if (value.length >= 2 && !input.value.includes("/")) {
       input.value = value.substring(0, 2) + "/" + value.substring(2);
     }
   }
-  
+
   document.getElementById("card-expiry").addEventListener("input", function () {
     formatExpiry(this);
   });
-    
 
   function displayErrorMessage(fieldId, message) {
     let field = document.getElementById(fieldId);
     let errorElement = document.getElementById(`${fieldId}-error-msg`);
-  
+
     if (!errorElement) {
       errorElement = document.createElement("div");
       errorElement.id = `${fieldId}-error-msg`;
@@ -433,17 +454,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       errorElement.style.marginTop = "5px";
       field.parentNode.appendChild(errorElement);
     }
-  
+
     errorElement.textContent = message;
   }
-  
+
   function clearErrorMessage(fieldId) {
     let errorElement = document.getElementById(`${fieldId}-error-msg`);
     if (errorElement) {
       errorElement.remove();
     }
   }
-  
 
   function confirmOrder() {
     // Show the pop-up
@@ -455,18 +475,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     let orderId = localStorage.getItem("orderId");
     let productId = localStorage.getItem("orderedProductsId");
     let totalBillPrice = localStorage.getItem("orderedTotalPrice");
-    const storedCartItemIds = JSON.parse(localStorage.getItem("cartItemIds") || "[]");
+    const storedCartItemIds = JSON.parse(
+      localStorage.getItem("cartItemIds") || "[]"
+    );
     console.log(totalBillPrice);
-    
-    if (Array.isArray(storedCartItemIds)) {
-    // Join the IDs into a single string separated by commas (if it's an array)
-    const cartItemIdsString = storedCartItemIds.join(", ");
-    console.log("Cart Item IDs:", cartItemIdsString); // This logs the cart item IDs
 
-  } else {
-    // If it's not an array, log an error or handle it
-    console.error("Expected cartItemIds to be an array but got:", storedCartItemIds);
-  }
+    if (Array.isArray(storedCartItemIds)) {
+      // Join the IDs into a single string separated by commas (if it's an array)
+      const cartItemIdsString = storedCartItemIds.join(", ");
+      console.log("Cart Item IDs:", cartItemIdsString); // This logs the cart item IDs
+    } else {
+      // If it's not an array, log an error or handle it
+      console.error(
+        "Expected cartItemIds to be an array but got:",
+        storedCartItemIds
+      );
+    }
 
     if (!orderId) {
       orderId = 1;
@@ -481,16 +505,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     const userId = auth.currentUser ? auth.currentUser.uid : null;
     if (!userId) {
       console.error("User not authenticated.");
-      window.location.href='../../pages/html/signup-signin.html'
-      
+      window.location.href = "../../pages/html/signup-signin.html";
+
       return; // Prevent further execution if no user is logged in
     }
 
     // Prepare the order details
     const orderDetails = {
       orderId: `ORD-${orderId}`, // Use the incremented order ID
-      productId:JSON.parse(localStorage.getItem('cartItemIds')).join(','),
-      price:totalBillPrice, 
+      productId: JSON.parse(localStorage.getItem("cartItemIds")).join(","),
+      price: totalBillPrice,
       date: new Date().toLocaleDateString(),
       name: document.getElementById("full-name").value,
       address: document.getElementById("address-line-1").value,
@@ -539,10 +563,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.addEventListener("DOMContentLoaded", () => {
     const totalPrice = localStorage.getItem("orderedTotalPrice");
     if (totalPrice) {
-      document.getElementById("orderTotalPrice").textContent = `₹${parseFloat(totalPrice).toFixed(2)}`;
+      document.getElementById("orderTotalPrice").textContent = `₹${parseFloat(
+        totalPrice
+      ).toFixed(2)}`;
     }
   });
-  
 
   function togglePaymentDetails(selectedOption) {
     upiDetails.style.display = "none";
@@ -637,10 +662,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 // // Initialize dynamic data loading
 // loadCountryStateCity();
 
-console.log(localStorage.getItem('cartCount'))
+console.log(localStorage.getItem("cartCount"));
 
-console.log(localStorage.getItem('orderedTotalPrice'))
+console.log(localStorage.getItem("orderedTotalPrice"));
 
-console.log(localStorage.getItem("orderedProductsId"))
+console.log(localStorage.getItem("orderedProductsId"));
 
-console.log(JSON.parse(localStorage.getItem('cartItemIds')).join(','))
+console.log(JSON.parse(localStorage.getItem("cartItemIds")).join(","));

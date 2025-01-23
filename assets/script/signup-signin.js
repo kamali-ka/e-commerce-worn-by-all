@@ -100,21 +100,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // Helper: Validate Email with Rules
   function validateEmail(email) {
     // General Email Regex
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
     // Special Character Regex
     const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
     const specialCharCount = (email.match(specialCharRegex) || []).length;
-  
+
     // Split email into local part and domain part
     const [localPart, domain] = email.split("@");
-  
+
     // Local part RFC compliance check
-    const localPartRegex = /^(?!\.)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*(?<!\.)$/;
-  
+    const localPartRegex =
+      /^(?!\.)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*(?<!\.)$/;
+
     // Validate the domain part format
     const domainRegex = /^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  
+
     // Validate conditions
     return (
       emailRegex.test(email) &&
@@ -123,12 +125,12 @@ document.addEventListener("DOMContentLoaded", function () {
       domainRegex.test(domain)
     );
   }
-  
+
   // Integration into Sign-Up and Login
   window.handleSignup = async function () {
     try {
       const email = document.getElementById("signup-email").value.trim();
-  
+
       // Validate Email
       if (!validateEmail(email)) {
         document.getElementById("email-error").textContent =
@@ -137,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         document.getElementById("email-error").textContent = "";
       }
-  
+
       // Proceed with existing sign-up logic...
       const password = document.getElementById("signup-password").value;
       // Other validations and user creation flow...
@@ -145,11 +147,11 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Sign-up error:", error.message);
     }
   };
-  
+
   window.handleLogin = async function () {
     try {
       const email = document.getElementById("login-email").value.trim();
-  
+
       // Validate Email
       if (!validateEmail(email)) {
         document.getElementById("login-email-error").textContent =
@@ -158,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         document.getElementById("login-email-error").textContent = "";
       }
-  
+
       // Proceed with existing login logic...
       const password = document.getElementById("login-password").value;
       // Other validations and login flow...
@@ -166,101 +168,97 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Login error:", error.message);
     }
   };
-  
 
   // Handle Sign-Up
   // Handle Sign-Up
-window.handleSignup = async function () {
-  try {
-    const username = document.getElementById("signup-username").value.trim();
-    const email = document.getElementById("signup-email").value.trim();
-    const password = document.getElementById("signup-password").value;
-    const confirmPassword = document.getElementById(
-      "signup-confirm-password"
-    ).value;
+  window.handleSignup = async function () {
+    try {
+      const username = document.getElementById("signup-username").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById(
+        "signup-confirm-password"
+      ).value;
 
-    // Validate Username
-    const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9@.\-_']+$/;
-    if (!username) {
-      document.getElementById("username-error").textContent =
-        "Username is required.";
-      return;
-    } else if (!usernameRegex.test(username)) {
-      document.getElementById("username-error").textContent =
-        "Username must contain at least one letter and can include letters, numbers, and @, ., -, _, or ' characters.";
-      return;
-    } else {
-      document.getElementById("username-error").textContent = "";
+      // Validate Username
+      const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9@.\-_']+$/;
+      if (!username) {
+        document.getElementById("username-error").textContent =
+          "Username is required.";
+        return;
+      } else if (!usernameRegex.test(username)) {
+        document.getElementById("username-error").textContent =
+          "Username must contain at least one letter and can include letters, numbers, and @, ., -, _, or ' characters.";
+        return;
+      } else {
+        document.getElementById("username-error").textContent = "";
+      }
+
+      // Validate Email
+      const emailRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
+      const specialCharCount = (email.match(specialCharRegex) || []).length;
+      if (!emailRegex.test(email) || specialCharCount > 2) {
+        document.getElementById("email-error").textContent =
+          "Invalid email format or too many special characters.";
+        return;
+      } else {
+        document.getElementById("email-error").textContent = "";
+      }
+
+      // Validate Password
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+      if (!passwordRegex.test(password)) {
+        document.getElementById("password-error").textContent =
+          "Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
+        return;
+      }
+
+      const onlyLettersRegex = /^[a-zA-Z]+$/;
+      const onlyNumbersRegex = /^\d+$/;
+      const onlySpecialCharsRegex = /^[!@#$%^&*(),.?":{}|<>]+$/;
+
+      if (
+        onlyLettersRegex.test(password) ||
+        onlyNumbersRegex.test(password) ||
+        onlySpecialCharsRegex.test(password)
+      ) {
+        document.getElementById("password-error").textContent =
+          "Password cannot consist of only letters, only numbers, or only special characters.";
+        return;
+      } else {
+        document.getElementById("password-error").textContent = "";
+      }
+
+      // Confirm Password Match
+      if (password !== confirmPassword) {
+        document.getElementById("confirm-password-error").textContent =
+          "Passwords do not match.";
+        return;
+      } else {
+        document.getElementById("confirm-password-error").textContent = "";
+      }
+
+      // Create User
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      showModal(
+        "Sign-up successful! Redirecting to account details page...",
+        null
+      );
+      window.location.href = "../../index.html";
+    } catch (error) {
+      console.error("Sign-up error:", error.message);
+      showModal(`Error during sign-up: ${error.message}`);
     }
-
-    // Validate Email
-    const emailRegex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    const specialCharRegex = /[!#$%&'*+/=?^_`{|}~.-]/g;
-    const specialCharCount = (email.match(specialCharRegex) || []).length;
-    if (!emailRegex.test(email) || specialCharCount > 2) {
-      document.getElementById("email-error").textContent =
-        "Invalid email format or too many special characters.";
-      return;
-    } else {
-      document.getElementById("email-error").textContent = "";
-    }
-
-    // Validate Password
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    if (!passwordRegex.test(password)) {
-      document.getElementById("password-error").textContent =
-        "Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.";
-      return;
-    }
-
-    const onlyLettersRegex = /^[a-zA-Z]+$/;
-    const onlyNumbersRegex = /^\d+$/;
-    const onlySpecialCharsRegex = /^[!@#$%^&*(),.?":{}|<>]+$/;
-
-    if (
-      onlyLettersRegex.test(password) ||
-      onlyNumbersRegex.test(password) ||
-      onlySpecialCharsRegex.test(password)
-    ) {
-      document.getElementById("password-error").textContent =
-        "Password cannot consist of only letters, only numbers, or only special characters.";
-      return;
-    } else {
-      document.getElementById("password-error").textContent = "";
-    }
-
-    // Confirm Password Match
-    if (password !== confirmPassword) {
-      document.getElementById("confirm-password-error").textContent =
-        "Passwords do not match.";
-      return;
-    } else {
-      document.getElementById("confirm-password-error").textContent = "";
-    }
-
-    // Create User
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-    showModal(
-      "Sign-up successful! Redirecting to account details page...",
-     null
-    
-    );
-    window.location.href='../../index.html';
-    
-  
-  } catch (error) {
-    console.error("Sign-up error:", error.message);
-    showModal(`Error during sign-up: ${error.message}`);
-  }
-};
+  };
 
   // Handle Login
   window.handleLogin = async function () {
@@ -295,7 +293,7 @@ window.handleSignup = async function () {
       //   "Login successful! Redirecting to account details page...",
       //   "../../index.html"
       // );
-      window.location.href='../../index.html';
+      window.location.href = "../../index.html";
     } catch (error) {
       console.error("Login error:", error.message);
       showModal("Invalid email or password.");
@@ -321,20 +319,20 @@ window.handleSignup = async function () {
   } else {
     console.warn("Logout button not found.");
   }
-// After successful sign-up or sign-in
-function onAuthenticationSuccess() {
-  // Retrieve the stored URL
-  const redirectUrl = localStorage.getItem('redirectAfterLogin');
-  if (redirectUrl) {
-    // Clear the stored URL
-    localStorage.removeItem('redirectAfterLogin');
-    // Redirect to the original page
-    window.location.href = redirectUrl;
-  } else {
-    // Fallback: Redirect to a default page
-    window.location.href = 'default_page.html';
+  // After successful sign-up or sign-in
+  function onAuthenticationSuccess() {
+    // Retrieve the stored URL
+    const redirectUrl = localStorage.getItem("redirectAfterLogin");
+    if (redirectUrl) {
+      // Clear the stored URL
+      localStorage.removeItem("redirectAfterLogin");
+      // Redirect to the original page
+      window.location.href = redirectUrl;
+    } else {
+      // Fallback: Redirect to a default page
+      window.location.href = "default_page.html";
+    }
   }
-}
 
   // Check Auth State
   onAuthStateChanged(auth, (user) => {

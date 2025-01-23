@@ -3,7 +3,12 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -22,7 +27,6 @@ const auth = getAuth(app);
 const db = getDatabase(app); // Initialize Firebase Realtime Database
 
 document.addEventListener("DOMContentLoaded", function (e) {
-
   const form = document.getElementById("accountForm");
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
@@ -36,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
   const currentUserEmail = localStorage.getItem("email");
   const currentUserName = localStorage.getItem("username");
   const phone = localStorage.getItem("phone") || "";
-const address = localStorage.getItem("address") || "";
-
+  const address = localStorage.getItem("address") || "";
 
   // Check if the user is logged in
   if (!currentUserEmail) {
@@ -54,19 +57,24 @@ const address = localStorage.getItem("address") || "";
 
     const userName = currentUserName || "";
     localStorage.setItem(getUserKey("phone"), phone);
-localStorage.setItem(getUserKey("address"), address);
-
+    localStorage.setItem(getUserKey("address"), address);
 
     nameInput.value = userName;
     phoneInput.value = phone;
     addressInput.value = address;
 
-    profilePlaceholder.textContent = userName ? userName.charAt(0).toUpperCase() : "?";
+    profilePlaceholder.textContent = userName
+      ? userName.charAt(0).toUpperCase()
+      : "?";
 
-    document.getElementById("profile-username").textContent = userName || "Not provided";
-    document.getElementById("profile-email").textContent = currentUserEmail || "Not provided";
-    document.getElementById("profile-phone").textContent = phone || "Not provided";
-    document.getElementById("profile-address").textContent = address || "Not provided";
+    document.getElementById("profile-username").textContent =
+      userName || "Not provided";
+    document.getElementById("profile-email").textContent =
+      currentUserEmail || "Not provided";
+    document.getElementById("profile-phone").textContent =
+      phone || "Not provided";
+    document.getElementById("profile-address").textContent =
+      address || "Not provided";
   }
 
   function getUserKey(field) {
@@ -75,8 +83,6 @@ localStorage.setItem(getUserKey("address"), address);
 
   // Form submit event to save user data
   form.addEventListener("submit", function (event) {
-   
-
     const userName = nameInput.value.trim();
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
@@ -88,7 +94,10 @@ localStorage.setItem(getUserKey("address"), address);
     localStorage.setItem("address", address); // Save address
 
     // Save data to Firebase Realtime Database under 'userdetails/{userEmail}'
-    const userRef = ref(db, `userdetails/${currentUserEmail.replace(".", "_")}`); // Use email as unique key
+    const userRef = ref(
+      db,
+      `userdetails/${currentUserEmail.replace(".", "_")}`
+    ); // Use email as unique key
 
     set(userRef, {
       username: userName,
@@ -98,11 +107,17 @@ localStorage.setItem(getUserKey("address"), address);
     })
       .then(() => {
         // Update UI with saved details
-        profilePlaceholder.textContent = userName ? userName.charAt(0).toUpperCase() : "?";
-        document.getElementById("profile-username").textContent = userName || "Not provided";
-        document.getElementById("profile-email").textContent = email || "Not provided";
-        document.getElementById("profile-phone").textContent = phone || "Not provided";
-        document.getElementById("profile-address").textContent = address || "Not provided";
+        profilePlaceholder.textContent = userName
+          ? userName.charAt(0).toUpperCase()
+          : "?";
+        document.getElementById("profile-username").textContent =
+          userName || "Not provided";
+        document.getElementById("profile-email").textContent =
+          email || "Not provided";
+        document.getElementById("profile-phone").textContent =
+          phone || "Not provided";
+        document.getElementById("profile-address").textContent =
+          address || "Not provided";
 
         // Show success popup
         showPopup("Profile details saved successfully!", "success");
@@ -116,7 +131,10 @@ localStorage.setItem(getUserKey("address"), address);
 
   // Function to fetch user data from Firebase and display it
   function fetchUserData() {
-    const userRef = ref(db, `userdetails/${currentUserEmail.replace(".", "_")}`);
+    const userRef = ref(
+      db,
+      `userdetails/${currentUserEmail.replace(".", "_")}`
+    );
     get(userRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -126,11 +144,17 @@ localStorage.setItem(getUserKey("address"), address);
           phoneInput.value = data.phone || "";
           addressInput.value = data.address || "";
 
-          profilePlaceholder.textContent = data.username ? data.username.charAt(0).toUpperCase() : "?";
-          document.getElementById("profile-username").textContent = data.username || "Not provided";
-          document.getElementById("profile-email").textContent = currentUserEmail || "Not provided";
-          document.getElementById("profile-phone").textContent = data.phone || "Not provided";
-          document.getElementById("profile-address").textContent = data.address || "Not provided";
+          profilePlaceholder.textContent = data.username
+            ? data.username.charAt(0).toUpperCase()
+            : "?";
+          document.getElementById("profile-username").textContent =
+            data.username || "Not provided";
+          document.getElementById("profile-email").textContent =
+            currentUserEmail || "Not provided";
+          document.getElementById("profile-phone").textContent =
+            data.phone || "Not provided";
+          document.getElementById("profile-address").textContent =
+            data.address || "Not provided";
         } else {
           console.log("No user data found in the database.");
         }
@@ -259,7 +283,10 @@ localStorage.setItem(getUserKey("address"), address);
   // Function to update the cart count
   function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+    const cartCount = cart.reduce(
+      (total, item) => total + (item.quantity || 1),
+      0
+    );
     const cartCountElement = document.getElementById("cartCount");
 
     if (cartCountElement) {
