@@ -137,12 +137,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Confirm order button
-  if (confirmOrderBtn) {
-    confirmOrderBtn.addEventListener("click", function () {
-      confirmOrder(); // Confirm the order and finish checkout
-    });
-  }
+ // Confirm order button
+ if (confirmOrderBtn) {
+  confirmOrderBtn.addEventListener("click", function () {
+    confirmOrderBtn.disabled = true;
+    confirmOrderBtn.innerHTML = `Processing... <span class="loading-spinner"></span>`;
+
+    confirmOrder()
+      .then(() => {
+        confirmOrderBtn.innerHTML = "Order Confirmed!";
+        confirmOrderBtn.disabled = false;
+      })
+      .catch((error) => {
+        console.error("Error confirming order:", error);
+        confirmOrderBtn.innerHTML = "Try Again";
+        confirmOrderBtn.disabled = false;
+      });
+  });
+}
+
+
 
   // Close popup button
   if (closePopupBtn) {
@@ -449,13 +463,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const cartItemIdsString = storedCartItemIds.join(", ");
     console.log("Cart Item IDs:", cartItemIdsString); // This logs the cart item IDs
 
-    // Proceed with your order logic, passing the cartItemIdsString
-    // For example, send the cartItemIdsString to the server or further processing
-
   } else {
     // If it's not an array, log an error or handle it
     console.error("Expected cartItemIds to be an array but got:", storedCartItemIds);
-    // You can show a user-friendly error message here or handle the issue accordingly
   }
 
     if (!orderId) {
