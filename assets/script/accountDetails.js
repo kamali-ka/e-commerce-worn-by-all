@@ -283,10 +283,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
   // Function to update the cart count
   function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartCount = cart.reduce(
-      (total, item) => total + (item.quantity || 1),
-      0
-    );
+    let cartCount = 0;
+    for (let i = 0; i < cart.length; i++) {
+      cartCount += cart[i].quantity || 1;
+    }
+    console.log(cartCount);
+    
     const cartCountElement = document.getElementById("cartCount");
 
     if (cartCountElement) {

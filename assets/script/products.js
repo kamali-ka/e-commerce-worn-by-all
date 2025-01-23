@@ -280,7 +280,14 @@ function updateCartCount() {
   } else {
     // If user is not logged in, get cart data from localStorage
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const totalProducts = cart.reduce((sum, item) => sum + item.quantity, 0); // Sum up the quantities
+    let totalProducts = 0;
+
+    for (let i = 0; i < cart.length; i++) {
+      totalProducts += cart[i].quantity;
+    }
+
+    console.log(totalProducts);
+    // Sum up the quantities
     const cartCountElement = document.getElementById("cartCount");
     if (cartCountElement) {
       cartCountElement.textContent = totalProducts;

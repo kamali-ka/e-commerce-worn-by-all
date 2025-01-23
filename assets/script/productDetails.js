@@ -404,10 +404,13 @@ function updateCartCount() {
     get(cartRef)
       .then((snapshot) => {
         const cart = snapshot.exists() ? snapshot.val() : [];
-        const totalProducts = cart.reduce(
-          (total, item) => total + item.quantity,
-          0
-        ); // Calculate total quantity
+        let totalProducts = 0;
+
+        for (let i = 0; i < cart.length; i++) {
+          totalProducts += cart[i].quantity;
+        }
+        
+        console.log(totalProducts); // Calculate total quantity
 
         const cartCountElement = document.getElementById("cartCount");
         if (cartCountElement) {
